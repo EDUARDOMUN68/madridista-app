@@ -1,9 +1,36 @@
 {
+  "id": "./",
   "name": "Madridista · Real Madrid",
   "short_name": "Madridista",
+  "description": "Calendario, resultados y clasificaciones del Real Madrid.",
   "start_url": "./",
+  "scope": "./",
   "display": "standalone",
+  "display_override": [
+    "standalone",
+    "minimal-ui"
+  ],
   "background_color": "#f4f6fb",
   "theme_color": "#0b1f3a",
-  "description": "Calendario, resultados y clasificaciones del Real Madrid."
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
 }
