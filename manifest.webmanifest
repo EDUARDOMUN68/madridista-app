@@ -1,0 +1,9 @@
+{
+  "name": "Madridista · Real Madrid",
+  "short_name": "Madridista",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f4f6fb",
+  "theme_color": "#0b1f3a",
+  "description": "Calendario, resultados y clasificaciones del Real Madrid."
+}
