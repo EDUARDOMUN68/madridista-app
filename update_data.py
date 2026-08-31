@@ -26,7 +26,7 @@ import re
 import sys
 import unicodedata
 from copy import deepcopy
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from difflib import SequenceMatcher
 from pathlib import Path
 from urllib.request import Request, urlopen
@@ -56,6 +56,20 @@ URLS = {
         "uefa.champions/standings?season=2026"
     ),
 }
+
+LEAGUE_SLUGS = {
+    "LaLiga": "esp.1",
+    "Champions": "uefa.champions",
+}
+
+# Resultados ya confirmados cuando se puso en marcha la app.
+# Sirven como red de seguridad para que una fuente externa nunca pueda
+# convertir accidentalmente estos partidos ya jugados en "pendientes".
+BASELINE_RESULTS = [
+    {"competition": "LaLiga", "date": "2026-08-22", "opponent": "RCD Espanyol", "venue": "away", "score": "1–2"},
+    {"competition": "LaLiga", "date": "2026-08-26", "opponent": "Real Sociedad", "venue": "home", "score": "4–1"},
+    {"competition": "LaLiga", "date": "2026-08-30", "opponent": "Málaga CF", "venue": "home", "score": "4–0"},
+]
 
 MONTHS_ES = {
     1: "enero", 2: "febrero", 3: "marzo", 4: "abril",
@@ -185,7 +199,7 @@ def extract_event(evt: dict, competition_name: str) -> dict | None:
     state = status_type.get("state")
 
     score = None
-    if completed:
+    if completed or state == "in":
         rm_score = score_value(madrid)
         rv_score = score_value(rival)
         if rm_score is not None and rv_score is not None:
@@ -250,6 +264,7 @@ def fixture_match_index(fixtures: list[dict], event: dict) -> int | None:
 
 
 def merge_schedule(fixtures: list[dict], events: list[dict]) -> None:
+    """Mezcla datos sin degradar nunca un resultado ya confirmado."""
     for event in events:
         idx = fixture_match_index(fixtures, event)
         if idx is None:
@@ -264,14 +279,131 @@ def merge_schedule(fixtures: list[dict], events: list[dict]) -> None:
 
         fx = fixtures[idx]
 
-        # Fecha/hora/resultados sí se actualizan.
-        for key in ("date", "displayDate", "time", "venue", "status", "score"):
+        # Fecha/hora/campo sí pueden actualizarse cuando la fuente publica
+        # información más precisa.
+        for key in ("date", "displayDate", "time", "venue"):
             if event.get(key) is not None:
                 fx[key] = event[key]
+
+        old_status = fx.get("status")
+        old_score = fx.get("score")
+        new_status = event.get("status")
+        new_score = event.get("score")
+
+        # Regla crítica: un partido ya finalizado con marcador NUNCA vuelve
+        # a scheduled/pending aunque una API devuelva un estado incompleto.
+        if old_status == "finished" and old_score:
+            pass
+        elif new_status == "finished" and new_score:
+            fx["status"] = "finished"
+            fx["score"] = new_score
+        elif new_status == "live":
+            fx["status"] = "live"
+            if new_score:
+                fx["score"] = new_score
+        elif old_status != "live":
+            fx["status"] = "scheduled"
+            # Nunca borrar un marcador ya almacenado por recibir None.
+            if not fx.get("score"):
+                fx["score"] = None
 
         # Nombre del rival: conservar el nombre que ya usamos si existe.
         if not fx.get("opponent"):
             fx["opponent"] = event["opponent"]
+
+
+def apply_baseline_results(fixtures: list[dict]) -> int:
+    """Restaura el histórico inicial confirmado de la app."""
+    repaired = 0
+    for known in BASELINE_RESULTS:
+        for fx in fixtures:
+            if fx.get("competition") != known["competition"]:
+                continue
+            if fx.get("date") != known["date"]:
+                continue
+            if not same_team(fx.get("opponent", ""), known["opponent"]):
+                continue
+            if fx.get("status") != "finished" or fx.get("score") != known["score"]:
+                fx["status"] = "finished"
+                fx["score"] = known["score"]
+                fx["venue"] = known["venue"]
+                repaired += 1
+            break
+    if repaired:
+        log(f"Histórico base: {repaired} resultado(s) restaurado(s)")
+    return repaired
+
+
+def scoreboard_url(competition: str, day) -> str:
+    slug = LEAGUE_SLUGS[competition]
+    return (
+        "https://site.api.espn.com/apis/site/v2/sports/soccer/"
+        f"{slug}/scoreboard?dates={day.strftime('%Y%m%d')}"
+    )
+
+
+def scoreboard_events_for_date(competition: str, day) -> list[dict]:
+    payload = fetch_json(scoreboard_url(competition, day))
+    items = []
+    for evt in payload.get("events") or []:
+        item = extract_event(evt, competition)
+        if item:
+            items.append(item)
+    return items
+
+
+def repair_past_results(fixtures: list[dict]) -> int:
+    """
+    Busca de forma específica el marcador de partidos cuya fecha ya pasó
+    pero que siguen sin figurar como finalizados. Consulta el marcador del
+    día (y un día alrededor por posibles diferencias horarias).
+    """
+    today = datetime.now(TZ).date()
+    cache: dict[tuple[str, str], list[dict]] = {}
+    repaired = 0
+
+    for fx in fixtures:
+        if fx.get("competition") not in LEAGUE_SLUGS:
+            continue
+        if fx.get("status") == "finished" and fx.get("score"):
+            continue
+        try:
+            match_day = datetime.fromisoformat(fx["date"]).date()
+        except Exception:
+            continue
+        if match_day >= today:
+            continue
+
+        found = None
+        for offset in (0, -1, 1):
+            day = match_day + timedelta(days=offset)
+            key = (fx["competition"], day.isoformat())
+            if key not in cache:
+                try:
+                    cache[key] = scoreboard_events_for_date(fx["competition"], day)
+                except Exception as exc:
+                    log(f"AVISO marcador {fx['competition']} {day}: {exc}")
+                    cache[key] = []
+
+            for event in cache[key]:
+                if not same_team(event.get("opponent", ""), fx.get("opponent", "")):
+                    continue
+                if event.get("status") == "finished" and event.get("score"):
+                    found = event
+                    break
+            if found:
+                break
+
+        if found:
+            for key in ("date", "displayDate", "time", "venue"):
+                if found.get(key) is not None:
+                    fx[key] = found[key]
+            fx["status"] = "finished"
+            fx["score"] = found["score"]
+            repaired += 1
+            log(f"Resultado reparado: {fx.get('opponent')} {fx['score']}")
+
+    return repaired
 
 
 def stat_map(entry: dict) -> dict[str, float]:
@@ -390,6 +522,10 @@ def main() -> int:
     data = deepcopy(original)
     fixtures = data.setdefault("fixtures", [])
 
+    # Antes de consultar ninguna API, blindamos los resultados que ya estaban
+    # confirmados al crear la app. Esto repara también el problema de la v1.
+    apply_baseline_results(fixtures)
+
     successes = 0
 
     # Calendarios/resultados
@@ -407,6 +543,10 @@ def main() -> int:
                 log(f"{competition}: la fuente no devolvió eventos")
         except Exception as exc:
             log(f"AVISO {competition} calendario: {exc}")
+
+    # Si un partido ya pasó pero el endpoint de calendario no trae el estado
+    # final, hacemos una consulta específica al marcador del día.
+    repair_past_results(fixtures)
 
     # Orden cronológico.
     fixtures.sort(key=lambda x: (x.get("date") or "9999-99-99", x.get("time") or "99:99"))
