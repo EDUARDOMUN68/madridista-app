@@ -2,7 +2,7 @@
   "app": {
     "name": "Madridista",
     "season": "2026/27",
-    "lastUpdated": "2026-08-31T20:50+02:00",
+    "lastUpdated": "2026-08-31T21:03+02:00",
     "timezone": "Europe/Madrid",
     "sources": [
       "Real Madrid C.F. — calendario oficial de LaLiga 2026/27",
@@ -33,7 +33,7 @@
       "venue": "away",
       "opponent": "RCD Espanyol",
       "time": "21:30",
-      "status": "scheduled",
+      "status": "finished",
       "score": "1–2",
       "tv": [
         "DAZN",
@@ -48,7 +48,7 @@
       "venue": "home",
       "opponent": "Real Sociedad",
       "time": "21:00",
-      "status": "scheduled",
+      "status": "finished",
       "score": "4–1",
       "tv": [
         "Movistar LALIGA",
@@ -63,7 +63,7 @@
       "venue": "home",
       "opponent": "Málaga CF",
       "time": "17:00",
-      "status": "scheduled",
+      "status": "finished",
       "score": "4–0",
       "tv": [
         "Movistar LALIGA",
