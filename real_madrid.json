@@ -2,7 +2,7 @@
   "app": {
     "name": "Madridista",
     "season": "2026/27",
-    "lastUpdated": "2026-08-31T21:03+02:00",
+    "lastUpdated": "2026-09-01T01:12+02:00",
     "timezone": "Europe/Madrid",
     "sources": [
       "Real Madrid C.F. — calendario oficial de LaLiga 2026/27",
@@ -595,6 +595,18 @@
   "laligaStandings": [
     {
       "pos": 1,
+      "team": "Barcelona",
+      "pts": 9,
+      "pj": 3,
+      "g": 3,
+      "e": 0,
+      "p": 0,
+      "gf": 12,
+      "gc": 2,
+      "dg": 10
+    },
+    {
+      "pos": 2,
       "team": "Real Madrid",
       "pts": 9,
       "pj": 3,
@@ -606,7 +618,7 @@
       "dg": 8
     },
     {
-      "pos": 2,
+      "pos": 3,
       "team": "Atlético Madrid",
       "pts": 7,
       "pj": 3,
@@ -618,7 +630,7 @@
       "dg": 4
     },
     {
-      "pos": 3,
+      "pos": 4,
       "team": "Alavés",
       "pts": 7,
       "pj": 3,
@@ -630,19 +642,19 @@
       "dg": 4
     },
     {
-      "pos": 4,
-      "team": "Barcelona",
-      "pts": 6,
-      "pj": 2,
+      "pos": 5,
+      "team": "Osasuna",
+      "pts": 7,
+      "pj": 3,
       "g": 2,
-      "e": 0,
+      "e": 1,
       "p": 0,
-      "gf": 7,
-      "gc": 0,
-      "dg": 7
+      "gf": 3,
+      "gc": 1,
+      "dg": 2
     },
     {
-      "pos": 5,
+      "pos": 6,
       "team": "Sevilla",
       "pts": 6,
       "pj": 3,
@@ -654,7 +666,7 @@
       "dg": 1
     },
     {
-      "pos": 6,
+      "pos": 7,
       "team": "Real Betis",
       "pts": 6,
       "pj": 3,
@@ -666,7 +678,7 @@
       "dg": -1
     },
     {
-      "pos": 7,
+      "pos": 8,
       "team": "Deportivo",
       "pts": 5,
       "pj": 3,
@@ -676,18 +688,6 @@
       "gf": 5,
       "gc": 3,
       "dg": 2
-    },
-    {
-      "pos": 8,
-      "team": "Osasuna",
-      "pts": 4,
-      "pj": 2,
-      "g": 1,
-      "e": 1,
-      "p": 0,
-      "gf": 2,
-      "gc": 1,
-      "dg": 1
     },
     {
       "pos": 9,
@@ -739,18 +739,6 @@
     },
     {
       "pos": 13,
-      "team": "Getafe",
-      "pts": 3,
-      "pj": 2,
-      "g": 1,
-      "e": 0,
-      "p": 1,
-      "gf": 1,
-      "gc": 3,
-      "dg": -2
-    },
-    {
-      "pos": 14,
       "team": "Real Sociedad",
       "pts": 3,
       "pj": 3,
@@ -759,6 +747,18 @@
       "p": 2,
       "gf": 3,
       "gc": 6,
+      "dg": -3
+    },
+    {
+      "pos": 14,
+      "team": "Getafe",
+      "pts": 3,
+      "pj": 3,
+      "g": 1,
+      "e": 0,
+      "p": 2,
+      "gf": 1,
+      "gc": 4,
       "dg": -3
     },
     {
@@ -775,18 +775,6 @@
     },
     {
       "pos": 16,
-      "team": "Rayo Vallecano",
-      "pts": 1,
-      "pj": 2,
-      "g": 0,
-      "e": 1,
-      "p": 1,
-      "gf": 2,
-      "gc": 3,
-      "dg": -1
-    },
-    {
-      "pos": 17,
       "team": "Valencia",
       "pts": 1,
       "pj": 3,
@@ -798,7 +786,7 @@
       "dg": -3
     },
     {
-      "pos": 18,
+      "pos": 17,
       "team": "Celta Vigo",
       "pts": 1,
       "pj": 3,
@@ -808,6 +796,18 @@
       "gf": 1,
       "gc": 4,
       "dg": -3
+    },
+    {
+      "pos": 18,
+      "team": "Rayo Vallecano",
+      "pts": 1,
+      "pj": 3,
+      "g": 0,
+      "e": 1,
+      "p": 2,
+      "gf": 4,
+      "gc": 8,
+      "dg": -4
     },
     {
       "pos": 19,
