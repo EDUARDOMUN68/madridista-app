@@ -10,7 +10,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <title>Madridista</title>
-<meta name="madridista-version" content="live-v1">
+<meta name="madridista-version" content="live-browser-v2">
 <style>
 :root{--bg:#f4f6fb;--card:#fff;--navy:#0b1f3a;--blue:#244f94;--gold:#d7b34c;--text:#1d2530;--muted:#6d7787;--line:#e3e8f0;--champ:#eef3ff;--done:#f7f8fa;--danger:#fff0f0;--green:#eaf7ef}
 *{box-sizing:border-box} html{background:var(--bg)} body{margin:0;font-family:Arial,Helvetica,sans-serif;background:radial-gradient(circle at 90% -10%,rgba(36,79,148,.16),transparent 25%),var(--bg);color:var(--text)} button{font:inherit}
@@ -42,6 +42,7 @@
 .prov-badge.pending-official{background:#fff7df;color:#805f10}
 .standings tr.provisional-row td.team{font-weight:900}
 .provisional-note{font-size:11px;color:var(--muted);margin:8px 2px 0;line-height:1.4}
+.browser-live-info{font-size:10px;color:var(--muted);margin-top:3px}.browser-live-info.on{color:#b42318;font-weight:900}
 @media(max-width:720px){.content{padding:12px}.fixture{grid-template-columns:90px 1fr 112px}.fixture .compcol{display:none}.result-row{grid-template-columns:82px 1fr 88px}.result-row .compcol{display:none}.next-match{font-size:24px}.stats{gap:7px}.stat{padding:11px}.section-head{align-items:flex-start;flex-direction:column}.standings-card{max-width:100%}}
 </style>
 </head>
@@ -73,7 +74,7 @@
 </div>
 <script id="fallback-data" type="application/json">{"app": {"name": "Madridista", "season": "2026/27", "lastUpdated": "2026-08-31T19:48:00+02:00", "timezone": "Europe/Madrid", "sources": ["Real Madrid C.F. — calendario oficial de LaLiga 2026/27", "Real Madrid C.F. — calendario Champions 2026/27", "LALIGA — horarios, resultados y clasificación"]}, "nextMatch": {"competition": "LaLiga", "jornada": 4, "date": "2026-09-04", "displayDate": "Vie. 4 septiembre", "venue": "away", "opponent": "Real Betis", "time": "21:00", "status": "scheduled", "score": null, "tv": ["Movistar LALIGA"]}, "fixtures": [{"competition": "LaLiga", "jornada": 2, "date": "2026-08-22", "displayDate": "Sáb. 22 agosto", "venue": "away", "opponent": "RCD Espanyol", "time": "21:30", "status": "finished", "score": "1–2", "tv": ["DAZN", "Orange TV"]}, {"competition": "LaLiga", "jornada": 1, "date": "2026-08-26", "displayDate": "Mié. 26 agosto", "venue": "home", "opponent": "Real Sociedad", "time": "21:00", "status": "finished", "score": "4–1", "tv": ["Movistar LALIGA", "Orange TV"]}, {"competition": "LaLiga", "jornada": 3, "date": "2026-08-30", "displayDate": "Dom. 30 agosto", "venue": "home", "opponent": "Málaga CF", "time": "17:00", "status": "finished", "score": "4–0", "tv": ["Movistar LALIGA", "Movistar Plus+", "Orange TV"]}, {"competition": "LaLiga", "jornada": 4, "date": "2026-09-04", "displayDate": "Vie. 4 septiembre", "venue": "away", "opponent": "Real Betis", "time": "21:00", "status": "scheduled", "score": null, "tv": ["Movistar LALIGA"]}, {"competition": "Champions", "jornada": 1, "date": "2026-09-08", "displayDate": "Mar. 8 septiembre", "venue": "home", "opponent": "Inter de Milán", "time": "21:00", "status": "scheduled", "score": null, "tv": []}, {"competition": "LaLiga", "jornada": 5, "date": "2026-09-12", "displayDate": "Sáb. 12 septiembre", "venue": "home", "opponent": "Rayo Vallecano", "time": "21:00", "status": "scheduled", "score": null, "tv": ["DAZN"]}, {"competition": "LaLiga", "jornada": 6, "date": "2026-09-16", "displayDate": "Mié. 16 septiembre", "venue": "away", "opponent": "Elche CF", "time": null, "status": "scheduled", "score": null, "tv": []}, {"competition": "LaLiga", "jornada": 7, "date": "2026-09-20", "displayDate": "Dom. 20 septiembre", "venue": "away", "opponent": "Atlético de Madrid", "time": "16:15", "status": "scheduled", "score": null, "tv": []}, {"competition": "LaLiga", "jornada": 8, "date": "2026-10-10", "displayDate": "10–11 octubre", "venue": "home", "opponent": "Villarreal CF", "time": null, "status": "scheduled", "score": null, "tv": []}, {"competition": "Champions", "jornada": 2, "date": "2026-10-14", "displayDate": "Mié. 14 octubre", "venue": "away", "opponent": "Roma", "time": "21:00", "status": "scheduled", "score": null, "tv": []}, {"competition": "LaLiga", "jornada": 9, "date": "2026-10-17", "displayDate": "17–18 octubre", "venue": "home", "opponent": "Sevilla FC", "time": null, "status": "scheduled", "score": null, "tv": []}, {"competition": "Champions", "jornada": 3, "date": "2026-10-21", "displayDate": "Mié. 21 octubre", "venue": "home", "opponent": "RB Leipzig", "time": "21:00", "status": "scheduled", "score": null, "tv": []}, {"competition": "LaLiga", "jornada": 10, "date": "2026-10-24", "displayDate": "24–25 octubre", "venue": "away", "opponent": "FC Barcelona", "time": null, "status": "scheduled", "score": null, "tv": []}, {"competition": "LaLiga", "jornada": 11, "date": "2026-10-31", "displayDate": "31 oct.–1 nov.", "venue": "away", "opponent": "Racing de Santander", "time": null, "status": "scheduled", "score": null, "tv": []}, {"competition": "Champions", "jornada": 4, "date": "2026-11-04", "displayDate": "Mié. 4 noviembre", "venue": "away", "opponent": "AEK Atenas", "time": "18:45", "status": "scheduled", "score": null, "tv": []}, {"competition": "LaLiga", "jornada": 12, "date": "2026-11-07", "displayDate": "7–8 noviembre", "venue": "away", "opponent": "Valencia CF", "time": null, "status": "scheduled", "score": null, "tv": []}, {"competition": "LaLiga", "jornada": 13, "date": "2026-11-21", "displayDate": "21–22 noviembre", "venue": "home", "opponent": "Celta", "time": null, "status": "scheduled", "score": null, "tv": []}, {"competition": "Champions", "jornada": 5, "date": "2026-11-24", "displayDate": "Mar. 24 noviembre", "venue": "home", "opponent": "PSV", "time": "21:00", "status": "scheduled", "score": null, "tv": []}, {"competition": "LaLiga", "jornada": 14, "date": "2026-11-28", "displayDate": "28–29 noviembre", "venue": "home", "opponent": "Deportivo Alavés", "time": null, "status": "scheduled", "score": null, "tv": []}, {"competition": "LaLiga", "jornada": 15, "date": "2026-12-05", "displayDate": "5–6 diciembre", "venue": "away", "opponent": "Athletic Club", "time": null, "status": "scheduled", "score": null, "tv": []}, {"competition": "Champions", "jornada": 6, "date": "2026-12-09", "displayDate": "Mié. 9 diciembre", "venue": "away", "opponent": "Arsenal", "time": "21:00", "status": "scheduled", "score": null, "tv": []}, {"competition": "LaLiga", "jornada": 16, "date": "2026-12-12", "displayDate": "12–13 diciembre", "venue": "home", "opponent": "CA Osasuna", "time": null, "status": "scheduled", "score": null, "tv": []}, {"competition": "LaLiga", "jornada": 17, "date": "2026-12-19", "displayDate": "19–20 diciembre", "venue": "away", "opponent": "RC Deportivo", "time": null, "status": "scheduled", "score": null, "tv": []}, {"competition": "LaLiga", "jornada": 18, "date": "2027-01-02", "displayDate": "2–3 enero", "venue": "home", "opponent": "Getafe CF", "time": null, "status": "scheduled", "score": null, "tv": []}, {"competition": "LaLiga", "jornada": 19, "date": "2027-01-09", "displayDate": "9–10 enero", "venue": "home", "opponent": "Levante UD", "time": null, "status": "scheduled", "score": null, "tv": []}, {"competition": "LaLiga", "jornada": 20, "date": "2027-01-16", "displayDate": "16–17 enero", "venue": "away", "opponent": "Málaga CF", "time": null, "status": "scheduled", "score": null, "tv": []}, {"competition": "Champions", "jornada": 7, "date": "2027-01-19", "displayDate": "Mar. 19 enero", "venue": "home", "opponent": "LASK", "time": "21:00", "status": "scheduled", "score": null, "tv": []}, {"competition": "LaLiga", "jornada": 21, "date": "2027-01-23", "displayDate": "23–24 enero", "venue": "home", "opponent": "Real Betis", "time": null, "status": "scheduled", "score": null, "tv": []}, {"competition": "Champions", "jornada": 8, "date": "2027-01-27", "displayDate": "Mié. 27 enero", "venue": "away", "opponent": "Shakhtar Donetsk", "time": "21:00", "status": "scheduled", "score": null, "tv": []}, {"competition": "LaLiga", "jornada": 22, "date": "2027-01-30", "displayDate": "30–31 enero", "venue": "away", "opponent": "Rayo Vallecano", "time": null, "status": "scheduled", "score": null, "tv": []}, {"competition": "LaLiga", "jornada": 23, "date": "2027-02-06", "displayDate": "6–7 febrero", "venue": "away", "opponent": "Real Sociedad", "time": null, "status": "scheduled", "score": null, "tv": []}, {"competition": "LaLiga", "jornada": 24, "date": "2027-02-13", "displayDate": "13–14 febrero", "venue": "home", "opponent": "Athletic Club", "time": null, "status": "scheduled", "score": null, "tv": []}, {"competition": "LaLiga", "jornada": 25, "date": "2027-02-20", "displayDate": "20–21 febrero", "venue": "away", "opponent": "Sevilla FC", "time": null, "status": "scheduled", "score": null, "tv": []}, {"competition": "LaLiga", "jornada": 26, "date": "2027-02-27", "displayDate": "27–28 febrero", "venue": "home", "opponent": "Valencia CF", "time": null, "status": "scheduled", "score": null, "tv": []}, {"competition": "LaLiga", "jornada": 27, "date": "2027-03-06", "displayDate": "6–7 marzo", "venue": "away", "opponent": "Villarreal CF", "time": null, "status": "scheduled", "score": null, "tv": []}, {"competition": "LaLiga", "jornada": 28, "date": "2027-03-13", "displayDate": "13–14 marzo", "venue": "home", "opponent": "RCD Espanyol", "time": null, "status": "scheduled", "score": null, "tv": []}, {"competition": "LaLiga", "jornada": 29, "date": "2027-03-20", "displayDate": "20–21 marzo", "venue": "away", "opponent": "Celta", "time": null, "status": "scheduled", "score": null, "tv": []}, {"competition": "LaLiga", "jornada": 30, "date": "2027-04-03", "displayDate": "3–4 abril", "venue": "home", "opponent": "Atlético de Madrid", "time": null, "status": "scheduled", "score": null, "tv": []}, {"competition": "LaLiga", "jornada": 31, "date": "2027-04-10", "displayDate": "10–11 abril", "venue": "away", "opponent": "CA Osasuna", "time": null, "status": "scheduled", "score": null, "tv": []}, {"competition": "LaLiga", "jornada": 32, "date": "2027-04-17", "displayDate": "17–18 abril", "venue": "away", "opponent": "Getafe CF", "time": null, "status": "scheduled", "score": null, "tv": []}, {"competition": "LaLiga", "jornada": 33, "date": "2027-04-20", "displayDate": "20–22 abril", "venue": "home", "opponent": "Elche CF", "time": null, "status": "scheduled", "score": null, "tv": []}, {"competition": "LaLiga", "jornada": 34, "date": "2027-05-01", "displayDate": "1–2 mayo", "venue": "away", "opponent": "Levante UD", "time": null, "status": "scheduled", "score": null, "tv": []}, {"competition": "LaLiga", "jornada": 35, "date": "2027-05-08", "displayDate": "8–9 mayo", "venue": "home", "opponent": "FC Barcelona", "time": null, "status": "scheduled", "score": null, "tv": []}, {"competition": "LaLiga", "jornada": 36, "date": "2027-05-15", "displayDate": "15–16 mayo", "venue": "home", "opponent": "Racing de Santander", "time": null, "status": "scheduled", "score": null, "tv": []}, {"competition": "LaLiga", "jornada": 37, "date": "2027-05-22", "displayDate": "22–23 mayo", "venue": "away", "opponent": "Deportivo Alavés", "time": null, "status": "scheduled", "score": null, "tv": []}, {"competition": "LaLiga", "jornada": 38, "date": "2027-05-29", "displayDate": "29–30 mayo", "venue": "home", "opponent": "RC Deportivo", "time": null, "status": "scheduled", "score": null, "tv": []}], "laligaStandings": [{"pos": 1, "team": "Real Madrid", "pts": 9, "pj": 3, "g": 3, "e": 0, "p": 0, "gf": 10, "gc": 2, "dg": 8}, {"pos": 2, "team": "Atlético de Madrid", "pts": 7, "pj": 3, "g": 2, "e": 1, "p": 0, "gf": 7, "gc": 3, "dg": 4}, {"pos": 3, "team": "Deportivo Alavés", "pts": 7, "pj": 3, "g": 2, "e": 1, "p": 0, "gf": 5, "gc": 1, "dg": 4}, {"pos": 4, "team": "FC Barcelona", "pts": 6, "pj": 2, "g": 2, "e": 0, "p": 0, "gf": 7, "gc": 0, "dg": 7}, {"pos": 5, "team": "Sevilla FC", "pts": 6, "pj": 3, "g": 2, "e": 0, "p": 1, "gf": 6, "gc": 5, "dg": 1}, {"pos": 6, "team": "Real Betis", "pts": 6, "pj": 3, "g": 2, "e": 0, "p": 1, "gf": 4, "gc": 5, "dg": -1}, {"pos": 7, "team": "RC Deportivo", "pts": 5, "pj": 3, "g": 1, "e": 2, "p": 0, "gf": 5, "gc": 3, "dg": 2}, {"pos": 8, "team": "CA Osasuna", "pts": 4, "pj": 2, "g": 1, "e": 1, "p": 0, "gf": 2, "gc": 1, "dg": 1}, {"pos": 9, "team": "Levante UD", "pts": 4, "pj": 3, "g": 1, "e": 1, "p": 1, "gf": 5, "gc": 5, "dg": 0}, {"pos": 10, "team": "Racing de Santander", "pts": 4, "pj": 3, "g": 1, "e": 1, "p": 1, "gf": 5, "gc": 5, "dg": 0}, {"pos": 11, "team": "RCD Espanyol", "pts": 3, "pj": 3, "g": 1, "e": 0, "p": 2, "gf": 5, "gc": 4, "dg": 1}, {"pos": 12, "team": "Athletic Club", "pts": 3, "pj": 3, "g": 1, "e": 0, "p": 2, "gf": 3, "gc": 5, "dg": -2}, {"pos": 13, "team": "Getafe CF", "pts": 3, "pj": 2, "g": 1, "e": 0, "p": 1, "gf": 1, "gc": 3, "dg": -2}, {"pos": 14, "team": "Real Sociedad", "pts": 3, "pj": 3, "g": 1, "e": 0, "p": 2, "gf": 3, "gc": 6, "dg": -3}, {"pos": 15, "team": "Villarreal CF", "pts": 2, "pj": 3, "g": 0, "e": 2, "p": 1, "gf": 4, "gc": 5, "dg": -1}, {"pos": 16, "team": "Rayo Vallecano", "pts": 1, "pj": 2, "g": 0, "e": 1, "p": 1, "gf": 2, "gc": 3, "dg": -1}, {"pos": 17, "team": "Celta", "pts": 1, "pj": 3, "g": 0, "e": 1, "p": 2, "gf": 1, "gc": 4, "dg": -3}, {"pos": 18, "team": "Valencia CF", "pts": 1, "pj": 3, "g": 0, "e": 1, "p": 2, "gf": 1, "gc": 4, "dg": -3}, {"pos": 19, "team": "Elche CF", "pts": 1, "pj": 3, "g": 0, "e": 1, "p": 2, "gf": 3, "gc": 9, "dg": -6}, {"pos": 20, "team": "Málaga CF", "pts": 1, "pj": 3, "g": 0, "e": 1, "p": 2, "gf": 1, "gc": 7, "dg": -6}], "championsStandings": [], "championsStandingsStatus": "not_started", "qualificationZones": {"LaLiga": [{"from": 1, "to": 4, "key": "ucl", "label": "Champions League"}, {"from": 5, "to": 5, "key": "uel", "label": "Europa League"}, {"from": 6, "to": 6, "key": "uecl", "label": "Conference League"}, {"from": 18, "to": 20, "key": "drop", "label": "Descenso"}], "Champions": [{"from": 1, "to": 8, "key": "direct", "label": "Octavos directos"}, {"from": 9, "to": 24, "key": "playoff", "label": "Playoff de acceso a octavos"}, {"from": 25, "to": 36, "key": "elim", "label": "Eliminados"}]}}</script>
 <script>
-let APP=null,currentFilter='all',resultFilter='LaLiga',standingFilter='LaLiga';
+let APP=null,OFFICIAL_APP=null,currentFilter='all',resultFilter='LaLiga',standingFilter='LaLiga',directTimer=null;
 async function loadData(force=false){
   const btn=document.getElementById('refreshBtn');
   if(force&&btn)btn.classList.add('loading');
@@ -84,12 +85,16 @@ async function loadData(force=false){
     });
     if(!r.ok)throw new Error('HTTP '+r.status);
     APP=await r.json();
+    OFFICIAL_APP=JSON.parse(JSON.stringify(APP));
     renderAll();
+    refreshBrowserLive(false);
     if(force)showRefreshMessage('✓ Datos recargados');
     return true;
   }catch(e){
     APP=JSON.parse(document.getElementById('fallback-data').textContent);
+    OFFICIAL_APP=JSON.parse(JSON.stringify(APP));
     renderAll();
+    refreshBrowserLive(false);
     if(force)showRefreshMessage('Mostrando los últimos datos guardados');
     return false;
   }finally{
@@ -183,8 +188,104 @@ function renderStandings(){
     a.innerHTML=`${legendHtml('Champions')}<div class="card empty"><div class="icon">⭐</div><h3>La Champions todavía no ha empezado</h3><p>La fase liga comienza el 8 de septiembre. En cuanto se disputen los primeros partidos, aquí aparecerá la clasificación completa de los 36 equipos, con el Real Madrid destacado y las zonas de clasificación coloreadas.</p></div>`;
   }
 }
+
+const DIRECT_LEAGUES={LaLiga:'esp.1',Champions:'uefa.champions'};
+const DIRECT_ALIASES={
+  'internazionale':'inter de milan','inter milan':'inter de milan','internazionale milano':'inter de milan',
+  'as roma':'roma','aek athens':'aek atenas','aek athens fc':'aek atenas','psv eindhoven':'psv',
+  'racing santander':'racing de santander','deportivo la coruna':'rc deportivo','deportivo de la coruna':'rc deportivo',
+  'espanyol':'rcd espanyol','malaga':'malaga cf','athletic bilbao':'athletic club','alaves':'deportivo alaves',
+  'celta vigo':'celta','barcelona':'fc barcelona','atletico madrid':'atletico de madrid'
+};
+function directNorm(s){
+  s=(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/&/g,' y ')
+    .replace(/\b(fc|cf|football club|club de futbol)\b/g,' ').replace(/[^a-z0-9]+/g,' ').replace(/\s+/g,' ').trim();
+  return DIRECT_ALIASES[s]||s;
+}
+function directSame(a,b){const x=directNorm(a),y=directNorm(b);return !!x&&!!y&&(x===y||x.includes(y)||y.includes(x));}
+function directToday(){const d=new Date();return `${d.getFullYear()}${String(d.getMonth()+1).padStart(2,'0')}${String(d.getDate()).padStart(2,'0')}`;}
+function directScore(c){const s=c?.score;const v=(s&&typeof s==='object')?(s.value??s.displayValue):s;const n=Number(v);return Number.isFinite(n)?Math.trunc(n):null;}
+function directLiveLabel(status){
+  const t=status?.type||{}, raw=String(t.shortDetail||t.detail||status?.displayClock||'En juego').trim(),low=raw.toLowerCase();
+  if(low.includes('half')&&(low.includes('time')||low==='halftime'))return 'Descanso';
+  const m=raw.match(/^(\d{1,3}):\d{2}$/); if(m)return `${Number(m[1])}'`;
+  if(/^\d+$/.test(raw))return `${raw}'`;
+  if(low==='in progress'||low==='live')return status?.displayClock||'En juego';
+  return raw||'En juego';
+}
+function parseDirectScoreboard(payload,competition){
+  const out=[];
+  for(const evt of payload?.events||[]){
+    const comp=evt?.competitions?.[0], cs=comp?.competitors||[];
+    const home=cs.find(c=>c.homeAway==='home'),away=cs.find(c=>c.homeAway==='away'); if(!home||!away)continue;
+    const st=evt.status||{},typ=st.type||{},state=typ.state;
+    const status=typ.completed?'finished':state==='in'?'live':'scheduled';
+    const hs=directScore(home),as=directScore(away);
+    out.push({competition,status,home:home.team?.displayName||home.team?.name||'',away:away.team?.displayName||away.team?.name||'',homeScore:hs,awayScore:as,score:(hs!=null&&as!=null)?`${hs}–${as}`:null,liveLabel:status==='live'?directLiveLabel(st):null});
+  }
+  return out;
+}
+function directStatMap(entry){const m={};for(const s of entry?.stats||[])if(s?.name)m[s.name]=s.value;return m;}
+function directNum(v){const n=Number(v);return Number.isFinite(n)?Math.trunc(n):0;}
+function parseDirectStandings(payload){
+  let entries=[];for(const g of payload?.children||[])entries.push(...(g?.standings?.entries||[]));
+  if(!entries.length)entries=payload?.standings?.entries||[];
+  const rows=[];const seen=new Set();
+  for(const e of entries){const name=e?.team?.displayName||e?.team?.name;if(!name||seen.has(name))continue;seen.add(name);const s=directStatMap(e);
+    rows.push({pos:directNum(s.rank||s.position||rows.length+1),team:name,pts:directNum(s.points),pj:directNum(s.gamesPlayed),g:directNum(s.wins),e:directNum(s.ties??s.draws),p:directNum(s.losses),gf:directNum(s.pointsFor??s.goalsFor),gc:directNum(s.pointsAgainst??s.goalsAgainst),dg:directNum(s.pointDifferential??s.goalDifference)});
+  }
+  rows.sort((a,b)=>a.pos-b.pos);return rows;
+}
+async function directFetchJson(url){const r=await fetch(url,{cache:'no-store'});if(!r.ok)throw new Error('HTTP '+r.status);return r.json();}
+function directApplyGame(rows,g){
+  const h=rows.find(r=>directSame(r.team,g.home)),a=rows.find(r=>directSame(r.team,g.away)); if(!h||!a||g.homeScore==null||g.awayScore==null)return;
+  for(const r of [h,a]){r.pj+=1;r.provisional=true;r.live=true;r.liveLabel=g.liveLabel||'EN JUEGO';}
+  h.gf+=g.homeScore;h.gc+=g.awayScore;a.gf+=g.awayScore;a.gc+=g.homeScore;h.dg=h.gf-h.gc;a.dg=a.gf-a.gc;
+  if(g.homeScore>g.awayScore){h.g+=1;h.pts+=3;a.p+=1;}else if(g.homeScore<g.awayScore){a.g+=1;a.pts+=3;h.p+=1;}else{h.e+=1;a.e+=1;h.pts+=1;a.pts+=1;}
+}
+function directSort(rows){rows.sort((a,b)=>b.pts-a.pts||b.dg-a.dg||b.gf-a.gf||a.team.localeCompare(b.team,'es'));rows.forEach((r,i)=>r.pos=i+1);}
+function directUpdateMadridFixture(events){
+  for(const g of events){
+    let venue=null,opp=null;if(directSame(g.home,'Real Madrid')){venue='home';opp=g.away}else if(directSame(g.away,'Real Madrid')){venue='away';opp=g.home}else continue;
+    const fx=APP.fixtures.find(x=>x.competition===g.competition&&directSame(x.opponent,opp));if(!fx)continue;
+    if(g.status==='live'||g.status==='finished'){fx.status=g.status;fx.score=g.score;fx.liveLabel=g.liveLabel||null;}
+  }
+  const liveFx=APP.fixtures.find(x=>x.status==='live');
+  if(liveFx)APP.nextMatch=JSON.parse(JSON.stringify(liveFx));
+  else{const now=new Date();const next=APP.fixtures.find(x=>x.status!=='finished'&&new Date(`${x.date}T${x.time||'23:59'}:00`)>=now);if(next)APP.nextMatch=JSON.parse(JSON.stringify(next));}
+}
+async function refreshBrowserLive(showToast=false){
+  if(!OFFICIAL_APP)return;
+  const fresh=JSON.parse(JSON.stringify(OFFICIAL_APP));APP=fresh;
+  const day=directToday();let anyLive=false,success=false;
+  for(const competition of ['LaLiga','Champions']){
+    try{
+      const slug=DIRECT_LEAGUES[competition];
+      const scorePayload=await directFetchJson(`https://site.api.espn.com/apis/site/v2/sports/soccer/${slug}/scoreboard?dates=${day}`);
+      const games=parseDirectScoreboard(scorePayload,competition);success=true;directUpdateMadridFixture(games);
+      const live=games.filter(g=>g.status==='live');
+      if(live.length){
+        anyLive=true;
+        let rows=[];
+        try{const standPayload=await directFetchJson(`https://site.api.espn.com/apis/v2/sports/soccer/${slug}/standings?season=2026`);rows=parseDirectStandings(standPayload);}catch(e){}
+        if(!rows.length)rows=JSON.parse(JSON.stringify(competition==='LaLiga'?APP.laligaStandings:APP.championsStandings||[]));
+        live.forEach(g=>directApplyGame(rows,g));directSort(rows);
+        if(competition==='LaLiga')APP.laligaStandings=rows;else APP.championsStandings=rows;
+        APP.standingsMeta=APP.standingsMeta||{};APP.standingsMeta[competition]={mode:'provisional',liveGames:live.length,pendingOfficialGames:0,source:'browser-live'};
+      }
+    }catch(e){console.debug('Madridista directo:',competition,e);}
+  }
+  renderAll();
+  const u=document.getElementById('updated');if(u&&success)u.innerHTML+=`<div class="browser-live-info ${anyLive?'on':''}">${anyLive?'🔴 DIRECTO · ':'Directo comprobado · '}${new Date().toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit'})}</div>`;
+  if(showToast)showRefreshMessage(anyLive?'🔴 Directo actualizado':'✓ Sin partidos en directo');
+}
+function startBrowserLive(){
+  clearInterval(directTimer);directTimer=setInterval(()=>refreshBrowserLive(false),60000);
+  document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')refreshBrowserLive(false)});
+}
+
 function activateFilter(container,btn){container.querySelectorAll('.filter').forEach(x=>x.classList.remove('active'));btn.classList.add('active')}
 document.querySelectorAll('[data-filter]').forEach(b=>b.onclick=()=>{activateFilter(document.getElementById('calendarFilters'),b);currentFilter=b.dataset.filter;renderFixtures()});document.querySelectorAll('[data-rfilter]').forEach(b=>b.onclick=()=>{activateFilter(document.getElementById('resultFilters'),b);resultFilter=b.dataset.rfilter;renderResults()});document.querySelectorAll('[data-sfilter]').forEach(b=>b.onclick=()=>{activateFilter(document.getElementById('standingFilters'),b);standingFilter=b.dataset.sfilter;renderStandings()});document.querySelectorAll('.navbtn').forEach(b=>b.onclick=()=>{document.querySelectorAll('.navbtn').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.view').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.getElementById(b.dataset.view).classList.add('active');window.scrollTo({top:0,behavior:'smooth'})});
-if('serviceWorker' in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('sw.js').catch(()=>{});document.getElementById('refreshBtn')?.addEventListener('click',()=>loadData(true));loadData();
+if('serviceWorker' in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('sw.js').catch(()=>{});document.getElementById('refreshBtn')?.addEventListener('click',async()=>{await loadData(true);await refreshBrowserLive(true)});loadData().then(()=>startBrowserLive());
 </script>
 </body></html>
