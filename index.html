@@ -10,6 +10,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <title>Madridista</title>
+<meta name="madridista-version" content="live-v1">
 <style>
 :root{--bg:#f4f6fb;--card:#fff;--navy:#0b1f3a;--blue:#244f94;--gold:#d7b34c;--text:#1d2530;--muted:#6d7787;--line:#e3e8f0;--champ:#eef3ff;--done:#f7f8fa;--danger:#fff0f0;--green:#eaf7ef}
 *{box-sizing:border-box} html{background:var(--bg)} body{margin:0;font-family:Arial,Helvetica,sans-serif;background:radial-gradient(circle at 90% -10%,rgba(36,79,148,.16),transparent 25%),var(--bg);color:var(--text)} button{font:inherit}
@@ -28,6 +29,19 @@
 .zone-note{font-size:11px;color:var(--muted);margin:-3px 2px 10px;line-height:1.4}
 .empty{padding:35px 22px;text-align:center}.empty .icon{font-size:38px}.empty h3{color:var(--navy);margin:10px 0 5px}.empty p{margin:0 auto;color:var(--muted);font-size:13px;line-height:1.5;max-width:520px}
 .notice{margin-top:11px;background:#fff;border-left:4px solid var(--gold);padding:11px 13px;border-radius:11px;color:#5f6977;font-size:12px;line-height:1.45}.bottomnav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(1040px,100%);z-index:30;background:rgba(255,255,255,.95);backdrop-filter:blur(16px);display:grid;grid-template-columns:repeat(3,1fr);padding:8px 8px calc(8px + env(safe-area-inset-bottom));border-top:1px solid var(--line)}.navbtn{border:0;background:transparent;padding:8px 4px;border-radius:13px;color:#7a8492;font-weight:800;font-size:11px;cursor:pointer}.navbtn .ico{display:block;font-size:20px;margin-bottom:3px}.navbtn.active{color:var(--navy);background:#eef2f8}.view{display:none}.view.active{display:block}
+
+.fixture.live{background:linear-gradient(90deg,#fff0ed,#fff)}
+.result-row.live{background:linear-gradient(90deg,#fff0ed,#fff);color:var(--text)}
+.live-state{display:inline-flex;align-items:center;justify-content:flex-end;gap:6px;margin-top:4px;font-size:11px;font-weight:900;color:#b42318}
+.live-dot{width:8px;height:8px;border-radius:50%;background:#d92d20;box-shadow:0 0 0 0 rgba(217,45,32,.45);animation:pulseLive 1.5s infinite}
+@keyframes pulseLive{0%{box-shadow:0 0 0 0 rgba(217,45,32,.45)}70%{box-shadow:0 0 0 7px rgba(217,45,32,0)}100%{box-shadow:0 0 0 0 rgba(217,45,32,0)}}
+.provisional-banner{display:flex;align-items:flex-start;gap:10px;background:#fff7df;border:1px solid #f2d27b;border-radius:14px;padding:11px 13px;margin:10px 0 11px;color:#70520a;font-size:12px;line-height:1.4}
+.provisional-banner b{display:block;color:#5b4308;margin-bottom:2px}
+.provisional-banner .live-dot{flex:0 0 auto;margin-top:4px}
+.prov-badge{display:inline-flex;align-items:center;gap:4px;margin-left:7px;padding:3px 6px;border-radius:999px;background:#fff0ed;color:#b42318;font-size:9px;font-weight:900;vertical-align:middle;white-space:nowrap}
+.prov-badge.pending-official{background:#fff7df;color:#805f10}
+.standings tr.provisional-row td.team{font-weight:900}
+.provisional-note{font-size:11px;color:var(--muted);margin:8px 2px 0;line-height:1.4}
 @media(max-width:720px){.content{padding:12px}.fixture{grid-template-columns:90px 1fr 112px}.fixture .compcol{display:none}.result-row{grid-template-columns:82px 1fr 88px}.result-row .compcol{display:none}.next-match{font-size:24px}.stats{gap:7px}.stat{padding:11px}.section-head{align-items:flex-start;flex-direction:column}.standings-card{max-width:100%}}
 </style>
 </head>
@@ -36,7 +50,7 @@
 <header class="topbar"><div class="brand"><div class="logo">RM</div><div>Madridista</div></div><div class="updated-wrap"><div class="updated" id="updated">Cargando…</div><button class="refresh-btn" id="refreshBtn" title="Forzar actualización de datos" aria-label="Actualizar datos"><span>↻</span></button></div></header>
 <main class="content">
 <section id="calendarView" class="view active">
-  <div class="hero"><div class="kicker">Temporada <span id="season"></span></div><div class="next-title">Próximo partido</div><div class="next-match" id="nextMatch"></div><div class="meta" id="nextMeta"></div><div class="hero-tv" id="nextTv"></div></div>
+  <div class="hero"><div class="kicker">Temporada <span id="season"></span></div><div class="next-title" id="nextTitle">Próximo partido</div><div class="next-match" id="nextMatch"></div><div class="meta" id="nextMeta"></div><div class="hero-tv" id="nextTv"></div></div>
   <div class="stats"><div class="stat"><span>Posición Liga</span><b id="pos">–</b></div><div class="stat"><span>Puntos</span><b id="pts">–</b></div><div class="stat"><span>Balance</span><b id="balance">–</b></div></div>
   <div class="section-head"><h2>Todos los partidos de la temporada</h2><small id="fixtureCount"></small></div>
   <div class="filters" id="calendarFilters"><button class="filter active" data-filter="all">Todos</button><button class="filter" data-filter="LaLiga">Liga</button><button class="filter" data-filter="Champions">Champions</button></div>
@@ -91,10 +105,39 @@ function showRefreshMessage(text){
   window.__refreshTimer=setTimeout(()=>el.classList.remove('show'),2200);
 }
 const venueIcon=v=>v==='home'?'🏠':'✈️'; const plus=n=>n>0?'+'+n:String(n); const rmRow=()=>APP.laligaStandings.find(x=>x.team==='Real Madrid')||{};
-function renderAll(){document.getElementById('season').textContent=APP.app.season;const d=new Date(APP.app.lastUpdated);document.getElementById('updated').innerHTML='Actualizado<br><b>'+d.toLocaleDateString('es-ES',{day:'2-digit',month:'2-digit'})+' · '+d.toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit'})+'</b>';const n=APP.nextMatch;document.getElementById('nextMatch').textContent=venueIcon(n.venue)+' '+(n.venue==='home'?'Real Madrid – '+n.opponent:n.opponent+' – Real Madrid');document.getElementById('nextMeta').innerHTML=`<span class="chip">${n.competition}</span><span class="chip">📅 ${n.displayDate}</span><span class="chip">🕘 ${n.time||'Por confirmar'}</span>`;document.getElementById('nextTv').textContent='📺 '+(n.tv?.length?n.tv.join(' · '):'TV por confirmar');const rm=rmRow();document.getElementById('pos').textContent=rm.pos?rm.pos+'.º':'–';document.getElementById('pts').textContent=rm.pts??'–';document.getElementById('balance').textContent=rm.pj!=null?`${rm.g}–${rm.e}–${rm.p}`:'–';renderFixtures();renderResults();renderStandings()}
+function liveLabel(x){return x.liveLabel||'En juego'}
+function matchRight(x){
+  if(x.status==='finished')return `<div class="score">${x.score||'–'}</div><div class="pending">Finalizado</div>`;
+  if(x.status==='live')return `<div class="score">${x.score||'0–0'}</div><div class="live-state"><i class="live-dot"></i>${liveLabel(x)}</div>`;
+  return `<div class="${x.time?'time':'pending'}">${x.time||'Por confirmar'}</div><div class="tv">${x.tv?.length?'📺 '+x.tv.join(' · '):''}</div>`;
+}
+function renderAll(){
+  document.getElementById('season').textContent=APP.app.season;
+  const d=new Date(APP.app.lastUpdated);
+  document.getElementById('updated').innerHTML='Actualizado<br><b>'+d.toLocaleDateString('es-ES',{day:'2-digit',month:'2-digit'})+' · '+d.toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit'})+'</b>';
+  const n=APP.nextMatch;
+  document.getElementById('nextTitle').textContent=n?.status==='live'?'Partido en juego':'Próximo partido';
+  document.getElementById('nextMatch').textContent=venueIcon(n.venue)+' '+(n.venue==='home'?'Real Madrid – '+n.opponent:n.opponent+' – Real Madrid');
+  document.getElementById('nextMeta').innerHTML=n.status==='live'
+    ? `<span class="chip">${n.competition}</span><span class="chip">📅 ${n.displayDate}</span><span class="chip">⚽ ${n.score||'0–0'}</span><span class="chip">🔴 ${liveLabel(n)}</span>`
+    : `<span class="chip">${n.competition}</span><span class="chip">📅 ${n.displayDate}</span><span class="chip">🕘 ${n.time||'Por confirmar'}</span>`;
+  document.getElementById('nextTv').textContent='📺 '+(n.tv?.length?n.tv.join(' · '):'TV por confirmar');
+  const rm=rmRow();
+  document.getElementById('pos').textContent=rm.pos?rm.pos+'.º':'–';
+  document.getElementById('pts').textContent=rm.pts??'–';
+  document.getElementById('balance').textContent=rm.pj!=null?`${rm.g}–${rm.e}–${rm.p}`:'–';
+  renderFixtures();renderResults();renderStandings();
+}
 function labelComp(x){return x.competition==='Champions'?'Champions':'Liga'}
-function renderFixtures(){const list=APP.fixtures.filter(x=>currentFilter==='all'||x.competition===currentFilter);document.getElementById('fixtureCount').textContent=`${list.length} partidos`;document.getElementById('fixtures').innerHTML=list.map(x=>`<div class="fixture ${x.competition==='Champions'?'champ':''} ${x.status==='finished'?'finished':''}"><div><div class="date">${x.displayDate}</div><div class="jornada">J${x.jornada}</div></div><div class="compcol"><div class="comp">${labelComp(x)}</div></div><div class="opponent"><span class="venue">${venueIcon(x.venue)}</span>${x.opponent}</div><div class="right">${x.status==='finished'?`<div class="score">${x.score}</div><div class="pending">Finalizado</div>`:`<div class="${x.time?'time':'pending'}">${x.time||'Por confirmar'}</div><div class="tv">${x.tv?.length?'📺 '+x.tv.join(' · '):''}</div>`}</div></div>`).join('')}
-function renderResults(){const list=APP.fixtures.filter(x=>x.competition===resultFilter);document.getElementById('rmResults').innerHTML=list.map(x=>`<div class="result-row ${x.status}"><div><div class="date">${x.displayDate}</div><div class="jornada">J${x.jornada}</div></div><div class="compcol"><div class="comp">${labelComp(x)}</div></div><div class="opponent"><span class="venue">${venueIcon(x.venue)}</span>${x.opponent}</div><div class="result-score">${x.status==='finished'?x.score:(x.time||'Pendiente')}</div></div>`).join('')}
+function renderFixtures(){
+  const list=APP.fixtures.filter(x=>currentFilter==='all'||x.competition===currentFilter);
+  document.getElementById('fixtureCount').textContent=`${list.length} partidos`;
+  document.getElementById('fixtures').innerHTML=list.map(x=>`<div class="fixture ${x.competition==='Champions'?'champ':''} ${x.status||''}"><div><div class="date">${x.displayDate}</div><div class="jornada">${x.jornada?`J${x.jornada}`:''}</div></div><div class="compcol"><div class="comp">${labelComp(x)}</div></div><div class="opponent"><span class="venue">${venueIcon(x.venue)}</span>${x.opponent}</div><div class="right">${matchRight(x)}</div></div>`).join('');
+}
+function renderResults(){
+  const list=APP.fixtures.filter(x=>x.competition===resultFilter);
+  document.getElementById('rmResults').innerHTML=list.map(x=>`<div class="result-row ${x.status||''}"><div><div class="date">${x.displayDate}</div><div class="jornada">${x.jornada?`J${x.jornada}`:''}</div></div><div class="compcol"><div class="comp">${labelComp(x)}</div></div><div class="opponent"><span class="venue">${venueIcon(x.venue)}</span>${x.opponent}</div><div class="result-score">${x.status==='finished'?x.score:x.status==='live'?`${x.score||'0–0'}<div class="live-state"><i class="live-dot"></i>${liveLabel(x)}</div>`:(x.time||'Pendiente')}</div></div>`).join('');
+}
 function zoneFor(pos,competition){
   const zones=APP.qualificationZones?.[competition]||[];
   const z=zones.find(z=>pos>=z.from&&pos<=z.to);
@@ -116,8 +159,17 @@ function legendHtml(competition){
     <span class="zone-item"><i class="zone-dot dot-elim"></i>25.º–36.º · Eliminados</span>
   </div>`;
 }
+function standingsBanner(competition){
+  const meta=APP.standingsMeta?.[competition];
+  if(!meta||meta.mode!=='provisional')return '';
+  const live=meta.liveGames||0,pending=meta.pendingOfficialGames||0;
+  const detail=live?`${live} partido${live===1?'':'s'} en juego`:`${pending} resultado${pending===1?'':'s'} pendiente${pending===1?'':'s'} de reflejarse oficialmente`;
+  return `<div class="provisional-banner"><i class="live-dot"></i><div><b>Clasificación provisional</b>${detail}. Los equipos afectados aparecen marcados.</div></div>`;
+}
 function tableHtml(rows,competition){
-  return `${legendHtml(competition)}<div class="card table-wrap standings-card"><table class="standings"><colgroup><col class="pos"><col class="team">${'<col class="num">'.repeat(8)}</colgroup><thead><tr><th>Pos</th><th class="teamh">Equipo</th><th>Pts</th><th>PJ</th><th>G</th><th>E</th><th>P</th><th>GF</th><th>GC</th><th>DG</th></tr></thead><tbody>${rows.map(x=>{const z=zoneFor(x.pos,competition);return `<tr class="${x.team==='Real Madrid'?'rm ':''}${z?'zone-'+z:''}"><td>${x.pos}</td><td class="team">${x.team==='Real Madrid'?'👑 ':''}${x.team}</td><td>${x.pts}</td><td>${x.pj}</td><td>${x.g}</td><td>${x.e}</td><td>${x.p}</td><td>${x.gf}</td><td>${x.gc}</td><td>${plus(x.dg)}</td></tr>`}).join('')}</tbody></table></div>`;
+  const banner=standingsBanner(competition);
+  const note=(APP.standingsMeta?.[competition]?.mode==='provisional')?`<div class="provisional-note">* La tabla se recalcula con los marcadores actuales. En caso de empate, el orden puede variar cuando se apliquen todos los criterios oficiales de desempate.</div>`:'';
+  return `${banner}${legendHtml(competition)}<div class="card table-wrap standings-card"><table class="standings"><colgroup><col class="pos"><col class="team">${'<col class="num">'.repeat(8)}</colgroup><thead><tr><th>Pos</th><th class="teamh">Equipo</th><th>Pts</th><th>PJ</th><th>G</th><th>E</th><th>P</th><th>GF</th><th>GC</th><th>DG</th></tr></thead><tbody>${rows.map(x=>{const z=zoneFor(x.pos,competition);const badge=x.provisional?`<span class="prov-badge ${x.live?'':'pending-official'}">${x.live?'● '+(x.liveLabel||'EN JUEGO'):'PROV.'}</span>`:'';return `<tr class="${x.team==='Real Madrid'?'rm ':''}${z?'zone-'+z+' ':''}${x.provisional?'provisional-row':''}"><td>${x.pos}</td><td class="team">${x.team==='Real Madrid'?'👑 ':''}${x.team}${badge}</td><td>${x.pts}</td><td>${x.pj}</td><td>${x.g}</td><td>${x.e}</td><td>${x.p}</td><td>${x.gf}</td><td>${x.gc}</td><td>${plus(x.dg)}</td></tr>`}).join('')}</tbody></table></div>${note}`;
 }
 function renderStandings(){
   const a=document.getElementById('standingArea');
