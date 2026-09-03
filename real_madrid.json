@@ -2,7 +2,7 @@
   "app": {
     "name": "Madridista",
     "season": "2026/27",
-    "lastUpdated": "2026-09-03T18:30+02:00",
+    "lastUpdated": "2026-09-03T23:03+02:00",
     "timezone": "Europe/Madrid",
     "sources": [
       "Real Madrid C.F. — calendario oficial de LaLiga 2026/27",
@@ -715,6 +715,18 @@
     },
     {
       "pos": 11,
+      "team": "Real Sociedad",
+      "pts": 4,
+      "pj": 4,
+      "g": 1,
+      "e": 1,
+      "p": 2,
+      "gf": 3,
+      "gc": 6,
+      "dg": -3
+    },
+    {
+      "pos": 12,
       "team": "Espanyol",
       "pts": 3,
       "pj": 3,
@@ -726,7 +738,7 @@
       "dg": 1
     },
     {
-      "pos": 12,
+      "pos": 13,
       "team": "Athletic Club",
       "pts": 3,
       "pj": 3,
@@ -736,18 +748,6 @@
       "gf": 3,
       "gc": 5,
       "dg": -2
-    },
-    {
-      "pos": 13,
-      "team": "Real Sociedad",
-      "pts": 3,
-      "pj": 3,
-      "g": 1,
-      "e": 0,
-      "p": 2,
-      "gf": 3,
-      "gc": 6,
-      "dg": -3
     },
     {
       "pos": 14,
@@ -775,11 +775,11 @@
     },
     {
       "pos": 16,
-      "team": "Valencia",
-      "pts": 1,
-      "pj": 3,
+      "team": "Celta Vigo",
+      "pts": 2,
+      "pj": 4,
       "g": 0,
-      "e": 1,
+      "e": 2,
       "p": 2,
       "gf": 1,
       "gc": 4,
@@ -787,7 +787,7 @@
     },
     {
       "pos": 17,
-      "team": "Celta Vigo",
+      "team": "Valencia",
       "pts": 1,
       "pj": 3,
       "g": 0,
@@ -1328,7 +1328,7 @@
   ],
   "live": {
     "hasLiveMatches": false,
-    "updatedAt": "2026-09-03T18:30+02:00",
+    "updatedAt": "2026-09-03T23:03+02:00",
     "matches": []
   },
   "laligaOfficialStandings": [
@@ -1454,6 +1454,18 @@
     },
     {
       "pos": 11,
+      "team": "Real Sociedad",
+      "pts": 4,
+      "pj": 4,
+      "g": 1,
+      "e": 1,
+      "p": 2,
+      "gf": 3,
+      "gc": 6,
+      "dg": -3
+    },
+    {
+      "pos": 12,
       "team": "Espanyol",
       "pts": 3,
       "pj": 3,
@@ -1465,7 +1477,7 @@
       "dg": 1
     },
     {
-      "pos": 12,
+      "pos": 13,
       "team": "Athletic Club",
       "pts": 3,
       "pj": 3,
@@ -1475,18 +1487,6 @@
       "gf": 3,
       "gc": 5,
       "dg": -2
-    },
-    {
-      "pos": 13,
-      "team": "Real Sociedad",
-      "pts": 3,
-      "pj": 3,
-      "g": 1,
-      "e": 0,
-      "p": 2,
-      "gf": 3,
-      "gc": 6,
-      "dg": -3
     },
     {
       "pos": 14,
@@ -1514,11 +1514,11 @@
     },
     {
       "pos": 16,
-      "team": "Valencia",
-      "pts": 1,
-      "pj": 3,
+      "team": "Celta Vigo",
+      "pts": 2,
+      "pj": 4,
       "g": 0,
-      "e": 1,
+      "e": 2,
       "p": 2,
       "gf": 1,
       "gc": 4,
@@ -1526,7 +1526,7 @@
     },
     {
       "pos": 17,
-      "team": "Celta Vigo",
+      "team": "Valencia",
       "pts": 1,
       "pj": 3,
       "g": 0,
@@ -1579,14 +1579,14 @@
       "liveGames": 0,
       "pendingOfficialGames": 0,
       "sourceIncludesLive": false,
-      "updatedAt": "2026-09-03T18:30+02:00"
+      "updatedAt": "2026-09-03T23:03+02:00"
     },
     "Champions": {
       "mode": "official",
       "liveGames": 0,
       "pendingOfficialGames": 0,
       "sourceIncludesLive": false,
-      "updatedAt": "2026-09-03T18:30+02:00"
+      "updatedAt": "2026-09-03T23:03+02:00"
     }
   },
   "championsOfficialStandings": [
