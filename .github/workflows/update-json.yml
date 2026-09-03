@@ -2,8 +2,7 @@ name: Actualizar datos Madridista
 
 on:
   schedule:
-    # Una sola rutina cada 5 minutos, desplazada de los minutos redondos.
-    - cron: "2-59/5 * * * *"
+    - cron: "17 * * * *"
 
   workflow_dispatch:
 
@@ -27,21 +26,8 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Seguimiento en directo
-        run: python update_data.py --live-only
-
-      - name: Revisión completa periódica
-        shell: bash
-        run: |
-          MIN=$(date -u +%M)
-          MIN=$((10#$MIN))
-
-          if [ "$MIN" -ge 15 ] && [ "$MIN" -le 24 ]; then
-            echo "Toca revisión completa."
-            python update_data.py
-          else
-            echo "No toca revisión completa."
-          fi
+      - name: Actualizar datos oficiales
+        run: python update_data.py
 
       - name: Guardar cambios si los hay
         shell: bash
@@ -54,5 +40,5 @@ jobs:
           git config user.name "Madridista Bot"
           git config user.email "actions@users.noreply.github.com"
           git add real_madrid.json
-          git commit -m "Actualiza directo y clasificaciones"
+          git commit -m "Actualiza calendario, resultados y clasificaciones"
           git push
