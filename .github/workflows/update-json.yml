@@ -1,11 +1,10 @@
 name: Actualizar datos Madridista
 
 on:
-  # Una vez cada hora. Si no hay cambios, no hace ningún commit.
   schedule:
     - cron: "17 * * * *"
+    - cron: "*/5 * * * *"
 
-  # Permite lanzarlo a mano desde la pestaña Actions.
   workflow_dispatch:
 
 permissions:
@@ -28,8 +27,13 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Actualizar JSON
+      - name: Revisión completa
+        if: github.event_name == 'workflow_dispatch' || github.event.schedule == '17 * * * *'
         run: python update_data.py
+
+      - name: Seguimiento en directo
+        if: github.event.schedule == '*/5 * * * *'
+        run: python update_data.py --live-only
 
       - name: Guardar cambios si los hay
         shell: bash
@@ -42,5 +46,5 @@ jobs:
           git config user.name "Madridista Bot"
           git config user.email "actions@users.noreply.github.com"
           git add real_madrid.json
-          git commit -m "Actualiza calendario, resultados y clasificaciones"
+          git commit -m "Actualiza directo y clasificaciones"
           git push
