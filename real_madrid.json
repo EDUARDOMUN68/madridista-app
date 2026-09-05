@@ -2,7 +2,7 @@
   "app": {
     "name": "Madridista",
     "season": "2026/27",
-    "lastUpdated": "2026-09-05T23:15+02:00",
+    "lastUpdated": "2026-09-06T00:58+02:00",
     "timezone": "Europe/Madrid",
     "sources": [
       "Real Madrid C.F. — calendario oficial de LaLiga 2026/27",
@@ -1318,29 +1318,36 @@
   "monitorWindows": [
     {
       "competition": "LaLiga",
-      "date": "2026-09-05",
-      "eventId": "401882895",
-      "start": "2026-09-05T16:00+02:00",
-      "end": "2026-09-05T19:45+02:00"
+      "date": "2026-09-06",
+      "eventId": "401882888",
+      "start": "2026-09-06T16:00+02:00",
+      "end": "2026-09-06T19:45+02:00"
     },
     {
       "competition": "LaLiga",
-      "date": "2026-09-05",
-      "eventId": "401882889",
-      "start": "2026-09-05T18:15+02:00",
-      "end": "2026-09-05T22:00+02:00"
+      "date": "2026-09-06",
+      "eventId": "401882896",
+      "start": "2026-09-06T18:15+02:00",
+      "end": "2026-09-06T22:00+02:00"
     },
     {
       "competition": "LaLiga",
-      "date": "2026-09-05",
-      "eventId": "401882887",
-      "start": "2026-09-05T20:45+02:00",
-      "end": "2026-09-06T00:30+02:00"
+      "date": "2026-09-06",
+      "eventId": "401882890",
+      "start": "2026-09-06T18:15+02:00",
+      "end": "2026-09-06T22:00+02:00"
+    },
+    {
+      "competition": "LaLiga",
+      "date": "2026-09-06",
+      "eventId": "401882892",
+      "start": "2026-09-06T20:45+02:00",
+      "end": "2026-09-07T00:30+02:00"
     }
   ],
   "live": {
     "hasLiveMatches": false,
-    "updatedAt": "2026-09-05T23:15+02:00",
+    "updatedAt": "2026-09-06T00:58+02:00",
     "matches": []
   },
   "laligaOfficialStandings": [
@@ -1591,14 +1598,14 @@
       "liveGames": 0,
       "pendingOfficialGames": 0,
       "sourceIncludesLive": false,
-      "updatedAt": "2026-09-05T23:15+02:00"
+      "updatedAt": "2026-09-06T00:58+02:00"
     },
     "Champions": {
       "mode": "official",
       "liveGames": 0,
       "pendingOfficialGames": 0,
       "sourceIncludesLive": false,
-      "updatedAt": "2026-09-05T23:15+02:00"
+      "updatedAt": "2026-09-06T00:58+02:00"
     }
   },
   "championsOfficialStandings": [
