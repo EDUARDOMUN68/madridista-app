@@ -2,7 +2,7 @@
   "app": {
     "name": "Madridista",
     "season": "2026/27",
-    "lastUpdated": "2026-09-05T20:19+02:00",
+    "lastUpdated": "2026-09-05T23:15+02:00",
     "timezone": "Europe/Madrid",
     "sources": [
       "Real Madrid C.F. — calendario oficial de LaLiga 2026/27",
@@ -629,6 +629,18 @@
     },
     {
       "pos": 4,
+      "team": "Deportivo",
+      "pts": 8,
+      "pj": 4,
+      "g": 2,
+      "e": 2,
+      "p": 0,
+      "gf": 8,
+      "gc": 5,
+      "dg": 3
+    },
+    {
+      "pos": 5,
       "team": "Alavés",
       "pts": 7,
       "pj": 3,
@@ -640,7 +652,7 @@
       "dg": 4
     },
     {
-      "pos": 5,
+      "pos": 6,
       "team": "Osasuna",
       "pts": 7,
       "pj": 3,
@@ -652,7 +664,7 @@
       "dg": 2
     },
     {
-      "pos": 6,
+      "pos": 7,
       "team": "Atlético Madrid",
       "pts": 7,
       "pj": 4,
@@ -664,7 +676,7 @@
       "dg": 1
     },
     {
-      "pos": 7,
+      "pos": 8,
       "team": "Athletic Club",
       "pts": 6,
       "pj": 4,
@@ -676,7 +688,7 @@
       "dg": 1
     },
     {
-      "pos": 8,
+      "pos": 9,
       "team": "Sevilla",
       "pts": 6,
       "pj": 3,
@@ -686,18 +698,6 @@
       "gf": 6,
       "gc": 5,
       "dg": 1
-    },
-    {
-      "pos": 9,
-      "team": "Deportivo",
-      "pts": 5,
-      "pj": 3,
-      "g": 1,
-      "e": 2,
-      "p": 0,
-      "gf": 5,
-      "gc": 3,
-      "dg": 2
     },
     {
       "pos": 10,
@@ -721,11 +721,7 @@
       "p": 2,
       "gf": 7,
       "gc": 8,
-      "dg": -1,
-      "provisional": true,
-      "live": true,
-      "liveLabel": "87'",
-      "liveScore": "3–2"
+      "dg": -1
     },
     {
       "pos": 12,
@@ -737,11 +733,7 @@
       "p": 2,
       "gf": 7,
       "gc": 10,
-      "dg": -3,
-      "provisional": true,
-      "live": true,
-      "liveLabel": "87'",
-      "liveScore": "3–2"
+      "dg": -3
     },
     {
       "pos": 13,
@@ -783,13 +775,13 @@
       "pos": 16,
       "team": "Villarreal",
       "pts": 2,
-      "pj": 3,
+      "pj": 4,
       "g": 0,
       "e": 2,
-      "p": 1,
-      "gf": 4,
-      "gc": 5,
-      "dg": -1
+      "p": 2,
+      "gf": 6,
+      "gc": 8,
+      "dg": -2
     },
     {
       "pos": 17,
@@ -1347,25 +1339,9 @@
     }
   ],
   "live": {
-    "hasLiveMatches": true,
-    "updatedAt": "2026-09-05T20:19+02:00",
-    "matches": [
-      {
-        "eventId": "401882889",
-        "competition": "LaLiga",
-        "date": "2026-09-05",
-        "displayDate": "Sáb. 5 septiembre",
-        "time": "18:30",
-        "kickoff": "2026-09-05T18:30+02:00",
-        "home": "Rayo Vallecano",
-        "away": "Racing Santander",
-        "homeScore": 3,
-        "awayScore": 2,
-        "score": "3–2",
-        "status": "live",
-        "liveLabel": "87'"
-      }
-    ]
+    "hasLiveMatches": false,
+    "updatedAt": "2026-09-05T23:15+02:00",
+    "matches": []
   },
   "laligaOfficialStandings": [
     {
@@ -1406,6 +1382,18 @@
     },
     {
       "pos": 4,
+      "team": "Deportivo",
+      "pts": 8,
+      "pj": 4,
+      "g": 2,
+      "e": 2,
+      "p": 0,
+      "gf": 8,
+      "gc": 5,
+      "dg": 3
+    },
+    {
+      "pos": 5,
       "team": "Alavés",
       "pts": 7,
       "pj": 3,
@@ -1417,7 +1405,7 @@
       "dg": 4
     },
     {
-      "pos": 5,
+      "pos": 6,
       "team": "Osasuna",
       "pts": 7,
       "pj": 3,
@@ -1429,7 +1417,7 @@
       "dg": 2
     },
     {
-      "pos": 6,
+      "pos": 7,
       "team": "Atlético Madrid",
       "pts": 7,
       "pj": 4,
@@ -1441,7 +1429,7 @@
       "dg": 1
     },
     {
-      "pos": 7,
+      "pos": 8,
       "team": "Athletic Club",
       "pts": 6,
       "pj": 4,
@@ -1453,7 +1441,7 @@
       "dg": 1
     },
     {
-      "pos": 8,
+      "pos": 9,
       "team": "Sevilla",
       "pts": 6,
       "pj": 3,
@@ -1463,18 +1451,6 @@
       "gf": 6,
       "gc": 5,
       "dg": 1
-    },
-    {
-      "pos": 9,
-      "team": "Deportivo",
-      "pts": 5,
-      "pj": 3,
-      "g": 1,
-      "e": 2,
-      "p": 0,
-      "gf": 5,
-      "gc": 3,
-      "dg": 2
     },
     {
       "pos": 10,
@@ -1492,16 +1468,28 @@
       "pos": 11,
       "team": "Racing Santander",
       "pts": 4,
-      "pj": 3,
+      "pj": 4,
       "g": 1,
       "e": 1,
-      "p": 1,
-      "gf": 5,
-      "gc": 5,
-      "dg": 0
+      "p": 2,
+      "gf": 7,
+      "gc": 8,
+      "dg": -1
     },
     {
       "pos": 12,
+      "team": "Rayo Vallecano",
+      "pts": 4,
+      "pj": 4,
+      "g": 1,
+      "e": 1,
+      "p": 2,
+      "gf": 7,
+      "gc": 10,
+      "dg": -3
+    },
+    {
+      "pos": 13,
       "team": "Real Sociedad",
       "pts": 4,
       "pj": 4,
@@ -1513,7 +1501,7 @@
       "dg": -3
     },
     {
-      "pos": 13,
+      "pos": 14,
       "team": "Espanyol",
       "pts": 3,
       "pj": 3,
@@ -1525,7 +1513,7 @@
       "dg": 1
     },
     {
-      "pos": 14,
+      "pos": 15,
       "team": "Getafe",
       "pts": 3,
       "pj": 3,
@@ -1537,19 +1525,19 @@
       "dg": -3
     },
     {
-      "pos": 15,
+      "pos": 16,
       "team": "Villarreal",
       "pts": 2,
-      "pj": 3,
+      "pj": 4,
       "g": 0,
       "e": 2,
-      "p": 1,
-      "gf": 4,
-      "gc": 5,
-      "dg": -1
+      "p": 2,
+      "gf": 6,
+      "gc": 8,
+      "dg": -2
     },
     {
-      "pos": 16,
+      "pos": 17,
       "team": "Celta Vigo",
       "pts": 2,
       "pj": 4,
@@ -1561,7 +1549,7 @@
       "dg": -3
     },
     {
-      "pos": 17,
+      "pos": 18,
       "team": "Valencia",
       "pts": 1,
       "pj": 3,
@@ -1571,18 +1559,6 @@
       "gf": 1,
       "gc": 4,
       "dg": -3
-    },
-    {
-      "pos": 18,
-      "team": "Rayo Vallecano",
-      "pts": 1,
-      "pj": 3,
-      "g": 0,
-      "e": 1,
-      "p": 2,
-      "gf": 4,
-      "gc": 8,
-      "dg": -4
     },
     {
       "pos": 19,
@@ -1611,18 +1587,18 @@
   ],
   "standingsMeta": {
     "LaLiga": {
-      "mode": "provisional",
-      "liveGames": 1,
+      "mode": "official",
+      "liveGames": 0,
       "pendingOfficialGames": 0,
       "sourceIncludesLive": false,
-      "updatedAt": "2026-09-05T20:19+02:00"
+      "updatedAt": "2026-09-05T23:15+02:00"
     },
     "Champions": {
       "mode": "official",
       "liveGames": 0,
       "pendingOfficialGames": 0,
       "sourceIncludesLive": false,
-      "updatedAt": "2026-09-05T20:19+02:00"
+      "updatedAt": "2026-09-05T23:15+02:00"
     }
   },
   "championsOfficialStandings": [
