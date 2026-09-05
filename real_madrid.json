@@ -2,7 +2,7 @@
   "app": {
     "name": "Madridista",
     "season": "2026/27",
-    "lastUpdated": "2026-09-05T02:07+02:00",
+    "lastUpdated": "2026-09-05T18:05+02:00",
     "timezone": "Europe/Madrid",
     "sources": [
       "Real Madrid C.F. — calendario oficial de LaLiga 2026/27",
@@ -629,18 +629,6 @@
     },
     {
       "pos": 4,
-      "team": "Atlético Madrid",
-      "pts": 7,
-      "pj": 3,
-      "g": 2,
-      "e": 1,
-      "p": 0,
-      "gf": 7,
-      "gc": 3,
-      "dg": 4
-    },
-    {
-      "pos": 5,
       "team": "Alavés",
       "pts": 7,
       "pj": 3,
@@ -650,6 +638,22 @@
       "gf": 5,
       "gc": 1,
       "dg": 4
+    },
+    {
+      "pos": 5,
+      "team": "Atlético Madrid",
+      "pts": 7,
+      "pj": 4,
+      "g": 2,
+      "e": 1,
+      "p": 1,
+      "gf": 7,
+      "gc": 5,
+      "dg": 2,
+      "provisional": true,
+      "live": true,
+      "liveLabel": "83'",
+      "liveScore": "2–0"
     },
     {
       "pos": 6,
@@ -677,6 +681,22 @@
     },
     {
       "pos": 8,
+      "team": "Athletic Club",
+      "pts": 6,
+      "pj": 4,
+      "g": 2,
+      "e": 0,
+      "p": 2,
+      "gf": 5,
+      "gc": 5,
+      "dg": 0,
+      "provisional": true,
+      "live": true,
+      "liveLabel": "83'",
+      "liveScore": "2–0"
+    },
+    {
+      "pos": 9,
       "team": "Deportivo",
       "pts": 5,
       "pj": 3,
@@ -688,7 +708,7 @@
       "dg": 2
     },
     {
-      "pos": 9,
+      "pos": 10,
       "team": "Levante",
       "pts": 4,
       "pj": 3,
@@ -700,7 +720,7 @@
       "dg": 0
     },
     {
-      "pos": 10,
+      "pos": 11,
       "team": "Racing Santander",
       "pts": 4,
       "pj": 3,
@@ -712,7 +732,7 @@
       "dg": 0
     },
     {
-      "pos": 11,
+      "pos": 12,
       "team": "Real Sociedad",
       "pts": 4,
       "pj": 4,
@@ -724,7 +744,7 @@
       "dg": -3
     },
     {
-      "pos": 12,
+      "pos": 13,
       "team": "Espanyol",
       "pts": 3,
       "pj": 3,
@@ -734,18 +754,6 @@
       "gf": 5,
       "gc": 4,
       "dg": 1
-    },
-    {
-      "pos": 13,
-      "team": "Athletic Club",
-      "pts": 3,
-      "pj": 3,
-      "g": 1,
-      "e": 0,
-      "p": 2,
-      "gf": 3,
-      "gc": 5,
-      "dg": -2
     },
     {
       "pos": 14,
@@ -1339,9 +1347,25 @@
     }
   ],
   "live": {
-    "hasLiveMatches": false,
-    "updatedAt": "2026-09-05T02:07+02:00",
-    "matches": []
+    "hasLiveMatches": true,
+    "updatedAt": "2026-09-05T18:05+02:00",
+    "matches": [
+      {
+        "eventId": "401882895",
+        "competition": "LaLiga",
+        "date": "2026-09-05",
+        "displayDate": "Sáb. 5 septiembre",
+        "time": "16:15",
+        "kickoff": "2026-09-05T16:15+02:00",
+        "home": "Athletic Club",
+        "away": "Atlético Madrid",
+        "homeScore": 2,
+        "awayScore": 0,
+        "score": "2–0",
+        "status": "live",
+        "liveLabel": "83'"
+      }
+    ]
   },
   "laligaOfficialStandings": [
     {
@@ -1587,18 +1611,18 @@
   ],
   "standingsMeta": {
     "LaLiga": {
-      "mode": "official",
-      "liveGames": 0,
+      "mode": "provisional",
+      "liveGames": 1,
       "pendingOfficialGames": 0,
       "sourceIncludesLive": false,
-      "updatedAt": "2026-09-05T02:07+02:00"
+      "updatedAt": "2026-09-05T18:05+02:00"
     },
     "Champions": {
       "mode": "official",
       "liveGames": 0,
       "pendingOfficialGames": 0,
       "sourceIncludesLive": false,
-      "updatedAt": "2026-09-05T02:07+02:00"
+      "updatedAt": "2026-09-05T18:05+02:00"
     }
   },
   "championsOfficialStandings": [
