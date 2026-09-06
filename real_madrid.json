@@ -2,7 +2,7 @@
   "app": {
     "name": "Madridista",
     "season": "2026/27",
-    "lastUpdated": "2026-09-06T21:12+02:00",
+    "lastUpdated": "2026-09-06T23:22+02:00",
     "timezone": "Europe/Madrid",
     "sources": [
       "Real Madrid C.F. — calendario oficial de LaLiga 2026/27",
@@ -671,13 +671,9 @@
       "g": 2,
       "e": 1,
       "p": 1,
-      "gf": 6,
-      "gc": 5,
-      "dg": 1,
-      "provisional": true,
-      "live": true,
-      "liveLabel": "11'",
-      "liveScore": "0–0"
+      "gf": 7,
+      "gc": 6,
+      "dg": 1
     },
     {
       "pos": 8,
@@ -723,13 +719,9 @@
       "g": 1,
       "e": 1,
       "p": 2,
-      "gf": 5,
-      "gc": 4,
-      "dg": 1,
-      "provisional": true,
-      "live": true,
-      "liveLabel": "11'",
-      "liveScore": "0–0"
+      "gf": 6,
+      "gc": 5,
+      "dg": 1
     },
     {
       "pos": 12,
@@ -1354,25 +1346,9 @@
     }
   ],
   "live": {
-    "hasLiveMatches": true,
-    "updatedAt": "2026-09-06T21:12+02:00",
-    "matches": [
-      {
-        "eventId": "401882892",
-        "competition": "LaLiga",
-        "date": "2026-09-06",
-        "displayDate": "Dom. 6 septiembre",
-        "time": "21:00",
-        "kickoff": "2026-09-06T21:00+02:00",
-        "home": "Espanyol",
-        "away": "Sevilla",
-        "homeScore": 0,
-        "awayScore": 0,
-        "score": "0–0",
-        "status": "live",
-        "liveLabel": "11'"
-      }
-    ]
+    "hasLiveMatches": false,
+    "updatedAt": "2026-09-06T23:22+02:00",
+    "matches": []
   },
   "laligaOfficialStandings": [
     {
@@ -1449,6 +1425,18 @@
     },
     {
       "pos": 7,
+      "team": "Sevilla",
+      "pts": 7,
+      "pj": 4,
+      "g": 2,
+      "e": 1,
+      "p": 1,
+      "gf": 7,
+      "gc": 6,
+      "dg": 1
+    },
+    {
+      "pos": 8,
       "team": "Osasuna",
       "pts": 7,
       "pj": 4,
@@ -1460,25 +1448,13 @@
       "dg": -1
     },
     {
-      "pos": 8,
+      "pos": 9,
       "team": "Athletic Club",
       "pts": 6,
       "pj": 4,
       "g": 2,
       "e": 0,
       "p": 2,
-      "gf": 6,
-      "gc": 5,
-      "dg": 1
-    },
-    {
-      "pos": 9,
-      "team": "Sevilla",
-      "pts": 6,
-      "pj": 3,
-      "g": 2,
-      "e": 0,
-      "p": 1,
       "gf": 6,
       "gc": 5,
       "dg": 1
@@ -1497,6 +1473,18 @@
     },
     {
       "pos": 11,
+      "team": "Espanyol",
+      "pts": 4,
+      "pj": 4,
+      "g": 1,
+      "e": 1,
+      "p": 2,
+      "gf": 6,
+      "gc": 5,
+      "dg": 1
+    },
+    {
+      "pos": 12,
       "team": "Racing Santander",
       "pts": 4,
       "pj": 4,
@@ -1508,7 +1496,7 @@
       "dg": -1
     },
     {
-      "pos": 12,
+      "pos": 13,
       "team": "Rayo Vallecano",
       "pts": 4,
       "pj": 4,
@@ -1520,7 +1508,7 @@
       "dg": -3
     },
     {
-      "pos": 13,
+      "pos": 14,
       "team": "Real Sociedad",
       "pts": 4,
       "pj": 4,
@@ -1530,18 +1518,6 @@
       "gf": 3,
       "gc": 6,
       "dg": -3
-    },
-    {
-      "pos": 14,
-      "team": "Espanyol",
-      "pts": 3,
-      "pj": 3,
-      "g": 1,
-      "e": 0,
-      "p": 2,
-      "gf": 5,
-      "gc": 4,
-      "dg": 1
     },
     {
       "pos": 15,
@@ -1618,18 +1594,18 @@
   ],
   "standingsMeta": {
     "LaLiga": {
-      "mode": "provisional",
-      "liveGames": 1,
+      "mode": "official",
+      "liveGames": 0,
       "pendingOfficialGames": 0,
       "sourceIncludesLive": false,
-      "updatedAt": "2026-09-06T21:12+02:00"
+      "updatedAt": "2026-09-06T23:22+02:00"
     },
     "Champions": {
       "mode": "official",
       "liveGames": 0,
       "pendingOfficialGames": 0,
       "sourceIncludesLive": false,
-      "updatedAt": "2026-09-06T21:12+02:00"
+      "updatedAt": "2026-09-06T23:22+02:00"
     }
   },
   "championsOfficialStandings": [
