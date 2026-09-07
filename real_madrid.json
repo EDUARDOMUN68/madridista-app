@@ -2,7 +2,7 @@
   "app": {
     "name": "Madridista",
     "season": "2026/27",
-    "lastUpdated": "2026-09-07T01:55+02:00",
+    "lastUpdated": "2026-09-07T22:35+02:00",
     "timezone": "Europe/Madrid",
     "sources": [
       "Real Madrid C.F. — calendario oficial de LaLiga 2026/27",
@@ -689,6 +689,22 @@
     },
     {
       "pos": 9,
+      "team": "Real Sociedad",
+      "pts": 7,
+      "pj": 5,
+      "g": 2,
+      "e": 1,
+      "p": 2,
+      "gf": 5,
+      "gc": 6,
+      "dg": -1,
+      "provisional": true,
+      "live": true,
+      "liveLabel": "HT",
+      "liveScore": "0–2"
+    },
+    {
+      "pos": 10,
       "team": "Athletic Club",
       "pts": 6,
       "pj": 4,
@@ -700,7 +716,7 @@
       "dg": 1
     },
     {
-      "pos": 10,
+      "pos": 11,
       "team": "Levante",
       "pts": 5,
       "pj": 4,
@@ -712,7 +728,7 @@
       "dg": 0
     },
     {
-      "pos": 11,
+      "pos": 12,
       "team": "Espanyol",
       "pts": 4,
       "pj": 4,
@@ -724,7 +740,7 @@
       "dg": 1
     },
     {
-      "pos": 12,
+      "pos": 13,
       "team": "Racing Santander",
       "pts": 4,
       "pj": 4,
@@ -736,7 +752,7 @@
       "dg": -1
     },
     {
-      "pos": 13,
+      "pos": 14,
       "team": "Rayo Vallecano",
       "pts": 4,
       "pj": 4,
@@ -748,31 +764,31 @@
       "dg": -3
     },
     {
-      "pos": 14,
-      "team": "Real Sociedad",
+      "pos": 15,
+      "team": "Getafe",
       "pts": 4,
       "pj": 4,
       "g": 1,
       "e": 1,
       "p": 2,
-      "gf": 3,
-      "gc": 6,
-      "dg": -3
-    },
-    {
-      "pos": 15,
-      "team": "Getafe",
-      "pts": 3,
-      "pj": 3,
-      "g": 1,
-      "e": 0,
-      "p": 2,
-      "gf": 1,
-      "gc": 4,
+      "gf": 2,
+      "gc": 5,
       "dg": -3
     },
     {
       "pos": 16,
+      "team": "Celta Vigo",
+      "pts": 3,
+      "pj": 5,
+      "g": 0,
+      "e": 3,
+      "p": 2,
+      "gf": 2,
+      "gc": 5,
+      "dg": -3
+    },
+    {
+      "pos": 17,
       "team": "Villarreal",
       "pts": 2,
       "pj": 4,
@@ -782,18 +798,6 @@
       "gf": 6,
       "gc": 8,
       "dg": -2
-    },
-    {
-      "pos": 17,
-      "team": "Celta Vigo",
-      "pts": 2,
-      "pj": 4,
-      "g": 0,
-      "e": 2,
-      "p": 2,
-      "gf": 1,
-      "gc": 4,
-      "dg": -3
     },
     {
       "pos": 18,
@@ -811,13 +815,17 @@
       "pos": 19,
       "team": "Elche",
       "pts": 1,
-      "pj": 3,
+      "pj": 4,
       "g": 0,
       "e": 1,
-      "p": 2,
+      "p": 3,
       "gf": 3,
-      "gc": 9,
-      "dg": -6
+      "gc": 11,
+      "dg": -8,
+      "provisional": true,
+      "live": true,
+      "liveLabel": "HT",
+      "liveScore": "0–2"
     },
     {
       "pos": 20,
@@ -1332,9 +1340,25 @@
     }
   ],
   "live": {
-    "hasLiveMatches": false,
-    "updatedAt": "2026-09-07T01:55+02:00",
-    "matches": []
+    "hasLiveMatches": true,
+    "updatedAt": "2026-09-07T22:35+02:00",
+    "matches": [
+      {
+        "eventId": "401882893",
+        "competition": "LaLiga",
+        "date": "2026-09-07",
+        "displayDate": "Lun. 7 septiembre",
+        "time": "21:30",
+        "kickoff": "2026-09-07T21:30+02:00",
+        "home": "Elche",
+        "away": "Real Sociedad",
+        "homeScore": 0,
+        "awayScore": 2,
+        "score": "0–2",
+        "status": "live",
+        "liveLabel": "HT"
+      }
+    ]
   },
   "laligaOfficialStandings": [
     {
@@ -1508,17 +1532,29 @@
     {
       "pos": 15,
       "team": "Getafe",
-      "pts": 3,
-      "pj": 3,
+      "pts": 4,
+      "pj": 4,
       "g": 1,
-      "e": 0,
+      "e": 1,
       "p": 2,
-      "gf": 1,
-      "gc": 4,
+      "gf": 2,
+      "gc": 5,
       "dg": -3
     },
     {
       "pos": 16,
+      "team": "Celta Vigo",
+      "pts": 3,
+      "pj": 5,
+      "g": 0,
+      "e": 3,
+      "p": 2,
+      "gf": 2,
+      "gc": 5,
+      "dg": -3
+    },
+    {
+      "pos": 17,
       "team": "Villarreal",
       "pts": 2,
       "pj": 4,
@@ -1528,18 +1564,6 @@
       "gf": 6,
       "gc": 8,
       "dg": -2
-    },
-    {
-      "pos": 17,
-      "team": "Celta Vigo",
-      "pts": 2,
-      "pj": 4,
-      "g": 0,
-      "e": 2,
-      "p": 2,
-      "gf": 1,
-      "gc": 4,
-      "dg": -3
     },
     {
       "pos": 18,
@@ -1580,18 +1604,18 @@
   ],
   "standingsMeta": {
     "LaLiga": {
-      "mode": "official",
-      "liveGames": 0,
+      "mode": "provisional",
+      "liveGames": 1,
       "pendingOfficialGames": 0,
       "sourceIncludesLive": false,
-      "updatedAt": "2026-09-07T01:55+02:00"
+      "updatedAt": "2026-09-07T22:35+02:00"
     },
     "Champions": {
       "mode": "official",
       "liveGames": 0,
       "pendingOfficialGames": 0,
       "sourceIncludesLive": false,
-      "updatedAt": "2026-09-07T01:55+02:00"
+      "updatedAt": "2026-09-07T22:35+02:00"
     }
   },
   "championsOfficialStandings": [
