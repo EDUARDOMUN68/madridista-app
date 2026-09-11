@@ -2,7 +2,7 @@
   "app": {
     "name": "Madridista",
     "season": "2026/27",
-    "lastUpdated": "2026-09-10T23:39+02:00",
+    "lastUpdated": "2026-09-11T02:11+02:00",
     "timezone": "Europe/Madrid",
     "sources": [
       "Real Madrid C.F. — calendario oficial de LaLiga 2026/27",
@@ -1319,51 +1319,16 @@
   },
   "monitorWindows": [
     {
-      "competition": "Champions",
-      "date": "2026-09-10",
-      "eventId": "401915444",
-      "start": "2026-09-10T18:30+02:00",
-      "end": "2026-09-10T22:15+02:00"
-    },
-    {
-      "competition": "Champions",
-      "date": "2026-09-10",
-      "eventId": "401915422",
-      "start": "2026-09-10T18:30+02:00",
-      "end": "2026-09-10T22:15+02:00"
-    },
-    {
-      "competition": "Champions",
-      "date": "2026-09-10",
-      "eventId": "401915443",
-      "start": "2026-09-10T20:45+02:00",
-      "end": "2026-09-11T00:30+02:00"
-    },
-    {
-      "competition": "Champions",
-      "date": "2026-09-10",
-      "eventId": "401915441",
-      "start": "2026-09-10T20:45+02:00",
-      "end": "2026-09-11T00:30+02:00"
-    },
-    {
-      "competition": "Champions",
-      "date": "2026-09-10",
-      "eventId": "401915442",
-      "start": "2026-09-10T20:45+02:00",
-      "end": "2026-09-11T00:30+02:00"
-    },
-    {
-      "competition": "Champions",
-      "date": "2026-09-10",
-      "eventId": "401915440",
-      "start": "2026-09-10T20:45+02:00",
-      "end": "2026-09-11T00:30+02:00"
+      "competition": "LaLiga",
+      "date": "2026-09-11",
+      "eventId": "401882878",
+      "start": "2026-09-11T20:45+02:00",
+      "end": "2026-09-12T00:30+02:00"
     }
   ],
   "live": {
     "hasLiveMatches": false,
-    "updatedAt": "2026-09-10T23:39+02:00",
+    "updatedAt": "2026-09-11T02:11+02:00",
     "matches": []
   },
   "laligaOfficialStandings": [
@@ -1614,14 +1579,14 @@
       "liveGames": 0,
       "pendingOfficialGames": 0,
       "sourceIncludesLive": false,
-      "updatedAt": "2026-09-10T23:39+02:00"
+      "updatedAt": "2026-09-11T02:11+02:00"
     },
     "Champions": {
       "mode": "official",
       "liveGames": 0,
       "pendingOfficialGames": 0,
       "sourceIncludesLive": false,
-      "updatedAt": "2026-09-10T23:39+02:00"
+      "updatedAt": "2026-09-11T02:11+02:00"
     }
   },
   "championsOfficialStandings": [
