@@ -2,7 +2,7 @@
   "app": {
     "name": "Madridista",
     "season": "2026/27",
-    "lastUpdated": "2026-09-11T02:11+02:00",
+    "lastUpdated": "2026-09-11T23:44+02:00",
     "timezone": "Europe/Madrid",
     "sources": [
       "Real Madrid C.F. — calendario oficial de LaLiga 2026/27",
@@ -619,6 +619,18 @@
     },
     {
       "pos": 3,
+      "team": "Sevilla",
+      "pts": 10,
+      "pj": 5,
+      "g": 3,
+      "e": 1,
+      "p": 1,
+      "gf": 8,
+      "gc": 6,
+      "dg": 2
+    },
+    {
+      "pos": 4,
       "team": "Real Madrid",
       "pts": 9,
       "pj": 4,
@@ -630,7 +642,7 @@
       "dg": 7
     },
     {
-      "pos": 4,
+      "pos": 5,
       "team": "Real Betis",
       "pts": 9,
       "pj": 4,
@@ -642,7 +654,7 @@
       "dg": 0
     },
     {
-      "pos": 5,
+      "pos": 6,
       "team": "Deportivo",
       "pts": 8,
       "pj": 4,
@@ -654,20 +666,8 @@
       "dg": 3
     },
     {
-      "pos": 6,
-      "team": "Atlético Madrid",
-      "pts": 7,
-      "pj": 4,
-      "g": 2,
-      "e": 1,
-      "p": 1,
-      "gf": 7,
-      "gc": 6,
-      "dg": 1
-    },
-    {
       "pos": 7,
-      "team": "Sevilla",
+      "team": "Atlético Madrid",
       "pts": 7,
       "pj": 4,
       "g": 2,
@@ -825,13 +825,13 @@
       "pos": 20,
       "team": "Valencia",
       "pts": 1,
-      "pj": 4,
+      "pj": 5,
       "g": 0,
       "e": 1,
-      "p": 3,
+      "p": 4,
       "gf": 1,
-      "gc": 9,
-      "dg": -8
+      "gc": 10,
+      "dg": -9
     }
   ],
   "championsStandings": [
@@ -1328,7 +1328,7 @@
   ],
   "live": {
     "hasLiveMatches": false,
-    "updatedAt": "2026-09-11T02:11+02:00",
+    "updatedAt": "2026-09-11T23:44+02:00",
     "matches": []
   },
   "laligaOfficialStandings": [
@@ -1358,6 +1358,18 @@
     },
     {
       "pos": 3,
+      "team": "Sevilla",
+      "pts": 10,
+      "pj": 5,
+      "g": 3,
+      "e": 1,
+      "p": 1,
+      "gf": 8,
+      "gc": 6,
+      "dg": 2
+    },
+    {
+      "pos": 4,
       "team": "Real Madrid",
       "pts": 9,
       "pj": 4,
@@ -1369,7 +1381,7 @@
       "dg": 7
     },
     {
-      "pos": 4,
+      "pos": 5,
       "team": "Real Betis",
       "pts": 9,
       "pj": 4,
@@ -1381,7 +1393,7 @@
       "dg": 0
     },
     {
-      "pos": 5,
+      "pos": 6,
       "team": "Deportivo",
       "pts": 8,
       "pj": 4,
@@ -1393,20 +1405,8 @@
       "dg": 3
     },
     {
-      "pos": 6,
-      "team": "Atlético Madrid",
-      "pts": 7,
-      "pj": 4,
-      "g": 2,
-      "e": 1,
-      "p": 1,
-      "gf": 7,
-      "gc": 6,
-      "dg": 1
-    },
-    {
       "pos": 7,
-      "team": "Sevilla",
+      "team": "Atlético Madrid",
       "pts": 7,
       "pj": 4,
       "g": 2,
@@ -1564,13 +1564,13 @@
       "pos": 20,
       "team": "Valencia",
       "pts": 1,
-      "pj": 4,
+      "pj": 5,
       "g": 0,
       "e": 1,
-      "p": 3,
+      "p": 4,
       "gf": 1,
-      "gc": 9,
-      "dg": -8
+      "gc": 10,
+      "dg": -9
     }
   ],
   "standingsMeta": {
@@ -1579,14 +1579,14 @@
       "liveGames": 0,
       "pendingOfficialGames": 0,
       "sourceIncludesLive": false,
-      "updatedAt": "2026-09-11T02:11+02:00"
+      "updatedAt": "2026-09-11T23:44+02:00"
     },
     "Champions": {
       "mode": "official",
       "liveGames": 0,
       "pendingOfficialGames": 0,
       "sourceIncludesLive": false,
-      "updatedAt": "2026-09-11T02:11+02:00"
+      "updatedAt": "2026-09-11T23:44+02:00"
     }
   },
   "championsOfficialStandings": [
