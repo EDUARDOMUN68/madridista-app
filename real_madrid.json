@@ -2,7 +2,7 @@
   "app": {
     "name": "Madridista",
     "season": "2026/27",
-    "lastUpdated": "2026-09-13T21:28+02:00",
+    "lastUpdated": "2026-09-14T00:25+02:00",
     "timezone": "Europe/Madrid",
     "sources": [
       "Real Madrid C.F. — calendario oficial de LaLiga 2026/27",
@@ -633,6 +633,18 @@
     },
     {
       "pos": 4,
+      "team": "Atlético Madrid",
+      "pts": 10,
+      "pj": 5,
+      "g": 3,
+      "e": 1,
+      "p": 1,
+      "gf": 10,
+      "gc": 6,
+      "dg": 4
+    },
+    {
+      "pos": 5,
       "team": "Sevilla",
       "pts": 10,
       "pj": 5,
@@ -644,7 +656,7 @@
       "dg": 2
     },
     {
-      "pos": 5,
+      "pos": 6,
       "team": "Deportivo",
       "pts": 9,
       "pj": 5,
@@ -656,7 +668,7 @@
       "dg": 3
     },
     {
-      "pos": 6,
+      "pos": 7,
       "team": "Real Betis",
       "pts": 9,
       "pj": 4,
@@ -668,39 +680,7 @@
       "dg": 0
     },
     {
-      "pos": 7,
-      "team": "Atlético Madrid",
-      "pts": 8,
-      "pj": 5,
-      "g": 2,
-      "e": 2,
-      "p": 1,
-      "gf": 7,
-      "gc": 6,
-      "dg": 1,
-      "provisional": true,
-      "live": true,
-      "liveLabel": "26'",
-      "liveScore": "0–0"
-    },
-    {
       "pos": 8,
-      "team": "Real Sociedad",
-      "pts": 8,
-      "pj": 6,
-      "g": 2,
-      "e": 2,
-      "p": 2,
-      "gf": 6,
-      "gc": 8,
-      "dg": -2,
-      "provisional": true,
-      "live": true,
-      "liveLabel": "26'",
-      "liveScore": "0–0"
-    },
-    {
-      "pos": 9,
       "team": "Espanyol",
       "pts": 7,
       "pj": 5,
@@ -712,7 +692,7 @@
       "dg": 3
     },
     {
-      "pos": 10,
+      "pos": 9,
       "team": "Athletic Club",
       "pts": 7,
       "pj": 5,
@@ -724,7 +704,7 @@
       "dg": 1
     },
     {
-      "pos": 11,
+      "pos": 10,
       "team": "Racing Santander",
       "pts": 7,
       "pj": 5,
@@ -736,7 +716,7 @@
       "dg": 0
     },
     {
-      "pos": 12,
+      "pos": 11,
       "team": "Osasuna",
       "pts": 7,
       "pj": 5,
@@ -746,6 +726,18 @@
       "gf": 5,
       "gc": 8,
       "dg": -3
+    },
+    {
+      "pos": 12,
+      "team": "Real Sociedad",
+      "pts": 7,
+      "pj": 6,
+      "g": 2,
+      "e": 1,
+      "p": 3,
+      "gf": 6,
+      "gc": 11,
+      "dg": -5
     },
     {
       "pos": 13,
@@ -1330,53 +1322,16 @@
   "monitorWindows": [
     {
       "competition": "LaLiga",
-      "date": "2026-09-13",
-      "eventId": "401882885",
-      "start": "2026-09-13T13:45+02:00",
-      "end": "2026-09-13T17:30+02:00"
-    },
-    {
-      "competition": "LaLiga",
-      "date": "2026-09-13",
-      "eventId": "401882883",
-      "start": "2026-09-13T16:00+02:00",
-      "end": "2026-09-13T19:45+02:00"
-    },
-    {
-      "competition": "LaLiga",
-      "date": "2026-09-13",
-      "eventId": "401882884",
-      "start": "2026-09-13T18:15+02:00",
-      "end": "2026-09-13T22:00+02:00"
-    },
-    {
-      "competition": "LaLiga",
-      "date": "2026-09-13",
-      "eventId": "401882879",
-      "start": "2026-09-13T20:45+02:00",
-      "end": "2026-09-14T00:30+02:00"
+      "date": "2026-09-14",
+      "eventId": "401882877",
+      "start": "2026-09-14T20:45+02:00",
+      "end": "2026-09-15T00:30+02:00"
     }
   ],
   "live": {
-    "hasLiveMatches": true,
-    "updatedAt": "2026-09-13T21:28+02:00",
-    "matches": [
-      {
-        "eventId": "401882879",
-        "competition": "LaLiga",
-        "date": "2026-09-13",
-        "displayDate": "Dom. 13 septiembre",
-        "time": "21:00",
-        "kickoff": "2026-09-13T21:00+02:00",
-        "home": "Real Sociedad",
-        "away": "Atlético Madrid",
-        "homeScore": 0,
-        "awayScore": 0,
-        "score": "0–0",
-        "status": "live",
-        "liveLabel": "26'"
-      }
-    ]
+    "hasLiveMatches": false,
+    "updatedAt": "2026-09-14T00:25+02:00",
+    "matches": []
   },
   "laligaOfficialStandings": [
     {
@@ -1417,6 +1372,18 @@
     },
     {
       "pos": 4,
+      "team": "Atlético Madrid",
+      "pts": 10,
+      "pj": 5,
+      "g": 3,
+      "e": 1,
+      "p": 1,
+      "gf": 10,
+      "gc": 6,
+      "dg": 4
+    },
+    {
+      "pos": 5,
       "team": "Sevilla",
       "pts": 10,
       "pj": 5,
@@ -1428,7 +1395,7 @@
       "dg": 2
     },
     {
-      "pos": 5,
+      "pos": 6,
       "team": "Deportivo",
       "pts": 9,
       "pj": 5,
@@ -1440,7 +1407,7 @@
       "dg": 3
     },
     {
-      "pos": 6,
+      "pos": 7,
       "team": "Real Betis",
       "pts": 9,
       "pj": 4,
@@ -1452,7 +1419,7 @@
       "dg": 0
     },
     {
-      "pos": 7,
+      "pos": 8,
       "team": "Espanyol",
       "pts": 7,
       "pj": 5,
@@ -1462,18 +1429,6 @@
       "gf": 8,
       "gc": 5,
       "dg": 3
-    },
-    {
-      "pos": 8,
-      "team": "Atlético Madrid",
-      "pts": 7,
-      "pj": 4,
-      "g": 2,
-      "e": 1,
-      "p": 1,
-      "gf": 7,
-      "gc": 6,
-      "dg": 1
     },
     {
       "pos": 9,
@@ -1501,18 +1456,6 @@
     },
     {
       "pos": 11,
-      "team": "Real Sociedad",
-      "pts": 7,
-      "pj": 5,
-      "g": 2,
-      "e": 1,
-      "p": 2,
-      "gf": 6,
-      "gc": 8,
-      "dg": -2
-    },
-    {
-      "pos": 12,
       "team": "Osasuna",
       "pts": 7,
       "pj": 5,
@@ -1522,6 +1465,18 @@
       "gf": 5,
       "gc": 8,
       "dg": -3
+    },
+    {
+      "pos": 12,
+      "team": "Real Sociedad",
+      "pts": 7,
+      "pj": 6,
+      "g": 2,
+      "e": 1,
+      "p": 3,
+      "gf": 6,
+      "gc": 11,
+      "dg": -5
     },
     {
       "pos": 13,
@@ -1622,18 +1577,18 @@
   ],
   "standingsMeta": {
     "LaLiga": {
-      "mode": "provisional",
-      "liveGames": 1,
+      "mode": "official",
+      "liveGames": 0,
       "pendingOfficialGames": 0,
       "sourceIncludesLive": false,
-      "updatedAt": "2026-09-13T21:28+02:00"
+      "updatedAt": "2026-09-14T00:25+02:00"
     },
     "Champions": {
       "mode": "official",
       "liveGames": 0,
       "pendingOfficialGames": 0,
       "sourceIncludesLive": false,
-      "updatedAt": "2026-09-13T21:28+02:00"
+      "updatedAt": "2026-09-14T00:25+02:00"
     }
   },
   "championsOfficialStandings": [
