@@ -4,7 +4,7 @@ Madridista · actualización automática con directo y clasificación provisiona
 
 Modos:
 - Normal (cada hora): revisa calendario, resultados, clasificaciones oficiales y
-  prepara las ventanas de seguimiento de los partidos del día.
+  prepara las ventanas de seguimiento y la Jornada completa de Liga/Champions.
 - --live-only (cada 5 min): solo trabaja si estamos dentro de una ventana de
   partido. Actualiza marcadores en directo y calcula clasificaciones provisionales.
 
@@ -230,7 +230,11 @@ def generic_event(evt: dict, competition_name: str) -> dict | None:
     stype = status.get("type") or {}
     completed = bool(stype.get("completed"))
     state = stype.get("state")
-    match_status = "finished" if completed else ("live" if state == "in" else "scheduled")
+    detail = str(stype.get("shortDetail") or stype.get("detail") or "").lower()
+    if re.search(r"postpon|aplaz|cancel|abandon|suspend", detail):
+        match_status = "postponed"
+    else:
+        match_status = "finished" if completed else ("live" if state == "in" else "scheduled")
 
     home_team = home.get("team") or {}
     away_team = away.get("team") or {}
@@ -295,6 +299,127 @@ def get_scoreboard(competition: str, day: date) -> list[dict]:
     return result
 
 
+def get_scoreboard_range(competition: str, start_day: date, end_day: date) -> list[dict]:
+    start_s = start_day.strftime("%Y%m%d")
+    end_s = end_day.strftime("%Y%m%d")
+    dates = start_s if start_s == end_s else f"{start_s}-{end_s}"
+    url = f"https://site.api.espn.com/apis/site/v2/sports/soccer/{LEAGUE_SLUGS[competition]}/scoreboard?dates={dates}&limit=200"
+    payload = fetch_json(url)
+    out = []
+    for evt in payload.get("events") or []:
+        item = generic_event(evt, competition)
+        if item:
+            out.append(item)
+    out.sort(key=lambda x: (x.get("date") or "9999-99-99", x.get("time") or "99:99"))
+    return out
+
+
+def jornada_anchors(fixtures: list[dict], competition: str) -> list[dict]:
+    by_round = {}
+    for fx in fixtures:
+        if fx.get("competition") != competition or not fx.get("date"):
+            continue
+        try:
+            jornada = int(fx.get("jornada"))
+        except Exception:
+            continue
+        by_round.setdefault(jornada, {"jornada": jornada, "date": date.fromisoformat(fx["date"])})
+    return [by_round[k] for k in sorted(by_round)]
+
+
+def jornada_window(fixtures: list[dict], competition: str, jornada: int) -> tuple[date, date] | None:
+    anchors = jornada_anchors(fixtures, competition)
+    idx = next((i for i, x in enumerate(anchors) if x["jornada"] == int(jornada)), None)
+    if idx is None:
+        return None
+    cur = anchors[idx]["date"].toordinal()
+    prev = anchors[idx - 1]["date"].toordinal() if idx > 0 else None
+    nxt = anchors[idx + 1]["date"].toordinal() if idx < len(anchors) - 1 else None
+    start_ord = cur - 4 if prev is None else (prev + cur) // 2 + 1
+    end_ord = cur + 4 if nxt is None else (cur + nxt) // 2
+    if competition == "Champions":
+        start_ord = max(start_ord, cur - 2)
+        end_ord = min(end_ord, cur + 2)
+    return date.fromordinal(start_ord), date.fromordinal(end_ord)
+
+
+def jornada_phase(matches: list[dict]) -> str:
+    normal = [m for m in matches if m.get("status") != "postponed"]
+    if not normal:
+        return "upcoming"
+    started = any(m.get("status") in {"live", "finished"} for m in normal)
+    unfinished = any(m.get("status") != "finished" for m in normal)
+    if started and unfinished:
+        return "active"
+    if all(m.get("status") == "finished" for m in normal):
+        return "complete"
+    return "upcoming"
+
+
+def choose_jornada_candidate(fixtures: list[dict], competition: str, today: date) -> int | None:
+    anchors = jornada_anchors(fixtures, competition)
+    if not anchors:
+        return None
+    for a in anchors:
+        window = jornada_window(fixtures, competition, a["jornada"])
+        if window and window[0] <= today <= window[1]:
+            return a["jornada"]
+    future = next((a for a in anchors if a["date"] >= today), None)
+    return (future or anchors[-1])["jornada"]
+
+
+def build_jornada_payload(fixtures: list[dict], competition: str, today: date) -> dict | None:
+    jornada = choose_jornada_candidate(fixtures, competition, today)
+    if jornada is None:
+        return None
+    anchors = jornada_anchors(fixtures, competition)
+    rounds = [a["jornada"] for a in anchors]
+    for _ in range(2):
+        window = jornada_window(fixtures, competition, jornada)
+        if not window:
+            return None
+        matches = get_scoreboard_range(competition, window[0], window[1])
+        phase = jornada_phase(matches)
+        # En cuanto termina el último partido no aplazado, pasamos a la siguiente jornada.
+        if phase == "complete":
+            next_round = next((r for r in rounds if r > jornada), None)
+            if next_round is not None:
+                jornada = next_round
+                continue
+        normal = [m for m in matches if m.get("status") != "postponed"]
+        return {
+            "competition": competition,
+            "jornada": jornada,
+            "phase": phase,
+            "windowStart": window[0].isoformat(),
+            "windowEnd": window[1].isoformat(),
+            "finished": sum(1 for m in normal if m.get("status") == "finished"),
+            "total": len(normal),
+            "live": sum(1 for m in normal if m.get("status") == "live"),
+            "postponed": sum(1 for m in matches if m.get("status") == "postponed"),
+            "updatedAt": datetime.now(TZ).isoformat(timespec="minutes"),
+            "matches": matches,
+        }
+    return None
+
+
+def refresh_jornadas(data: dict) -> int:
+    fixtures = data.get("fixtures") or []
+    today = datetime.now(TZ).date()
+    successes = 0
+    jornadas = data.setdefault("jornadas", {})
+    for competition in ("LaLiga", "Champions"):
+        try:
+            payload = build_jornada_payload(fixtures, competition, today)
+            if payload and payload.get("matches"):
+                jornadas[competition] = payload
+                successes += 1
+                log(f"Jornada {competition}: J{payload['jornada']} · {len(payload['matches'])} partidos · {payload['phase']}")
+        except Exception as exc:
+            log(f"AVISO jornada {competition}: {exc}")
+    return successes
+
+
 def get_laliga_range_schedule(start_day: date, end_day: date) -> list[dict]:
     """Secondary schedule source from the LaLiga scoreboard over a date range.
 
@@ -307,9 +432,11 @@ def get_laliga_range_schedule(start_day: date, end_day: date) -> list[dict]:
     payload = fetch_json(url)
     out = []
     for evt in payload.get("events") or []:
-        item = extract_event(evt, "LaLiga")
+        item = generic_event(evt, "LaLiga")
         if item:
-            out.append(item)
+            rm = madrid_event(item)
+            if rm:
+                out.append(rm)
     return out
 
 
@@ -717,6 +844,10 @@ def full_refresh(data: dict, original: dict) -> int:
             log("AVISO LALIGA oficial: no se pudieron extraer partidos; se conserva ESPN/JSON")
     except Exception as exc:
         log(f"AVISO LALIGA oficial: {exc}")
+
+    # Jornada completa de Liga y Champions. Se conserva la jornada hasta que
+    # finaliza el último partido no aplazado; después pasa a la siguiente.
+    successes += refresh_jornadas(data)
 
     # Scoreboards de hoy: sirven para detectar todas las ventanas de Liga/Champions.
     today = datetime.now(TZ).date()
