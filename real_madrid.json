@@ -2,29 +2,30 @@
   "app": {
     "name": "Madridista",
     "season": "2026/27",
-    "lastUpdated": "2026-09-14T17:46+02:00",
+    "lastUpdated": "2026-09-14T17:57+02:00",
     "timezone": "Europe/Madrid",
     "sources": [
       "Real Madrid C.F. — calendario oficial de LaLiga 2026/27",
       "Real Madrid C.F. — calendario Champions 2026/27",
       "LALIGA — horarios, resultados y clasificación"
     ],
-    "lastChecked": "2026-09-14T17:46+02:00"
+    "lastChecked": "2026-09-14T17:57+02:00"
   },
   "nextMatch": {
     "competition": "LaLiga",
-    "jornada": 5,
-    "date": "2026-09-12",
-    "displayDate": "Sáb. 12 septiembre",
-    "venue": "home",
-    "opponent": "Rayo Vallecano",
-    "time": "21:00",
-    "status": "live",
-    "score": "2–0",
+    "jornada": 6,
+    "date": "2026-09-15",
+    "displayDate": "Mar. 15 septiembre",
+    "venue": "away",
+    "opponent": "Elche CF",
+    "time": "21:30",
+    "status": "scheduled",
+    "score": null,
     "tv": [
-      "DAZN"
-    ],
-    "liveLabel": "21'"
+      "Movistar LALIGA",
+      "Movistar Plus+",
+      "Orange Fútbol 1"
+    ]
   },
   "fixtures": [
     {
@@ -107,12 +108,11 @@
       "venue": "home",
       "opponent": "Rayo Vallecano",
       "time": "21:00",
-      "status": "live",
+      "status": "finished",
       "score": "2–0",
       "tv": [
         "DAZN"
-      ],
-      "liveLabel": "21'"
+      ]
     },
     {
       "competition": "LaLiga",
@@ -177,7 +177,7 @@
       "displayDate": "Dom. 18 octubre",
       "venue": "home",
       "opponent": "Sevilla FC",
-      "time": ":",
+      "time": null,
       "status": "scheduled",
       "score": null,
       "tv": []
@@ -237,7 +237,7 @@
       "displayDate": "Dom. 8 noviembre",
       "venue": "away",
       "opponent": "Valencia CF",
-      "time": ":",
+      "time": null,
       "status": "scheduled",
       "score": null,
       "tv": []
@@ -249,7 +249,7 @@
       "displayDate": "Dom. 22 noviembre",
       "venue": "home",
       "opponent": "Celta",
-      "time": ":",
+      "time": null,
       "status": "scheduled",
       "score": null,
       "tv": []
@@ -273,7 +273,7 @@
       "displayDate": "Dom. 29 noviembre",
       "venue": "home",
       "opponent": "Deportivo Alavés",
-      "time": ":",
+      "time": null,
       "status": "scheduled",
       "score": null,
       "tv": []
@@ -285,7 +285,7 @@
       "displayDate": "Dom. 6 diciembre",
       "venue": "away",
       "opponent": "Athletic Club",
-      "time": ":",
+      "time": null,
       "status": "scheduled",
       "score": null,
       "tv": []
@@ -309,7 +309,7 @@
       "displayDate": "Dom. 13 diciembre",
       "venue": "home",
       "opponent": "CA Osasuna",
-      "time": ":",
+      "time": null,
       "status": "scheduled",
       "score": null,
       "tv": []
@@ -321,7 +321,7 @@
       "displayDate": "Dom. 20 diciembre",
       "venue": "away",
       "opponent": "RC Deportivo",
-      "time": ":",
+      "time": null,
       "status": "scheduled",
       "score": null,
       "tv": []
@@ -333,7 +333,7 @@
       "displayDate": "Dom. 3 enero",
       "venue": "home",
       "opponent": "Getafe CF",
-      "time": ":",
+      "time": null,
       "status": "scheduled",
       "score": null,
       "tv": []
@@ -345,7 +345,7 @@
       "displayDate": "Dom. 10 enero",
       "venue": "home",
       "opponent": "Levante UD",
-      "time": ":",
+      "time": null,
       "status": "scheduled",
       "score": null,
       "tv": []
@@ -357,7 +357,7 @@
       "displayDate": "Dom. 17 enero",
       "venue": "away",
       "opponent": "Málaga CF",
-      "time": ":",
+      "time": null,
       "status": "scheduled",
       "score": null,
       "tv": []
@@ -381,7 +381,7 @@
       "displayDate": "Dom. 24 enero",
       "venue": "home",
       "opponent": "Real Betis",
-      "time": ":",
+      "time": null,
       "status": "scheduled",
       "score": null,
       "tv": []
@@ -405,7 +405,7 @@
       "displayDate": "Dom. 31 enero",
       "venue": "away",
       "opponent": "Rayo Vallecano",
-      "time": ":",
+      "time": null,
       "status": "scheduled",
       "score": null,
       "tv": []
@@ -417,7 +417,7 @@
       "displayDate": "Dom. 7 febrero",
       "venue": "away",
       "opponent": "Real Sociedad",
-      "time": ":",
+      "time": null,
       "status": "scheduled",
       "score": null,
       "tv": []
@@ -429,7 +429,7 @@
       "displayDate": "Dom. 14 febrero",
       "venue": "home",
       "opponent": "Athletic Club",
-      "time": ":",
+      "time": null,
       "status": "scheduled",
       "score": null,
       "tv": []
@@ -441,7 +441,7 @@
       "displayDate": "Dom. 21 febrero",
       "venue": "away",
       "opponent": "Sevilla FC",
-      "time": ":",
+      "time": null,
       "status": "scheduled",
       "score": null,
       "tv": []
@@ -453,7 +453,7 @@
       "displayDate": "Dom. 28 febrero",
       "venue": "home",
       "opponent": "Valencia CF",
-      "time": ":",
+      "time": null,
       "status": "scheduled",
       "score": null,
       "tv": []
@@ -465,7 +465,7 @@
       "displayDate": "Dom. 7 marzo",
       "venue": "away",
       "opponent": "Villarreal CF",
-      "time": ":",
+      "time": null,
       "status": "scheduled",
       "score": null,
       "tv": []
@@ -477,7 +477,7 @@
       "displayDate": "Dom. 14 marzo",
       "venue": "home",
       "opponent": "RCD Espanyol",
-      "time": ":",
+      "time": null,
       "status": "scheduled",
       "score": null,
       "tv": []
@@ -489,7 +489,7 @@
       "displayDate": "Dom. 21 marzo",
       "venue": "away",
       "opponent": "Celta",
-      "time": ":",
+      "time": null,
       "status": "scheduled",
       "score": null,
       "tv": []
@@ -501,7 +501,7 @@
       "displayDate": "Dom. 4 abril",
       "venue": "home",
       "opponent": "Atlético de Madrid",
-      "time": ":",
+      "time": null,
       "status": "scheduled",
       "score": null,
       "tv": []
@@ -513,7 +513,7 @@
       "displayDate": "Dom. 11 abril",
       "venue": "away",
       "opponent": "CA Osasuna",
-      "time": ":",
+      "time": null,
       "status": "scheduled",
       "score": null,
       "tv": []
@@ -525,7 +525,7 @@
       "displayDate": "Dom. 18 abril",
       "venue": "away",
       "opponent": "Getafe CF",
-      "time": ":",
+      "time": null,
       "status": "scheduled",
       "score": null,
       "tv": []
@@ -537,7 +537,7 @@
       "displayDate": "Mié. 21 abril",
       "venue": "home",
       "opponent": "Elche CF",
-      "time": ":",
+      "time": null,
       "status": "scheduled",
       "score": null,
       "tv": []
@@ -549,7 +549,7 @@
       "displayDate": "Dom. 2 mayo",
       "venue": "away",
       "opponent": "Levante UD",
-      "time": ":",
+      "time": null,
       "status": "scheduled",
       "score": null,
       "tv": []
@@ -561,7 +561,7 @@
       "displayDate": "Dom. 9 mayo",
       "venue": "home",
       "opponent": "FC Barcelona",
-      "time": ":",
+      "time": null,
       "status": "scheduled",
       "score": null,
       "tv": []
@@ -585,7 +585,7 @@
       "displayDate": "Dom. 23 mayo",
       "venue": "away",
       "opponent": "Deportivo Alavés",
-      "time": ":",
+      "time": null,
       "status": "scheduled",
       "score": null,
       "tv": []
@@ -597,7 +597,7 @@
       "displayDate": "Dom. 30 mayo",
       "venue": "home",
       "opponent": "RC Deportivo",
-      "time": ":",
+      "time": null,
       "status": "scheduled",
       "score": null,
       "tv": []
@@ -1339,7 +1339,7 @@
   ],
   "live": {
     "hasLiveMatches": false,
-    "updatedAt": "2026-09-14T17:46+02:00",
+    "updatedAt": "2026-09-14T17:57+02:00",
     "matches": []
   },
   "laligaOfficialStandings": [
@@ -1590,14 +1590,14 @@
       "liveGames": 0,
       "pendingOfficialGames": 0,
       "sourceIncludesLive": false,
-      "updatedAt": "2026-09-14T17:46+02:00"
+      "updatedAt": "2026-09-14T17:57+02:00"
     },
     "Champions": {
       "mode": "official",
       "liveGames": 0,
       "pendingOfficialGames": 0,
       "sourceIncludesLive": false,
-      "updatedAt": "2026-09-14T17:46+02:00"
+      "updatedAt": "2026-09-14T17:57+02:00"
     }
   },
   "championsOfficialStandings": [
