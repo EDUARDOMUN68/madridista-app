@@ -14,6 +14,7 @@ La TV española se conserva del JSON existente.
 from __future__ import annotations
 
 import argparse
+import html as html_module
 import json
 import re
 import sys
@@ -37,6 +38,8 @@ URLS = {
     "champions_standings": "https://site.api.espn.com/apis/v2/sports/soccer/uefa.champions/standings?season=2026",
 }
 LEAGUE_SLUGS = {"LaLiga": "esp.1", "Champions": "uefa.champions"}
+LALIGA_NEXT_URL = "https://www.laliga.com/clubes/real-madrid/proximos-partidos"
+KNOWN_TV = ("Movistar LALIGA", "Movistar Plus+", "Orange Fútbol 1", "Orange TV", "DAZN")
 
 BASELINE_RESULTS = [
     {"competition": "LaLiga", "date": "2026-08-22", "opponent": "RCD Espanyol", "venue": "away", "score": "1–2"},
@@ -62,11 +65,80 @@ def log(msg: str) -> None:
 
 def fetch_json(url: str) -> dict:
     req = Request(url, headers={
-        "User-Agent": "Mozilla/5.0 (compatible; MadridistaUpdater/2.0; +https://github.com/)",
+        "User-Agent": "Mozilla/5.0 (compatible; MadridistaUpdater/3.0; +https://github.com/)",
         "Accept": "application/json,text/plain,*/*",
     })
     with urlopen(req, timeout=30) as response:
         return json.loads(response.read().decode("utf-8"))
+
+
+def fetch_text(url: str) -> str:
+    req = Request(url, headers={
+        "User-Agent": "Mozilla/5.0 (compatible; MadridistaUpdater/3.0; +https://github.com/)",
+        "Accept": "text/html,application/xhtml+xml,*/*",
+        "Accept-Language": "es-ES,es;q=0.9",
+    })
+    with urlopen(req, timeout=30) as response:
+        return response.read().decode("utf-8", errors="replace")
+
+
+def _strip_html_for_schedule(raw: str) -> str:
+    raw = re.sub(r"(?is)<script[^>]*>.*?</script>", " ", raw)
+    raw = re.sub(r"(?is)<style[^>]*>.*?</style>", " ", raw)
+    raw = re.sub(r"(?i)</(?:tr|li|p|section|article|div)>", "\n", raw)
+    raw = re.sub(r"(?i)</(?:td|th)>", " | ", raw)
+    raw = re.sub(r"(?s)<[^>]+>", " ", raw)
+    raw = html_module.unescape(raw)
+    raw = raw.replace("\xa0", " ")
+    raw = re.sub(r"[ \t]+", " ", raw)
+    raw = re.sub(r"\n+", "\n", raw)
+    return raw
+
+
+def get_laliga_official_schedule() -> list[dict]:
+    """Best-effort reader of the official LALIGA Real Madrid schedule page.
+
+    This source is especially useful for newly confirmed dates, kick-off times and
+    Spanish broadcasters. If the page layout changes, the caller simply falls back
+    to ESPN and preserves the TV data already present in the JSON.
+    """
+    text = _strip_html_for_schedule(fetch_text(LALIGA_NEXT_URL))
+    # Keep the relevant section only when the labels are present.
+    start = text.find("Calendario y próximos partidos del Real Madrid")
+    if start >= 0:
+        text = text[start:]
+    # Normalize weekday accents to make the regex tolerant.
+    weekday = r"(?:LUN|MAR|MIE|MIÉ|JUE|VIE|SAB|SÁB|DOM)"
+    pat = re.compile(
+        rf"{weekday}\s+(\d{{2}}\.\d{{2}}\.\d{{4}})\s*\|?\s*"
+        rf"(\d{{2}}:\d{{2}}|--\s*:\s*--)\s*\|?\s*"
+        rf"(.{{0,160}}?)\s+VS\s+(.{{0,160}}?)\s*\|?\s*LALIGA EA SPORTS\s*\|?\s*"
+        rf"(.{{0,120}}?)(?=\n|{weekday}\s+\d{{2}}\.\d{{2}}\.\d{{4}}|$)",
+        re.I,
+    )
+    out = []
+    for m in pat.finditer(text):
+        date_s, time_s, home, away, operator = [re.sub(r"\s+", " ", x).strip(" |-") for x in m.groups()]
+        if not (same_team(home, "Real Madrid") or same_team(away, "Real Madrid")):
+            continue
+        try:
+            dt = datetime.strptime(date_s, "%d.%m.%Y").replace(tzinfo=TZ)
+        except Exception:
+            continue
+        confirmed_time = None if "--" in time_s else time_s
+        venue = "home" if same_team(home, "Real Madrid") else "away"
+        opponent = away if venue == "home" else home
+        tv = [name for name in KNOWN_TV if name.lower() in operator.lower()]
+        out.append({
+            "competition": "LaLiga",
+            "date": dt.date().isoformat(),
+            "displayDate": display_date(dt),
+            "time": confirmed_time,
+            "venue": venue,
+            "opponent": opponent,
+            "tv": tv,
+        })
+    return out
 
 
 def normalize_name(value: str | None) -> str:
@@ -262,6 +334,23 @@ def merge_schedule(fixtures: list[dict], events: list[dict]) -> None:
             if not fx.get("score"):
                 fx["score"] = None
             fx.pop("liveLabel", None)
+
+
+def merge_laliga_official(fixtures: list[dict], events: list[dict]) -> None:
+    for event in events:
+        idx = fixture_match_index(fixtures, event)
+        if idx is None:
+            continue
+        fx = fixtures[idx]
+        # LALIGA is authoritative for LaLiga calendar/TV. A confirmed date/time
+        # must replace the original weekend placeholder.
+        for key in ("date", "displayDate", "venue"):
+            if event.get(key) is not None:
+                fx[key] = event[key]
+        if event.get("time"):
+            fx["time"] = event["time"]
+        if event.get("tv"):
+            fx["tv"] = event["tv"]
 
 
 def apply_baseline_results(fixtures: list[dict]) -> None:
@@ -471,6 +560,7 @@ def meaningful_snapshot(data: dict) -> dict:
     copy = deepcopy(data)
     if isinstance(copy.get("app"), dict):
         copy["app"].pop("lastUpdated", None)
+        copy["app"].pop("lastChecked", None)
     if isinstance(copy.get("live"), dict):
         copy["live"].pop("updatedAt", None)
     for meta in (copy.get("standingsMeta") or {}).values():
@@ -513,9 +603,10 @@ def update_live_payload(data: dict, scoreboards: dict[tuple[str,str], list[dict]
         prev_official = deepcopy(previous.get(official_key) or previous.get(active_key) or official)
         data[official_key] = deepcopy(official)
 
-        # La tabla provisional se calcula únicamente con partidos EN JUEGO.
-        # Al finalizar, dejamos que la clasificación oficial absorba el resultado.
-        relevant = [ev for ev in all_by_comp[competition] if ev.get("status") == "live"]
+        # Mientras el partido está en juego calculamos provisionalmente. Si acaba
+        # y la tabla oficial aún no ha absorbido el resultado, mantenemos también
+        # ese resultado final para evitar que la clasificación salte hacia atrás.
+        relevant = [ev for ev in all_by_comp[competition] if ev.get("status") in {"live", "finished"} and ev.get("score")]
         previous_meta = (previous.get("standingsMeta") or {}).get(competition) or {}
         prior_source_live = bool(previous_meta.get("sourceIncludesLive")) if relevant else False
         active_rows, adjustments, source_live = provisional_standings(
@@ -526,7 +617,7 @@ def update_live_payload(data: dict, scoreboards: dict[tuple[str,str], list[dict]
         data.setdefault("standingsMeta", {})[competition] = {
             "mode": mode,
             "liveGames": sum(1 for ev in adjustments if ev.get("status") == "live"),
-            "pendingOfficialGames": 0,
+            "pendingOfficialGames": sum(1 for ev in adjustments if ev.get("status") == "finished"),
             "sourceIncludesLive": source_live,
             "updatedAt": datetime.now(TZ).isoformat(timespec="minutes"),
         }
@@ -549,6 +640,18 @@ def full_refresh(data: dict, original: dict) -> int:
                 log(f"{competition}: {len(events)} partidos del Madrid recibidos")
         except Exception as exc:
             log(f"AVISO calendario {competition}: {exc}")
+
+    # Segunda fuente para LaLiga: calendario oficial, horarios y TV en España.
+    try:
+        official_laliga = get_laliga_official_schedule()
+        if official_laliga:
+            merge_laliga_official(fixtures, official_laliga)
+            successes += 1
+            log(f"LALIGA oficial: {len(official_laliga)} partidos/horarios recibidos")
+        else:
+            log("AVISO LALIGA oficial: no se pudieron extraer partidos; se conserva ESPN/JSON")
+    except Exception as exc:
+        log(f"AVISO LALIGA oficial: {exc}")
 
     # Scoreboards de hoy: sirven para detectar todas las ventanas de Liga/Champions.
     today = datetime.now(TZ).date()
@@ -617,13 +720,21 @@ def main() -> int:
         log("No hubo datos válidos para actualizar.")
         return 0
 
-    if meaningful_snapshot(data) == meaningful_snapshot(original):
-        log("Sin cambios reales.")
-        return 0
+    now_text = datetime.now(TZ).isoformat(timespec="minutes")
+    substantive_changed = meaningful_snapshot(data) != meaningful_snapshot(original)
+    app = data.setdefault("app", {})
+    app["lastChecked"] = now_text
+    if substantive_changed:
+        app["lastUpdated"] = now_text
+        log("Hay cambios reales en los datos.")
+    else:
+        # Conservamos la hora de la última modificación real, pero registramos
+        # que la rutina sí ha comprobado las fuentes.
+        app["lastUpdated"] = (original.get("app") or {}).get("lastUpdated", app.get("lastUpdated", now_text))
+        log("Sin cambios reales; se actualiza solo 'lastChecked'.")
 
-    data.setdefault("app", {})["lastUpdated"] = datetime.now(TZ).isoformat(timespec="minutes")
     JSON_PATH.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    log("real_madrid.json actualizado.")
+    log("real_madrid.json guardado.")
     return 0
 
 
