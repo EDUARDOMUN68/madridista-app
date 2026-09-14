@@ -125,7 +125,7 @@ def get_laliga_official_schedule() -> list[dict]:
             dt = datetime.strptime(date_s, "%d.%m.%Y").replace(tzinfo=TZ)
         except Exception:
             continue
-        confirmed_time = None if "--" in time_s else time_s
+        confirmed_time = None if "--" in time_s else valid_time(time_s)
         venue = "home" if same_team(home, "Real Madrid") else "away"
         opponent = away if venue == "home" else home
         tv = [name for name in KNOWN_TV if name.lower() in operator.lower()]
@@ -181,6 +181,13 @@ def score_number(comp: dict) -> int | None:
         return None
 
 
+
+def valid_time(value: str | None) -> str | None:
+    if not value:
+        return None
+    value = str(value).strip()
+    return value if re.fullmatch(r"(?:[01]\d|2[0-3]):[0-5]\d", value) else None
+
 def translate_live_label(status: dict) -> str:
     stype = status.get("type") or {}
     detail = stype.get("shortDetail") or stype.get("detail") or ""
@@ -234,7 +241,7 @@ def generic_event(evt: dict, competition_name: str) -> dict | None:
         "competition": competition_name,
         "date": dt.date().isoformat(),
         "displayDate": display_date(dt),
-        "time": dt.strftime("%H:%M"),
+        "time": valid_time(dt.strftime("%H:%M")),
         "kickoff": dt.isoformat(timespec="minutes"),
         "home": home_team.get("displayName") or home_team.get("name") or "Local",
         "away": away_team.get("displayName") or away_team.get("name") or "Visitante",
@@ -288,6 +295,24 @@ def get_scoreboard(competition: str, day: date) -> list[dict]:
     return result
 
 
+def get_laliga_range_schedule(start_day: date, end_day: date) -> list[dict]:
+    """Secondary schedule source from the LaLiga scoreboard over a date range.
+
+    This catches newly confirmed dates/times that a team schedule endpoint may expose late.
+    Only Real Madrid events are returned.
+    """
+    start_s = start_day.strftime("%Y%m%d")
+    end_s = end_day.strftime("%Y%m%d")
+    url = f"https://site.api.espn.com/apis/site/v2/sports/soccer/esp.1/scoreboard?dates={start_s}-{end_s}&limit=200"
+    payload = fetch_json(url)
+    out = []
+    for evt in payload.get("events") or []:
+        item = extract_event(evt, "LaLiga")
+        if item:
+            out.append(item)
+    return out
+
+
 def fixture_match_index(fixtures: list[dict], event: dict) -> int | None:
     candidates = [i for i, fx in enumerate(fixtures)
                   if fx.get("competition") == event.get("competition") and same_team(fx.get("opponent", ""), event.get("opponent", ""))]
@@ -313,9 +338,13 @@ def merge_schedule(fixtures: list[dict], events: list[dict]) -> None:
                 fixtures.append(new_fx)
             continue
         fx = fixtures[idx]
-        for key in ("date", "displayDate", "time", "venue"):
+        for key in ("date", "displayDate", "venue"):
             if event.get(key) is not None:
                 fx[key] = event[key]
+        if valid_time(event.get("time")):
+            fx["time"] = valid_time(event.get("time"))
+        elif event.get("time") is not None:
+            fx["time"] = None
 
         old_status, old_score = fx.get("status"), fx.get("score")
         new_status, new_score = event.get("status"), event.get("score")
@@ -347,8 +376,10 @@ def merge_laliga_official(fixtures: list[dict], events: list[dict]) -> None:
         for key in ("date", "displayDate", "venue"):
             if event.get(key) is not None:
                 fx[key] = event[key]
-        if event.get("time"):
-            fx["time"] = event["time"]
+        if valid_time(event.get("time")):
+            fx["time"] = valid_time(event.get("time"))
+        elif event.get("time") is not None:
+            fx["time"] = None
         if event.get("tv"):
             fx["tv"] = event["tv"]
 
@@ -535,6 +566,28 @@ def active_monitor_dates(data: dict, now: datetime) -> set[tuple[str, date]]:
     return active
 
 
+
+def sanitize_stale_fixture_states(fixtures: list[dict]) -> None:
+    """Evita que un partido antiguo quede eternamente marcado como 'live'."""
+    now = datetime.now(TZ)
+    for fx in fixtures:
+        status = fx.get("status")
+        if status == "finished":
+            fx.pop("liveLabel", None)
+            continue
+        if status != "live" or not fx.get("date"):
+            continue
+        try:
+            kickoff = datetime.fromisoformat(
+                f"{fx['date']}T{fx.get('time') or '00:00'}:00"
+            ).replace(tzinfo=TZ)
+        except Exception:
+            continue
+        # Margen amplio para prórroga, penaltis, retrasos o incidencias.
+        if now - kickoff > timedelta(hours=4):
+            fx["status"] = "finished" if fx.get("score") else "scheduled"
+            fx.pop("liveLabel", None)
+
 def choose_next_match(fixtures: list[dict]) -> dict | None:
     live = next((deepcopy(fx) for fx in fixtures if fx.get("status") == "live"), None)
     if live:
@@ -642,6 +695,18 @@ def full_refresh(data: dict, original: dict) -> int:
             log(f"AVISO calendario {competition}: {exc}")
 
     # Segunda fuente para LaLiga: calendario oficial, horarios y TV en España.
+    # Fuente secundaria de calendario: rango amplio de LaLiga para captar horarios
+    # recién confirmados aunque el endpoint de equipo o la web oficial se retrasen.
+    try:
+        today_for_schedule = datetime.now(TZ).date()
+        range_events = get_laliga_range_schedule(today_for_schedule - timedelta(days=2), today_for_schedule + timedelta(days=120))
+        if range_events:
+            merge_schedule(fixtures, range_events)
+            successes += 1
+            log(f"LaLiga rango: {len(range_events)} partidos del Madrid recibidos")
+    except Exception as exc:
+        log(f"AVISO calendario LaLiga por rango: {exc}")
+
     try:
         official_laliga = get_laliga_official_schedule()
         if official_laliga:
@@ -667,6 +732,7 @@ def full_refresh(data: dict, original: dict) -> int:
 
     # Aprovechamos la misma lectura para directo/provisional y tablas oficiales.
     successes += update_live_payload(data, scoreboards, original)
+    sanitize_stale_fixture_states(fixtures)
     fixtures.sort(key=lambda x: (x.get("date") or "9999-99-99", x.get("time") or "99:99"))
     return successes
 
@@ -689,6 +755,7 @@ def live_refresh(data: dict, original: dict) -> int:
             scoreboards[(competition, day.isoformat())] = []
 
     successes += update_live_payload(data, scoreboards, original)
+    sanitize_stale_fixture_states(data.setdefault("fixtures", []))
     data.setdefault("fixtures", []).sort(key=lambda x: (x.get("date") or "9999-99-99", x.get("time") or "99:99"))
     return successes
 
@@ -712,6 +779,7 @@ def main() -> int:
     else:
         successes = full_refresh(data, original)
 
+    sanitize_stale_fixture_states(data.get("fixtures") or [])
     nxt = choose_next_match(data.get("fixtures") or [])
     if nxt:
         data["nextMatch"] = nxt
@@ -719,6 +787,19 @@ def main() -> int:
     if successes <= 0:
         log("No hubo datos válidos para actualizar.")
         return 0
+
+    # Saneamiento final: nunca publicar horas mal formadas ni metadatos de directo
+    # en partidos que ya están finalizados.
+    for fx in data.get("fixtures", []):
+        fx["time"] = valid_time(fx.get("time"))
+        if fx.get("status") == "finished":
+            for key in ("liveLabel", "liveScore", "livePoints", "liveOutcome"):
+                fx.pop(key, None)
+    if isinstance(data.get("nextMatch"), dict):
+        data["nextMatch"]["time"] = valid_time(data["nextMatch"].get("time"))
+        if data["nextMatch"].get("status") == "finished":
+            for key in ("liveLabel", "liveScore", "livePoints", "liveOutcome"):
+                data["nextMatch"].pop(key, None)
 
     now_text = datetime.now(TZ).isoformat(timespec="minutes")
     substantive_changed = meaningful_snapshot(data) != meaningful_snapshot(original)
