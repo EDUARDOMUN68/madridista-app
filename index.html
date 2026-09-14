@@ -10,7 +10,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <title>Madridista</title>
-<meta name="madridista-version" content="jornada-v3-3">
+<meta name="madridista-version" content="jornada-v3-4">
 <style>
 :root{--bg:#f4f6fb;--card:#fff;--navy:#0b1f3a;--blue:#244f94;--gold:#d7b34c;--text:#1d2530;--muted:#6d7787;--line:#e3e8f0;--champ:#eef3ff;--done:#f7f8fa;--danger:#fff0f0;--green:#eaf7ef}
 *{box-sizing:border-box} html{background:var(--bg)} body{margin:0;font-family:Arial,Helvetica,sans-serif;background:radial-gradient(circle at 90% -10%,rgba(36,79,148,.16),transparent 25%),var(--bg);color:var(--text)} button{font:inherit}
@@ -401,11 +401,12 @@ function jornadaPayload(competition,jornada,matches,window){
   return {competition,jornada:Number(jornada),windowStart:window?.start||null,windowEnd:window?.end||null,phase:jornadaPhase(matches),matches,finished,total:normal.length,live,postponed,updatedAt:new Date().toISOString()};
 }
 function nextJornadaNumber(competition,current){const a=jornadaAnchors(competition);const x=a.find(v=>v.jornada>Number(current));return x?.jornada??null}
-async function fetchJornada(competition,jornada){
-  const w=jornadaWindow(competition,jornada);if(!w)throw new Error('Sin ventana de jornada');const slug=DIRECT_LEAGUES[competition];const dates=w.start===w.end?compactDay(w.start):`${compactDay(w.start)}-${compactDay(w.end)}`;
-  const payload=await directFetchJson(`https://site.api.espn.com/apis/site/v2/sports/soccer/${slug}/scoreboard?dates=${dates}&limit=200`);let games=parseDirectScoreboard(payload,competition).sort((a,b)=>`${a.date||''} ${a.time||''}`.localeCompare(`${b.date||''} ${b.time||''}`));let result=jornadaPayload(competition,jornada,games,w);
-  if(result.phase==='complete'){const next=nextJornadaNumber(competition,jornada);if(next!=null){const nw=jornadaWindow(competition,next);const ndates=nw.start===nw.end?compactDay(nw.start):`${compactDay(nw.start)}-${compactDay(nw.end)}`;const np=await directFetchJson(`https://site.api.espn.com/apis/site/v2/sports/soccer/${slug}/scoreboard?dates=${ndates}&limit=200`);const ng=parseDirectScoreboard(np,competition).sort((a,b)=>`${a.date||''} ${a.time||''}`.localeCompare(`${b.date||''} ${b.time||''}`));result=jornadaPayload(competition,next,ng,nw);}}
-  return result;
+async function fetchJornada(competition,jornada,windowOverride=null){
+  const w=(windowOverride?.start&&windowOverride?.end)?windowOverride:jornadaWindow(competition,jornada);if(!w)throw new Error('Sin ventana de jornada');const slug=DIRECT_LEAGUES[competition];const dates=w.start===w.end?compactDay(w.start):`${compactDay(w.start)}-${compactDay(w.end)}`;
+  const payload=await directFetchJson(`https://site.api.espn.com/apis/site/v2/sports/soccer/${slug}/scoreboard?dates=${dates}&limit=200`);const games=parseDirectScoreboard(payload,competition).sort((a,b)=>`${a.date||''} ${a.time||''}`.localeCompare(`${b.date||''} ${b.time||''}`));
+  // No adelantamos de jornada desde el navegador. La jornada oficial del JSON
+  // decide el salto; así nunca mezclamos el último partido de J5 con J6.
+  return jornadaPayload(competition,jornada,games,w);
 }
 function jornadaFallback(competition){const raw=APP?.jornadas?.[competition];if(!raw)return null;return JSON.parse(JSON.stringify(raw))}
 function chooseInitialJornadaCompetition(){
@@ -433,7 +434,7 @@ function renderJornadaStatic(){
   if(!document.getElementById('jornadaView'))return;if(!jornadaCompetition)jornadaCompetition=chooseInitialJornadaCompetition();document.querySelectorAll('[data-jfilter]').forEach(b=>b.classList.toggle('active',b.dataset.jfilter===jornadaCompetition));const fb=jornadaFallback(jornadaCompetition);if(fb)renderJornada(fb);
 }
 async function refreshJornadaDirect(showToast=false){
-  if(jornadaLoading||!APP)return;jornadaLoading=true;try{if(!jornadaCompetition)jornadaCompetition=chooseInitialJornadaCompetition();const fallback=jornadaFallback(jornadaCompetition);const num=fallback?.jornada??jornadaCandidateNumber(jornadaCompetition);if(num==null){renderJornada(null);return;}const data=await fetchJornada(jornadaCompetition,num);renderJornada(data);if(showToast)showRefreshMessage(`✓ Jornada ${data.jornada} actualizada`);}catch(e){console.debug('Madridista jornada:',e);const fb=jornadaFallback(jornadaCompetition);if(fb)renderJornada(fb);else renderJornada(null);}finally{jornadaLoading=false;}
+  if(jornadaLoading||!APP)return;jornadaLoading=true;try{if(!jornadaCompetition)jornadaCompetition=chooseInitialJornadaCompetition();const fallback=jornadaFallback(jornadaCompetition);const num=fallback?.jornada??jornadaCandidateNumber(jornadaCompetition);if(num==null){renderJornada(null);return;}const exactWindow=(fallback?.windowStart&&fallback?.windowEnd)?{start:fallback.windowStart,end:fallback.windowEnd}:null;const data=await fetchJornada(jornadaCompetition,num,exactWindow);renderJornada(data);if(showToast)showRefreshMessage(`✓ Jornada ${data.jornada} actualizada`);}catch(e){console.debug('Madridista jornada:',e);const fb=jornadaFallback(jornadaCompetition);if(fb)renderJornada(fb);else renderJornada(null);}finally{jornadaLoading=false;}
 }
 function setJornadaCompetition(competition){jornadaCompetition=competition;try{localStorage.setItem(JORNADA_STORE_KEY,competition)}catch(e){}document.querySelectorAll('[data-jfilter]').forEach(b=>b.classList.toggle('active',b.dataset.jfilter===competition));const fb=jornadaFallback(competition);if(fb)renderJornada(fb);else renderJornada(null);refreshJornadaDirect(false);}
 

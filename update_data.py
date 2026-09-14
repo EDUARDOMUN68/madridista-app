@@ -39,6 +39,8 @@ URLS = {
 }
 LEAGUE_SLUGS = {"LaLiga": "esp.1", "Champions": "uefa.champions"}
 LALIGA_NEXT_URL = "https://www.laliga.com/clubes/real-madrid/proximos-partidos"
+LALIGA_ROUND_URL = "https://www.laliga.com/laliga-easports/resultados/2026-27/jornada-{jornada}"
+_LALIGA_ROUND_WINDOW_CACHE: dict[int, tuple[date, date] | None] = {}
 KNOWN_TV = ("Movistar LALIGA", "Movistar Plus+", "Orange Fútbol 1", "Orange TV", "DAZN")
 
 BASELINE_RESULTS = [
@@ -343,6 +345,57 @@ def jornada_window(fixtures: list[dict], competition: str, jornada: int) -> tupl
     return date.fromordinal(start_ord), date.fromordinal(end_ord)
 
 
+
+def get_laliga_official_round_window(jornada: int) -> tuple[date, date] | None:
+    """Devuelve las fechas reales de una jornada según LALIGA oficial.
+
+    Es importante en jornadas pegadas: por ejemplo, una jornada puede terminar
+    el lunes y la siguiente empezar el martes. No usamos el punto medio entre
+    los partidos del Madrid porque eso puede adelantar la jornada un día.
+    """
+    try:
+        jornada = int(jornada)
+    except Exception:
+        return None
+    if jornada in _LALIGA_ROUND_WINDOW_CACHE:
+        return _LALIGA_ROUND_WINDOW_CACHE[jornada]
+
+    try:
+        text = _strip_html_for_schedule(fetch_text(LALIGA_ROUND_URL.format(jornada=jornada)))
+        # Acotamos al bloque de esa jornada para no recoger fechas de noticias o pie.
+        m = re.search(rf"JORNADA\s+{jornada}\b", text, re.I)
+        if not m:
+            _LALIGA_ROUND_WINDOW_CACHE[jornada] = None
+            return None
+        section = text[m.start():]
+        end = re.search(rf"¿?Cuál es la jornada\s+{jornada}\b|Dónde ver la jornada\s+{jornada}\b", section, re.I)
+        if end:
+            section = section[:end.start()]
+        found = []
+        for ds in re.findall(r"\b(\d{2}\.\d{2}\.\d{4})\b", section):
+            try:
+                found.append(datetime.strptime(ds, "%d.%m.%Y").date())
+            except Exception:
+                pass
+        if not found:
+            _LALIGA_ROUND_WINDOW_CACHE[jornada] = None
+            return None
+        window = (min(found), max(found))
+        _LALIGA_ROUND_WINDOW_CACHE[jornada] = window
+        return window
+    except Exception as exc:
+        log(f"AVISO ventana oficial LALIGA J{jornada}: {exc}")
+        _LALIGA_ROUND_WINDOW_CACHE[jornada] = None
+        return None
+
+
+def effective_jornada_window(fixtures: list[dict], competition: str, jornada: int) -> tuple[date, date] | None:
+    if competition == "LaLiga":
+        official = get_laliga_official_round_window(jornada)
+        if official:
+            return official
+    return jornada_window(fixtures, competition, jornada)
+
 def jornada_phase(matches: list[dict]) -> str:
     normal = [m for m in matches if m.get("status") != "postponed"]
     if not normal:
@@ -360,12 +413,36 @@ def choose_jornada_candidate(fixtures: list[dict], competition: str, today: date
     anchors = jornada_anchors(fixtures, competition)
     if not anchors:
         return None
+
+    # Primera aproximación por el calendario del Madrid.
+    guessed = None
     for a in anchors:
         window = jornada_window(fixtures, competition, a["jornada"])
         if window and window[0] <= today <= window[1]:
-            return a["jornada"]
-    future = next((a for a in anchors if a["date"] >= today), None)
-    return (future or anchors[-1])["jornada"]
+            guessed = a["jornada"]
+            break
+    if guessed is None:
+        future = next((a for a in anchors if a["date"] >= today), None)
+        guessed = (future or anchors[-1])["jornada"]
+
+    if competition == "LaLiga":
+        rounds = [a["jornada"] for a in anchors]
+        try:
+            idx = rounds.index(int(guessed))
+        except ValueError:
+            idx = -1
+        # Si la jornada anterior todavía ocupa el día de hoy según LALIGA oficial,
+        # se mantiene. Esto evita saltar de J5 a J6 antes del último partido del lunes.
+        if idx > 0:
+            previous = rounds[idx - 1]
+            prev_window = get_laliga_official_round_window(previous)
+            if prev_window and prev_window[0] <= today <= prev_window[1]:
+                return previous
+        own_window = get_laliga_official_round_window(int(guessed))
+        if own_window and own_window[0] <= today <= own_window[1]:
+            return int(guessed)
+
+    return int(guessed)
 
 
 def build_jornada_payload(fixtures: list[dict], competition: str, today: date) -> dict | None:
@@ -375,7 +452,7 @@ def build_jornada_payload(fixtures: list[dict], competition: str, today: date) -
     anchors = jornada_anchors(fixtures, competition)
     rounds = [a["jornada"] for a in anchors]
     for _ in range(2):
-        window = jornada_window(fixtures, competition, jornada)
+        window = effective_jornada_window(fixtures, competition, jornada)
         if not window:
             return None
         matches = get_scoreboard_range(competition, window[0], window[1])
@@ -503,10 +580,9 @@ def merge_laliga_official(fixtures: list[dict], events: list[dict]) -> None:
         for key in ("date", "displayDate", "venue"):
             if event.get(key) is not None:
                 fx[key] = event[key]
-        if valid_time(event.get("time")):
-            fx["time"] = valid_time(event.get("time"))
-        elif event.get("time") is not None:
-            fx["time"] = None
+        # La web oficial manda también cuando todavía NO hay hora: si muestra
+        # --:--, eliminamos cualquier hora provisional de una fuente secundaria.
+        fx["time"] = valid_time(event.get("time"))
         if event.get("tv"):
             fx["tv"] = event["tv"]
 
