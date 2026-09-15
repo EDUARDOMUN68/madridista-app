@@ -2,14 +2,14 @@
   "app": {
     "name": "Madridista",
     "season": "2026/27",
-    "lastUpdated": "2026-09-15T20:13+02:00",
+    "lastUpdated": "2026-09-15T23:23+02:00",
     "timezone": "Europe/Madrid",
     "sources": [
       "Real Madrid C.F. — calendario oficial de LaLiga 2026/27",
       "Real Madrid C.F. — calendario Champions 2026/27",
       "LALIGA — horarios, resultados y clasificación"
     ],
-    "lastChecked": "2026-09-15T20:13+02:00"
+    "lastChecked": "2026-09-15T23:23+02:00"
   },
   "nextMatch": {
     "competition": "LaLiga",
@@ -19,13 +19,14 @@
     "venue": "away",
     "opponent": "Elche CF",
     "time": "21:30",
-    "status": "scheduled",
-    "score": null,
+    "status": "live",
+    "score": "2–3",
     "tv": [
       "Movistar LALIGA",
       "Movistar Plus+",
       "Orange Fútbol 1"
-    ]
+    ],
+    "liveLabel": "90'+2'"
   },
   "fixtures": [
     {
@@ -122,13 +123,14 @@
       "venue": "away",
       "opponent": "Elche CF",
       "time": "21:30",
-      "status": "scheduled",
-      "score": null,
+      "status": "live",
+      "score": "2–3",
       "tv": [
         "Movistar LALIGA",
         "Movistar Plus+",
         "Orange Fútbol 1"
-      ]
+      ],
+      "liveLabel": "90'+2'"
     },
     {
       "competition": "LaLiga",
@@ -180,7 +182,9 @@
       "time": null,
       "status": "scheduled",
       "score": null,
-      "tv": []
+      "tv": [
+        "Movistar LALIGA"
+      ]
     },
     {
       "competition": "Champions",
@@ -619,14 +623,18 @@
     {
       "pos": 2,
       "team": "Real Madrid",
-      "pts": 12,
-      "pj": 5,
-      "g": 4,
+      "pts": 15,
+      "pj": 6,
+      "g": 5,
       "e": 0,
       "p": 1,
-      "gf": 14,
-      "gc": 4,
-      "dg": 10
+      "gf": 17,
+      "gc": 6,
+      "dg": 11,
+      "provisional": true,
+      "live": true,
+      "liveLabel": "90'+2'",
+      "liveScore": "2–3"
     },
     {
       "pos": 3,
@@ -643,18 +651,14 @@
     {
       "pos": 4,
       "team": "Alavés",
-      "pts": 11,
+      "pts": 10,
       "pj": 6,
       "g": 3,
-      "e": 2,
-      "p": 1,
+      "e": 1,
+      "p": 2,
       "gf": 11,
-      "gc": 5,
-      "dg": 6,
-      "provisional": true,
-      "live": true,
-      "liveLabel": "10'",
-      "liveScore": "0–0"
+      "gc": 6,
+      "dg": 5
     },
     {
       "pos": 5,
@@ -700,13 +704,9 @@
       "g": 2,
       "e": 1,
       "p": 3,
-      "gf": 8,
+      "gf": 9,
       "gc": 7,
-      "dg": 1,
-      "provisional": true,
-      "live": true,
-      "liveLabel": "52'",
-      "liveScore": "2–0"
+      "dg": 2
     },
     {
       "pos": 9,
@@ -753,12 +753,8 @@
       "e": 1,
       "p": 3,
       "gf": 10,
-      "gc": 14,
-      "dg": -4,
-      "provisional": true,
-      "live": true,
-      "liveLabel": "52'",
-      "liveScore": "2–0"
+      "gc": 15,
+      "dg": -5
     },
     {
       "pos": 13,
@@ -810,6 +806,18 @@
     },
     {
       "pos": 17,
+      "team": "Valencia",
+      "pts": 4,
+      "pj": 6,
+      "g": 1,
+      "e": 1,
+      "p": 4,
+      "gf": 2,
+      "gc": 10,
+      "dg": -8
+    },
+    {
+      "pos": 18,
       "team": "Málaga",
       "pts": 3,
       "pj": 5,
@@ -821,7 +829,7 @@
       "dg": -6
     },
     {
-      "pos": 18,
+      "pos": 19,
       "team": "Villarreal",
       "pts": 2,
       "pj": 5,
@@ -833,32 +841,20 @@
       "dg": -3
     },
     {
-      "pos": 19,
-      "team": "Elche",
-      "pts": 2,
-      "pj": 5,
-      "g": 0,
-      "e": 2,
-      "p": 3,
-      "gf": 6,
-      "gc": 13,
-      "dg": -7
-    },
-    {
       "pos": 20,
-      "team": "Valencia",
+      "team": "Elche",
       "pts": 2,
       "pj": 6,
       "g": 0,
       "e": 2,
       "p": 4,
-      "gf": 1,
-      "gc": 10,
-      "dg": -9,
+      "gf": 8,
+      "gc": 16,
+      "dg": -8,
       "provisional": true,
       "live": true,
-      "liveLabel": "10'",
-      "liveScore": "0–0"
+      "liveLabel": "90'+2'",
+      "liveScore": "2–3"
     }
   ],
   "championsStandings": [
@@ -1369,37 +1365,22 @@
   ],
   "live": {
     "hasLiveMatches": true,
-    "updatedAt": "2026-09-15T20:13+02:00",
+    "updatedAt": "2026-09-15T23:23+02:00",
     "matches": [
       {
-        "eventId": "401882868",
+        "eventId": "401882872",
         "competition": "LaLiga",
         "date": "2026-09-15",
         "displayDate": "Mar. 15 septiembre",
-        "time": "19:00",
-        "kickoff": "2026-09-15T19:00+02:00",
-        "home": "Rayo Vallecano",
-        "away": "Espanyol",
+        "time": "21:30",
+        "kickoff": "2026-09-15T21:30+02:00",
+        "home": "Elche",
+        "away": "Real Madrid",
         "homeScore": 2,
-        "awayScore": 0,
-        "score": "2–0",
+        "awayScore": 3,
+        "score": "2–3",
         "status": "live",
-        "liveLabel": "52'"
-      },
-      {
-        "eventId": "401882876",
-        "competition": "LaLiga",
-        "date": "2026-09-15",
-        "displayDate": "Mar. 15 septiembre",
-        "time": "20:00",
-        "kickoff": "2026-09-15T20:00+02:00",
-        "home": "Alavés",
-        "away": "Valencia",
-        "homeScore": 0,
-        "awayScore": 0,
-        "score": "0–0",
-        "status": "live",
-        "liveLabel": "10'"
+        "liveLabel": "90'+2'"
       }
     ]
   },
@@ -1444,13 +1425,13 @@
       "pos": 4,
       "team": "Alavés",
       "pts": 10,
-      "pj": 5,
+      "pj": 6,
       "g": 3,
       "e": 1,
-      "p": 1,
+      "p": 2,
       "gf": 11,
-      "gc": 5,
-      "dg": 6
+      "gc": 6,
+      "dg": 5
     },
     {
       "pos": 5,
@@ -1492,13 +1473,13 @@
       "pos": 8,
       "team": "Espanyol",
       "pts": 7,
-      "pj": 5,
+      "pj": 6,
       "g": 2,
       "e": 1,
-      "p": 2,
-      "gf": 8,
-      "gc": 5,
-      "dg": 3
+      "p": 3,
+      "gf": 9,
+      "gc": 7,
+      "dg": 2
     },
     {
       "pos": 9,
@@ -1538,6 +1519,18 @@
     },
     {
       "pos": 12,
+      "team": "Rayo Vallecano",
+      "pts": 7,
+      "pj": 6,
+      "g": 2,
+      "e": 1,
+      "p": 3,
+      "gf": 10,
+      "gc": 15,
+      "dg": -5
+    },
+    {
+      "pos": 13,
       "team": "Real Sociedad",
       "pts": 7,
       "pj": 6,
@@ -1549,7 +1542,7 @@
       "dg": -5
     },
     {
-      "pos": 13,
+      "pos": 14,
       "team": "Levante",
       "pts": 5,
       "pj": 5,
@@ -1561,7 +1554,7 @@
       "dg": -2
     },
     {
-      "pos": 14,
+      "pos": 15,
       "team": "Getafe",
       "pts": 5,
       "pj": 5,
@@ -1573,7 +1566,7 @@
       "dg": -3
     },
     {
-      "pos": 15,
+      "pos": 16,
       "team": "Celta Vigo",
       "pts": 4,
       "pj": 6,
@@ -1585,19 +1578,19 @@
       "dg": -3
     },
     {
-      "pos": 16,
-      "team": "Rayo Vallecano",
+      "pos": 17,
+      "team": "Valencia",
       "pts": 4,
-      "pj": 5,
+      "pj": 6,
       "g": 1,
       "e": 1,
-      "p": 3,
-      "gf": 8,
-      "gc": 14,
-      "dg": -6
+      "p": 4,
+      "gf": 2,
+      "gc": 10,
+      "dg": -8
     },
     {
-      "pos": 17,
+      "pos": 18,
       "team": "Málaga",
       "pts": 3,
       "pj": 5,
@@ -1609,7 +1602,7 @@
       "dg": -6
     },
     {
-      "pos": 18,
+      "pos": 19,
       "team": "Villarreal",
       "pts": 2,
       "pj": 5,
@@ -1621,7 +1614,7 @@
       "dg": -3
     },
     {
-      "pos": 19,
+      "pos": 20,
       "team": "Elche",
       "pts": 2,
       "pj": 5,
@@ -1631,34 +1624,22 @@
       "gf": 6,
       "gc": 13,
       "dg": -7
-    },
-    {
-      "pos": 20,
-      "team": "Valencia",
-      "pts": 1,
-      "pj": 5,
-      "g": 0,
-      "e": 1,
-      "p": 4,
-      "gf": 1,
-      "gc": 10,
-      "dg": -9
     }
   ],
   "standingsMeta": {
     "LaLiga": {
       "mode": "provisional",
-      "liveGames": 2,
+      "liveGames": 1,
       "pendingOfficialGames": 0,
       "sourceIncludesLive": false,
-      "updatedAt": "2026-09-15T20:13+02:00"
+      "updatedAt": "2026-09-15T23:23+02:00"
     },
     "Champions": {
       "mode": "official",
       "liveGames": 0,
       "pendingOfficialGames": 0,
       "sourceIncludesLive": false,
-      "updatedAt": "2026-09-15T20:13+02:00"
+      "updatedAt": "2026-09-15T23:23+02:00"
     }
   },
   "championsOfficialStandings": [
@@ -2104,9 +2085,9 @@
       "windowEnd": "2026-09-17",
       "finished": 0,
       "total": 9,
-      "live": 1,
+      "live": 2,
       "postponed": 0,
-      "updatedAt": "2026-09-15T20:13+02:00",
+      "updatedAt": "2026-09-15T23:23+02:00",
       "matches": [
         {
           "eventId": "401882868",
@@ -2118,10 +2099,10 @@
           "home": "Rayo Vallecano",
           "away": "Espanyol",
           "homeScore": 2,
-          "awayScore": 0,
-          "score": "2–0",
+          "awayScore": 1,
+          "score": "2–1",
           "status": "live",
-          "liveLabel": "HT"
+          "liveLabel": "86'"
         },
         {
           "eventId": "401882876",
@@ -2135,8 +2116,8 @@
           "homeScore": 0,
           "awayScore": 0,
           "score": "0–0",
-          "status": "scheduled",
-          "liveLabel": null
+          "status": "live",
+          "liveLabel": "44'"
         },
         {
           "eventId": "401882872",
