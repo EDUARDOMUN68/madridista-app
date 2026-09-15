@@ -390,10 +390,31 @@ def get_laliga_official_round_window(jornada: int) -> tuple[date, date] | None:
 
 
 def effective_jornada_window(fixtures: list[dict], competition: str, jornada: int) -> tuple[date, date] | None:
+    """Ventana efectiva de una jornada sin solaparla con la anterior/siguiente.
+
+    Algunas páginas oficiales incluyen fechas colindantes en el bloque de una jornada.
+    Para evitar mezclar, por ejemplo, el último partido de J5 con la J6, acotamos
+    la ventana oficial con el final/inicio de las jornadas vecinas cuando están disponibles.
+    """
     if competition == "LaLiga":
         official = get_laliga_official_round_window(jornada)
         if official:
-            return official
+            start, end = official
+            rounds = [a["jornada"] for a in jornada_anchors(fixtures, competition)]
+            try:
+                idx = rounds.index(int(jornada))
+            except ValueError:
+                idx = -1
+            if idx > 0:
+                prev_w = get_laliga_official_round_window(rounds[idx - 1])
+                if prev_w:
+                    start = max(start, prev_w[1] + timedelta(days=1))
+            if idx >= 0 and idx < len(rounds) - 1:
+                next_w = get_laliga_official_round_window(rounds[idx + 1])
+                if next_w:
+                    end = min(end, next_w[0] - timedelta(days=1))
+            if start <= end:
+                return start, end
     return jornada_window(fixtures, competition, jornada)
 
 def jornada_phase(matches: list[dict]) -> str:

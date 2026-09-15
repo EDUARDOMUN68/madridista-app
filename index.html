@@ -10,7 +10,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <title>Madridista</title>
-<meta name="madridista-version" content="jornada-v3-4">
+<meta name="madridista-version" content="jornada-v3-5">
 <style>
 :root{--bg:#f4f6fb;--card:#fff;--navy:#0b1f3a;--blue:#244f94;--gold:#d7b34c;--text:#1d2530;--muted:#6d7787;--line:#e3e8f0;--champ:#eef3ff;--done:#f7f8fa;--danger:#fff0f0;--green:#eaf7ef}
 *{box-sizing:border-box} html{background:var(--bg)} body{margin:0;font-family:Arial,Helvetica,sans-serif;background:radial-gradient(circle at 90% -10%,rgba(36,79,148,.16),transparent 25%),var(--bg);color:var(--text)} button{font:inherit}
@@ -338,7 +338,7 @@ function directApplyGame(rows,g,{live=true,pendingOfficial=false}={}){
   const h=rows.find(r=>directSame(r.team,g.home)),a=rows.find(r=>directSame(r.team,g.away));if(!h||!a||g.homeScore==null||g.awayScore==null)return false;
   const hp=directPoints(g.homeScore,g.awayScore),ap=directPoints(g.awayScore,g.homeScore);
   for(const [r,ts,os,pts] of [[h,g.homeScore,g.awayScore,hp],[a,g.awayScore,g.homeScore,ap]]){
-    r.pj+=1;r.provisional=true;r.live=live;r.pendingOfficial=pendingOfficial;r.liveLabel=live?(g.liveLabel||'EN JUEGO'):'FINAL';r.liveScore=`${ts}–${os}`;r.livePoints=pts;r.liveOutcome=directOutcome(ts,os);
+    r.pj+=1;r.provisional=true;r.live=live;r.pendingOfficial=pendingOfficial;r.liveLabel=live?(g.liveLabel||'EN JUEGO'):'FINAL';r.liveScore=`${g.homeScore}–${g.awayScore}`;r.livePoints=pts;r.liveOutcome=directOutcome(ts,os);
   }
   h.gf+=g.homeScore;h.gc+=g.awayScore;a.gf+=g.awayScore;a.gc+=g.homeScore;h.dg=h.gf-h.gc;a.dg=a.gf-a.gc;
   if(g.homeScore>g.awayScore){h.g+=1;h.pts+=3;a.p+=1;}else if(g.homeScore<g.awayScore){a.g+=1;a.pts+=3;h.p+=1;}else{h.e+=1;a.e+=1;h.pts+=1;a.pts+=1;}
@@ -468,9 +468,9 @@ async function refreshBrowserLive(showToast=false){
     }catch(e){console.debug('Madridista directo:',competition,e);}
   }
   renderAll();
-  if(document.getElementById('jornadaView')?.classList.contains('active'))refreshJornadaDirect(false);
+  if(showToast || document.getElementById('jornadaView')?.classList.contains('active'))await refreshJornadaDirect(false);
   const u=document.getElementById('updated');if(u&&success)u.innerHTML+=`<div class="browser-live-info ${anyLive?'on':''}">${anyLive?'🔴 DIRECTO · ':anyPending?'Final comprobado · ':'Directo comprobado · '}${new Date().toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit'})}</div>`;
-  if(showToast)showRefreshMessage(anyLive?'🔴 Directo actualizado':anyPending?'✓ Resultado final mantenido':'✓ Sin partidos en directo');
+  if(showToast)showRefreshMessage(anyLive?'🔴 Clasificación y jornada actualizadas':anyPending?'✓ Clasificación y jornada actualizadas':'✓ Clasificación y jornada comprobadas');
 }
 function startBrowserLive(){
   clearInterval(directTimer);directTimer=setInterval(()=>refreshBrowserLive(false),60000);
