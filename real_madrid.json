@@ -2,14 +2,14 @@
   "app": {
     "name": "Madridista",
     "season": "2026/27",
-    "lastUpdated": "2026-09-16T02:22+02:00",
+    "lastUpdated": "2026-09-16T13:37+02:00",
     "timezone": "Europe/Madrid",
     "sources": [
       "Real Madrid C.F. — calendario oficial de LaLiga 2026/27",
       "Real Madrid C.F. — calendario Champions 2026/27",
       "LALIGA — horarios, resultados y clasificación"
     ],
-    "lastChecked": "2026-09-16T08:03+02:00"
+    "lastChecked": "2026-09-16T13:37+02:00"
   },
   "nextMatch": {
     "competition": "LaLiga",
@@ -175,7 +175,7 @@
       "displayDate": "Dom. 18 octubre",
       "venue": "home",
       "opponent": "Sevilla FC",
-      "time": null,
+      "time": "21:00",
       "status": "scheduled",
       "score": null,
       "tv": [
@@ -1360,7 +1360,7 @@
   ],
   "live": {
     "hasLiveMatches": false,
-    "updatedAt": "2026-09-16T08:03+02:00",
+    "updatedAt": "2026-09-16T13:37+02:00",
     "matches": []
   },
   "laligaOfficialStandings": [
@@ -1611,14 +1611,14 @@
       "liveGames": 0,
       "pendingOfficialGames": 0,
       "sourceIncludesLive": false,
-      "updatedAt": "2026-09-16T08:03+02:00"
+      "updatedAt": "2026-09-16T13:37+02:00"
     },
     "Champions": {
       "mode": "official",
       "liveGames": 0,
       "pendingOfficialGames": 0,
       "sourceIncludesLive": false,
-      "updatedAt": "2026-09-16T08:03+02:00"
+      "updatedAt": "2026-09-16T13:37+02:00"
     }
   },
   "championsOfficialStandings": [
