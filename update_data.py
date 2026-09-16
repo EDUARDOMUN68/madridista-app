@@ -537,22 +537,42 @@ def get_laliga_official_round_matches(jornada: int) -> list[dict] | None:
 
 
 def overlay_today_round_status(matches: list[dict], competition: str, today: date) -> list[dict]:
-    """Superpone el directo/final de hoy sin alterar qué partidos forman la jornada."""
+    """Superpone estados reales en toda fecha pasada/actual aún no finalizada.
+
+    La lista oficial de LALIGA define qué partidos pertenecen a la jornada. Para
+    el estado (directo/final), consultamos hoy y cualquier fecha anterior que
+    todavía figure como no finalizada. Así un minuto de directo del día anterior
+    no puede quedar publicado durante horas o días.
+    """
     out = deepcopy(matches)
-    if not any(m.get("date") == today.isoformat() for m in out):
-        return out
-    try:
-        live_today = get_scoreboard(competition, today)
-    except Exception as exc:
-        log(f"AVISO directo jornada {competition}: {exc}")
-        return out
+    dates_to_refresh = {today}
     for m in out:
-        hit = next((g for g in live_today if same_team(m.get("home", ""), g.get("home", "")) and same_team(m.get("away", ""), g.get("away", ""))), None)
-        if not hit:
+        try:
+            d = date.fromisoformat(m.get("date", ""))
+        except Exception:
             continue
-        for key in ("eventId", "status", "homeScore", "awayScore", "score", "liveLabel", "time", "kickoff", "displayDate"):
-            if hit.get(key) is not None:
-                m[key] = hit.get(key)
+        if d <= today and m.get("status") != "finished":
+            dates_to_refresh.add(d)
+
+    for day in sorted(dates_to_refresh):
+        if not any(m.get("date") == day.isoformat() for m in out):
+            continue
+        try:
+            fresh = get_scoreboard(competition, day)
+        except Exception as exc:
+            log(f"AVISO directo jornada {competition} {day}: {exc}")
+            continue
+        for m in out:
+            if m.get("date") != day.isoformat():
+                continue
+            hit = next((g for g in fresh if same_team(m.get("home", ""), g.get("home", "")) and same_team(m.get("away", ""), g.get("away", ""))), None)
+            if not hit:
+                continue
+            for key in ("eventId", "status", "homeScore", "awayScore", "score", "liveLabel", "time", "kickoff", "displayDate"):
+                if hit.get(key) is not None:
+                    m[key] = hit.get(key)
+            if m.get("status") == "finished":
+                m.pop("liveLabel", None)
     return out
 
 
