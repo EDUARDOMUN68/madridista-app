@@ -39,6 +39,7 @@ URLS = {
 }
 LEAGUE_SLUGS = {"LaLiga": "esp.1", "Champions": "uefa.champions"}
 LALIGA_NEXT_URL = "https://www.laliga.com/clubes/real-madrid/proximos-partidos"
+REAL_MADRID_FIXTURES_URL = "https://www.realmadrid.com/es-ES/futbol/primer-equipo-masculino/inicio"
 LALIGA_ROUND_URL = "https://www.laliga.com/laliga-easports/resultados/2026-27/jornada-{jornada}"
 _LALIGA_ROUND_WINDOW_CACHE: dict[int, tuple[date, date] | None] = {}
 _LALIGA_ROUND_MATCHES_CACHE: dict[int, list[dict] | None] = {}
@@ -144,6 +145,104 @@ def get_laliga_official_schedule() -> list[dict]:
         })
     return out
 
+
+
+_MONTHS_RM = {
+    "ene": 1, "enero": 1, "feb": 2, "febrero": 2, "mar": 3, "marzo": 3,
+    "abr": 4, "abril": 4, "may": 5, "mayo": 5, "jun": 6, "junio": 6,
+    "jul": 7, "julio": 7, "ago": 8, "agosto": 8, "sep": 9, "sept": 9,
+    "septiembre": 9, "oct": 10, "octubre": 10, "nov": 11, "noviembre": 11,
+    "dic": 12, "diciembre": 12,
+}
+
+
+def _official_block_contains_team(block: str, team: str) -> bool:
+    """Comprobación tolerante del rival dentro del bloque oficial del Real Madrid."""
+    nb = normalize_name(block)
+    nt = normalize_name(team)
+    if not nt:
+        return False
+    if nt in nb:
+        return True
+    words = [w for w in nt.split() if len(w) >= 4]
+    return bool(words) and sum(1 for w in words if w in nb) >= max(1, len(words) - 1)
+
+
+def get_real_madrid_official_laliga_schedule(fixtures: list[dict]) -> list[dict]:
+    """Lee la web oficial del Real Madrid y confirma fechas/horas de LaLiga.
+
+    Se usa como segunda fuente oficial. La idea importante es que una hora futura
+    solo se considere confirmada si aparece en LALIGA o en realmadrid.com. Si la
+    web del club indica "fecha y hora por confirmar", devolvemos time=None para
+    borrar cualquier hora provisional heredada de ESPN.
+    """
+    text = _strip_html_for_schedule(fetch_text(REAL_MADRID_FIXTURES_URL))
+    out: list[dict] = []
+    date_re = re.compile(
+        r"(?:lunes|martes|mi[eé]rcoles|jueves|viernes|s[aá]bado|domingo)?\s*,?\s*"
+        r"(\d{1,2})\s+"
+        r"(ene(?:ro)?|feb(?:rero)?|mar(?:zo)?|abr(?:il)?|may(?:o)?|jun(?:io)?|"
+        r"jul(?:io)?|ago(?:sto)?|sep(?:t)?(?:iembre)?|oct(?:ubre)?|nov(?:iembre)?|dic(?:iembre)?)"
+        r"(?:\s*,?\s*(\d{1,2}:\d{2})\s*h)?",
+        re.I,
+    )
+
+    for fx in fixtures:
+        if fx.get("competition") != "LaLiga" or not fx.get("jornada"):
+            continue
+        try:
+            jornada = int(fx["jornada"])
+        except Exception:
+            continue
+        jm = None
+        block = ""
+        for candidate in re.finditer(rf"Jornada\s+{jornada}\b", text, re.I):
+            candidate_block = text[max(0, candidate.start() - 900): candidate.end() + 900]
+            if _official_block_contains_team(candidate_block, fx.get("opponent", "")):
+                jm = candidate
+                block = candidate_block
+                break
+        if jm is None:
+            continue
+
+        # Priorizamos la fecha que aparece después del rótulo de jornada.
+        after = text[jm.end(): jm.end() + 700]
+        dm = date_re.search(after) or date_re.search(block)
+        if not dm:
+            continue
+        day_s, month_s, time_s = dm.groups()
+        month_key = normalize_name(month_s).replace(" ", "")
+        month = _MONTHS_RM.get(month_key)
+        if not month:
+            # abreviaturas como "sept" o "sep"
+            month = _MONTHS_RM.get(month_key[:4]) or _MONTHS_RM.get(month_key[:3])
+        if not month:
+            continue
+
+        try:
+            base_year = date.fromisoformat(fx.get("date", "")).year
+        except Exception:
+            base_year = datetime.now(TZ).year
+        try:
+            dt = datetime(base_year, month, int(day_s), tzinfo=TZ)
+        except Exception:
+            continue
+
+        # Si la web oficial publica una hora válida, queda confirmada. Si solo
+        # aparece la fecha (por ejemplo, "fecha y hora por confirmar"), time=None.
+        confirmed_time = valid_time(time_s)
+        out.append({
+            "competition": "LaLiga",
+            "jornada": jornada,
+            "date": dt.date().isoformat(),
+            "displayDate": display_date(dt),
+            "time": confirmed_time,
+            "venue": fx.get("venue"),
+            "opponent": fx.get("opponent"),
+            "tv": deepcopy(fx.get("tv") or []),
+            "officialSource": "Real Madrid",
+        })
+    return out
 
 def normalize_name(value: str | None) -> str:
     if not value:
@@ -808,8 +907,40 @@ def merge_laliga_official(fixtures: list[dict], events: list[dict]) -> None:
         # La web oficial manda también cuando todavía NO hay hora: si muestra
         # --:--, eliminamos cualquier hora provisional de una fuente secundaria.
         fx["time"] = valid_time(event.get("time"))
+        fx["_officialTimeSeen"] = True
+        fx["_officialTimeSource"] = event.get("officialSource") or "LALIGA"
         if event.get("tv"):
             fx["tv"] = event["tv"]
+
+
+
+def enforce_official_future_laliga_times(fixtures: list[dict], official_sources_ok: bool) -> None:
+    """No publica horas futuras de LaLiga que no estén confirmadas oficialmente.
+
+    ESPN se mantiene para resultados/directo, pero no decide por sí solo una hora
+    futura. Si al menos una fuente oficial respondió correctamente y un partido
+    futuro no pudo verificarse en ninguna de ellas, se muestra "Por confirmar".
+    """
+    today = datetime.now(TZ).date()
+    for fx in fixtures:
+        if fx.get("competition") != "LaLiga" or fx.get("status") == "finished":
+            fx.pop("_officialTimeSeen", None)
+            fx.pop("_officialTimeSource", None)
+            continue
+        try:
+            day = date.fromisoformat(fx.get("date", ""))
+        except Exception:
+            fx.pop("_officialTimeSeen", None)
+            fx.pop("_officialTimeSource", None)
+            continue
+        if day < today:
+            fx.pop("_officialTimeSeen", None)
+            fx.pop("_officialTimeSource", None)
+            continue
+        seen = bool(fx.pop("_officialTimeSeen", False))
+        fx.pop("_officialTimeSource", None)
+        if official_sources_ok and not seen:
+            fx["time"] = None
 
 
 def apply_baseline_results(fixtures: list[dict]) -> None:
@@ -1135,16 +1266,35 @@ def full_refresh(data: dict, original: dict) -> int:
     except Exception as exc:
         log(f"AVISO calendario LaLiga por rango: {exc}")
 
+    official_source_ok = False
     try:
         official_laliga = get_laliga_official_schedule()
         if official_laliga:
             merge_laliga_official(fixtures, official_laliga)
             successes += 1
+            official_source_ok = True
             log(f"LALIGA oficial: {len(official_laliga)} partidos/horarios recibidos")
         else:
-            log("AVISO LALIGA oficial: no se pudieron extraer partidos; se conserva ESPN/JSON")
+            log("AVISO LALIGA oficial: no se pudieron extraer partidos")
     except Exception as exc:
         log(f"AVISO LALIGA oficial: {exc}")
+
+    # Segunda fuente oficial para los partidos del Madrid: realmadrid.com.
+    # Sirve también para anular horas provisionales cuando el club publica
+    # expresamente "fecha y hora por confirmar".
+    try:
+        official_rm = get_real_madrid_official_laliga_schedule(fixtures)
+        if official_rm:
+            merge_laliga_official(fixtures, official_rm)
+            successes += 1
+            official_source_ok = True
+            log(f"Real Madrid oficial: {len(official_rm)} partidos/horarios de LaLiga recibidos")
+        else:
+            log("AVISO Real Madrid oficial: no se pudieron extraer partidos de LaLiga")
+    except Exception as exc:
+        log(f"AVISO Real Madrid oficial: {exc}")
+
+    enforce_official_future_laliga_times(fixtures, official_source_ok)
 
     # Jornada completa de Liga y Champions. Se conserva la jornada hasta que
     # finaliza el último partido no aplazado; después pasa a la siguiente.
