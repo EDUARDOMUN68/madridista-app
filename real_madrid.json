@@ -2,14 +2,14 @@
   "app": {
     "name": "Madridista",
     "season": "2026/27",
-    "lastUpdated": "2026-09-16T20:06+02:00",
+    "lastUpdated": "2026-09-16T20:14+02:00",
     "timezone": "Europe/Madrid",
     "sources": [
       "Real Madrid C.F. — calendario oficial de LaLiga 2026/27",
       "Real Madrid C.F. — calendario Champions 2026/27",
       "LALIGA — horarios, resultados y clasificación"
     ],
-    "lastChecked": "2026-09-16T20:06+02:00"
+    "lastChecked": "2026-09-16T20:14+02:00"
   },
   "nextMatch": {
     "competition": "LaLiga",
@@ -641,11 +641,27 @@
       "dg": 5,
       "provisional": true,
       "live": true,
-      "liveLabel": "HT",
+      "liveLabel": "52'",
       "liveScore": "1–0"
     },
     {
       "pos": 4,
+      "team": "Sevilla",
+      "pts": 13,
+      "pj": 6,
+      "g": 4,
+      "e": 1,
+      "p": 1,
+      "gf": 9,
+      "gc": 6,
+      "dg": 3,
+      "provisional": true,
+      "live": true,
+      "liveLabel": "55'",
+      "liveScore": "0–1"
+    },
+    {
+      "pos": 5,
       "team": "Real Betis",
       "pts": 12,
       "pj": 5,
@@ -655,22 +671,6 @@
       "gf": 7,
       "gc": 6,
       "dg": 1
-    },
-    {
-      "pos": 5,
-      "team": "Sevilla",
-      "pts": 11,
-      "pj": 6,
-      "g": 3,
-      "e": 2,
-      "p": 1,
-      "gf": 8,
-      "gc": 6,
-      "dg": 2,
-      "provisional": true,
-      "live": true,
-      "liveLabel": "47'",
-      "liveScore": "0–0"
     },
     {
       "pos": 6,
@@ -687,18 +687,18 @@
     {
       "pos": 7,
       "team": "Deportivo",
-      "pts": 10,
+      "pts": 9,
       "pj": 6,
       "g": 2,
-      "e": 4,
-      "p": 0,
+      "e": 3,
+      "p": 1,
       "gf": 9,
-      "gc": 6,
-      "dg": 3,
+      "gc": 7,
+      "dg": 2,
       "provisional": true,
       "live": true,
-      "liveLabel": "47'",
-      "liveScore": "0–0"
+      "liveLabel": "55'",
+      "liveScore": "0–1"
     },
     {
       "pos": 8,
@@ -749,7 +749,7 @@
       "dg": -4,
       "provisional": true,
       "live": true,
-      "liveLabel": "HT",
+      "liveLabel": "52'",
       "liveScore": "1–0"
     },
     {
@@ -1376,7 +1376,7 @@
   ],
   "live": {
     "hasLiveMatches": true,
-    "updatedAt": "2026-09-16T20:06+02:00",
+    "updatedAt": "2026-09-16T20:14+02:00",
     "matches": [
       {
         "eventId": "401882875",
@@ -1391,7 +1391,7 @@
         "awayScore": 0,
         "score": "1–0",
         "status": "live",
-        "liveLabel": "HT"
+        "liveLabel": "52'"
       },
       {
         "eventId": "401882873",
@@ -1403,10 +1403,10 @@
         "home": "Deportivo",
         "away": "Sevilla",
         "homeScore": 0,
-        "awayScore": 0,
-        "score": "0–0",
+        "awayScore": 1,
+        "score": "0–1",
         "status": "live",
-        "liveLabel": "47'"
+        "liveLabel": "55'"
       }
     ]
   },
@@ -1658,14 +1658,14 @@
       "liveGames": 2,
       "pendingOfficialGames": 0,
       "sourceIncludesLive": false,
-      "updatedAt": "2026-09-16T20:06+02:00"
+      "updatedAt": "2026-09-16T20:14+02:00"
     },
     "Champions": {
       "mode": "official",
       "liveGames": 0,
       "pendingOfficialGames": 0,
       "sourceIncludesLive": false,
-      "updatedAt": "2026-09-16T20:06+02:00"
+      "updatedAt": "2026-09-16T20:14+02:00"
     }
   },
   "championsOfficialStandings": [
