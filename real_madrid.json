@@ -2,14 +2,14 @@
   "app": {
     "name": "Madridista",
     "season": "2026/27",
-    "lastUpdated": "2026-09-16T20:14+02:00",
+    "lastUpdated": "2026-09-16T20:31+02:00",
     "timezone": "Europe/Madrid",
     "sources": [
       "Real Madrid C.F. — calendario oficial de LaLiga 2026/27",
       "Real Madrid C.F. — calendario Champions 2026/27",
       "LALIGA — horarios, resultados y clasificación"
     ],
-    "lastChecked": "2026-09-16T20:14+02:00"
+    "lastChecked": "2026-09-16T20:31+02:00"
   },
   "nextMatch": {
     "competition": "LaLiga",
@@ -70,20 +70,6 @@
         "Movistar LALIGA",
         "Movistar Plus+",
         "Orange TV"
-      ]
-    },
-    {
-      "competition": "LaLiga",
-      "jornada": 4,
-      "date": "2026-09-04",
-      "displayDate": "Vie. 4 septiembre",
-      "venue": "away",
-      "opponent": "Real Betis",
-      "time": "21:00",
-      "status": "finished",
-      "score": "1–0",
-      "tv": [
-        "Movistar LALIGA"
       ]
     },
     {
@@ -213,10 +199,24 @@
       "displayDate": "Dom. 1 noviembre",
       "venue": "away",
       "opponent": "Racing de Santander",
-      "time": "21:00",
+      "time": null,
       "status": "scheduled",
       "score": null,
       "tv": []
+    },
+    {
+      "competition": "LaLiga",
+      "jornada": 4,
+      "date": "2026-11-04",
+      "displayDate": "Mié. 4 noviembre",
+      "venue": "away",
+      "opponent": "Real Betis",
+      "time": "18:45",
+      "status": "finished",
+      "score": "1–0",
+      "tv": [
+        "Movistar LALIGA"
+      ]
     },
     {
       "competition": "Champions",
@@ -636,13 +636,13 @@
       "g": 4,
       "e": 1,
       "p": 1,
-      "gf": 11,
+      "gf": 13,
       "gc": 6,
-      "dg": 5,
+      "dg": 7,
       "provisional": true,
       "live": true,
-      "liveLabel": "52'",
-      "liveScore": "1–0"
+      "liveLabel": "70'",
+      "liveScore": "3–0"
     },
     {
       "pos": 4,
@@ -657,7 +657,7 @@
       "dg": 3,
       "provisional": true,
       "live": true,
-      "liveLabel": "55'",
+      "liveLabel": "72'",
       "liveScore": "0–1"
     },
     {
@@ -697,7 +697,7 @@
       "dg": 2,
       "provisional": true,
       "live": true,
-      "liveLabel": "55'",
+      "liveLabel": "72'",
       "liveScore": "0–1"
     },
     {
@@ -738,22 +738,6 @@
     },
     {
       "pos": 11,
-      "team": "Osasuna",
-      "pts": 7,
-      "pj": 6,
-      "g": 2,
-      "e": 1,
-      "p": 3,
-      "gf": 5,
-      "gc": 9,
-      "dg": -4,
-      "provisional": true,
-      "live": true,
-      "liveLabel": "52'",
-      "liveScore": "1–0"
-    },
-    {
-      "pos": 12,
       "team": "Rayo Vallecano",
       "pts": 7,
       "pj": 6,
@@ -765,7 +749,7 @@
       "dg": -5
     },
     {
-      "pos": 13,
+      "pos": 12,
       "team": "Real Sociedad",
       "pts": 7,
       "pj": 6,
@@ -775,6 +759,22 @@
       "gf": 6,
       "gc": 11,
       "dg": -5
+    },
+    {
+      "pos": 13,
+      "team": "Osasuna",
+      "pts": 7,
+      "pj": 6,
+      "g": 2,
+      "e": 1,
+      "p": 3,
+      "gf": 5,
+      "gc": 11,
+      "dg": -6,
+      "provisional": true,
+      "live": true,
+      "liveLabel": "70'",
+      "liveScore": "3–0"
     },
     {
       "pos": 14,
@@ -1376,7 +1376,7 @@
   ],
   "live": {
     "hasLiveMatches": true,
-    "updatedAt": "2026-09-16T20:14+02:00",
+    "updatedAt": "2026-09-16T20:31+02:00",
     "matches": [
       {
         "eventId": "401882875",
@@ -1387,11 +1387,11 @@
         "kickoff": "2026-09-16T19:00+02:00",
         "home": "Atlético Madrid",
         "away": "Osasuna",
-        "homeScore": 1,
+        "homeScore": 3,
         "awayScore": 0,
-        "score": "1–0",
+        "score": "3–0",
         "status": "live",
-        "liveLabel": "52'"
+        "liveLabel": "70'"
       },
       {
         "eventId": "401882873",
@@ -1406,7 +1406,7 @@
         "awayScore": 1,
         "score": "0–1",
         "status": "live",
-        "liveLabel": "55'"
+        "liveLabel": "72'"
       }
     ]
   },
@@ -1658,14 +1658,14 @@
       "liveGames": 2,
       "pendingOfficialGames": 0,
       "sourceIncludesLive": false,
-      "updatedAt": "2026-09-16T20:14+02:00"
+      "updatedAt": "2026-09-16T20:31+02:00"
     },
     "Champions": {
       "mode": "official",
       "liveGames": 0,
       "pendingOfficialGames": 0,
       "sourceIncludesLive": false,
-      "updatedAt": "2026-09-16T20:14+02:00"
+      "updatedAt": "2026-09-16T20:31+02:00"
     }
   },
   "championsOfficialStandings": [
