@@ -9,7 +9,7 @@
       "Real Madrid C.F. — calendario Champions 2026/27",
       "LALIGA — horarios, resultados y clasificación"
     ],
-    "lastChecked": "2026-09-17T09:41+02:00"
+    "lastChecked": "2026-09-17T15:29+02:00"
   },
   "nextMatch": {
     "competition": "LaLiga",
@@ -1346,7 +1346,7 @@
   ],
   "live": {
     "hasLiveMatches": false,
-    "updatedAt": "2026-09-17T09:41+02:00",
+    "updatedAt": "2026-09-17T15:29+02:00",
     "matches": []
   },
   "laligaOfficialStandings": [
@@ -1597,14 +1597,14 @@
       "liveGames": 0,
       "pendingOfficialGames": 0,
       "sourceIncludesLive": false,
-      "updatedAt": "2026-09-17T09:41+02:00"
+      "updatedAt": "2026-09-17T15:29+02:00"
     },
     "Champions": {
       "mode": "official",
       "liveGames": 0,
       "pendingOfficialGames": 0,
       "sourceIncludesLive": false,
-      "updatedAt": "2026-09-17T09:41+02:00"
+      "updatedAt": "2026-09-17T15:29+02:00"
     }
   },
   "championsOfficialStandings": [
