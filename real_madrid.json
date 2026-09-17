@@ -2,14 +2,14 @@
   "app": {
     "name": "Madridista",
     "season": "2026/27",
-    "lastUpdated": "2026-09-17T00:57+02:00",
+    "lastUpdated": "2026-09-17T20:15+02:00",
     "timezone": "Europe/Madrid",
     "sources": [
       "Real Madrid C.F. — calendario oficial de LaLiga 2026/27",
       "Real Madrid C.F. — calendario Champions 2026/27",
       "LALIGA — horarios, resultados y clasificación"
     ],
-    "lastChecked": "2026-09-17T15:29+02:00"
+    "lastChecked": "2026-09-17T20:15+02:00"
   },
   "nextMatch": {
     "competition": "LaLiga",
@@ -630,6 +630,22 @@
     },
     {
       "pos": 3,
+      "team": "Real Betis",
+      "pts": 15,
+      "pj": 6,
+      "g": 5,
+      "e": 0,
+      "p": 1,
+      "gf": 8,
+      "gc": 6,
+      "dg": 2,
+      "provisional": true,
+      "live": true,
+      "liveLabel": "51'",
+      "liveScore": "1–0"
+    },
+    {
+      "pos": 4,
       "team": "Atlético Madrid",
       "pts": 13,
       "pj": 6,
@@ -641,7 +657,7 @@
       "dg": 8
     },
     {
-      "pos": 4,
+      "pos": 5,
       "team": "Sevilla",
       "pts": 13,
       "pj": 6,
@@ -651,18 +667,6 @@
       "gf": 9,
       "gc": 6,
       "dg": 3
-    },
-    {
-      "pos": 5,
-      "team": "Real Betis",
-      "pts": 12,
-      "pj": 5,
-      "g": 4,
-      "e": 0,
-      "p": 1,
-      "gf": 7,
-      "gc": 6,
-      "dg": 1
     },
     {
       "pos": 6,
@@ -776,13 +780,17 @@
       "pos": 15,
       "team": "Getafe",
       "pts": 5,
-      "pj": 5,
+      "pj": 6,
       "g": 1,
       "e": 2,
-      "p": 2,
+      "p": 3,
       "gf": 3,
-      "gc": 6,
-      "dg": -3
+      "gc": 7,
+      "dg": -4,
+      "provisional": true,
+      "live": true,
+      "liveLabel": "51'",
+      "liveScore": "1–0"
     },
     {
       "pos": 16,
@@ -1345,9 +1353,25 @@
     }
   ],
   "live": {
-    "hasLiveMatches": false,
-    "updatedAt": "2026-09-17T15:29+02:00",
-    "matches": []
+    "hasLiveMatches": true,
+    "updatedAt": "2026-09-17T20:15+02:00",
+    "matches": [
+      {
+        "eventId": "401882874",
+        "competition": "LaLiga",
+        "date": "2026-09-17",
+        "displayDate": "Jue. 17 septiembre",
+        "time": "19:00",
+        "kickoff": "2026-09-17T19:00+02:00",
+        "home": "Real Betis",
+        "away": "Getafe",
+        "homeScore": 1,
+        "awayScore": 0,
+        "score": "1–0",
+        "status": "live",
+        "liveLabel": "51'"
+      }
+    ]
   },
   "laligaOfficialStandings": [
     {
@@ -1593,18 +1617,18 @@
   ],
   "standingsMeta": {
     "LaLiga": {
-      "mode": "official",
-      "liveGames": 0,
+      "mode": "provisional",
+      "liveGames": 1,
       "pendingOfficialGames": 0,
       "sourceIncludesLive": false,
-      "updatedAt": "2026-09-17T15:29+02:00"
+      "updatedAt": "2026-09-17T20:15+02:00"
     },
     "Champions": {
       "mode": "official",
       "liveGames": 0,
       "pendingOfficialGames": 0,
       "sourceIncludesLive": false,
-      "updatedAt": "2026-09-17T15:29+02:00"
+      "updatedAt": "2026-09-17T20:15+02:00"
     }
   },
   "championsOfficialStandings": [
