@@ -724,12 +724,26 @@ def overlay_today_round_status(matches: list[dict], competition: str, today: dat
             if m.get("date") != day.isoformat():
                 continue
             hit = next((g for g in fresh if same_team(m.get("home", ""), g.get("home", "")) and same_team(m.get("away", ""), g.get("away", ""))), None)
-            if not hit:
-                continue
-            for key in ("eventId", "status", "homeScore", "awayScore", "score", "liveLabel", "time", "kickoff", "displayDate"):
-                if hit.get(key) is not None:
-                    m[key] = hit.get(key)
-            if m.get("status") == "finished":
+            if hit:
+                for key in ("eventId", "status", "homeScore", "awayScore", "score", "liveLabel", "time", "kickoff", "displayDate"):
+                    if hit.get(key) is not None:
+                        m[key] = hit.get(key)
+                if m.get("status") == "finished":
+                    m.pop("liveLabel", None)
+
+            # Blindaje de aplazados: un partido de una fecha YA pasada no puede
+            # seguir figurando como "scheduled" indefinidamente. Algunas fuentes
+            # conservan la fecha original incluso después de reprogramarlo. Si al
+            # día siguiente sigue como programado (haya o no coincidencia en ESPN),
+            # lo tratamos como aplazado para que NO bloquee el cierre de la jornada.
+            # Si realmente se disputó, el estado fresh será live/finished y no entra.
+            try:
+                match_day = date.fromisoformat(m.get("date", ""))
+            except Exception:
+                match_day = None
+            if match_day and match_day < today and m.get("status") == "scheduled":
+                m["status"] = "postponed"
+                m["rescheduled"] = True
                 m.pop("liveLabel", None)
     return out
 
