@@ -10,8 +10,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <title>Madridista</title>
-<!-- Madridista v12: selector manual + catálogo jornadasAll -->
-<meta name="madridista-version" content="jornada-v3-11-history">
+<meta name="madridista-version" content="jornada-v3-11-catalog">
 <style>
 :root{--bg:#f4f6fb;--card:#fff;--navy:#0b1f3a;--blue:#244f94;--gold:#d7b34c;--text:#1d2530;--muted:#6d7787;--line:#e3e8f0;--champ:#eef3ff;--done:#f7f8fa;--danger:#fff0f0;--green:#eaf7ef}
 *{box-sizing:border-box} html{background:var(--bg)} body{margin:0;font-family:Arial,Helvetica,sans-serif;background:radial-gradient(circle at 90% -10%,rgba(36,79,148,.16),transparent 25%),var(--bg);color:var(--text)} button{font:inherit}
@@ -84,7 +83,7 @@
   <h3 id="jornadaTitle" style="display:none">Cargando jornada…</h3>
   <div class="jornada-summary" id="jornadaSummary"></div>
   <div class="card jornada-card" id="jornadaMatches"><div class="jornada-loading">Cargando partidos de la jornada…</div></div>
-  <div class="jornada-note">Elige manualmente la jornada que quieras consultar. La app recuerda tu elección y guarda localmente los datos de cada jornada para poder recuperarlos al volver a abrirla.</div>
+  <div class="jornada-note">Elige manualmente la jornada que quieras consultar. La app recuerda tu elección por separado para LaLiga y Champions.</div>
 </section>
 </main>
 <nav class="bottomnav"><button class="navbtn active" data-view="calendarView"><span class="ico">📅</span>Partidos</button><button class="navbtn" data-view="resultsView"><span class="ico">⚽</span>Resultados</button><button class="navbtn" data-view="tableView"><span class="ico">🏆</span>Clasificación</button><button class="navbtn" data-view="jornadaView"><span class="ico">📋</span>Jornada</button></nav>
@@ -150,6 +149,11 @@ function sanitizeJornadaMatches(matches){
 function sanitizeJornadaContainers(app){
   for(const key of ['jornadas','jornadasNext']){
     for(const d of Object.values(app?.[key]||{})){
+      if(d?.matches){sanitizeJornadaMatches(d.matches);d.phase=jornadaPhase(d.matches);}
+    }
+  }
+  for(const byCompetition of Object.values(app?.jornadasAll||{})){
+    for(const d of Object.values(byCompetition||{})){
       if(d?.matches){sanitizeJornadaMatches(d.matches);d.phase=jornadaPhase(d.matches);}
     }
   }
@@ -435,30 +439,16 @@ function applyPendingFinalIfNeeded(competition,games,rows,store){
 }
 const JORNADA_STORE_KEY='madridista_jornada_comp_v1';
 const JORNADA_NUMBER_STORE_KEY='madridista_jornada_num_v1';
-const JORNADA_HISTORY_STORE_KEY='madridista_jornada_history_v2';
-function jornadaHistoryLoad(){
-  try{const raw=JSON.parse(localStorage.getItem(JORNADA_HISTORY_STORE_KEY)||'{}');return raw&&typeof raw==='object'?raw:{}}catch(e){return {}}
-}
-function jornadaHistoryGet(competition,jornada){
-  const x=jornadaHistoryLoad()[`${competition}:${Number(jornada)}`];
-  return x&&x.data&&x.data.competition===competition&&Number(x.data.jornada)===Number(jornada)?JSON.parse(JSON.stringify(x.data)):null;
-}
-function jornadaHistorySave(data){
-  if(!data?.competition||!Number.isFinite(Number(data.jornada))||!Array.isArray(data.matches))return;
-  try{
-    const all=jornadaHistoryLoad(),key=`${data.competition}:${Number(data.jornada)}`;
-    all[key]={savedAt:Date.now(),data:JSON.parse(JSON.stringify(data))};
-    const entries=Object.entries(all).sort((a,b)=>(b[1]?.savedAt||0)-(a[1]?.savedAt||0));
-    const trimmed=Object.fromEntries(entries.slice(0,60));
-    localStorage.setItem(JORNADA_HISTORY_STORE_KEY,JSON.stringify(trimmed));
-  }catch(e){console.debug('Madridista cache jornada:',e)}
-}
 function jornadaAnchors(competition){
   const map=new Map();for(const fx of APP?.fixtures||[]){const j=Number(fx.jornada);if(fx.competition!==competition||!Number.isFinite(j)||!fx.date)continue;if(!map.has(j))map.set(j,{jornada:j,date:fx.date});}
   return [...map.values()].sort((a,b)=>a.jornada-b.jornada);
 }
 function jornadaBounds(competition){
-  // Selector manual completo: el usuario manda, no la detección automática.
+  const catalog=APP?.jornadasAll?.[competition]||{};
+  const nums=Object.keys(catalog).map(Number).filter(Number.isFinite).sort((a,b)=>a-b);
+  if(nums.length)return {min:nums[0],max:nums[nums.length-1]};
+  const a=jornadaAnchors(competition);
+  if(a.length)return {min:a[0].jornada,max:a[a.length-1].jornada};
   return competition==='Champions'?{min:1,max:8}:{min:1,max:38};
 }
 function jornadaSavedNumbers(){
@@ -476,19 +466,12 @@ function jornadaSaveNumber(competition,jornada){
   try{localStorage.setItem(JORNADA_NUMBER_STORE_KEY,JSON.stringify(saved))}catch(e){}
   return n;
 }
-function jornadaCatalogReference(competition,jornada){
-  const n=Number(jornada),raw=APP?.jornadasAll?.[competition]?.[String(n)]??APP?.jornadasAll?.[competition]?.[n];
-  return raw&&raw.competition===competition&&Number(raw.jornada)===n?JSON.parse(JSON.stringify(raw)):null;
-}
 function jornadaExactReference(competition,jornada){
-  const n=Number(jornada),candidates=[
-    jornadaBrowseCache[`${competition}:${n}`],
-    jornadaCatalogReference(competition,n),
-    jornadaHistoryGet(competition,n),
-    jornadaFallback(competition),
-    jornadaNextFallback(competition)
-  ];
-  return candidates.find(x=>x&&x.competition===competition&&Number(x.jornada)===n)||null;
+  const n=Number(jornada);
+  const catalog=APP?.jornadasAll?.[competition]?.[String(n)]||APP?.jornadasAll?.[competition]?.[n]||null;
+  const candidates=[catalog,jornadaBrowseCache[`${competition}:${n}`],jornadaFallback(competition),jornadaNextFallback(competition)];
+  const hit=candidates.find(x=>x&&x.competition===competition&&Number(x.jornada)===n)||null;
+  return hit?JSON.parse(JSON.stringify(hit)):null;
 }
 function updateJornadaSelector(competition,jornada){
   const sel=document.getElementById('jornadaSelect'),prev=document.getElementById('jornadaPrev'),next=document.getElementById('jornadaNext');if(!sel)return;
@@ -602,7 +585,7 @@ function renderJornada(data){
   if(data?.matches)sanitizeJornadaMatches(data.matches);
   jornadaData=data;const box=document.getElementById('jornadaMatches'),title=document.getElementById('jornadaTitle'),state=document.getElementById('jornadaState'),sum=document.getElementById('jornadaSummary');if(!box||!title||!state||!sum)return;
   const selected=data?Number(data.jornada):jornadaSelectedNumber(jornadaCompetition||'LaLiga');updateJornadaSelector(jornadaCompetition||data?.competition||'LaLiga',selected);
-  if(!data){title.textContent='Jornada';state.textContent='Sin datos';sum.innerHTML='';box.innerHTML='<div class="jornada-empty">No hay datos de esta jornada.</div>';return;}
+  if(!data){title.textContent='Jornada';state.textContent='Sin datos';sum.innerHTML='';box.innerHTML='<div class="jornada-empty">No hay datos guardados de esta jornada. Pulsa ↻ para recargar el catálogo.</div>';return;}
   title.textContent=`Jornada ${data.jornada} · ${data.competition==='LaLiga'?'LaLiga':'Champions'}`;const phase=data.phase||jornadaPhase(data.matches||[]);state.className='jornada-state '+(phase==='active'?'live':phase==='upcoming'?'upcoming':'');state.textContent=phase==='active'?'En curso':phase==='upcoming'?'Próxima jornada':'Jornada finalizada';
   const normal=(data.matches||[]).filter(x=>x.status!=='postponed'),finished=normal.filter(x=>x.status==='finished').length,live=normal.filter(x=>x.status==='live').length,post=(data.matches||[]).filter(x=>x.status==='postponed').length;
   sum.innerHTML=`<span class="jornada-pill ${live?'live':finished===normal.length&&normal.length?'done':'pending'}">${live?`🔴 ${live} en juego`:`${finished}/${normal.length||0} finalizados`}</span>${post?`<span class="jornada-pill">${post} aplazado${post===1?'':'s'}</span>`:''}`;
@@ -626,7 +609,6 @@ async function refreshJornadaDirect(showToast=false,requestedCompetition=null,re
   try{
     const data=await fetchJornada(competition,num,reference);
     jornadaBrowseCache[`${competition}:${num}`]=JSON.parse(JSON.stringify(data));
-    jornadaHistorySave(data);
     // MODO MANUAL: jamás saltamos de jornada automáticamente. El número elegido
     // por el usuario manda, incluso si hay aplazados o la jornada ya terminó.
     if(jornadaCompetition===competition&&jornadaSelectedNumber(competition)===num&&token===jornadaRequestToken){
