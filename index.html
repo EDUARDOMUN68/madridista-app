@@ -10,7 +10,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <title>Madridista</title>
-<meta name="madridista-version" content="v4-0-1">
+<meta name="madridista-version" content="jornada-v3-10-manual">
 <style>
 :root{--bg:#f4f6fb;--card:#fff;--navy:#0b1f3a;--blue:#244f94;--gold:#d7b34c;--text:#1d2530;--muted:#6d7787;--line:#e3e8f0;--champ:#eef3ff;--done:#f7f8fa;--danger:#fff0f0;--green:#eaf7ef}
 *{box-sizing:border-box} html{background:var(--bg)} body{margin:0;font-family:Arial,Helvetica,sans-serif;background:radial-gradient(circle at 90% -10%,rgba(36,79,148,.16),transparent 25%),var(--bg);color:var(--text)} button{font:inherit}
@@ -47,7 +47,7 @@
 .standings tr.provisional-row td.team{font-weight:900}
 .provisional-note{font-size:11px;color:var(--muted);margin:8px 2px 0;line-height:1.4}
 .browser-live-info{font-size:10px;color:var(--muted);margin-top:3px}.browser-live-info.on{color:#b42318;font-weight:900}.official-check{font-size:10px;color:var(--muted);margin-top:2px}
-.jornada-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:11px 2px 9px}.jornada-head h3{margin:0;color:var(--navy);font-size:18px}.jornada-state{font-size:11px;font-weight:800;color:var(--muted);text-align:right}.jornada-state.live{color:#b42318}.jornada-state.upcoming{color:#805f10}.jornada-card{overflow:hidden}.jornada-row{display:grid;grid-template-columns:108px minmax(0,1fr) 104px;gap:10px;align-items:center;padding:12px 14px;border-bottom:1px solid var(--line);background:#fff}.jornada-row:last-child{border-bottom:0}.jornada-row.rm{background:#eef3ff;box-shadow:inset 4px 0 var(--gold)}.jornada-row.live{background:linear-gradient(90deg,#fff0ed,#fff)}.jornada-row.postponed{background:#fafafa;color:#7a8492}.jornada-when{font-size:11px;color:var(--muted);line-height:1.35}.jornada-when b{display:block;color:var(--navy);font-size:11px}.jornada-teams{display:grid;gap:6px}.jornada-team{font-weight:800;line-height:1.2}.jornada-team.rmteam{color:var(--navy);font-weight:900}.jornada-team .home-away{display:inline-block;width:17px;color:#8a94a3;font-size:10px}.jornada-result{text-align:right;color:var(--navy)}.jornada-result .big{font-size:16px;font-weight:900}.jornada-result .small{font-size:10px;font-weight:800;color:var(--muted);margin-top:3px}.jornada-result .small.live{color:#b42318}.jornada-note{font-size:11px;color:var(--muted);line-height:1.45;margin:9px 2px}.jornada-empty{padding:26px 18px;text-align:center;color:var(--muted);font-size:12px}.jornada-loading{padding:24px 18px;text-align:center;color:var(--muted);font-size:12px}.jornada-summary{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0 10px}.jornada-pill{display:inline-flex;align-items:center;border:1px solid var(--line);border-radius:999px;background:#fff;padding:6px 9px;font-size:10px;font-weight:800;color:#5f6977}.jornada-pill.live{color:#b42318;border-color:#f2b8b5;background:#fff0f0}.jornada-pill.done{color:#18794e;border-color:#b7e2c8;background:#eaf7ef}.jornada-pill.pending{color:#805f10;border-color:#f1d28c;background:#fff4d9}
+.jornada-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:11px 2px 9px}.jornada-head h3{margin:0;color:var(--navy);font-size:18px}.jornada-selector{display:flex;align-items:center;gap:7px;min-width:0}.jornada-arrow{width:34px;height:34px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--navy);font-size:22px;font-weight:900;line-height:1;cursor:pointer}.jornada-arrow:disabled{opacity:.32;cursor:default}.jornada-select{height:34px;min-width:132px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--navy);font-weight:900;font-size:14px;padding:0 30px 0 10px;outline:none}.jornada-state{font-size:11px;font-weight:800;color:var(--muted);text-align:right}.jornada-state.live{color:#b42318}.jornada-state.upcoming{color:#805f10}.jornada-card{overflow:hidden}.jornada-row{display:grid;grid-template-columns:108px minmax(0,1fr) 104px;gap:10px;align-items:center;padding:12px 14px;border-bottom:1px solid var(--line);background:#fff}.jornada-row:last-child{border-bottom:0}.jornada-row.rm{background:#eef3ff;box-shadow:inset 4px 0 var(--gold)}.jornada-row.live{background:linear-gradient(90deg,#fff0ed,#fff)}.jornada-row.postponed{background:#fafafa;color:#7a8492}.jornada-when{font-size:11px;color:var(--muted);line-height:1.35}.jornada-when b{display:block;color:var(--navy);font-size:11px}.jornada-teams{display:grid;gap:6px}.jornada-team{font-weight:800;line-height:1.2}.jornada-team.rmteam{color:var(--navy);font-weight:900}.jornada-team .home-away{display:inline-block;width:17px;color:#8a94a3;font-size:10px}.jornada-result{text-align:right;color:var(--navy)}.jornada-result .big{font-size:16px;font-weight:900}.jornada-result .small{font-size:10px;font-weight:800;color:var(--muted);margin-top:3px}.jornada-result .small.live{color:#b42318}.jornada-note{font-size:11px;color:var(--muted);line-height:1.45;margin:9px 2px}.jornada-empty{padding:26px 18px;text-align:center;color:var(--muted);font-size:12px}.jornada-loading{padding:24px 18px;text-align:center;color:var(--muted);font-size:12px}.jornada-summary{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0 10px}.jornada-pill{display:inline-flex;align-items:center;border:1px solid var(--line);border-radius:999px;background:#fff;padding:6px 9px;font-size:10px;font-weight:800;color:#5f6977}.jornada-pill.live{color:#b42318;border-color:#f2b8b5;background:#fff0f0}.jornada-pill.done{color:#18794e;border-color:#b7e2c8;background:#eaf7ef}.jornada-pill.pending{color:#805f10;border-color:#f1d28c;background:#fff4d9}
 
 @media(max-width:720px){.content{padding:12px}.fixture{grid-template-columns:90px 1fr 112px}.fixture .compcol{display:none}.result-row{grid-template-columns:82px 1fr 88px}.result-row .compcol{display:none}.next-match{font-size:24px}.stats{gap:7px}.stat{padding:11px}.section-head{align-items:flex-start;flex-direction:column}.standings-card{max-width:100%}.jornada-row{grid-template-columns:76px minmax(0,1fr) 82px;padding:11px 10px;gap:7px}.bottomnav .navbtn{font-size:10px;padding-left:2px;padding-right:2px}.bottomnav .navbtn .ico{font-size:18px}}
 </style>
@@ -79,17 +79,18 @@
 <section id="jornadaView" class="view">
   <div class="section-head"><h2>Jornada</h2><small id="jornadaTopState">Jornada completa</small></div>
   <div class="filters" id="jornadaFilters"><button class="filter active" data-jfilter="LaLiga">LaLiga</button><button class="filter" data-jfilter="Champions">Champions</button></div>
-  <div class="jornada-head"><h3 id="jornadaTitle">Cargando jornada…</h3><div class="jornada-state" id="jornadaState"></div></div>
+  <div class="jornada-head"><div class="jornada-selector"><button class="jornada-arrow" id="jornadaPrev" type="button" aria-label="Jornada anterior">‹</button><select class="jornada-select" id="jornadaSelect" aria-label="Elegir jornada"></select><button class="jornada-arrow" id="jornadaNext" type="button" aria-label="Jornada siguiente">›</button></div><div class="jornada-state" id="jornadaState"></div></div>
+  <h3 id="jornadaTitle" style="display:none">Cargando jornada…</h3>
   <div class="jornada-summary" id="jornadaSummary"></div>
   <div class="card jornada-card" id="jornadaMatches"><div class="jornada-loading">Cargando partidos de la jornada…</div></div>
-  <div class="jornada-note">La jornada se mantiene activa hasta que terminan todos sus partidos normales. Los encuentros aplazados no impiden pasar a la siguiente jornada.</div>
+  <div class="jornada-note">Elige manualmente la jornada que quieras consultar. La app recuerda tu elección por separado para LaLiga y Champions.</div>
 </section>
 </main>
 <nav class="bottomnav"><button class="navbtn active" data-view="calendarView"><span class="ico">📅</span>Partidos</button><button class="navbtn" data-view="resultsView"><span class="ico">⚽</span>Resultados</button><button class="navbtn" data-view="tableView"><span class="ico">🏆</span>Clasificación</button><button class="navbtn" data-view="jornadaView"><span class="ico">📋</span>Jornada</button></nav>
 </div>
 <script id="fallback-data" type="application/json">{"app": {"name": "Madridista", "season": "2026/27", "lastUpdated": "2026-08-31T19:48:00+02:00", "timezone": "Europe/Madrid", "sources": ["Real Madrid C.F. — calendario oficial de LaLiga 2026/27", "Real Madrid C.F. — calendario Champions 2026/27", "LALIGA — horarios, resultados y clasificación"]}, "nextMatch": {"competition": "LaLiga", "jornada": 4, "date": "2026-09-04", "displayDate": "Vie. 4 septiembre", "venue": "away", "opponent": "Real Betis", "time": "21:00", "status": "scheduled", "score": null, "tv": ["Movistar LALIGA"]}, "fixtures": [{"competition": "LaLiga", "jornada": 2, "date": "2026-08-22", "displayDate": "Sáb. 22 agosto", "venue": "away", "opponent": "RCD Espanyol", "time": "21:30", "status": "finished", "score": "1–2", "tv": ["DAZN", "Orange TV"]}, {"competition": "LaLiga", "jornada": 1, "date": "2026-08-26", "displayDate": "Mié. 26 agosto", "venue": "home", "opponent": "Real Sociedad", "time": "21:00", "status": "finished", "score": "4–1", "tv": ["Movistar LALIGA", "Orange TV"]}, {"competition": "LaLiga", "jornada": 3, "date": "2026-08-30", "displayDate": "Dom. 30 agosto", "venue": "home", "opponent": "Málaga CF", "time": "17:00", "status": "finished", "score": "4–0", "tv": ["Movistar LALIGA", "Movistar Plus+", "Orange TV"]}, {"competition": "LaLiga", "jornada": 4, "date": "2026-09-04", "displayDate": "Vie. 4 septiembre", "venue": "away", "opponent": "Real Betis", "time": "21:00", "status": "scheduled", "score": null, "tv": ["Movistar LALIGA"]}, {"competition": "Champions", "jornada": 1, "date": "2026-09-08", "displayDate": "Mar. 8 septiembre", "venue": "home", "opponent": "Inter de Milán", "time": "21:00", "status": "scheduled", "score": null, "tv": []}, {"competition": "LaLiga", "jornada": 5, "date": "2026-09-12", "displayDate": "Sáb. 12 septiembre", "venue": "home", "opponent": "Rayo Vallecano", "time": "21:00", "status": "scheduled", "score": null, "tv": ["DAZN"]}, {"competition": "LaLiga", "jornada": 6, "date": "2026-09-15", "displayDate": "Mar. 15 septiembre", "venue": "away", "opponent": "Elche CF", "time": "21:30", "status": "scheduled", "score": null, "tv": ["Movistar LALIGA", "Movistar Plus+", "Orange Fútbol 1"]}, {"competition": "LaLiga", "jornada": 7, "date": "2026-09-20", "displayDate": "Dom. 20 septiembre", "venue": "away", "opponent": "Atlético de Madrid", "time": "16:15", "status": "scheduled", "score": null, "tv": ["DAZN", "Orange TV"]}, {"competition": "LaLiga", "jornada": 8, "date": "2026-10-10", "displayDate": "Sáb. 10 octubre", "venue": "home", "opponent": "Villarreal CF", "time": "21:00", "status": "scheduled", "score": null, "tv": ["Movistar LALIGA"]}, {"competition": "Champions", "jornada": 2, "date": "2026-10-14", "displayDate": "Mié. 14 octubre", "venue": "away", "opponent": "Roma", "time": "21:00", "status": "scheduled", "score": null, "tv": []}, {"competition": "LaLiga", "jornada": 9, "date": "2026-10-17", "displayDate": "17–18 octubre", "venue": "home", "opponent": "Sevilla FC", "time": null, "status": "scheduled", "score": null, "tv": []}, {"competition": "Champions", "jornada": 3, "date": "2026-10-21", "displayDate": "Mié. 21 octubre", "venue": "home", "opponent": "RB Leipzig", "time": "21:00", "status": "scheduled", "score": null, "tv": []}, {"competition": "LaLiga", "jornada": 10, "date": "2026-10-24", "displayDate": "24–25 octubre", "venue": "away", "opponent": "FC Barcelona", "time": null, "status": "scheduled", "score": null, "tv": []}, {"competition": "LaLiga", "jornada": 11, "date": "2026-10-31", "displayDate": "31 oct.–1 nov.", "venue": "away", "opponent": "Racing de Santander", "time": null, "status": "scheduled", "score": null, "tv": []}, {"competition": "Champions", "jornada": 4, "date": "2026-11-04", "displayDate": "Mié. 4 noviembre", "venue": "away", "opponent": "AEK Atenas", "time": "18:45", "status": "scheduled", "score": null, "tv": []}, {"competition": "LaLiga", "jornada": 12, "date": "2026-11-07", "displayDate": "7–8 noviembre", "venue": "away", "opponent": "Valencia CF", "time": null, "status": "scheduled", "score": null, "tv": []}, {"competition": "LaLiga", "jornada": 13, "date": "2026-11-21", "displayDate": "21–22 noviembre", "venue": "home", "opponent": "Celta", "time": null, "status": "scheduled", "score": null, "tv": []}, {"competition": "Champions", "jornada": 5, "date": "2026-11-24", "displayDate": "Mar. 24 noviembre", "venue": "home", "opponent": "PSV", "time": "21:00", "status": "scheduled", "score": null, "tv": []}, {"competition": "LaLiga", "jornada": 14, "date": "2026-11-28", "displayDate": "28–29 noviembre", "venue": "home", "opponent": "Deportivo Alavés", "time": null, "status": "scheduled", "score": null, "tv": []}, {"competition": "LaLiga", "jornada": 15, "date": "2026-12-05", "displayDate": "5–6 diciembre", "venue": "away", "opponent": "Athletic Club", "time": null, "status": "scheduled", "score": null, "tv": []}, {"competition": "Champions", "jornada": 6, "date": "2026-12-09", "displayDate": "Mié. 9 diciembre", "venue": "away", "opponent": "Arsenal", "time": "21:00", "status": "scheduled", "score": null, "tv": []}, {"competition": "LaLiga", "jornada": 16, "date": "2026-12-12", "displayDate": "12–13 diciembre", "venue": "home", "opponent": "CA Osasuna", "time": null, "status": "scheduled", "score": null, "tv": []}, {"competition": "LaLiga", "jornada": 17, "date": "2026-12-19", "displayDate": "19–20 diciembre", "venue": "away", "opponent": "RC Deportivo", "time": null, "status": "scheduled", "score": null, "tv": []}, {"competition": "LaLiga", "jornada": 18, "date": "2027-01-02", "displayDate": "2–3 enero", "venue": "home", "opponent": "Getafe CF", "time": null, "status": "scheduled", "score": null, "tv": []}, {"competition": "LaLiga", "jornada": 19, "date": "2027-01-09", "displayDate": "9–10 enero", "venue": "home", "opponent": "Levante UD", "time": null, "status": "scheduled", "score": null, "tv": []}, {"competition": "LaLiga", "jornada": 20, "date": "2027-01-16", "displayDate": "16–17 enero", "venue": "away", "opponent": "Málaga CF", "time": null, "status": "scheduled", "score": null, "tv": []}, {"competition": "Champions", "jornada": 7, "date": "2027-01-19", "displayDate": "Mar. 19 enero", "venue": "home", "opponent": "LASK", "time": "21:00", "status": "scheduled", "score": null, "tv": []}, {"competition": "LaLiga", "jornada": 21, "date": "2027-01-23", "displayDate": "23–24 enero", "venue": "home", "opponent": "Real Betis", "time": null, "status": "scheduled", "score": null, "tv": []}, {"competition": "Champions", "jornada": 8, "date": "2027-01-27", "displayDate": "Mié. 27 enero", "venue": "away", "opponent": "Shakhtar Donetsk", "time": "21:00", "status": "scheduled", "score": null, "tv": []}, {"competition": "LaLiga", "jornada": 22, "date": "2027-01-30", "displayDate": "30–31 enero", "venue": "away", "opponent": "Rayo Vallecano", "time": null, "status": "scheduled", "score": null, "tv": []}, {"competition": "LaLiga", "jornada": 23, "date": "2027-02-06", "displayDate": "6–7 febrero", "venue": "away", "opponent": "Real Sociedad", "time": null, "status": "scheduled", "score": null, "tv": []}, {"competition": "LaLiga", "jornada": 24, "date": "2027-02-13", "displayDate": "13–14 febrero", "venue": "home", "opponent": "Athletic Club", "time": null, "status": "scheduled", "score": null, "tv": []}, {"competition": "LaLiga", "jornada": 25, "date": "2027-02-20", "displayDate": "20–21 febrero", "venue": "away", "opponent": "Sevilla FC", "time": null, "status": "scheduled", "score": null, "tv": []}, {"competition": "LaLiga", "jornada": 26, "date": "2027-02-27", "displayDate": "27–28 febrero", "venue": "home", "opponent": "Valencia CF", "time": null, "status": "scheduled", "score": null, "tv": []}, {"competition": "LaLiga", "jornada": 27, "date": "2027-03-06", "displayDate": "6–7 marzo", "venue": "away", "opponent": "Villarreal CF", "time": null, "status": "scheduled", "score": null, "tv": []}, {"competition": "LaLiga", "jornada": 28, "date": "2027-03-13", "displayDate": "13–14 marzo", "venue": "home", "opponent": "RCD Espanyol", "time": null, "status": "scheduled", "score": null, "tv": []}, {"competition": "LaLiga", "jornada": 29, "date": "2027-03-20", "displayDate": "20–21 marzo", "venue": "away", "opponent": "Celta", "time": null, "status": "scheduled", "score": null, "tv": []}, {"competition": "LaLiga", "jornada": 30, "date": "2027-04-03", "displayDate": "3–4 abril", "venue": "home", "opponent": "Atlético de Madrid", "time": null, "status": "scheduled", "score": null, "tv": []}, {"competition": "LaLiga", "jornada": 31, "date": "2027-04-10", "displayDate": "10–11 abril", "venue": "away", "opponent": "CA Osasuna", "time": null, "status": "scheduled", "score": null, "tv": []}, {"competition": "LaLiga", "jornada": 32, "date": "2027-04-17", "displayDate": "17–18 abril", "venue": "away", "opponent": "Getafe CF", "time": null, "status": "scheduled", "score": null, "tv": []}, {"competition": "LaLiga", "jornada": 33, "date": "2027-04-20", "displayDate": "20–22 abril", "venue": "home", "opponent": "Elche CF", "time": null, "status": "scheduled", "score": null, "tv": []}, {"competition": "LaLiga", "jornada": 34, "date": "2027-05-01", "displayDate": "1–2 mayo", "venue": "away", "opponent": "Levante UD", "time": null, "status": "scheduled", "score": null, "tv": []}, {"competition": "LaLiga", "jornada": 35, "date": "2027-05-08", "displayDate": "8–9 mayo", "venue": "home", "opponent": "FC Barcelona", "time": null, "status": "scheduled", "score": null, "tv": []}, {"competition": "LaLiga", "jornada": 36, "date": "2027-05-15", "displayDate": "15–16 mayo", "venue": "home", "opponent": "Racing de Santander", "time": null, "status": "scheduled", "score": null, "tv": []}, {"competition": "LaLiga", "jornada": 37, "date": "2027-05-22", "displayDate": "22–23 mayo", "venue": "away", "opponent": "Deportivo Alavés", "time": null, "status": "scheduled", "score": null, "tv": []}, {"competition": "LaLiga", "jornada": 38, "date": "2027-05-29", "displayDate": "29–30 mayo", "venue": "home", "opponent": "RC Deportivo", "time": null, "status": "scheduled", "score": null, "tv": []}], "laligaStandings": [{"pos": 1, "team": "Real Madrid", "pts": 9, "pj": 3, "g": 3, "e": 0, "p": 0, "gf": 10, "gc": 2, "dg": 8}, {"pos": 2, "team": "Atlético de Madrid", "pts": 7, "pj": 3, "g": 2, "e": 1, "p": 0, "gf": 7, "gc": 3, "dg": 4}, {"pos": 3, "team": "Deportivo Alavés", "pts": 7, "pj": 3, "g": 2, "e": 1, "p": 0, "gf": 5, "gc": 1, "dg": 4}, {"pos": 4, "team": "FC Barcelona", "pts": 6, "pj": 2, "g": 2, "e": 0, "p": 0, "gf": 7, "gc": 0, "dg": 7}, {"pos": 5, "team": "Sevilla FC", "pts": 6, "pj": 3, "g": 2, "e": 0, "p": 1, "gf": 6, "gc": 5, "dg": 1}, {"pos": 6, "team": "Real Betis", "pts": 6, "pj": 3, "g": 2, "e": 0, "p": 1, "gf": 4, "gc": 5, "dg": -1}, {"pos": 7, "team": "RC Deportivo", "pts": 5, "pj": 3, "g": 1, "e": 2, "p": 0, "gf": 5, "gc": 3, "dg": 2}, {"pos": 8, "team": "CA Osasuna", "pts": 4, "pj": 2, "g": 1, "e": 1, "p": 0, "gf": 2, "gc": 1, "dg": 1}, {"pos": 9, "team": "Levante UD", "pts": 4, "pj": 3, "g": 1, "e": 1, "p": 1, "gf": 5, "gc": 5, "dg": 0}, {"pos": 10, "team": "Racing de Santander", "pts": 4, "pj": 3, "g": 1, "e": 1, "p": 1, "gf": 5, "gc": 5, "dg": 0}, {"pos": 11, "team": "RCD Espanyol", "pts": 3, "pj": 3, "g": 1, "e": 0, "p": 2, "gf": 5, "gc": 4, "dg": 1}, {"pos": 12, "team": "Athletic Club", "pts": 3, "pj": 3, "g": 1, "e": 0, "p": 2, "gf": 3, "gc": 5, "dg": -2}, {"pos": 13, "team": "Getafe CF", "pts": 3, "pj": 2, "g": 1, "e": 0, "p": 1, "gf": 1, "gc": 3, "dg": -2}, {"pos": 14, "team": "Real Sociedad", "pts": 3, "pj": 3, "g": 1, "e": 0, "p": 2, "gf": 3, "gc": 6, "dg": -3}, {"pos": 15, "team": "Villarreal CF", "pts": 2, "pj": 3, "g": 0, "e": 2, "p": 1, "gf": 4, "gc": 5, "dg": -1}, {"pos": 16, "team": "Rayo Vallecano", "pts": 1, "pj": 2, "g": 0, "e": 1, "p": 1, "gf": 2, "gc": 3, "dg": -1}, {"pos": 17, "team": "Celta", "pts": 1, "pj": 3, "g": 0, "e": 1, "p": 2, "gf": 1, "gc": 4, "dg": -3}, {"pos": 18, "team": "Valencia CF", "pts": 1, "pj": 3, "g": 0, "e": 1, "p": 2, "gf": 1, "gc": 4, "dg": -3}, {"pos": 19, "team": "Elche CF", "pts": 1, "pj": 3, "g": 0, "e": 1, "p": 2, "gf": 3, "gc": 9, "dg": -6}, {"pos": 20, "team": "Málaga CF", "pts": 1, "pj": 3, "g": 0, "e": 1, "p": 2, "gf": 1, "gc": 7, "dg": -6}], "championsStandings": [], "championsStandingsStatus": "not_started", "qualificationZones": {"LaLiga": [{"from": 1, "to": 4, "key": "ucl", "label": "Champions League"}, {"from": 5, "to": 5, "key": "uel", "label": "Europa League"}, {"from": 6, "to": 6, "key": "uecl", "label": "Conference League"}, {"from": 18, "to": 20, "key": "drop", "label": "Descenso"}], "Champions": [{"from": 1, "to": 8, "key": "direct", "label": "Octavos directos"}, {"from": 9, "to": 24, "key": "playoff", "label": "Playoff de acceso a octavos"}, {"from": 25, "to": 36, "key": "elim", "label": "Eliminados"}]}}</script>
 <script>
-let APP=null,OFFICIAL_APP=null,currentFilter='all',resultFilter='LaLiga',standingFilter='LaLiga',directTimer=null,jornadaCompetition=null,jornadaData=null,jornadaRequestToken=0,directRefreshInFlight=null;
+let APP=null,OFFICIAL_APP=null,currentFilter='all',resultFilter='LaLiga',standingFilter='LaLiga',directTimer=null,jornadaCompetition=null,jornadaData=null,jornadaRequestToken=0,directRefreshInFlight=null,jornadaBrowseCache={};
 
 function sanitizeStaleFixtureState(app){
   if(!app)return app;
@@ -117,38 +118,17 @@ function sanitizeStaleFixtureState(app){
 function madridTodayIso(){
   return new Intl.DateTimeFormat('en-CA',{timeZone:'Europe/Madrid',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
 }
-function jornadaCoreWindow(matches){
-  const days=(matches||[]).map(m=>m?.date).filter(Boolean).map(dayNumber).filter(Number.isFinite).sort((a,b)=>a-b);
-  if(days.length<4)return null;
-  let bestStart=days[0],bestEnd=days[0]+4,bestCount=-1;
-  for(const d of days){
-    const end=d+4,count=days.filter(x=>x>=d&&x<=end).length;
-    if(count>bestCount){bestCount=count;bestStart=d;bestEnd=end;}
-  }
-  return {start:bestStart,end:bestEnd};
-}
-function normalizeLaLigaPostponed(matches){
-  const core=jornadaCoreWindow(matches);
-  for(const m of matches||[]){
-    if(!m||m.status!=='scheduled'||!m.date)continue;
-    const d=dayNumber(m.date);if(!Number.isFinite(d))continue;
-    // NO convertimos automáticamente todos los partidos pasados en aplazados.
-    // Esa heurística provocaba el destello de "todos aplazados" antes de que
-    // llegasen los resultados reales. Solo conservamos la marca explícita del
-    // backend o detectamos una reprogramación claramente fuera del bloque normal.
-    const farFromCore=core&&(d<core.start-7||d>core.end+7);
-    if(m.rescheduled===true||farFromCore){
-      m.status='postponed';m.rescheduled=true;
-      delete m.liveLabel;delete m.liveScore;delete m.livePoints;delete m.liveOutcome;
-    }
-  }
-  return matches;
-}
-function sanitizeJornadaMatches(matches,competition=null){
+function sanitizeJornadaMatches(matches){
   const today=madridTodayIso(),now=Date.now();
   for(const m of matches||[]){
     if(!m)continue;
     if(m.status==='finished'){
+      delete m.liveLabel;delete m.liveScore;delete m.livePoints;delete m.liveOutcome;
+      continue;
+    }
+    if(m.status==='postponed'){
+      // Aplazado es un estado de pertenencia de jornada, no un estado temporal.
+      // ESPN puede conservarlo como scheduled en la fecha original; no lo revivimos.
       delete m.liveLabel;delete m.liveScore;delete m.livePoints;delete m.liveOutcome;
       continue;
     }
@@ -164,13 +144,12 @@ function sanitizeJornadaMatches(matches,competition=null){
       }
     }
   }
-  if(competition==='LaLiga')normalizeLaLigaPostponed(matches);
   return matches;
 }
 function sanitizeJornadaContainers(app){
   for(const key of ['jornadas','jornadasNext']){
-    for(const [competition,d] of Object.entries(app?.[key]||{})){
-      if(d?.matches){sanitizeJornadaMatches(d.matches,d.competition||competition);d.phase=jornadaPhase(d.matches);}
+    for(const d of Object.values(app?.[key]||{})){
+      if(d?.matches){sanitizeJornadaMatches(d.matches);d.phase=jornadaPhase(d.matches);}
     }
   }
   return app;
@@ -454,9 +433,47 @@ function applyPendingFinalIfNeeded(competition,games,rows,store){
   return {rows:adjusted,used:count>0,pending:count};
 }
 const JORNADA_STORE_KEY='madridista_jornada_comp_v1';
+const JORNADA_NUMBER_STORE_KEY='madridista_jornada_num_v1';
 function jornadaAnchors(competition){
   const map=new Map();for(const fx of APP?.fixtures||[]){const j=Number(fx.jornada);if(fx.competition!==competition||!Number.isFinite(j)||!fx.date)continue;if(!map.has(j))map.set(j,{jornada:j,date:fx.date});}
   return [...map.values()].sort((a,b)=>a.jornada-b.jornada);
+}
+function jornadaBounds(competition){
+  const a=jornadaAnchors(competition);
+  if(a.length)return {min:a[0].jornada,max:a[a.length-1].jornada};
+  return competition==='Champions'?{min:1,max:8}:{min:1,max:38};
+}
+function jornadaSavedNumbers(){
+  try{return JSON.parse(localStorage.getItem(JORNADA_NUMBER_STORE_KEY)||'{}')||{}}catch(e){return {}}
+}
+function jornadaSelectedNumber(competition){
+  const b=jornadaBounds(competition),saved=Number(jornadaSavedNumbers()[competition]);
+  if(Number.isFinite(saved)&&saved>=b.min&&saved<=b.max)return saved;
+  const fb=jornadaFallback(competition),candidate=Number(fb?.jornada??jornadaCandidateNumber(competition)??b.min);
+  return Math.min(b.max,Math.max(b.min,Number.isFinite(candidate)?candidate:b.min));
+}
+function jornadaSaveNumber(competition,jornada){
+  const b=jornadaBounds(competition),n=Math.min(b.max,Math.max(b.min,Number(jornada)||b.min));
+  const saved=jornadaSavedNumbers();saved[competition]=n;
+  try{localStorage.setItem(JORNADA_NUMBER_STORE_KEY,JSON.stringify(saved))}catch(e){}
+  return n;
+}
+function jornadaExactReference(competition,jornada){
+  const n=Number(jornada),candidates=[jornadaFallback(competition),jornadaNextFallback(competition),jornadaBrowseCache[`${competition}:${n}`]];
+  return candidates.find(x=>x&&x.competition===competition&&Number(x.jornada)===n)||null;
+}
+function updateJornadaSelector(competition,jornada){
+  const sel=document.getElementById('jornadaSelect'),prev=document.getElementById('jornadaPrev'),next=document.getElementById('jornadaNext');if(!sel)return;
+  const b=jornadaBounds(competition),n=Math.min(b.max,Math.max(b.min,Number(jornada)||b.min));
+  if(sel.dataset.competition!==competition){
+    sel.innerHTML='';for(let j=b.min;j<=b.max;j++){const o=document.createElement('option');o.value=String(j);o.textContent=`Jornada ${j}`;sel.appendChild(o)}sel.dataset.competition=competition;
+  }
+  sel.value=String(n);if(prev)prev.disabled=n<=b.min;if(next)next.disabled=n>=b.max;
+}
+function renderJornadaLoading(competition,jornada){
+  updateJornadaSelector(competition,jornada);
+  const box=document.getElementById('jornadaMatches'),state=document.getElementById('jornadaState'),sum=document.getElementById('jornadaSummary');
+  if(state){state.className='jornada-state';state.textContent='Cargando…'}if(sum)sum.innerHTML='';if(box)box.innerHTML='<div class="jornada-loading">Cargando partidos de la jornada…</div>';
 }
 function dayNumber(iso){return Math.floor(new Date(`${iso}T12:00:00+02:00`).getTime()/86400000)}
 function isoFromDayNumber(n){const d=new Date(n*86400000);return new Intl.DateTimeFormat('en-CA',{timeZone:'UTC',year:'numeric',month:'2-digit',day:'2-digit'}).format(d)}
@@ -476,7 +493,6 @@ function jornadaPhase(matches){
   const normal=(matches||[]).filter(x=>x.status!=='postponed');if(!normal.length)return 'upcoming';const started=normal.some(x=>x.status==='live'||x.status==='finished');const unfinished=normal.some(x=>x.status!=='finished');if(started&&unfinished)return 'active';if(normal.every(x=>x.status==='finished'))return 'complete';return 'upcoming';
 }
 function jornadaPayload(competition,jornada,matches,window){
-  sanitizeJornadaMatches(matches,competition);
   const normal=matches.filter(x=>x.status!=='postponed'),finished=normal.filter(x=>x.status==='finished').length,live=normal.filter(x=>x.status==='live').length,postponed=matches.filter(x=>x.status==='postponed').length;
   return {competition,jornada:Number(jornada),windowStart:window?.start||null,windowEnd:window?.end||null,phase:jornadaPhase(matches),matches,finished,total:normal.length,live,postponed,updatedAt:new Date().toISOString()};
 }
@@ -509,21 +525,26 @@ async function fetchJornada(competition,jornada,reference=null){
       }catch(e){console.debug('Madridista jornada fecha:',competition,iso,e);continue;}
       for(let i=0;i<base.length;i++){
         const hit=fresh.find(g=>jornadaSameMember(base[i],g));
-        if(hit){
-          const wasPostponed=base[i]?.status==='postponed';
-          const merged={...base[i],...hit};
-          // ESPN puede devolver un aplazado reprogramado como simple "scheduled".
-          // Nunca dejamos que eso reactive una jornada ya cerrada. Solo live/finished
-          // pueden sacar al partido del estado aplazado cuando realmente se dispute.
-          if(wasPostponed&&hit.status==='scheduled'){
-            merged.status='postponed';merged.rescheduled=true;
-            delete merged.liveLabel;delete merged.liveScore;delete merged.livePoints;delete merged.liveOutcome;
-          }
-          base[i]=merged;
+        if(!hit)continue;
+        const wasPostponed=base[i]?.status==='postponed';
+        // La fuente en directo a veces devuelve scheduled para la FECHA ORIGINAL
+        // de un aplazado. Solo un live/finished real puede levantar ese aplazado.
+        if(wasPostponed && !['live','finished'].includes(hit.status)){
+          if(hit.eventId)base[i].eventId=hit.eventId;
+          continue;
         }
+        base[i]={...base[i],...hit};
       }
     }
-    sanitizeJornadaMatches(base,competition);
+    sanitizeJornadaMatches(base);
+    // Última defensa del navegador: un scheduled con fecha ya pasada no puede
+    // mantener una jornada abierta. Si ESPN no devolvió final/live, es aplazado.
+    for(const m of base){
+      if(m?.status==='scheduled' && m?.date && m.date<today){
+        m.status='postponed';m.rescheduled=true;
+        delete m.liveLabel;delete m.liveScore;delete m.livePoints;delete m.liveOutcome;
+      }
+    }
     base.sort((a,b)=>`${a.date||''} ${a.time||''}`.localeCompare(`${b.date||''} ${b.time||''}`));
     const w=(reference.windowStart&&reference.windowEnd)?{start:reference.windowStart,end:reference.windowEnd}:null;
     return jornadaPayload(competition,jornada,base,w);
@@ -533,23 +554,10 @@ async function fetchJornada(competition,jornada,reference=null){
   const dates=w.start===w.end?compactDay(w.start):`${compactDay(w.start)}-${compactDay(w.end)}`;
   const payload=await directFetchJson(`https://site.api.espn.com/apis/site/v2/sports/soccer/${slug}/scoreboard?dates=${dates}&limit=200`);
   const games=parseDirectScoreboard(payload,competition).sort((a,b)=>`${a.date||''} ${a.time||''}`.localeCompare(`${b.date||''} ${b.time||''}`));
-  return jornadaPayload(competition,jornada,sanitizeJornadaMatches(games,competition),w);
+  return jornadaPayload(competition,jornada,sanitizeJornadaMatches(games),w);
 }
-function jornadaFallback(competition){
-  const raw=APP?.jornadas?.[competition];if(!raw||(raw.competition&&raw.competition!==competition))return null;
-  const copy=JSON.parse(JSON.stringify(raw));sanitizeJornadaMatches(copy.matches||[],competition);copy.phase=jornadaPhase(copy.matches||[]);return copy;
-}
-function jornadaNextFallback(competition){
-  const raw=APP?.jornadasNext?.[competition];if(!raw||(raw.competition&&raw.competition!==competition))return null;
-  const copy=JSON.parse(JSON.stringify(raw));sanitizeJornadaMatches(copy.matches||[],competition);copy.phase=jornadaPhase(copy.matches||[]);return copy;
-}
-function jornadaEffectiveFallback(competition){
-  const cur=jornadaFallback(competition);
-  if(cur?.phase==='complete'){
-    const next=jornadaNextFallback(competition);if(next)return next;
-  }
-  return cur;
-}
+function jornadaFallback(competition){const raw=APP?.jornadas?.[competition];if(!raw||(raw.competition&&raw.competition!==competition))return null;return JSON.parse(JSON.stringify(raw))}
+function jornadaNextFallback(competition){const raw=APP?.jornadasNext?.[competition];if(!raw||(raw.competition&&raw.competition!==competition))return null;return JSON.parse(JSON.stringify(raw))}
 function chooseInitialJornadaCompetition(){
   const entries=['LaLiga','Champions'].map(c=>({c,d:jornadaFallback(c)}));const active=entries.filter(x=>x.d?.phase==='active');if(active.length){const today=new Intl.DateTimeFormat('en-CA',{timeZone:'Europe/Madrid',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());const todayActive=active.find(x=>(x.d.matches||[]).some(m=>m.date===today));return (todayActive||active[0]).c;}
   try{const saved=localStorage.getItem(JORNADA_STORE_KEY);if(saved&&entries.some(x=>x.c===saved&&x.d))return saved}catch(e){}
@@ -563,8 +571,9 @@ function jornadaResultHtml(m){
   return `<div class="big">${validKickoffTime(m.time)?m.time:'—'}</div><div class="small">${validKickoffTime(m.time)?'Pendiente':'Por confirmar'}</div>`;
 }
 function renderJornada(data){
-  if(data?.matches)sanitizeJornadaMatches(data.matches,data.competition);
+  if(data?.matches)sanitizeJornadaMatches(data.matches);
   jornadaData=data;const box=document.getElementById('jornadaMatches'),title=document.getElementById('jornadaTitle'),state=document.getElementById('jornadaState'),sum=document.getElementById('jornadaSummary');if(!box||!title||!state||!sum)return;
+  const selected=data?Number(data.jornada):jornadaSelectedNumber(jornadaCompetition||'LaLiga');updateJornadaSelector(jornadaCompetition||data?.competition||'LaLiga',selected);
   if(!data){title.textContent='Jornada';state.textContent='Sin datos';sum.innerHTML='';box.innerHTML='<div class="jornada-empty">No hay datos de esta jornada.</div>';return;}
   title.textContent=`Jornada ${data.jornada} · ${data.competition==='LaLiga'?'LaLiga':'Champions'}`;const phase=data.phase||jornadaPhase(data.matches||[]);state.className='jornada-state '+(phase==='active'?'live':phase==='upcoming'?'upcoming':'');state.textContent=phase==='active'?'En curso':phase==='upcoming'?'Próxima jornada':'Jornada finalizada';
   const normal=(data.matches||[]).filter(x=>x.status!=='postponed'),finished=normal.filter(x=>x.status==='finished').length,live=normal.filter(x=>x.status==='live').length,post=(data.matches||[]).filter(x=>x.status==='postponed').length;
@@ -573,72 +582,48 @@ function renderJornada(data){
   box.innerHTML=data.matches.map(m=>{const rm=directSame(m.home,'Real Madrid')||directSame(m.away,'Real Madrid');return `<div class="jornada-row ${rm?'rm ':''}${m.status==='live'?'live ':''}${m.status==='postponed'?'postponed':''}"><div class="jornada-when"><b>${jornadaDateText(m)}</b><span>${validKickoffTime(m.time)?m.time:'Hora por confirmar'}</span></div><div class="jornada-teams"><div class="jornada-team ${directSame(m.home,'Real Madrid')?'rmteam':''}"><span class="home-away">L</span>${directSame(m.home,'Real Madrid')?'👑 ':''}${m.home}</div><div class="jornada-team ${directSame(m.away,'Real Madrid')?'rmteam':''}"><span class="home-away">V</span>${directSame(m.away,'Real Madrid')?'👑 ':''}${m.away}</div></div><div class="jornada-result">${jornadaResultHtml(m)}</div></div>`}).join('');
 }
 function renderJornadaStatic(){
-  if(!document.getElementById('jornadaView'))return;if(!jornadaCompetition)jornadaCompetition=chooseInitialJornadaCompetition();document.querySelectorAll('[data-jfilter]').forEach(b=>b.classList.toggle('active',b.dataset.jfilter===jornadaCompetition));const fb=jornadaEffectiveFallback(jornadaCompetition);if(fb)renderJornada(fb);
+  if(!document.getElementById('jornadaView'))return;
+  if(!jornadaCompetition)jornadaCompetition=chooseInitialJornadaCompetition();
+  document.querySelectorAll('[data-jfilter]').forEach(b=>b.classList.toggle('active',b.dataset.jfilter===jornadaCompetition));
+  const num=jornadaSelectedNumber(jornadaCompetition),ref=jornadaExactReference(jornadaCompetition,num);
+  updateJornadaSelector(jornadaCompetition,num);
+  if(ref)renderJornada(JSON.parse(JSON.stringify(ref)));else renderJornadaLoading(jornadaCompetition,num);
 }
-function jornadaReferenceForNumber(competition,jornada){
-  const n=Number(jornada);
-  for(const d of [jornadaFallback(competition),jornadaNextFallback(competition)]){
-    if(d&&Number(d.jornada)===n)return d;
-  }
-  return null;
-}
-async function fetchFirstOpenJornada(competition,startJornada,startReference=null){
-  let num=Number(startJornada),reference=startReference,data=null;
-  // Avanza por jornadas COMPLETAS. No dependemos de jornadasNext en el JSON:
-  // si el backend no pudo precargar la siguiente, la obtenemos directamente.
-  for(let hop=0;hop<4&&Number.isFinite(num);hop++){
-    data=await fetchJornada(competition,num,reference);
-    if(!data||data.phase!=='complete')return data;
-    const nextNum=nextJornadaNumber(competition,num);
-    if(nextNum==null)return data;
-    num=Number(nextNum);
-    reference=jornadaReferenceForNumber(competition,num);
-  }
-  return data;
-}
-async function refreshJornadaDirect(showToast=false,requestedCompetition=null){
+async function refreshJornadaDirect(showToast=false,requestedCompetition=null,requestedJornada=null){
   if(!APP)return;
-  const competition=requestedCompetition||jornadaCompetition||chooseInitialJornadaCompetition();
-  if(!competition)return;
+  const competition=requestedCompetition||jornadaCompetition||chooseInitialJornadaCompetition();if(!competition)return;
+  const num=Number(requestedJornada??jornadaSelectedNumber(competition));if(!Number.isFinite(num))return;
   const token=++jornadaRequestToken;
+  const reference=jornadaExactReference(competition,num);
   try{
-    const current=jornadaFallback(competition),next=jornadaNextFallback(competition);
-    let reference=current,num=current?.jornada??jornadaCandidateNumber(competition);
-
-    // Si la jornada guardada ya está completa, avanzamos aunque jornadasNext no
-    // exista. Este era el bloqueo de J6: 8/8 normales finalizados + 1 aplazado,
-    // pero el JSON no traía jornadasNext y la interfaz se quedaba en J6.
-    if(current?.phase==='complete'){
-      if(next&&Number(next.jornada)>Number(current.jornada)){
-        reference=next;num=next.jornada;
-      }else{
-        num=nextJornadaNumber(competition,current.jornada);
-        reference=jornadaReferenceForNumber(competition,num);
-      }
-    }
-
-    if(num==null){if(jornadaCompetition===competition&&token===jornadaRequestToken)renderJornada(null);return;}
-    const data=await fetchFirstOpenJornada(competition,num,reference);
-    if(!data)return;
-
-    APP.jornadas=APP.jornadas||{};APP.jornadas[competition]=JSON.parse(JSON.stringify(data));
-    // Un refresco antiguo puede terminar después de cambiar de pestaña. Guardamos
-    // sus datos bajo SU competición, pero nunca los pintamos sobre la nueva.
-    if(jornadaCompetition===competition&&token===jornadaRequestToken){
+    const data=await fetchJornada(competition,num,reference);
+    jornadaBrowseCache[`${competition}:${num}`]=JSON.parse(JSON.stringify(data));
+    // MODO MANUAL: jamás saltamos de jornada automáticamente. El número elegido
+    // por el usuario manda, incluso si hay aplazados o la jornada ya terminó.
+    if(jornadaCompetition===competition&&jornadaSelectedNumber(competition)===num&&token===jornadaRequestToken){
       renderJornada(data);if(showToast)showRefreshMessage(`✓ Jornada ${data.jornada} actualizada`);
     }
   }catch(e){
-    console.debug('Madridista jornada:',competition,e);
-    const fb=jornadaEffectiveFallback(competition)||jornadaFallback(competition);
-    if(jornadaCompetition===competition&&token===jornadaRequestToken){if(fb)renderJornada(fb);else renderJornada(null);}
+    console.debug('Madridista jornada manual:',competition,num,e);
+    const ref=jornadaExactReference(competition,num);
+    if(jornadaCompetition===competition&&jornadaSelectedNumber(competition)===num&&token===jornadaRequestToken){if(ref)renderJornada(ref);else renderJornada(null);}
   }
 }
+function setJornadaNumber(jornada,refresh=true){
+  const competition=jornadaCompetition||chooseInitialJornadaCompetition();if(!competition)return;
+  const n=jornadaSaveNumber(competition,jornada);updateJornadaSelector(competition,n);
+  const ref=jornadaExactReference(competition,n);if(ref)renderJornada(JSON.parse(JSON.stringify(ref)));else renderJornadaLoading(competition,n);
+  if(refresh)refreshJornadaDirect(false,competition,n);
+}
+function moveJornada(delta){setJornadaNumber(jornadaSelectedNumber(jornadaCompetition||'LaLiga')+Number(delta||0),true)}
 function setJornadaCompetition(competition){
   jornadaCompetition=competition;try{localStorage.setItem(JORNADA_STORE_KEY,competition)}catch(e){}
   document.querySelectorAll('[data-jfilter]').forEach(b=>b.classList.toggle('active',b.dataset.jfilter===competition));
-  const fb=jornadaEffectiveFallback(competition);if(fb&&(!fb.competition||fb.competition===competition))renderJornada(fb);else renderJornada(null);
-  refreshJornadaDirect(false,competition);
+  const n=jornadaSelectedNumber(competition),ref=jornadaExactReference(competition,n);updateJornadaSelector(competition,n);
+  if(ref)renderJornada(JSON.parse(JSON.stringify(ref)));else renderJornadaLoading(competition,n);
+  refreshJornadaDirect(false,competition,n);
 }
+
 
 async function refreshBrowserLive(showToast=false,refreshVisibleJornada=true){
   // Evita dos refrescos simultáneos (intervalo + volver a la app + botón),
@@ -694,7 +679,7 @@ function startBrowserLive(){
   document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')refreshBrowserLive(false)});
 }
 function activateFilter(container,btn){container.querySelectorAll('.filter').forEach(x=>x.classList.remove('active'));btn.classList.add('active')}
-document.querySelectorAll('[data-filter]').forEach(b=>b.onclick=()=>{activateFilter(document.getElementById('calendarFilters'),b);currentFilter=b.dataset.filter;renderFixtures()});document.querySelectorAll('[data-rfilter]').forEach(b=>b.onclick=()=>{activateFilter(document.getElementById('resultFilters'),b);resultFilter=b.dataset.rfilter;renderResults()});document.querySelectorAll('[data-sfilter]').forEach(b=>b.onclick=()=>{activateFilter(document.getElementById('standingFilters'),b);standingFilter=b.dataset.sfilter;renderStandings()});document.querySelectorAll('[data-jfilter]').forEach(b=>b.onclick=()=>setJornadaCompetition(b.dataset.jfilter));document.querySelectorAll('.navbtn').forEach(b=>b.onclick=()=>{document.querySelectorAll('.navbtn').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.view').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.getElementById(b.dataset.view).classList.add('active');if(b.dataset.view==='jornadaView')refreshJornadaDirect(false);window.scrollTo({top:0,behavior:'smooth'})});
+document.querySelectorAll('[data-filter]').forEach(b=>b.onclick=()=>{activateFilter(document.getElementById('calendarFilters'),b);currentFilter=b.dataset.filter;renderFixtures()});document.querySelectorAll('[data-rfilter]').forEach(b=>b.onclick=()=>{activateFilter(document.getElementById('resultFilters'),b);resultFilter=b.dataset.rfilter;renderResults()});document.querySelectorAll('[data-sfilter]').forEach(b=>b.onclick=()=>{activateFilter(document.getElementById('standingFilters'),b);standingFilter=b.dataset.sfilter;renderStandings()});document.querySelectorAll('[data-jfilter]').forEach(b=>b.onclick=()=>setJornadaCompetition(b.dataset.jfilter));document.getElementById('jornadaPrev')?.addEventListener('click',()=>moveJornada(-1));document.getElementById('jornadaNext')?.addEventListener('click',()=>moveJornada(1));document.getElementById('jornadaSelect')?.addEventListener('change',e=>setJornadaNumber(Number(e.target.value),true));document.querySelectorAll('.navbtn').forEach(b=>b.onclick=()=>{document.querySelectorAll('.navbtn').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.view').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.getElementById(b.dataset.view).classList.add('active');if(b.dataset.view==='jornadaView')refreshJornadaDirect(false,jornadaCompetition,jornadaSelectedNumber(jornadaCompetition||chooseInitialJornadaCompetition()));window.scrollTo({top:0,behavior:'smooth'})});
 if('serviceWorker' in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('sw.js').catch(()=>{});
 async function manualRefreshAll(){
   const btn=document.getElementById('refreshBtn');if(btn)btn.classList.add('loading');
@@ -703,7 +688,7 @@ async function manualRefreshAll(){
     // Un solo toque actualiza primero la clasificación/directo y después la
     // jornada con la misma foto temporal, evitando carreras entre ambas cargas.
     await refreshBrowserLive(false,false);
-    await refreshJornadaDirect(false);
+    await refreshJornadaDirect(false,jornadaCompetition,jornadaSelectedNumber(jornadaCompetition||chooseInitialJornadaCompetition()));
     showRefreshMessage(loaded?'✓ Clasificación y Jornada actualizadas':'Últimos datos guardados · directo actualizado');
   }finally{if(btn)btn.classList.remove('loading');}
 }
