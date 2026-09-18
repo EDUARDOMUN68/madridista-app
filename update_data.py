@@ -748,6 +748,30 @@ def overlay_today_round_status(matches: list[dict], competition: str, today: dat
     return out
 
 
+def _mark_expired_laliga_scheduled_as_postponed(matches: list[dict], today: date) -> list[dict]:
+    """Blindaje final de cierre de jornada de LaLiga.
+
+    Se aplica SIEMPRE, también cuando falla el lector de la página oficial y
+    entramos por la ruta de respaldo. Un partido que conserva estado
+    ``scheduled`` con una fecha anterior a hoy no puede mantener una jornada
+    abierta indefinidamente: se trata como aplazado/reprogramado a efectos de
+    Jornada. Si una fuente devuelve después ``live`` o ``finished``, esos estados
+    tienen prioridad y no se tocan.
+    """
+    for m in matches:
+        if m.get("status") != "scheduled":
+            continue
+        try:
+            match_day = date.fromisoformat(m.get("date", ""))
+        except Exception:
+            continue
+        if match_day < today:
+            m["status"] = "postponed"
+            m["rescheduled"] = True
+            m.pop("liveLabel", None)
+    return matches
+
+
 def build_specific_jornada_payload(fixtures: list[dict], competition: str, jornada: int, today: date) -> dict | None:
     if competition == "LaLiga":
         official = get_laliga_official_round_matches(jornada)
@@ -765,6 +789,13 @@ def build_specific_jornada_payload(fixtures: list[dict], competition: str, jorna
         if not window:
             return None
         matches = get_scoreboard_range(competition, window[0], window[1])
+
+    # IMPORTANTE: este blindaje va fuera de la rama "official" para que
+    # también funcione si el HTML de LaLiga cambia y usamos el fallback.
+    # Ese era el motivo por el que J6 seguía en 8/9: Levante-Athletic quedaba
+    # "scheduled" en la ruta de respaldo y bloqueaba el salto de jornada.
+    if competition == "LaLiga":
+        matches = _mark_expired_laliga_scheduled_as_postponed(matches, today)
 
     normal = [m for m in matches if m.get("status") != "postponed"]
     return {
