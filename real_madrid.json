@@ -2,14 +2,14 @@
   "app": {
     "name": "Madridista",
     "season": "2026/27",
-    "lastUpdated": "2026-09-18T21:54+02:00",
+    "lastUpdated": "2026-09-19T00:36+02:00",
     "timezone": "Europe/Madrid",
     "sources": [
       "Real Madrid C.F. — calendario oficial de LaLiga 2026/27",
       "Real Madrid C.F. — calendario Champions 2026/27",
       "LALIGA — horarios, resultados y clasificación"
     ],
-    "lastChecked": "2026-09-18T21:54+02:00"
+    "lastChecked": "2026-09-19T00:36+02:00"
   },
   "nextMatch": {
     "competition": "LaLiga",
@@ -70,6 +70,20 @@
         "Movistar LALIGA",
         "Movistar Plus+",
         "Orange TV"
+      ]
+    },
+    {
+      "competition": "LaLiga",
+      "jornada": 4,
+      "date": "2026-09-04",
+      "displayDate": "Vie. 4 septiembre",
+      "venue": "away",
+      "opponent": "Real Betis",
+      "time": "21:00",
+      "status": "finished",
+      "score": "1–0",
+      "tv": [
+        "Movistar LALIGA"
       ]
     },
     {
@@ -203,20 +217,6 @@
       "status": "scheduled",
       "score": null,
       "tv": []
-    },
-    {
-      "competition": "LaLiga",
-      "jornada": 4,
-      "date": "2026-11-04",
-      "displayDate": "Mié. 4 noviembre",
-      "venue": "away",
-      "opponent": "Real Betis",
-      "time": "18:45",
-      "status": "finished",
-      "score": "1–0",
-      "tv": [
-        "Movistar LALIGA"
-      ]
     },
     {
       "competition": "Champions",
@@ -708,13 +708,9 @@
       "g": 2,
       "e": 1,
       "p": 4,
-      "gf": 9,
-      "gc": 9,
-      "dg": 0,
-      "provisional": true,
-      "live": true,
-      "liveLabel": "45'+5'",
-      "liveScore": "0–2"
+      "gf": 10,
+      "gc": 10,
+      "dg": 0
     },
     {
       "pos": 10,
@@ -808,13 +804,9 @@
       "g": 1,
       "e": 2,
       "p": 4,
-      "gf": 10,
-      "gc": 16,
-      "dg": -6,
-      "provisional": true,
-      "live": true,
-      "liveLabel": "45'+5'",
-      "liveScore": "0–2"
+      "gf": 11,
+      "gc": 17,
+      "dg": -6
     },
     {
       "pos": 18,
@@ -1339,32 +1331,37 @@
   "monitorWindows": [
     {
       "competition": "LaLiga",
-      "date": "2026-09-18",
-      "eventId": "401882862",
-      "start": "2026-09-18T20:45+02:00",
-      "end": "2026-09-19T00:30+02:00"
+      "date": "2026-09-19",
+      "eventId": "401882860",
+      "start": "2026-09-19T13:45+02:00",
+      "end": "2026-09-19T17:30+02:00"
+    },
+    {
+      "competition": "LaLiga",
+      "date": "2026-09-19",
+      "eventId": "401882866",
+      "start": "2026-09-19T16:00+02:00",
+      "end": "2026-09-19T19:45+02:00"
+    },
+    {
+      "competition": "LaLiga",
+      "date": "2026-09-19",
+      "eventId": "401882864",
+      "start": "2026-09-19T18:15+02:00",
+      "end": "2026-09-19T22:00+02:00"
+    },
+    {
+      "competition": "LaLiga",
+      "date": "2026-09-19",
+      "eventId": "401882859",
+      "start": "2026-09-19T20:45+02:00",
+      "end": "2026-09-20T00:30+02:00"
     }
   ],
   "live": {
-    "hasLiveMatches": true,
-    "updatedAt": "2026-09-18T21:54+02:00",
-    "matches": [
-      {
-        "eventId": "401882862",
-        "competition": "LaLiga",
-        "date": "2026-09-18",
-        "displayDate": "Vie. 18 septiembre",
-        "time": "21:00",
-        "kickoff": "2026-09-18T21:00+02:00",
-        "home": "Espanyol",
-        "away": "Elche",
-        "homeScore": 0,
-        "awayScore": 2,
-        "score": "0–2",
-        "status": "live",
-        "liveLabel": "45'+5'"
-      }
-    ]
+    "hasLiveMatches": false,
+    "updatedAt": "2026-09-19T00:36+02:00",
+    "matches": []
   },
   "laligaOfficialStandings": [
     {
@@ -1453,18 +1450,6 @@
     },
     {
       "pos": 8,
-      "team": "Espanyol",
-      "pts": 7,
-      "pj": 6,
-      "g": 2,
-      "e": 1,
-      "p": 3,
-      "gf": 9,
-      "gc": 7,
-      "dg": 2
-    },
-    {
-      "pos": 9,
       "team": "Athletic Club",
       "pts": 7,
       "pj": 5,
@@ -1474,6 +1459,18 @@
       "gf": 7,
       "gc": 6,
       "dg": 1
+    },
+    {
+      "pos": 9,
+      "team": "Espanyol",
+      "pts": 7,
+      "pj": 7,
+      "g": 2,
+      "e": 1,
+      "p": 4,
+      "gf": 10,
+      "gc": 10,
+      "dg": 0
     },
     {
       "pos": 10,
@@ -1561,6 +1558,18 @@
     },
     {
       "pos": 17,
+      "team": "Elche",
+      "pts": 5,
+      "pj": 7,
+      "g": 1,
+      "e": 2,
+      "p": 4,
+      "gf": 11,
+      "gc": 17,
+      "dg": -6
+    },
+    {
+      "pos": 18,
       "team": "Celta Vigo",
       "pts": 4,
       "pj": 6,
@@ -1572,7 +1581,7 @@
       "dg": -3
     },
     {
-      "pos": 18,
+      "pos": 19,
       "team": "Valencia",
       "pts": 4,
       "pj": 6,
@@ -1584,7 +1593,7 @@
       "dg": -8
     },
     {
-      "pos": 19,
+      "pos": 20,
       "team": "Málaga",
       "pts": 3,
       "pj": 6,
@@ -1594,34 +1603,22 @@
       "gf": 3,
       "gc": 11,
       "dg": -8
-    },
-    {
-      "pos": 20,
-      "team": "Elche",
-      "pts": 2,
-      "pj": 6,
-      "g": 0,
-      "e": 2,
-      "p": 4,
-      "gf": 8,
-      "gc": 16,
-      "dg": -8
     }
   ],
   "standingsMeta": {
     "LaLiga": {
-      "mode": "provisional",
-      "liveGames": 1,
+      "mode": "official",
+      "liveGames": 0,
       "pendingOfficialGames": 0,
       "sourceIncludesLive": false,
-      "updatedAt": "2026-09-18T21:54+02:00"
+      "updatedAt": "2026-09-19T00:36+02:00"
     },
     "Champions": {
       "mode": "official",
       "liveGames": 0,
       "pendingOfficialGames": 0,
       "sourceIncludesLive": false,
-      "updatedAt": "2026-09-18T21:54+02:00"
+      "updatedAt": "2026-09-19T00:36+02:00"
     }
   },
   "championsOfficialStandings": [
@@ -2065,11 +2062,11 @@
       "phase": "active",
       "windowStart": "2026-09-18",
       "windowEnd": "2026-09-20",
-      "finished": 0,
+      "finished": 1,
       "total": 10,
-      "live": 1,
+      "live": 0,
       "postponed": 0,
-      "updatedAt": "2026-09-18T21:52+02:00",
+      "updatedAt": "2026-09-19T00:35+02:00",
       "matches": [
         {
           "eventId": "401882862",
@@ -2080,15 +2077,14 @@
           "kickoff": "2026-09-18T21:00+02:00",
           "home": "RCD Espanyol de Barcelona",
           "away": "DIRECTO Elche CF",
-          "homeScore": 0,
-          "awayScore": 2,
-          "score": "0–2",
-          "status": "live",
-          "liveLabel": "45'+4'",
+          "homeScore": 1,
+          "awayScore": 3,
+          "score": "1–3",
+          "status": "finished",
           "officialSource": "LALIGA"
         },
         {
-          "eventId": "",
+          "eventId": "401882860",
           "competition": "LaLiga",
           "date": "2026-09-19",
           "displayDate": "Sáb. 19 septiembre",
@@ -2096,15 +2092,15 @@
           "kickoff": "2026-09-19T14:00+02:00",
           "home": "CA Osasuna",
           "away": "Rayo Vallecano",
-          "homeScore": null,
-          "awayScore": null,
-          "score": null,
+          "homeScore": 0,
+          "awayScore": 0,
+          "score": "0–0",
           "status": "scheduled",
           "liveLabel": null,
           "officialSource": "LALIGA"
         },
         {
-          "eventId": "",
+          "eventId": "401882866",
           "competition": "LaLiga",
           "date": "2026-09-19",
           "displayDate": "Sáb. 19 septiembre",
@@ -2112,9 +2108,9 @@
           "kickoff": "2026-09-19T16:15+02:00",
           "home": "Athletic Club",
           "away": "Deportivo Alavés",
-          "homeScore": null,
-          "awayScore": null,
-          "score": null,
+          "homeScore": 0,
+          "awayScore": 0,
+          "score": "0–0",
           "status": "scheduled",
           "liveLabel": null,
           "officialSource": "LALIGA"
@@ -2136,7 +2132,7 @@
           "officialSource": "LALIGA"
         },
         {
-          "eventId": "",
+          "eventId": "401882859",
           "competition": "LaLiga",
           "date": "2026-09-19",
           "displayDate": "Sáb. 19 septiembre",
@@ -2144,9 +2140,9 @@
           "kickoff": "2026-09-19T21:00+02:00",
           "home": "Sevilla FC",
           "away": "FC Barcelona",
-          "homeScore": null,
-          "awayScore": null,
-          "score": null,
+          "homeScore": 0,
+          "awayScore": 0,
+          "score": "0–0",
           "status": "scheduled",
           "liveLabel": null,
           "officialSource": "LALIGA"
@@ -2529,7 +2525,7 @@
       "total": 10,
       "live": 0,
       "postponed": 0,
-      "updatedAt": "2026-09-18T21:52+02:00",
+      "updatedAt": "2026-09-19T00:35+02:00",
       "matches": [
         {
           "eventId": "",
@@ -2706,7 +2702,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-09-18T21:52+02:00",
+        "updatedAt": "2026-09-19T00:35+02:00",
         "matches": [
           {
             "eventId": "",
@@ -2880,7 +2876,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-09-18T21:52+02:00",
+        "updatedAt": "2026-09-19T00:35+02:00",
         "matches": [
           {
             "eventId": "",
@@ -3054,7 +3050,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-09-18T21:52+02:00",
+        "updatedAt": "2026-09-19T00:35+02:00",
         "matches": [
           {
             "eventId": "",
@@ -3228,7 +3224,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-09-18T21:52+02:00",
+        "updatedAt": "2026-09-19T00:35+02:00",
         "matches": [
           {
             "eventId": "",
@@ -3402,7 +3398,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-09-18T21:52+02:00",
+        "updatedAt": "2026-09-19T00:35+02:00",
         "matches": [
           {
             "eventId": "",
@@ -3576,7 +3572,7 @@
         "total": 9,
         "live": 0,
         "postponed": 1,
-        "updatedAt": "2026-09-18T21:53+02:00",
+        "updatedAt": "2026-09-19T00:35+02:00",
         "matches": [
           {
             "eventId": "",
@@ -3747,30 +3743,30 @@
         "phase": "active",
         "windowStart": "2026-09-18",
         "windowEnd": "2026-09-20",
-        "finished": 0,
+        "finished": 1,
         "total": 10,
-        "live": 1,
+        "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-09-18T21:53+02:00",
+        "updatedAt": "2026-09-19T00:35+02:00",
         "matches": [
           {
-            "eventId": "401882862",
+            "eventId": "",
             "competition": "LaLiga",
             "date": "2026-09-18",
             "displayDate": "Vie. 18 septiembre",
             "time": "21:00",
             "kickoff": "2026-09-18T21:00+02:00",
             "home": "RCD Espanyol de Barcelona",
-            "away": "DIRECTO Elche CF",
-            "homeScore": 0,
-            "awayScore": 2,
-            "score": "0–2",
-            "status": "live",
-            "liveLabel": "45'+4'",
+            "away": "Elche CF",
+            "homeScore": 1,
+            "awayScore": 3,
+            "score": "1–3",
+            "status": "finished",
+            "liveLabel": null,
             "officialSource": "LALIGA"
           },
           {
-            "eventId": "",
+            "eventId": "401882860",
             "competition": "LaLiga",
             "date": "2026-09-19",
             "displayDate": "Sáb. 19 septiembre",
@@ -3778,15 +3774,15 @@
             "kickoff": "2026-09-19T14:00+02:00",
             "home": "CA Osasuna",
             "away": "Rayo Vallecano",
-            "homeScore": null,
-            "awayScore": null,
-            "score": null,
+            "homeScore": 0,
+            "awayScore": 0,
+            "score": "0–0",
             "status": "scheduled",
             "liveLabel": null,
             "officialSource": "LALIGA"
           },
           {
-            "eventId": "",
+            "eventId": "401882866",
             "competition": "LaLiga",
             "date": "2026-09-19",
             "displayDate": "Sáb. 19 septiembre",
@@ -3794,9 +3790,9 @@
             "kickoff": "2026-09-19T16:15+02:00",
             "home": "Athletic Club",
             "away": "Deportivo Alavés",
-            "homeScore": null,
-            "awayScore": null,
-            "score": null,
+            "homeScore": 0,
+            "awayScore": 0,
+            "score": "0–0",
             "status": "scheduled",
             "liveLabel": null,
             "officialSource": "LALIGA"
@@ -3818,7 +3814,7 @@
             "officialSource": "LALIGA"
           },
           {
-            "eventId": "",
+            "eventId": "401882859",
             "competition": "LaLiga",
             "date": "2026-09-19",
             "displayDate": "Sáb. 19 septiembre",
@@ -3826,9 +3822,9 @@
             "kickoff": "2026-09-19T21:00+02:00",
             "home": "Sevilla FC",
             "away": "FC Barcelona",
-            "homeScore": null,
-            "awayScore": null,
-            "score": null,
+            "homeScore": 0,
+            "awayScore": 0,
+            "score": "0–0",
             "status": "scheduled",
             "liveLabel": null,
             "officialSource": "LALIGA"
@@ -3925,7 +3921,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-09-18T21:53+02:00",
+        "updatedAt": "2026-09-19T00:35+02:00",
         "matches": [
           {
             "eventId": "",
@@ -4099,7 +4095,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-09-18T21:53+02:00",
+        "updatedAt": "2026-09-19T00:35+02:00",
         "matches": [
           {
             "eventId": "",
@@ -4273,7 +4269,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-09-18T21:53+02:00",
+        "updatedAt": "2026-09-19T00:35+02:00",
         "matches": [
           {
             "eventId": "",
@@ -4447,7 +4443,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-09-18T21:53+02:00",
+        "updatedAt": "2026-09-19T00:35+02:00",
         "matches": [
           {
             "eventId": "",
@@ -4621,7 +4617,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-09-18T21:53+02:00",
+        "updatedAt": "2026-09-19T00:35+02:00",
         "matches": [
           {
             "eventId": "",
@@ -4795,7 +4791,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-09-18T21:53+02:00",
+        "updatedAt": "2026-09-19T00:35+02:00",
         "matches": [
           {
             "eventId": "",
@@ -4969,7 +4965,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-09-18T21:53+02:00",
+        "updatedAt": "2026-09-19T00:35+02:00",
         "matches": [
           {
             "eventId": "",
@@ -5143,7 +5139,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-09-18T21:53+02:00",
+        "updatedAt": "2026-09-19T00:35+02:00",
         "matches": [
           {
             "eventId": "",
@@ -5317,7 +5313,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-09-18T21:53+02:00",
+        "updatedAt": "2026-09-19T00:35+02:00",
         "matches": [
           {
             "eventId": "",
@@ -5491,7 +5487,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-09-18T21:53+02:00",
+        "updatedAt": "2026-09-19T00:35+02:00",
         "matches": [
           {
             "eventId": "",
@@ -5665,7 +5661,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-09-18T21:53+02:00",
+        "updatedAt": "2026-09-19T00:35+02:00",
         "matches": [
           {
             "eventId": "",
@@ -5839,7 +5835,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-09-18T21:53+02:00",
+        "updatedAt": "2026-09-19T00:35+02:00",
         "matches": [
           {
             "eventId": "",
@@ -6013,7 +6009,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-09-18T21:53+02:00",
+        "updatedAt": "2026-09-19T00:35+02:00",
         "matches": [
           {
             "eventId": "",
@@ -6187,7 +6183,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-09-18T21:53+02:00",
+        "updatedAt": "2026-09-19T00:35+02:00",
         "matches": [
           {
             "eventId": "",
@@ -6361,7 +6357,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-09-18T21:53+02:00",
+        "updatedAt": "2026-09-19T00:35+02:00",
         "matches": [
           {
             "eventId": "",
@@ -6535,7 +6531,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-09-18T21:53+02:00",
+        "updatedAt": "2026-09-19T00:35+02:00",
         "matches": [
           {
             "eventId": "",
@@ -6709,7 +6705,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-09-18T21:53+02:00",
+        "updatedAt": "2026-09-19T00:35+02:00",
         "matches": [
           {
             "eventId": "",
@@ -6883,7 +6879,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-09-18T21:53+02:00",
+        "updatedAt": "2026-09-19T00:35+02:00",
         "matches": [
           {
             "eventId": "",
@@ -7057,7 +7053,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-09-18T21:53+02:00",
+        "updatedAt": "2026-09-19T00:35+02:00",
         "matches": [
           {
             "eventId": "",
@@ -7231,7 +7227,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-09-18T21:53+02:00",
+        "updatedAt": "2026-09-19T00:36+02:00",
         "matches": [
           {
             "eventId": "",
@@ -7405,7 +7401,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-09-18T21:53+02:00",
+        "updatedAt": "2026-09-19T00:36+02:00",
         "matches": [
           {
             "eventId": "",
@@ -7579,7 +7575,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-09-18T21:53+02:00",
+        "updatedAt": "2026-09-19T00:36+02:00",
         "matches": [
           {
             "eventId": "",
@@ -7753,7 +7749,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-09-18T21:53+02:00",
+        "updatedAt": "2026-09-19T00:36+02:00",
         "matches": [
           {
             "eventId": "",
@@ -7927,7 +7923,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-09-18T21:53+02:00",
+        "updatedAt": "2026-09-19T00:36+02:00",
         "matches": [
           {
             "eventId": "",
@@ -8101,7 +8097,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-09-18T21:53+02:00",
+        "updatedAt": "2026-09-19T00:36+02:00",
         "matches": [
           {
             "eventId": "",
@@ -8275,7 +8271,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-09-18T21:54+02:00",
+        "updatedAt": "2026-09-19T00:36+02:00",
         "matches": [
           {
             "eventId": "",
@@ -8449,7 +8445,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-09-18T21:54+02:00",
+        "updatedAt": "2026-09-19T00:36+02:00",
         "matches": [
           {
             "eventId": "",
@@ -8623,7 +8619,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-09-18T21:54+02:00",
+        "updatedAt": "2026-09-19T00:36+02:00",
         "matches": [
           {
             "eventId": "",
@@ -8797,7 +8793,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-09-18T21:54+02:00",
+        "updatedAt": "2026-09-19T00:36+02:00",
         "matches": [
           {
             "eventId": "",
@@ -8971,7 +8967,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-09-18T21:54+02:00",
+        "updatedAt": "2026-09-19T00:36+02:00",
         "matches": [
           {
             "eventId": "",
@@ -9145,7 +9141,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-09-18T21:54+02:00",
+        "updatedAt": "2026-09-19T00:36+02:00",
         "matches": [
           {
             "eventId": "",
@@ -9313,7 +9309,7 @@
     "Champions": {}
   },
   "jornadasCatalogMeta": {
-    "updatedAt": "2026-09-18T21:54+02:00",
+    "updatedAt": "2026-09-19T00:36+02:00",
     "laligaLoaded": 38,
     "championsLoaded": 0,
     "rebuiltAt": "2026-09-18T21:52+02:00",
