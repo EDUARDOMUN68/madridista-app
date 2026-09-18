@@ -117,7 +117,34 @@ function sanitizeStaleFixtureState(app){
 function madridTodayIso(){
   return new Intl.DateTimeFormat('en-CA',{timeZone:'Europe/Madrid',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
 }
-function sanitizeJornadaMatches(matches){
+function jornadaCoreWindow(matches){
+  const days=(matches||[]).map(m=>m?.date).filter(Boolean).map(dayNumber).filter(Number.isFinite).sort((a,b)=>a-b);
+  if(days.length<4)return null;
+  let bestStart=days[0],bestEnd=days[0]+4,bestCount=-1;
+  for(const d of days){
+    const end=d+4,count=days.filter(x=>x>=d&&x<=end).length;
+    if(count>bestCount){bestCount=count;bestStart=d;bestEnd=end;}
+  }
+  return {start:bestStart,end:bestEnd};
+}
+function normalizeLaLigaPostponed(matches){
+  const today=dayNumber(madridTodayIso()),core=jornadaCoreWindow(matches);
+  for(const m of matches||[]){
+    if(!m||m.status!=='scheduled'||!m.date)continue;
+    const d=dayNumber(m.date);if(!Number.isFinite(d))continue;
+    // Regla de cierre: un partido no jugado con fecha ya pasada no puede bloquear
+    // la jornada. Y si fue reprogramado muy lejos del bloque normal de la jornada
+    // (caso Levante-Athletic), sigue siendo no bloqueante aunque tenga nueva fecha.
+    const expired=d<today;
+    const farFromCore=core&&(d<core.start-7||d>core.end+7);
+    if(expired||farFromCore){
+      m.status='postponed';m.rescheduled=true;
+      delete m.liveLabel;delete m.liveScore;delete m.livePoints;delete m.liveOutcome;
+    }
+  }
+  return matches;
+}
+function sanitizeJornadaMatches(matches,competition=null){
   const today=madridTodayIso(),now=Date.now();
   for(const m of matches||[]){
     if(!m)continue;
@@ -137,12 +164,13 @@ function sanitizeJornadaMatches(matches){
       }
     }
   }
+  if(competition==='LaLiga')normalizeLaLigaPostponed(matches);
   return matches;
 }
 function sanitizeJornadaContainers(app){
   for(const key of ['jornadas','jornadasNext']){
-    for(const d of Object.values(app?.[key]||{})){
-      if(d?.matches){sanitizeJornadaMatches(d.matches);d.phase=jornadaPhase(d.matches);}
+    for(const [competition,d] of Object.entries(app?.[key]||{})){
+      if(d?.matches){sanitizeJornadaMatches(d.matches,d.competition||competition);d.phase=jornadaPhase(d.matches);}
     }
   }
   return app;
@@ -448,6 +476,7 @@ function jornadaPhase(matches){
   const normal=(matches||[]).filter(x=>x.status!=='postponed');if(!normal.length)return 'upcoming';const started=normal.some(x=>x.status==='live'||x.status==='finished');const unfinished=normal.some(x=>x.status!=='finished');if(started&&unfinished)return 'active';if(normal.every(x=>x.status==='finished'))return 'complete';return 'upcoming';
 }
 function jornadaPayload(competition,jornada,matches,window){
+  sanitizeJornadaMatches(matches,competition);
   const normal=matches.filter(x=>x.status!=='postponed'),finished=normal.filter(x=>x.status==='finished').length,live=normal.filter(x=>x.status==='live').length,postponed=matches.filter(x=>x.status==='postponed').length;
   return {competition,jornada:Number(jornada),windowStart:window?.start||null,windowEnd:window?.end||null,phase:jornadaPhase(matches),matches,finished,total:normal.length,live,postponed,updatedAt:new Date().toISOString()};
 }
@@ -480,10 +509,21 @@ async function fetchJornada(competition,jornada,reference=null){
       }catch(e){console.debug('Madridista jornada fecha:',competition,iso,e);continue;}
       for(let i=0;i<base.length;i++){
         const hit=fresh.find(g=>jornadaSameMember(base[i],g));
-        if(hit)base[i]={...base[i],...hit};
+        if(hit){
+          const wasPostponed=base[i]?.status==='postponed';
+          const merged={...base[i],...hit};
+          // ESPN puede devolver un aplazado reprogramado como simple "scheduled".
+          // Nunca dejamos que eso reactive una jornada ya cerrada. Solo live/finished
+          // pueden sacar al partido del estado aplazado cuando realmente se dispute.
+          if(wasPostponed&&hit.status==='scheduled'){
+            merged.status='postponed';merged.rescheduled=true;
+            delete merged.liveLabel;delete merged.liveScore;delete merged.livePoints;delete merged.liveOutcome;
+          }
+          base[i]=merged;
+        }
       }
     }
-    sanitizeJornadaMatches(base);
+    sanitizeJornadaMatches(base,competition);
     base.sort((a,b)=>`${a.date||''} ${a.time||''}`.localeCompare(`${b.date||''} ${b.time||''}`));
     const w=(reference.windowStart&&reference.windowEnd)?{start:reference.windowStart,end:reference.windowEnd}:null;
     return jornadaPayload(competition,jornada,base,w);
@@ -493,10 +533,23 @@ async function fetchJornada(competition,jornada,reference=null){
   const dates=w.start===w.end?compactDay(w.start):`${compactDay(w.start)}-${compactDay(w.end)}`;
   const payload=await directFetchJson(`https://site.api.espn.com/apis/site/v2/sports/soccer/${slug}/scoreboard?dates=${dates}&limit=200`);
   const games=parseDirectScoreboard(payload,competition).sort((a,b)=>`${a.date||''} ${a.time||''}`.localeCompare(`${b.date||''} ${b.time||''}`));
-  return jornadaPayload(competition,jornada,sanitizeJornadaMatches(games),w);
+  return jornadaPayload(competition,jornada,sanitizeJornadaMatches(games,competition),w);
 }
-function jornadaFallback(competition){const raw=APP?.jornadas?.[competition];if(!raw||(raw.competition&&raw.competition!==competition))return null;return JSON.parse(JSON.stringify(raw))}
-function jornadaNextFallback(competition){const raw=APP?.jornadasNext?.[competition];if(!raw||(raw.competition&&raw.competition!==competition))return null;return JSON.parse(JSON.stringify(raw))}
+function jornadaFallback(competition){
+  const raw=APP?.jornadas?.[competition];if(!raw||(raw.competition&&raw.competition!==competition))return null;
+  const copy=JSON.parse(JSON.stringify(raw));sanitizeJornadaMatches(copy.matches||[],competition);copy.phase=jornadaPhase(copy.matches||[]);return copy;
+}
+function jornadaNextFallback(competition){
+  const raw=APP?.jornadasNext?.[competition];if(!raw||(raw.competition&&raw.competition!==competition))return null;
+  const copy=JSON.parse(JSON.stringify(raw));sanitizeJornadaMatches(copy.matches||[],competition);copy.phase=jornadaPhase(copy.matches||[]);return copy;
+}
+function jornadaEffectiveFallback(competition){
+  const cur=jornadaFallback(competition);
+  if(cur?.phase==='complete'){
+    const next=jornadaNextFallback(competition);if(next)return next;
+  }
+  return cur;
+}
 function chooseInitialJornadaCompetition(){
   const entries=['LaLiga','Champions'].map(c=>({c,d:jornadaFallback(c)}));const active=entries.filter(x=>x.d?.phase==='active');if(active.length){const today=new Intl.DateTimeFormat('en-CA',{timeZone:'Europe/Madrid',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());const todayActive=active.find(x=>(x.d.matches||[]).some(m=>m.date===today));return (todayActive||active[0]).c;}
   try{const saved=localStorage.getItem(JORNADA_STORE_KEY);if(saved&&entries.some(x=>x.c===saved&&x.d))return saved}catch(e){}
@@ -510,7 +563,7 @@ function jornadaResultHtml(m){
   return `<div class="big">${validKickoffTime(m.time)?m.time:'—'}</div><div class="small">${validKickoffTime(m.time)?'Pendiente':'Por confirmar'}</div>`;
 }
 function renderJornada(data){
-  if(data?.matches)sanitizeJornadaMatches(data.matches);
+  if(data?.matches)sanitizeJornadaMatches(data.matches,data.competition);
   jornadaData=data;const box=document.getElementById('jornadaMatches'),title=document.getElementById('jornadaTitle'),state=document.getElementById('jornadaState'),sum=document.getElementById('jornadaSummary');if(!box||!title||!state||!sum)return;
   if(!data){title.textContent='Jornada';state.textContent='Sin datos';sum.innerHTML='';box.innerHTML='<div class="jornada-empty">No hay datos de esta jornada.</div>';return;}
   title.textContent=`Jornada ${data.jornada} · ${data.competition==='LaLiga'?'LaLiga':'Champions'}`;const phase=data.phase||jornadaPhase(data.matches||[]);state.className='jornada-state '+(phase==='active'?'live':phase==='upcoming'?'upcoming':'');state.textContent=phase==='active'?'En curso':phase==='upcoming'?'Próxima jornada':'Jornada finalizada';
@@ -520,7 +573,7 @@ function renderJornada(data){
   box.innerHTML=data.matches.map(m=>{const rm=directSame(m.home,'Real Madrid')||directSame(m.away,'Real Madrid');return `<div class="jornada-row ${rm?'rm ':''}${m.status==='live'?'live ':''}${m.status==='postponed'?'postponed':''}"><div class="jornada-when"><b>${jornadaDateText(m)}</b><span>${validKickoffTime(m.time)?m.time:'Hora por confirmar'}</span></div><div class="jornada-teams"><div class="jornada-team ${directSame(m.home,'Real Madrid')?'rmteam':''}"><span class="home-away">L</span>${directSame(m.home,'Real Madrid')?'👑 ':''}${m.home}</div><div class="jornada-team ${directSame(m.away,'Real Madrid')?'rmteam':''}"><span class="home-away">V</span>${directSame(m.away,'Real Madrid')?'👑 ':''}${m.away}</div></div><div class="jornada-result">${jornadaResultHtml(m)}</div></div>`}).join('');
 }
 function renderJornadaStatic(){
-  if(!document.getElementById('jornadaView'))return;if(!jornadaCompetition)jornadaCompetition=chooseInitialJornadaCompetition();document.querySelectorAll('[data-jfilter]').forEach(b=>b.classList.toggle('active',b.dataset.jfilter===jornadaCompetition));const fb=jornadaFallback(jornadaCompetition);if(fb)renderJornada(fb);
+  if(!document.getElementById('jornadaView'))return;if(!jornadaCompetition)jornadaCompetition=chooseInitialJornadaCompetition();document.querySelectorAll('[data-jfilter]').forEach(b=>b.classList.toggle('active',b.dataset.jfilter===jornadaCompetition));const fb=jornadaEffectiveFallback(jornadaCompetition);if(fb)renderJornada(fb);
 }
 async function refreshJornadaDirect(showToast=false,requestedCompetition=null){
   if(!APP)return;
@@ -528,16 +581,18 @@ async function refreshJornadaDirect(showToast=false,requestedCompetition=null){
   if(!competition)return;
   const token=++jornadaRequestToken;
   try{
-    const fallback=jornadaFallback(competition);const num=fallback?.jornada??jornadaCandidateNumber(competition);
+    const current=jornadaFallback(competition),next=jornadaNextFallback(competition);
+    // Si el JSON oficial ya deja la jornada completa, NO la volvemos a consultar
+    // contra ESPN: una respuesta "scheduled" de un aplazado podía revivirla.
+    let fallback=(current?.phase==='complete'&&next)?next:current;
+    const num=fallback?.jornada??jornadaCandidateNumber(competition);
     if(num==null){if(jornadaCompetition===competition&&token===jornadaRequestToken)renderJornada(null);return;}
     let data=await fetchJornada(competition,num,fallback);
-    // Si termina el último partido normal, un aplazado no bloquea el salto.
-    // Usamos la siguiente jornada ya preparada por el actualizador para no
-    // construirla con una ventana de fechas y mezclar partidos de dos jornadas.
+    // Segunda defensa: si al refrescar queda completa, avanzamos a la siguiente.
     if(data?.phase==='complete'){
-      const next=jornadaNextFallback(competition);
-      if(next){
-        try{data=await fetchJornada(competition,next.jornada,next);}catch(e){data=next;}
+      const following=jornadaNextFallback(competition);
+      if(following&&Number(following.jornada)>Number(data.jornada)){
+        try{data=await fetchJornada(competition,following.jornada,following);}catch(e){data=following;}
       }
     }
     APP.jornadas=APP.jornadas||{};APP.jornadas[competition]=JSON.parse(JSON.stringify(data));
@@ -555,7 +610,7 @@ async function refreshJornadaDirect(showToast=false,requestedCompetition=null){
 function setJornadaCompetition(competition){
   jornadaCompetition=competition;try{localStorage.setItem(JORNADA_STORE_KEY,competition)}catch(e){}
   document.querySelectorAll('[data-jfilter]').forEach(b=>b.classList.toggle('active',b.dataset.jfilter===competition));
-  const fb=jornadaFallback(competition);if(fb&&(!fb.competition||fb.competition===competition))renderJornada(fb);else renderJornada(null);
+  const fb=jornadaEffectiveFallback(competition);if(fb&&(!fb.competition||fb.competition===competition))renderJornada(fb);else renderJornada(null);
   refreshJornadaDirect(false,competition);
 }
 
