@@ -1,4 +1,4 @@
-const CACHE='madridista-v4-0-jornada-stable';
+const CACHE='madridista-v4-0-1-jornada-stable';
 const STATIC=['./','./index.html','./manifest.webmanifest','./icon-192.png','./icon-512.png','./icon-maskable-512.png'];
 
 self.addEventListener('install',e=>{

@@ -10,7 +10,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <title>Madridista</title>
-<meta name="madridista-version" content="jornada-v3-9">
+<meta name="madridista-version" content="v4-0-1">
 <style>
 :root{--bg:#f4f6fb;--card:#fff;--navy:#0b1f3a;--blue:#244f94;--gold:#d7b34c;--text:#1d2530;--muted:#6d7787;--line:#e3e8f0;--champ:#eef3ff;--done:#f7f8fa;--danger:#fff0f0;--green:#eaf7ef}
 *{box-sizing:border-box} html{background:var(--bg)} body{margin:0;font-family:Arial,Helvetica,sans-serif;background:radial-gradient(circle at 90% -10%,rgba(36,79,148,.16),transparent 25%),var(--bg);color:var(--text)} button{font:inherit}
@@ -128,16 +128,16 @@ function jornadaCoreWindow(matches){
   return {start:bestStart,end:bestEnd};
 }
 function normalizeLaLigaPostponed(matches){
-  const today=dayNumber(madridTodayIso()),core=jornadaCoreWindow(matches);
+  const core=jornadaCoreWindow(matches);
   for(const m of matches||[]){
     if(!m||m.status!=='scheduled'||!m.date)continue;
     const d=dayNumber(m.date);if(!Number.isFinite(d))continue;
-    // Regla de cierre: un partido no jugado con fecha ya pasada no puede bloquear
-    // la jornada. Y si fue reprogramado muy lejos del bloque normal de la jornada
-    // (caso Levante-Athletic), sigue siendo no bloqueante aunque tenga nueva fecha.
-    const expired=d<today;
+    // NO convertimos automáticamente todos los partidos pasados en aplazados.
+    // Esa heurística provocaba el destello de "todos aplazados" antes de que
+    // llegasen los resultados reales. Solo conservamos la marca explícita del
+    // backend o detectamos una reprogramación claramente fuera del bloque normal.
     const farFromCore=core&&(d<core.start-7||d>core.end+7);
-    if(expired||farFromCore){
+    if(m.rescheduled===true||farFromCore){
       m.status='postponed';m.rescheduled=true;
       delete m.liveLabel;delete m.liveScore;delete m.livePoints;delete m.liveOutcome;
     }
@@ -575,6 +575,27 @@ function renderJornada(data){
 function renderJornadaStatic(){
   if(!document.getElementById('jornadaView'))return;if(!jornadaCompetition)jornadaCompetition=chooseInitialJornadaCompetition();document.querySelectorAll('[data-jfilter]').forEach(b=>b.classList.toggle('active',b.dataset.jfilter===jornadaCompetition));const fb=jornadaEffectiveFallback(jornadaCompetition);if(fb)renderJornada(fb);
 }
+function jornadaReferenceForNumber(competition,jornada){
+  const n=Number(jornada);
+  for(const d of [jornadaFallback(competition),jornadaNextFallback(competition)]){
+    if(d&&Number(d.jornada)===n)return d;
+  }
+  return null;
+}
+async function fetchFirstOpenJornada(competition,startJornada,startReference=null){
+  let num=Number(startJornada),reference=startReference,data=null;
+  // Avanza por jornadas COMPLETAS. No dependemos de jornadasNext en el JSON:
+  // si el backend no pudo precargar la siguiente, la obtenemos directamente.
+  for(let hop=0;hop<4&&Number.isFinite(num);hop++){
+    data=await fetchJornada(competition,num,reference);
+    if(!data||data.phase!=='complete')return data;
+    const nextNum=nextJornadaNumber(competition,num);
+    if(nextNum==null)return data;
+    num=Number(nextNum);
+    reference=jornadaReferenceForNumber(competition,num);
+  }
+  return data;
+}
 async function refreshJornadaDirect(showToast=false,requestedCompetition=null){
   if(!APP)return;
   const competition=requestedCompetition||jornadaCompetition||chooseInitialJornadaCompetition();
@@ -582,19 +603,24 @@ async function refreshJornadaDirect(showToast=false,requestedCompetition=null){
   const token=++jornadaRequestToken;
   try{
     const current=jornadaFallback(competition),next=jornadaNextFallback(competition);
-    // Si el JSON oficial ya deja la jornada completa, NO la volvemos a consultar
-    // contra ESPN: una respuesta "scheduled" de un aplazado podía revivirla.
-    let fallback=(current?.phase==='complete'&&next)?next:current;
-    const num=fallback?.jornada??jornadaCandidateNumber(competition);
-    if(num==null){if(jornadaCompetition===competition&&token===jornadaRequestToken)renderJornada(null);return;}
-    let data=await fetchJornada(competition,num,fallback);
-    // Segunda defensa: si al refrescar queda completa, avanzamos a la siguiente.
-    if(data?.phase==='complete'){
-      const following=jornadaNextFallback(competition);
-      if(following&&Number(following.jornada)>Number(data.jornada)){
-        try{data=await fetchJornada(competition,following.jornada,following);}catch(e){data=following;}
+    let reference=current,num=current?.jornada??jornadaCandidateNumber(competition);
+
+    // Si la jornada guardada ya está completa, avanzamos aunque jornadasNext no
+    // exista. Este era el bloqueo de J6: 8/8 normales finalizados + 1 aplazado,
+    // pero el JSON no traía jornadasNext y la interfaz se quedaba en J6.
+    if(current?.phase==='complete'){
+      if(next&&Number(next.jornada)>Number(current.jornada)){
+        reference=next;num=next.jornada;
+      }else{
+        num=nextJornadaNumber(competition,current.jornada);
+        reference=jornadaReferenceForNumber(competition,num);
       }
     }
+
+    if(num==null){if(jornadaCompetition===competition&&token===jornadaRequestToken)renderJornada(null);return;}
+    const data=await fetchFirstOpenJornada(competition,num,reference);
+    if(!data)return;
+
     APP.jornadas=APP.jornadas||{};APP.jornadas[competition]=JSON.parse(JSON.stringify(data));
     // Un refresco antiguo puede terminar después de cambiar de pestaña. Guardamos
     // sus datos bajo SU competición, pero nunca los pintamos sobre la nueva.
@@ -603,7 +629,7 @@ async function refreshJornadaDirect(showToast=false,requestedCompetition=null){
     }
   }catch(e){
     console.debug('Madridista jornada:',competition,e);
-    const fb=jornadaFallback(competition);
+    const fb=jornadaEffectiveFallback(competition)||jornadaFallback(competition);
     if(jornadaCompetition===competition&&token===jornadaRequestToken){if(fb)renderJornada(fb);else renderJornada(null);}
   }
 }
