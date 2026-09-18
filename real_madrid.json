@@ -2,14 +2,14 @@
   "app": {
     "name": "Madridista",
     "season": "2026/27",
-    "lastUpdated": "2026-09-18T02:21+02:00",
+    "lastUpdated": "2026-09-18T18:38+02:00",
     "timezone": "Europe/Madrid",
     "sources": [
       "Real Madrid C.F. — calendario oficial de LaLiga 2026/27",
       "Real Madrid C.F. — calendario Champions 2026/27",
       "LALIGA — horarios, resultados y clasificación"
     ],
-    "lastChecked": "2026-09-18T18:25+02:00"
+    "lastChecked": "2026-09-18T18:38+02:00"
   },
   "nextMatch": {
     "competition": "LaLiga",
@@ -70,20 +70,6 @@
         "Movistar LALIGA",
         "Movistar Plus+",
         "Orange TV"
-      ]
-    },
-    {
-      "competition": "LaLiga",
-      "jornada": 4,
-      "date": "2026-09-04",
-      "displayDate": "Vie. 4 septiembre",
-      "venue": "away",
-      "opponent": "Real Betis",
-      "time": "21:00",
-      "status": "finished",
-      "score": "1–0",
-      "tv": [
-        "Movistar LALIGA"
       ]
     },
     {
@@ -217,6 +203,20 @@
       "status": "scheduled",
       "score": null,
       "tv": []
+    },
+    {
+      "competition": "LaLiga",
+      "jornada": 4,
+      "date": "2026-11-04",
+      "displayDate": "Mié. 4 noviembre",
+      "venue": "away",
+      "opponent": "Real Betis",
+      "time": "18:45",
+      "status": "finished",
+      "score": "1–0",
+      "tv": [
+        "Movistar LALIGA"
+      ]
     },
     {
       "competition": "Champions",
@@ -1339,7 +1339,7 @@
   ],
   "live": {
     "hasLiveMatches": false,
-    "updatedAt": "2026-09-18T18:25+02:00",
+    "updatedAt": "2026-09-18T18:38+02:00",
     "matches": []
   },
   "laligaOfficialStandings": [
@@ -1590,14 +1590,14 @@
       "liveGames": 0,
       "pendingOfficialGames": 0,
       "sourceIncludesLive": false,
-      "updatedAt": "2026-09-18T18:25+02:00"
+      "updatedAt": "2026-09-18T18:38+02:00"
     },
     "Champions": {
       "mode": "official",
       "liveGames": 0,
       "pendingOfficialGames": 0,
       "sourceIncludesLive": false,
-      "updatedAt": "2026-09-18T18:25+02:00"
+      "updatedAt": "2026-09-18T18:38+02:00"
     }
   },
   "championsOfficialStandings": [
