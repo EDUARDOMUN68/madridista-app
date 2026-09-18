@@ -70,7 +70,7 @@ def log(msg: str) -> None:
 
 def fetch_json(url: str) -> dict:
     req = Request(url, headers={
-        "User-Agent": "Mozilla/5.0 (compatible; MadridistaUpdater/3.0; +https://github.com/)",
+        "User-Agent": "Mozilla/5.0 (compatible; MadridistaUpdater/12.0; +https://github.com/)",
         "Accept": "application/json,text/plain,*/*",
     })
     with urlopen(req, timeout=30) as response:
@@ -79,7 +79,7 @@ def fetch_json(url: str) -> dict:
 
 def fetch_text(url: str) -> str:
     req = Request(url, headers={
-        "User-Agent": "Mozilla/5.0 (compatible; MadridistaUpdater/3.0; +https://github.com/)",
+        "User-Agent": "Mozilla/5.0 (compatible; MadridistaUpdater/12.0; +https://github.com/)",
         "Accept": "text/html,application/xhtml+xml,*/*",
         "Accept-Language": "es-ES,es;q=0.9",
     })
@@ -900,15 +900,78 @@ def build_jornada_payload(fixtures: list[dict], competition: str, today: date) -
     return payload
 
 
+
+def _refresh_persisted_jornada(raw: dict | None, competition: str, today: date) -> dict | None:
+    """Refresca una jornada YA conocida sin reconstruir su pertenencia por fechas.
+
+    Esta es la defensa principal contra aplazados: una vez que sabemos qué equipos
+    pertenecen a una jornada, conservar esa lista es mucho más fiable que volver a
+    inferirla con una ventana de fechas (que puede abarcar jornadas posteriores si
+    un encuentro se reprograma semanas después).
+    """
+    if not raw or raw.get("competition") not in (None, competition) or not raw.get("matches"):
+        return None
+    try:
+        jornada = int(raw.get("jornada"))
+    except Exception:
+        return None
+    matches = deepcopy(raw.get("matches") or [])
+    matches = overlay_today_round_status(matches, competition, today)
+    if competition == "LaLiga":
+        matches = _mark_expired_laliga_scheduled_as_postponed(matches, today)
+    matches.sort(key=lambda x: (x.get("date") or "9999-99-99", x.get("time") or "99:99"))
+    normal = [m for m in matches if m.get("status") != "postponed"]
+    return {
+        "competition": competition,
+        "jornada": jornada,
+        "phase": jornada_phase(matches),
+        "windowStart": raw.get("windowStart"),
+        "windowEnd": raw.get("windowEnd"),
+        "finished": sum(1 for m in normal if m.get("status") == "finished"),
+        "total": len(normal),
+        "live": sum(1 for m in normal if m.get("status") == "live"),
+        "postponed": sum(1 for m in matches if m.get("status") == "postponed"),
+        "updatedAt": datetime.now(TZ).isoformat(timespec="minutes"),
+        "matches": matches,
+    }
+
 def refresh_jornadas(data: dict) -> int:
     fixtures = data.get("fixtures") or []
     today = datetime.now(TZ).date()
     successes = 0
     jornadas = data.setdefault("jornadas", {})
     jornadas_next = data.setdefault("jornadasNext", {})
+
+    # Copias ANTES de mutar: la pertenencia a una jornada ya conocida es la
+    # referencia más estable ante aplazados/reprogramaciones.
+    prior_current = deepcopy(jornadas)
+    prior_next = deepcopy(jornadas_next)
+
     for competition in ("LaLiga", "Champions"):
         try:
-            payload = build_jornada_payload(fixtures, competition, today)
+            payload = None
+
+            # Para LaLiga priorizamos la lista persistida de miembros. Así un
+            # aplazado a octubre no ensancha J6 hasta incluir J7/J8 por fechas.
+            if competition == "LaLiga":
+                cur = _refresh_persisted_jornada(prior_current.get(competition), competition, today)
+                if cur:
+                    if cur.get("phase") == "complete":
+                        nxt = _refresh_persisted_jornada(prior_next.get(competition), competition, today)
+                        if nxt and int(nxt.get("jornada", 0)) > int(cur.get("jornada", 0)):
+                            payload = nxt
+                        else:
+                            rounds = [a["jornada"] for a in jornada_anchors(fixtures, competition)]
+                            next_round = next((r for r in rounds if r > int(cur["jornada"])), None)
+                            if next_round is not None:
+                                payload = build_specific_jornada_payload(fixtures, competition, next_round, today)
+                    else:
+                        payload = cur
+
+            # Primer arranque, Champions o ausencia de lista persistida.
+            if payload is None:
+                payload = build_jornada_payload(fixtures, competition, today)
+
             if payload and payload.get("matches"):
                 jornadas[competition] = payload
                 successes += 1
@@ -917,13 +980,99 @@ def refresh_jornadas(data: dict) -> int:
                 rounds = [a["jornada"] for a in jornada_anchors(fixtures, competition)]
                 next_round = next((r for r in rounds if r > int(payload["jornada"])), None)
                 if next_round is not None:
-                    nxt = build_specific_jornada_payload(fixtures, competition, next_round, today)
+                    # Si ya teníamos esa siguiente jornada, refrescamos SUS miembros
+                    # exactos. Solo reconstruimos si no existía.
+                    old_next = prior_next.get(competition)
+                    nxt = None
+                    if old_next and int(old_next.get("jornada", -1)) == int(next_round):
+                        nxt = _refresh_persisted_jornada(old_next, competition, today)
+                    if nxt is None:
+                        nxt = build_specific_jornada_payload(fixtures, competition, next_round, today)
                     if nxt and nxt.get("matches"):
                         jornadas_next[competition] = nxt
         except Exception as exc:
             log(f"AVISO jornada {competition}: {exc}")
     return successes
 
+
+def refresh_jornadas_catalog(data: dict) -> int:
+    """Mantiene un catálogo por número de jornada para el selector manual.
+
+    Objetivo de v12: la pestaña Jornada no depende de adivinar cuál es la jornada
+    actual. El JSON conserva `jornadasAll[competicion][numero]` y el usuario puede
+    elegir J1..J38 (Liga) o J1..J8 (Champions).
+
+    En el primer ciclo se rellenan todas las jornadas que podamos obtener. En los
+    ciclos siguientes solo se refresca la zona cercana a la jornada actual y las
+    jornadas activas; el resto se conserva para no hacer decenas de peticiones cada
+    hora. El navegador superpone el directo al abrir una jornada, por lo que este
+    catálogo es la pertenencia/base estable, no una segunda lógica de directo.
+    """
+    fixtures = data.get("fixtures") or []
+    today = datetime.now(TZ).date()
+    root = data.setdefault("jornadasAll", {})
+    successes = 0
+
+    for competition in ("LaLiga", "Champions"):
+        bucket = root.setdefault(competition, {})
+        anchors = jornada_anchors(fixtures, competition)
+        anchored_rounds = sorted({int(a["jornada"]) for a in anchors})
+
+        # LaLiga oficial permite construir cualquier J1..J38 aunque el calendario
+        # del Madrid no tenga aún todos los metadatos. Champions necesita anclas
+        # del calendario del Madrid; si faltan, usamos las que existan.
+        if competition == "LaLiga":
+            rounds = list(range(1, 39))
+        else:
+            rounds = anchored_rounds or list(range(1, 9))
+
+        try:
+            current = choose_jornada_candidate(fixtures, competition, today)
+        except Exception:
+            current = None
+        if current is None:
+            current = anchored_rounds[0] if anchored_rounds else rounds[0]
+
+        refresh_set = {r for r in rounds if int(current) - 1 <= r <= int(current) + 3}
+        # Una jornada activa siempre se vuelve a refrescar.
+        for key, raw in list(bucket.items()):
+            try:
+                if isinstance(raw, dict) and raw.get("phase") == "active":
+                    refresh_set.add(int(key))
+            except Exception:
+                pass
+
+        for jornada in rounds:
+            key = str(int(jornada))
+            missing = key not in bucket or not isinstance(bucket.get(key), dict) or not bucket[key].get("matches")
+            if not missing and jornada not in refresh_set:
+                continue
+            try:
+                payload = build_specific_jornada_payload(fixtures, competition, int(jornada), today)
+            except Exception as exc:
+                log(f"AVISO catálogo {competition} J{jornada}: {exc}")
+                continue
+            if payload and payload.get("matches"):
+                # Defensa estructural: nunca meter una jornada de otra competición.
+                payload["competition"] = competition
+                payload["jornada"] = int(jornada)
+                bucket[key] = payload
+                successes += 1
+
+        # Conserva solo claves numéricas válidas de esa competición.
+        valid_min, valid_max = (1, 38) if competition == "LaLiga" else (1, 8)
+        for key in list(bucket):
+            try:
+                n = int(key)
+            except Exception:
+                bucket.pop(key, None)
+                continue
+            if not (valid_min <= n <= valid_max):
+                bucket.pop(key, None)
+
+        log(f"Catálogo {competition}: {len(bucket)} jornadas disponibles")
+
+    return successes
 
 def get_laliga_range_schedule(start_day: date, end_day: date) -> list[dict]:
     """Secondary schedule source from the LaLiga scoreboard over a date range.
@@ -1403,6 +1552,7 @@ def full_refresh(data: dict, original: dict) -> int:
     # Jornada completa de Liga y Champions. Se conserva la jornada hasta que
     # finaliza el último partido no aplazado; después pasa a la siguiente.
     successes += refresh_jornadas(data)
+    successes += refresh_jornadas_catalog(data)
 
     # Scoreboards de hoy: sirven para detectar todas las ventanas de Liga/Champions.
     today = datetime.now(TZ).date()
