@@ -40,7 +40,10 @@ URLS = {
 LEAGUE_SLUGS = {"LaLiga": "esp.1", "Champions": "uefa.champions"}
 LALIGA_NEXT_URL = "https://www.laliga.com/clubes/real-madrid/proximos-partidos"
 REAL_MADRID_FIXTURES_URL = "https://www.realmadrid.com/es-ES/futbol/primer-equipo-masculino/inicio"
-LALIGA_ROUND_URL = "https://www.laliga.com/laliga-easports/resultados/2026-27/jornada-{jornada}"
+LALIGA_ROUND_URLS = (
+    "https://www.laliga.com/laliga-easports/resultados/2026-27/jornada-{jornada}",
+    "https://iaas-public-front-pro.laliga.com/laliga-easports/resultados/2026-27/jornada-{jornada}",
+)
 _LALIGA_ROUND_WINDOW_CACHE: dict[int, tuple[date, date] | None] = {}
 _LALIGA_ROUND_MATCHES_CACHE: dict[int, list[dict] | None] = {}
 _LALIGA_ROUND_DATES_CACHE: dict[int, tuple[date, ...] | None] = {}
@@ -448,44 +451,26 @@ def jornada_window(fixtures: list[dict], competition: str, jornada: int) -> tupl
 
 
 def get_laliga_official_round_dates(jornada: int) -> tuple[date, ...] | None:
-    """Devuelve las fechas EXACTAS que pertenecen a una jornada de LALIGA.
-
-    No usamos un rango continuo porque una jornada puede tener un partido
-    adelantado o aplazado muchos días. J6 2026/27, por ejemplo, contiene un
-    Real Sociedad-Celta jugado el 3 de septiembre y el resto del 15 al 17.
-    Un rango 03-17 mezclaría por error todos los partidos de la J5.
-    """
+    """Fechas exactas de una jornada derivadas de los 10 partidos oficiales."""
     try:
         jornada = int(jornada)
     except Exception:
         return None
     if jornada in _LALIGA_ROUND_DATES_CACHE:
         return _LALIGA_ROUND_DATES_CACHE[jornada]
-
-    try:
-        text = _strip_html_for_schedule(fetch_text(LALIGA_ROUND_URL.format(jornada=jornada)))
-        m = re.search(rf"JORNADA\s+{jornada}\b", text, re.I)
-        if not m:
-            _LALIGA_ROUND_DATES_CACHE[jornada] = None
-            return None
-        section = text[m.start():]
-        end = re.search(rf"¿?Cuál es la jornada\s+{jornada}\b|Dónde ver la jornada\s+{jornada}\b", section, re.I)
-        if end:
-            section = section[:end.start()]
-        found = []
-        for ds in re.findall(r"\b(\d{2}\.\d{2}\.\d{4})\b", section):
-            try:
-                found.append(datetime.strptime(ds, "%d.%m.%Y").date())
-            except Exception:
-                pass
-        dates = tuple(sorted(set(found)))
-        _LALIGA_ROUND_DATES_CACHE[jornada] = dates or None
-        return dates or None
-    except Exception as exc:
-        log(f"AVISO fechas oficiales LALIGA J{jornada}: {exc}")
+    matches = get_laliga_official_round_matches(jornada)
+    if not matches:
         _LALIGA_ROUND_DATES_CACHE[jornada] = None
         return None
-
+    found = []
+    for m in matches:
+        try:
+            found.append(date.fromisoformat(m.get("date", "")))
+        except Exception:
+            pass
+    dates = tuple(sorted(set(found)))
+    _LALIGA_ROUND_DATES_CACHE[jornada] = dates or None
+    return dates or None
 
 def get_laliga_official_round_window(jornada: int) -> tuple[date, date] | None:
     if jornada in _LALIGA_ROUND_WINDOW_CACHE:
@@ -589,11 +574,136 @@ def _mark_reprogrammed_round_matches(matches: list[dict]) -> list[dict]:
     return matches
 
 
-def get_laliga_official_round_matches(jornada: int) -> list[dict] | None:
-    """Lee los 10 partidos exactos de una jornada desde LALIGA.
+def _laliga_round_section(raw: str, jornada: int) -> str | None:
+    """Extrae la zona de una jornada de la página oficial sin depender del layout HTML."""
+    text = _strip_html_for_schedule(raw)
+    m = re.search(rf"JORNADA\s+{int(jornada)}\b", text, re.I)
+    if not m:
+        return None
+    section = text[m.start():]
+    end = re.search(
+        rf"(?:¿?Cuál es la jornada\s+{int(jornada)}\b|Dónde ver la jornada\s+{int(jornada)}\b)",
+        section,
+        re.I,
+    )
+    return section[:end.start()] if end else section
 
-    A diferencia de una ventana de fechas, esto conserva partidos adelantados o
-    reprogramados que pertenecen a la jornada (p. ej. uno jugado días antes).
+
+def _parse_laliga_round_page(raw: str, jornada: int) -> list[dict]:
+    """Parser tolerante de una página oficial de resultados de LALIGA.
+
+    No depende de que una fila esté en una sola línea: corta por marcadores de fecha
+    y después localiza la celda del partido. Esto cubre tanto futuros (A VS B) como
+    resultados sin espacios (Celta1 - 2Real Madrid).
+    """
+    section = _laliga_round_section(raw, jornada)
+    if not section:
+        return []
+
+    weekday = r"(?:LUN|MAR|MIE|MIÉ|JUE|VIE|SAB|SÁB|DOM)"
+    markers = list(re.finditer(rf"\b{weekday}\s+(\d{{2}}\.\d{{2}}\.\d{{4}})\b", section, re.I))
+    out: list[dict] = []
+
+    for i, marker in enumerate(markers):
+        chunk = section[marker.start() : markers[i + 1].start() if i + 1 < len(markers) else len(section)]
+        chunk = re.sub(r"[ \t]+", " ", chunk).strip()
+        date_s = marker.group(1)
+        tm = re.search(r"(\d{2}:\d{2}|--\s*:\s*--)", chunk)
+        if not tm:
+            continue
+        time_s = tm.group(1)
+        rest = chunk[tm.end():]
+        try:
+            dt = datetime.strptime(date_s, "%d.%m.%Y").replace(tzinfo=TZ)
+        except Exception:
+            continue
+
+        # En el HTML normal la celda PARTIDO queda entre separadores |. Si el
+        # layout cambia, el fallback usa todo el bloque entre esta fecha y la siguiente.
+        cells = [re.sub(r"\s+", " ", c).strip() for c in rest.split("|") if c.strip()]
+        candidates = cells + [re.sub(r"\s+", " ", rest).strip()]
+        match_cell = next(
+            (
+                c for c in candidates
+                if re.search(r"\bVS\b", c, re.I)
+                or re.search(r"\d+\s*-\s*\d+", c)
+            ),
+            None,
+        )
+        if not match_cell:
+            continue
+        match_cell = re.sub(r"^(?:Ver resumen|Ver partido)\s+", "", match_cell, flags=re.I).strip()
+
+        status = "scheduled"
+        hs = aws = None
+        home = away = None
+
+        # Marcadores publicados por LALIGA pueden venir sin espacios: Equipo1 - 2Equipo.
+        sm = re.search(r"(.+?)(\d+)\s*-\s*(\d+)(.+)", match_cell)
+        if sm:
+            home, hs_s, aws_s, away = sm.groups()
+            hs, aws = int(hs_s), int(aws_s)
+            status = "finished"
+        else:
+            vm = re.search(r"(.+?)\s+VS\s+(.+)", match_cell, re.I)
+            if vm:
+                home, away = vm.groups()
+        if not home or not away:
+            continue
+
+        home = _clean_laliga_team(home)
+        away = _clean_laliga_team(away)
+        # Corta restos de columnas posteriores cuando el HTML no ha conservado |.
+        away = re.split(
+            r"\s{2,}|\s+-\s+|\s+(?:Movistar|DAZN|Orange|Sky)\b|\s+Ver partido\b",
+            away,
+            maxsplit=1,
+            flags=re.I,
+        )[0].strip()
+        if not home or not away:
+            continue
+
+        low_chunk = normalize_name(chunk)
+        if status == "scheduled" and re.search(r"aplaz|suspend|pospuest|postpon", low_chunk, re.I):
+            status = "postponed"
+
+        kickoff_time = None if "--" in time_s else valid_time(time_s)
+        kickoff_dt = dt
+        if kickoff_time:
+            hh, mm = [int(x) for x in kickoff_time.split(":")]
+            kickoff_dt = dt.replace(hour=hh, minute=mm)
+
+        out.append({
+            "eventId": "",
+            "competition": "LaLiga",
+            "date": dt.date().isoformat(),
+            "displayDate": display_date(dt),
+            "time": kickoff_time,
+            "kickoff": kickoff_dt.isoformat(timespec="minutes") if kickoff_time else None,
+            "home": home,
+            "away": away,
+            "homeScore": hs,
+            "awayScore": aws,
+            "score": f"{hs}–{aws}" if hs is not None and aws is not None else None,
+            "status": status,
+            "liveLabel": None,
+            "officialSource": "LALIGA",
+        })
+
+    # El único resultado aceptable para una jornada de Primera son sus 10 partidos.
+    # De este modo una respuesta parcial nunca contamina el catálogo.
+    if len(out) != 10:
+        return []
+    out = _mark_reprogrammed_round_matches(out)
+    out.sort(key=lambda x: (x.get("date") or "9999-99-99", x.get("time") or "99:99"))
+    return out
+
+
+def get_laliga_official_round_matches(jornada: int) -> list[dict] | None:
+    """Lee los 10 partidos exactos de una jornada usando dos hosts oficiales.
+
+    www.laliga.com es la fuente primaria. El host iaas queda solo como respaldo y
+    una respuesta con menos de 10 partidos se rechaza para impedir catálogos parciales.
     """
     try:
         jornada = int(jornada)
@@ -603,96 +713,22 @@ def get_laliga_official_round_matches(jornada: int) -> list[dict] | None:
         cached = _LALIGA_ROUND_MATCHES_CACHE[jornada]
         return deepcopy(cached) if cached else cached
 
-    try:
-        text = _strip_html_for_schedule(fetch_text(LALIGA_ROUND_URL.format(jornada=jornada)))
-        m = re.search(rf"JORNADA\s+{jornada}\b", text, re.I)
-        if not m:
-            _LALIGA_ROUND_MATCHES_CACHE[jornada] = None
-            return None
-        section = text[m.start():]
-        end = re.search(rf"¿?Cuál es la jornada\s+{jornada}\b|Dónde ver la jornada\s+{jornada}\b", section, re.I)
-        if end:
-            section = section[:end.start()]
+    errors = []
+    for template in LALIGA_ROUND_URLS:
+        url = template.format(jornada=jornada)
+        try:
+            raw = fetch_text(url)
+            out = _parse_laliga_round_page(raw, jornada)
+            if len(out) == 10:
+                _LALIGA_ROUND_MATCHES_CACHE[jornada] = deepcopy(out)
+                return out
+            errors.append(f"{url}: {len(out)} partidos")
+        except Exception as exc:
+            errors.append(f"{url}: {exc}")
 
-        weekday = r"(?:LUN|MAR|MIE|MIÉ|JUE|VIE|SAB|SÁB|DOM)"
-        row_re = re.compile(rf"{weekday}\s+(\d{{2}}\.\d{{2}}\.\d{{4}})\s*\|?\s*(\d{{2}}:\d{{2}}|--\s*:\s*--)(.*)", re.I)
-        out = []
-        for raw_line in section.splitlines():
-            line = re.sub(r"\s+", " ", raw_line).strip()
-            rm = row_re.search(line)
-            if not rm:
-                continue
-            date_s, time_s, rest = rm.groups()
-            try:
-                dt = datetime.strptime(date_s, "%d.%m.%Y").replace(tzinfo=TZ)
-            except Exception:
-                continue
-
-            # La celda PARTIDO queda separada por "|" tras _strip_html_for_schedule.
-            cells = [re.sub(r"\s+", " ", c).strip() for c in rest.split("|") if c.strip()]
-            match_cell = next((c for c in cells if re.search(r"\bVS\b", c, re.I) or re.search(r"\d+\s*-\s*\d+", c)), None)
-            if not match_cell:
-                match_cell = rest
-            match_cell = re.sub(r"^(?:Ver resumen|Ver partido)\s+", "", match_cell, flags=re.I).strip()
-
-            status = "scheduled"
-            hs = aws = None
-            home = away = None
-            sm = re.match(r"(.+?)\s+(\d+)\s*-\s*(\d+)\s+(.+)$", match_cell)
-            if sm:
-                home, hs_s, aws_s, away = sm.groups()
-                hs, aws = int(hs_s), int(aws_s)
-                status = "finished"
-            else:
-                vm = re.match(r"(.+?)\s+VS\s+(.+)$", match_cell, re.I)
-                if vm:
-                    home, away = vm.groups()
-            if not home or not away:
-                continue
-
-            home = _clean_laliga_team(home)
-            away = _clean_laliga_team(away)
-            # Elimina posibles restos de columnas posteriores si el HTML cambió.
-            away = re.split(r"\s{2,}|\s+-\s+|\s+(?:Movistar|DAZN|Orange)\b", away, maxsplit=1, flags=re.I)[0].strip()
-            if not home or not away:
-                continue
-
-            kickoff_time = None if "--" in time_s else valid_time(time_s)
-            kickoff_dt = dt
-            if kickoff_time:
-                hh, mm = [int(x) for x in kickoff_time.split(":")]
-                kickoff_dt = dt.replace(hour=hh, minute=mm)
-            out.append({
-                "eventId": "",
-                "competition": "LaLiga",
-                "date": dt.date().isoformat(),
-                "displayDate": display_date(dt),
-                "time": kickoff_time,
-                "kickoff": kickoff_dt.isoformat(timespec="minutes"),
-                "home": home,
-                "away": away,
-                "homeScore": hs,
-                "awayScore": aws,
-                "score": f"{hs}–{aws}" if hs is not None and aws is not None else None,
-                "status": status,
-                "liveLabel": None,
-            })
-
-        out = _mark_reprogrammed_round_matches(out)
-
-        # Una jornada de Primera debe tener 10 partidos. Si el HTML cambia y no
-        # obtenemos una lista razonable, preferimos caer al método anterior.
-        if len(out) < 8:
-            _LALIGA_ROUND_MATCHES_CACHE[jornada] = None
-            return None
-        out.sort(key=lambda x: (x.get("date") or "9999-99-99", x.get("time") or "99:99"))
-        _LALIGA_ROUND_MATCHES_CACHE[jornada] = deepcopy(out)
-        return out
-    except Exception as exc:
-        log(f"AVISO partidos oficiales LALIGA J{jornada}: {exc}")
-        _LALIGA_ROUND_MATCHES_CACHE[jornada] = None
-        return None
-
+    log(f"AVISO partidos oficiales LALIGA J{jornada}: " + " | ".join(errors))
+    _LALIGA_ROUND_MATCHES_CACHE[jornada] = None
+    return None
 
 def overlay_today_round_status(matches: list[dict], competition: str, today: date) -> list[dict]:
     """Superpone estados reales en toda fecha pasada/actual aún no finalizada.
@@ -784,6 +820,17 @@ def build_specific_jornada_payload(fixtures: list[dict], competition: str, jorna
             if not window:
                 return None
             matches = get_scoreboard_range(competition, window[0], window[1])
+            # Sin lectura oficial de la jornada no damos por buena una hora futura
+            # de ESPN. Sus horas genéricas/provisionales (como 19:00) fueron la causa
+            # de horarios falsos en el selector. Los resultados ya jugados se conservan.
+            for m in matches:
+                try:
+                    match_day = date.fromisoformat(m.get("date", ""))
+                except Exception:
+                    match_day = None
+                if m.get("status") == "scheduled" and match_day and match_day >= today:
+                    m["time"] = None
+                    m["kickoff"] = None
     else:
         window = effective_jornada_window(fixtures, competition, jornada)
         if not window:
@@ -996,57 +1043,84 @@ def refresh_jornadas(data: dict) -> int:
 
 
 def refresh_jornadas_catalog(data: dict) -> int:
-    """Mantiene un catálogo estable de jornadas para el selector manual.
+    """Catálogo manual de jornadas con LALIGA oficial como única fuente de pertenencia.
 
-    El catálogo NO decide qué jornada debe ver el usuario. Solo guarda los
-    partidos de cada jornada por separado. Una vez creada la pertenencia de una
-    jornada, se conserva y únicamente se refrescan sus estados/resultados. Así un
-    aplazado nunca puede contaminar otra jornada ni dejar el selector sin datos.
+    Versión 4: invalida el catálogo antiguo para eliminar jornadas parciales y horas
+    provisionales. LaLiga solo se guarda cuando la página oficial devuelve exactamente
+    10 partidos. Champions conserva su mecanismo previo.
     """
     fixtures = data.get("fixtures") or []
     today = datetime.now(TZ).date()
     root = data.setdefault("jornadasAll", {})
+    meta = data.setdefault("jornadasCatalogMeta", {})
+    source_version = 4
     successes = 0
 
-    for competition in ("LaLiga", "Champions"):
-        bucket = root.setdefault(competition, {})
-        if competition == "LaLiga":
-            rounds = list(range(1, 39))
-        else:
-            rounds = [a["jornada"] for a in jornada_anchors(fixtures, competition)]
-            if not rounds:
-                rounds = list(range(1, 9))
+    # Migración deliberada: los catálogos v1-v3 podían contener solo J10+ y
+    # horarios provisionales de ESPN. No los reutilizamos ni mezclamos.
+    if int(meta.get("sourceVersion") or 0) < source_version:
+        root["LaLiga"] = {}
+        meta["rebuiltAt"] = datetime.now(TZ).isoformat(timespec="minutes")
 
-        for jornada in rounds:
-            key = str(int(jornada))
-            old = bucket.get(key)
-            try:
-                # Si ya sabemos qué partidos pertenecen a esta jornada, no
-                # reconstruimos su pertenencia: solo refrescamos estados.
-                payload = _refresh_persisted_jornada(old, competition, today) if old else None
-                if payload is None:
-                    payload = build_specific_jornada_payload(fixtures, competition, int(jornada), today)
-                if payload and payload.get("matches"):
-                    bucket[key] = payload
-                    successes += 1
-            except Exception as exc:
-                log(f"AVISO catálogo {competition} J{jornada}: {exc}")
-                # Nunca borramos una jornada válida por un fallo puntual de red.
+    # LaLiga: 38 páginas oficiales, cada una validada a 10 partidos.
+    laliga_bucket = root.setdefault("LaLiga", {})
+    missing_laliga = []
+    for jornada in range(1, 39):
+        key = str(jornada)
+        try:
+            official = get_laliga_official_round_matches(jornada)
+            if not official:
+                missing_laliga.append(jornada)
                 continue
+            matches = overlay_today_round_status(official, "LaLiga", today)
+            matches = _mark_expired_laliga_scheduled_as_postponed(matches, today)
+            dates = [date.fromisoformat(m["date"]) for m in matches if m.get("date")]
+            window = (min(dates), max(dates)) if dates else None
+            normal = [m for m in matches if m.get("status") != "postponed"]
+            laliga_bucket[key] = {
+                "competition": "LaLiga",
+                "jornada": jornada,
+                "phase": jornada_phase(matches),
+                "windowStart": window[0].isoformat() if window else None,
+                "windowEnd": window[1].isoformat() if window else None,
+                "finished": sum(1 for m in normal if m.get("status") == "finished"),
+                "total": len(normal),
+                "live": sum(1 for m in normal if m.get("status") == "live"),
+                "postponed": sum(1 for m in matches if m.get("status") == "postponed"),
+                "updatedAt": datetime.now(TZ).isoformat(timespec="minutes"),
+                "matches": matches,
+            }
+            successes += 1
+        except Exception as exc:
+            missing_laliga.append(jornada)
+            log(f"AVISO catálogo LaLiga J{jornada}: {exc}")
 
-        # Limpia entradas imposibles sin afectar jornadas válidas ya guardadas.
-        allowed = set(str(int(j)) for j in rounds)
-        for key in list(bucket):
-            if key not in allowed:
-                bucket.pop(key, None)
+    # Champions: conservar lo ya estable, independiente de LaLiga.
+    champions_bucket = root.setdefault("Champions", {})
+    rounds = [a["jornada"] for a in jornada_anchors(fixtures, "Champions")] or list(range(1, 9))
+    for jornada in rounds:
+        key = str(int(jornada))
+        old = champions_bucket.get(key)
+        try:
+            payload = _refresh_persisted_jornada(old, "Champions", today) if old else None
+            if payload is None:
+                payload = build_specific_jornada_payload(fixtures, "Champions", int(jornada), today)
+            if payload and payload.get("matches"):
+                champions_bucket[key] = payload
+                successes += 1
+        except Exception as exc:
+            log(f"AVISO catálogo Champions J{jornada}: {exc}")
 
-    data.setdefault("jornadasCatalogMeta", {})["updatedAt"] = datetime.now(TZ).isoformat(timespec="minutes")
-    data["jornadasCatalogMeta"]["laligaLoaded"] = len(root.get("LaLiga") or {})
-    data["jornadasCatalogMeta"]["championsLoaded"] = len(root.get("Champions") or {})
+    meta["updatedAt"] = datetime.now(TZ).isoformat(timespec="minutes")
+    meta["sourceVersion"] = source_version
+    meta["laligaLoaded"] = len(laliga_bucket)
+    meta["laligaMissing"] = missing_laliga
+    meta["championsLoaded"] = len(champions_bucket)
     log(
-        "Catálogo jornadas: "
-        f"LaLiga {data['jornadasCatalogMeta']['laligaLoaded']}/38 · "
-        f"Champions {data['jornadasCatalogMeta']['championsLoaded']}"
+        "Catálogo jornadas v4: "
+        f"LaLiga {len(laliga_bucket)}/38"
+        + (f" · faltan {missing_laliga}" if missing_laliga else " · completo")
+        + f" · Champions {len(champions_bucket)}"
     )
     return successes
 
@@ -1593,6 +1667,20 @@ def main() -> int:
             return 0
     else:
         successes = full_refresh(data, original)
+
+        # VALIDACIÓN DE PUBLICACIÓN: nunca sustituimos real_madrid.json por un
+        # catálogo LaLiga parcial. Si la migración/fuente oficial no produjo las
+        # 38 jornadas con 10 partidos cada una, el workflow falla y el JSON que ya
+        # funciona en GitHub queda intacto. La siguiente ejecución volverá a intentar.
+        laliga_catalog = ((data.get("jornadasAll") or {}).get("LaLiga") or {})
+        invalid_rounds = []
+        for j in range(1, 39):
+            payload = laliga_catalog.get(str(j)) or laliga_catalog.get(j)
+            if not payload or len(payload.get("matches") or []) != 10:
+                invalid_rounds.append(j)
+        if invalid_rounds:
+            log(f"ERROR catálogo LaLiga incompleto; NO se publica. Jornadas inválidas: {invalid_rounds}")
+            return 3
 
     sanitize_stale_fixture_states(data.get("fixtures") or [])
     nxt = choose_next_match(data.get("fixtures") or [])

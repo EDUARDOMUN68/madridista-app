@@ -10,7 +10,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <title>Madridista</title>
-<meta name="madridista-version" content="jornada-v3-12-catalog">
+<meta name="madridista-version" content="jornada-v3-11-catalog">
 <style>
 :root{--bg:#f4f6fb;--card:#fff;--navy:#0b1f3a;--blue:#244f94;--gold:#d7b34c;--text:#1d2530;--muted:#6d7787;--line:#e3e8f0;--champ:#eef3ff;--done:#f7f8fa;--danger:#fff0f0;--green:#eaf7ef}
 *{box-sizing:border-box} html{background:var(--bg)} body{margin:0;font-family:Arial,Helvetica,sans-serif;background:radial-gradient(circle at 90% -10%,rgba(36,79,148,.16),transparent 25%),var(--bg);color:var(--text)} button{font:inherit}
@@ -438,18 +438,28 @@ function applyPendingFinalIfNeeded(competition,games,rows,store){
   return {rows:adjusted,used:count>0,pending:count};
 }
 const JORNADA_STORE_KEY='madridista_jornada_comp_v1';
-const JORNADA_NUMBER_STORE_KEY='madridista_jornada_num_v1';
+const JORNADA_NUMBER_STORE_KEY='madridista_jornada_num_v3';
 function jornadaAnchors(competition){
   const map=new Map();for(const fx of APP?.fixtures||[]){const j=Number(fx.jornada);if(fx.competition!==competition||!Number.isFinite(j)||!fx.date)continue;if(!map.has(j))map.set(j,{jornada:j,date:fx.date});}
   return [...map.values()].sort((a,b)=>a.jornada-b.jornada);
 }
 function jornadaBounds(competition){
-  const catalog=APP?.jornadasAll?.[competition]||{};
-  const nums=Object.keys(catalog).map(Number).filter(Number.isFinite).sort((a,b)=>a-b);
-  if(nums.length)return {min:nums[0],max:nums[nums.length-1]};
-  const a=jornadaAnchors(competition);
-  if(a.length)return {min:a[0].jornada,max:a[a.length-1].jornada};
+  // El selector siempre ofrece la competición completa. No reducimos el rango
+  // porque una descarga parcial del catálogo haya fallado puntualmente.
   return competition==='Champions'?{min:1,max:8}:{min:1,max:38};
+}
+function jornadaDefaultNumber(competition){
+  const catalog=APP?.jornadasAll?.[competition]||{};
+  const entries=Object.values(catalog).filter(x=>x&&Number.isFinite(Number(x.jornada)));
+  if(!entries.length)return null;
+  const today=new Intl.DateTimeFormat('en-CA',{timeZone:'Europe/Madrid',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
+  // 1) Si hoy hay un partido normal de una jornada, esa es la predeterminada.
+  const todayHit=entries.find(x=>(x.matches||[]).some(m=>m.status!=='postponed'&&m.date===today));
+  if(todayHit)return Number(todayHit.jornada);
+  // 2) En otro caso, elegimos la jornada con el próximo partido no aplazado.
+  const future=entries.map(x=>({j:Number(x.jornada),d:(x.matches||[]).filter(m=>m.status!=='postponed'&&m.date>=today).map(m=>m.date).sort()[0]})).filter(x=>x.d).sort((a,b)=>a.d.localeCompare(b.d)||a.j-b.j)[0];
+  if(future)return future.j;
+  return Math.max(...entries.map(x=>Number(x.jornada)));
 }
 function jornadaSavedNumbers(){
   try{return JSON.parse(localStorage.getItem(JORNADA_NUMBER_STORE_KEY)||'{}')||{}}catch(e){return {}}
@@ -457,7 +467,7 @@ function jornadaSavedNumbers(){
 function jornadaSelectedNumber(competition){
   const b=jornadaBounds(competition),saved=Number(jornadaSavedNumbers()[competition]);
   if(Number.isFinite(saved)&&saved>=b.min&&saved<=b.max)return saved;
-  const fb=jornadaFallback(competition),candidate=Number(fb?.jornada??jornadaCandidateNumber(competition)??b.min);
+  const fb=jornadaFallback(competition),candidate=Number(jornadaDefaultNumber(competition)??fb?.jornada??jornadaCandidateNumber(competition)??b.min);
   return Math.min(b.max,Math.max(b.min,Number.isFinite(candidate)?candidate:b.min));
 }
 function jornadaSaveNumber(competition,jornada){
