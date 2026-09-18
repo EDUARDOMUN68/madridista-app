@@ -1,4 +1,4 @@
-const CACHE='madridista-v3-7-official-times';
+const CACHE='madridista-v3-8-regression-guard';
 const STATIC=['./','./index.html','./manifest.webmanifest','./icon-192.png','./icon-512.png','./icon-maskable-512.png'];
 
 self.addEventListener('install',e=>{
