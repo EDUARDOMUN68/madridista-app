@@ -10,7 +10,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <title>Madridista</title>
-<meta name="madridista-version" content="jornada-v3-11-catalog">
+<meta name="madridista-version" content="jornada-v3-14-laliga-stable">
 <style>
 :root{--bg:#f4f6fb;--card:#fff;--navy:#0b1f3a;--blue:#244f94;--gold:#d7b34c;--text:#1d2530;--muted:#6d7787;--line:#e3e8f0;--champ:#eef3ff;--done:#f7f8fa;--danger:#fff0f0;--green:#eaf7ef}
 *{box-sizing:border-box} html{background:var(--bg)} body{margin:0;font-family:Arial,Helvetica,sans-serif;background:radial-gradient(circle at 90% -10%,rgba(36,79,148,.16),transparent 25%),var(--bg);color:var(--text)} button{font:inherit}
@@ -311,7 +311,7 @@ const DIRECT_STORE_KEY='madridista_pending_results_v3';
 const DIRECT_ALIASES={
   'internazionale':'inter de milan','inter milan':'inter de milan','internazionale milano':'inter de milan',
   'as roma':'roma','aek athens':'aek atenas','aek athens fc':'aek atenas','psv eindhoven':'psv',
-  'racing santander':'racing de santander','deportivo la coruna':'rc deportivo','deportivo de la coruna':'rc deportivo',
+  'racing santander':'racing de santander','r racing club':'racing de santander','deportivo la coruna':'rc deportivo','deportivo de la coruna':'rc deportivo',
   'espanyol':'rcd espanyol','malaga':'malaga cf','athletic bilbao':'athletic club','alaves':'deportivo alaves',
   'celta vigo':'celta','barcelona':'fc barcelona','atletico madrid':'atletico de madrid'
 };
@@ -321,7 +321,7 @@ function directNorm(s){
   return DIRECT_ALIASES[s]||s;
 }
 function directSame(a,b){const x=directNorm(a),y=directNorm(b);return !!x&&!!y&&(x===y||x.includes(y)||y.includes(x));}
-function directToday(){const d=new Date();return `${d.getFullYear()}${String(d.getMonth()+1).padStart(2,'0')}${String(d.getDate()).padStart(2,'0')}`;}
+function directToday(){return madridTodayIso().replace(/-/g,'');}
 function directScore(c){const s=c?.score;const v=(s&&typeof s==='object')?(s.value??s.displayValue):s;const n=Number(v);return Number.isFinite(n)?Math.trunc(n):null;}
 function directLiveLabel(status){
   const t=status?.type||{}, raw=String(t.shortDetail||t.detail||status?.displayClock||'En juego').trim(),low=raw.toLowerCase();
@@ -375,6 +375,25 @@ function directBaseRows(competition){
   return JSON.parse(JSON.stringify(OFFICIAL_APP?.[officialKey]?.length?OFFICIAL_APP[officialKey]:(OFFICIAL_APP?.[activeKey]||[])));
 }
 function directSignature(rows){return (rows||[]).map(r=>`${directNorm(r.team)}:${r.pj}:${r.pts}:${r.gf}:${r.gc}`).sort().join('|');}
+function directSignatureMap(signature){
+  const out=new Map();for(const part of String(signature||'').split('|')){if(!part)continue;const p=part.split(':');if(p.length<5)continue;const team=p.slice(0,-4).join(':');const [pj,pts,gf,gc]=p.slice(-4).map(Number);if(team)out.set(team,{pj,pts,gf,gc});}return out;
+}
+function directOfficialReflectsGame(rows,g,baselineSignature){
+  if(!g||g.homeScore==null||g.awayScore==null||!baselineSignature)return false;
+  const base=directSignatureMap(baselineSignature),h=rows.find(r=>directSame(r.team,g.home)),a=rows.find(r=>directSame(r.team,g.away));
+  const bh=base.get(directNorm(g.home)),ba=base.get(directNorm(g.away));if(!h||!a||!bh||!ba)return false;
+  const reflected=(r,b,gf,gc)=>Number(r.pj)>=b.pj+1&&Number(r.pts)>=b.pts+directPoints(gf,gc)&&Number(r.gf)>=b.gf+gf&&Number(r.gc)>=b.gc+gc;
+  return reflected(h,bh,g.homeScore,g.awayScore)&&reflected(a,ba,g.awayScore,g.homeScore);
+}
+function directJornadaReferenceForGame(g){
+  if(g?.competition!=='LaLiga')return null;
+  for(const payload of Object.values(OFFICIAL_APP?.jornadasAll?.LaLiga||{}))for(const m of payload?.matches||[]){if(g.date&&m.date!==g.date)continue;if(directSame(m.home,g.home)&&directSame(m.away,g.away))return m;}
+  return null;
+}
+function directReconcileGamesWithJornada(competition,games){
+  if(competition!=='LaLiga')return games;
+  return (games||[]).map(g=>{const ref=directJornadaReferenceForGame(g);if(ref?.status==='finished'&&g.status!=='finished'){return {...g,status:'finished',homeScore:ref.homeScore??g.homeScore,awayScore:ref.awayScore??g.awayScore,score:ref.score||g.score,liveLabel:null}}return g;});
+}
 function directStore(){try{return JSON.parse(localStorage.getItem(DIRECT_STORE_KEY)||'{}')}catch(e){return {}}}
 function directSaveStore(store){try{localStorage.setItem(DIRECT_STORE_KEY,JSON.stringify(store))}catch(e){}}
 function directClearCompetition(store,competition){delete store[competition];directSaveStore(store);}
@@ -392,7 +411,7 @@ function directApplyGame(rows,g,{live=true,pendingOfficial=false}={}){
 }
 function directSort(rows){rows.sort((a,b)=>b.pts-a.pts||b.dg-a.dg||b.gf-a.gf||a.team.localeCompare(b.team,'es'));rows.forEach((r,i)=>r.pos=i+1);}
 function directSameGame(a,b){return (a.eventId&&b.eventId&&a.eventId===b.eventId)||(directSame(a.home,b.home)&&directSame(a.away,b.away));}
-function directGameSnapshot(g){return {eventId:g.eventId||'',home:g.home,away:g.away,homeScore:g.homeScore,awayScore:g.awayScore,status:g.status,liveLabel:g.liveLabel||null,score:g.score||((g.homeScore!=null&&g.awayScore!=null)?`${g.homeScore}–${g.awayScore}`:null)};}
+function directGameSnapshot(g){return {eventId:g.eventId||'',date:g.date||null,home:g.home,away:g.away,homeScore:g.homeScore,awayScore:g.awayScore,status:g.status,liveLabel:g.liveLabel||null,score:g.score||((g.homeScore!=null&&g.awayScore!=null)?`${g.homeScore}–${g.awayScore}`:null)};}
 function directTrackedGames(prior,currentGames,baseSignature){
   const kept=[];const seen=new Set();const age=prior?Date.now()-(prior.savedAt||0):Infinity;
   const add=g=>{if(!g||g.homeScore==null||g.awayScore==null||!['live','finished'].includes(g.status))return;const key=g.eventId||`${directNorm(g.home)}|${directNorm(g.away)}`;if(seen.has(key))return;seen.add(key);kept.push(g)};
@@ -412,7 +431,13 @@ function directTrackedGames(prior,currentGames,baseSignature){
 function directUpdateMadridFixture(events){
   for(const g of events){
     let venue=null,opp=null;if(directSame(g.home,'Real Madrid')){venue='home';opp=g.away}else if(directSame(g.away,'Real Madrid')){venue='away';opp=g.home}else continue;
-    const fx=APP.fixtures.find(x=>x.competition===g.competition&&directSame(x.opponent,opp));if(!fx)continue;
+    // Emparejamos por competición + fecha + local/visitante + rival. Buscar solo
+    // por rival podía modificar el partido de la primera vuelta al jugar la segunda.
+    const candidates=(APP.fixtures||[]).filter(x=>x.competition===g.competition&&directSame(x.opponent,opp));
+    const fx=g.competition==='LaLiga'
+      ? (candidates.find(x=>x.date===g.date&&x.venue===venue)||candidates.find(x=>x.date===g.date)||candidates.find(x=>x.venue===venue))
+      : candidates[0];
+    if(!fx)continue;
     if(g.status==='live'){fx.status='live';fx.score=g.score;fx.liveLabel=g.liveLabel||'En juego';}
     else if(g.status==='finished'){fx.status='finished';fx.score=g.score;delete fx.liveLabel;delete fx.liveScore;delete fx.livePoints;delete fx.liveOutcome;}
   }
@@ -548,6 +573,12 @@ async function fetchJornada(competition,jornada,reference=null){
         const hit=fresh.find(g=>jornadaSameMember(base[i],g));
         if(!hit)continue;
         const wasPostponed=base[i]?.status==='postponed';
+        // Un FINAL del catálogo oficial nunca se degrada a un 81', HT o scheduled
+        // atrasado de la fuente de directo. Conservamos el final oficial.
+        if(base[i]?.status==='finished'&&hit.status!=='finished'){
+          if(hit.eventId)base[i].eventId=hit.eventId;
+          continue;
+        }
         // La fuente en directo a veces devuelve scheduled para la FECHA ORIGINAL
         // de un aplazado. Solo un live/finished real puede levantar ese aplazado.
         if(wasPostponed && !['live','finished'].includes(hit.status)){
@@ -660,14 +691,30 @@ async function refreshBrowserLive(showToast=false,refreshVisibleJornada=true){
     try{
       const slug=DIRECT_LEAGUES[competition];
       const scorePayload=await directFetchJson(`https://site.api.espn.com/apis/site/v2/sports/soccer/${slug}/scoreboard?dates=${day}`);
-      const games=parseDirectScoreboard(scorePayload,competition);success=true;directUpdateMadridFixture(games);(APP.fixtures||[]).forEach(normalizeFixtureForRender);normalizeFixtureForRender(APP.nextMatch);
-      const live=games.filter(g=>g.status==='live'&&g.score);
+      let games=directReconcileGamesWithJornada(competition,parseDirectScoreboard(scorePayload,competition));success=true;
       let rows=directBaseRows(competition);
       if(rows.length){
-        const baseSignature=directSignature(rows);let prior=store[competition];
-        // Si la clasificación oficial cambió, damos por absorbidos los ajustes
-        // anteriores y empezamos desde esa nueva base.
-        if(prior?.baseSignature&&prior.baseSignature!==baseSignature){delete store[competition];prior=null;directSaveStore(store);}
+        const baseSignature=directSignature(rows);let prior=store[competition],absorbed=[];
+        // En LaLiga, si la base oficial cambia, comprobamos los partidos que ya
+        // seguíamos ANTES de borrar su memoria. Si la nueva tabla ya contiene ese
+        // resultado, se excluye aunque el marcador externo aún diga 81'/HT/live.
+        if(prior?.baseSignature&&prior.baseSignature!==baseSignature){
+          if(competition==='LaLiga'){
+            const oldPrior=prior,pending=[];
+            for(const t of oldPrior.games||[]){
+              const fresh=games.find(g=>directSameGame(t,g))||t;
+              if(directOfficialReflectsGame(rows,fresh,oldPrior.baseSignature))absorbed.push(fresh);else pending.push(fresh);
+            }
+            if(absorbed.length)games=games.filter(g=>!absorbed.some(t=>directSameGame(t,g)));
+            // Un cambio de la tabla por OTRO partido no debe hacer desaparecer un
+            // final pendiente. Lo rebasamos sobre la nueva clasificación oficial.
+            prior=pending.length?{...oldPrior,baseSignature,games:pending.map(directGameSnapshot),standings:null,state:pending.some(g=>g.status==='live')?'live':'finished'}:null;
+            if(prior)store[competition]=prior;else delete store[competition];directSaveStore(store);
+          }else{
+            delete store[competition];prior=null;directSaveStore(store);
+          }
+        }
+        directUpdateMadridFixture(games);(APP.fixtures||[]).forEach(normalizeFixtureForRender);normalizeFixtureForRender(APP.nextMatch);
         const tracked=directTrackedGames(prior,games,baseSignature);
         if(tracked.length){
           let appliedLive=0,appliedFinal=0;
@@ -685,6 +732,8 @@ async function refreshBrowserLive(showToast=false,refreshVisibleJornada=true){
           anyPending=true;if(competition==='LaLiga')APP.laligaStandings=JSON.parse(JSON.stringify(prior.standings));else APP.championsStandings=JSON.parse(JSON.stringify(prior.standings));
           APP.standingsMeta=APP.standingsMeta||{};APP.standingsMeta[competition]={mode:'provisional',liveGames:0,pendingOfficialGames:1,source:'browser-final-cache'};
         }
+      }else{
+        directUpdateMadridFixture(games);(APP.fixtures||[]).forEach(normalizeFixtureForRender);normalizeFixtureForRender(APP.nextMatch);
       }
     }catch(e){console.debug('Madridista directo:',competition,e);}
   }

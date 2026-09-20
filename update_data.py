@@ -60,7 +60,7 @@ WEEKDAYS_ES = {0:"Lun.",1:"Mar.",2:"Mié.",3:"Jue.",4:"Vie.",5:"Sáb.",6:"Dom."}
 NAME_ALIASES = {
     "inter milan":"inter de milan","internazionale":"inter de milan","internazionale milano":"inter de milan",
     "as roma":"roma","aek athens":"aek atenas","aek athens fc":"aek atenas","psv eindhoven":"psv",
-    "lask linz":"lask","racing santander":"racing de santander","deportivo la coruna":"rc deportivo",
+    "lask linz":"lask","racing santander":"racing de santander","r racing club":"racing de santander","deportivo la coruna":"rc deportivo",
     "deportivo de la coruna":"rc deportivo","deportivo":"rc deportivo","espanyol":"rcd espanyol",
     "malaga":"malaga cf","athletic bilbao":"athletic club","alaves":"deportivo alaves","celta vigo":"celta",
     "barcelona":"fc barcelona","atletico madrid":"atletico de madrid","atletico de madrid":"atletico de madrid",
@@ -533,6 +533,10 @@ def get_jornada_matches(fixtures: list[dict], competition: str, jornada: int) ->
 def _clean_laliga_team(value: str) -> str:
     value = re.sub(r"\s+", " ", value or "").strip(" |-\t")
     value = re.sub(r"^(?:Ver resumen|Ver partido)\s+", "", value, flags=re.I)
+    # La web oficial inserta etiquetas de estado dentro de la celda del partido
+    # (p. ej. "DIRECTO Málaga CF"). Nunca deben formar parte del nombre del equipo.
+    value = re.sub(r"^(?:(?:EN\s+)?DIRECTO|EN\s+JUEGO|FINALIZADO|FINAL)\s+", "", value, flags=re.I)
+    value = re.sub(r"\s+(?:(?:EN\s+)?DIRECTO|EN\s+JUEGO|FINALIZADO|FINAL)$", "", value, flags=re.I)
     return value.strip(" |-\t")
 
 
@@ -637,13 +641,16 @@ def _parse_laliga_round_page(raw: str, jornada: int) -> list[dict]:
         status = "scheduled"
         hs = aws = None
         home = away = None
+        # Durante un partido LALIGA puede mostrar el marcador junto a la palabra
+        # DIRECTO. Un marcador visible NO implica por sí solo que haya finalizado.
+        live_marker = bool(re.search(r"(?:EN\s+)?DIRECTO|EN\s+JUEGO", chunk, re.I))
 
         # Marcadores publicados por LALIGA pueden venir sin espacios: Equipo1 - 2Equipo.
         sm = re.search(r"(.+?)(\d+)\s*-\s*(\d+)(.+)", match_cell)
         if sm:
             home, hs_s, aws_s, away = sm.groups()
             hs, aws = int(hs_s), int(aws_s)
-            status = "finished"
+            status = "live" if live_marker else "finished"
         else:
             vm = re.search(r"(.+?)\s+VS\s+(.+)", match_cell, re.I)
             if vm:
@@ -686,7 +693,7 @@ def _parse_laliga_round_page(raw: str, jornada: int) -> list[dict]:
             "awayScore": aws,
             "score": f"{hs}–{aws}" if hs is not None and aws is not None else None,
             "status": status,
-            "liveLabel": None,
+            "liveLabel": "En juego" if status == "live" else None,
             "officialSource": "LALIGA",
         })
 
@@ -761,9 +768,19 @@ def overlay_today_round_status(matches: list[dict], competition: str, today: dat
                 continue
             hit = next((g for g in fresh if same_team(m.get("home", ""), g.get("home", "")) and same_team(m.get("away", ""), g.get("away", ""))), None)
             if hit:
-                for key in ("eventId", "status", "homeScore", "awayScore", "score", "liveLabel", "time", "kickoff", "displayDate"):
-                    if hit.get(key) is not None:
-                        m[key] = hit.get(key)
+                # Nunca degradamos un FINAL oficial de LALIGA a un directo/scheduled
+                # más antiguo de la fuente de marcador. Esto evita 81', 86', HT, etc.
+                # congelados después de que la fuente oficial ya haya cerrado el partido.
+                rank = {"scheduled": 0, "live": 1, "finished": 2}
+                official_rank = rank.get(m.get("status"), 0)
+                fresh_rank = rank.get(hit.get("status"), 0)
+                if m.get("officialSource") == "LALIGA" and fresh_rank < official_rank:
+                    if hit.get("eventId"):
+                        m["eventId"] = hit.get("eventId")
+                else:
+                    for key in ("eventId", "status", "homeScore", "awayScore", "score", "liveLabel", "time", "kickoff", "displayDate"):
+                        if hit.get(key) is not None:
+                            m[key] = hit.get(key)
                 if m.get("status") == "finished":
                     m.pop("liveLabel", None)
 
@@ -1396,6 +1413,169 @@ def provisional_standings(
         row["pos"] = pos
     return rows, adjustments, detected_source_live
 
+def _standings_event_key(ev: dict) -> str:
+    event_id = str(ev.get("eventId") or "").strip()
+    if event_id:
+        return event_id
+    return "|".join((
+        str(ev.get("date") or ""),
+        normalize_name(ev.get("home")),
+        normalize_name(ev.get("away")),
+    ))
+
+
+def _standing_snapshot(row: dict | None) -> dict:
+    if not row:
+        return {}
+    return {k: intish(row.get(k), 0) for k in ("pj", "pts", "g", "e", "p", "gf", "gc")}
+
+
+def _match_points(gf: int, gc: int) -> int:
+    return 3 if gf > gc else 1 if gf == gc else 0
+
+
+def _row_reflects_match(row: dict | None, baseline: dict | None, gf: int, gc: int) -> bool:
+    """True si los acumulados oficiales ya contienen, como mínimo, este partido."""
+    if not row or not baseline:
+        return False
+    expected = dict(baseline)
+    expected["pj"] = intish(expected.get("pj")) + 1
+    expected["pts"] = intish(expected.get("pts")) + _match_points(gf, gc)
+    expected["gf"] = intish(expected.get("gf")) + gf
+    expected["gc"] = intish(expected.get("gc")) + gc
+    expected["g"] = intish(expected.get("g")) + (1 if gf > gc else 0)
+    expected["e"] = intish(expected.get("e")) + (1 if gf == gc else 0)
+    expected["p"] = intish(expected.get("p")) + (1 if gf < gc else 0)
+    return all(intish(row.get(k)) >= expected[k] for k in expected)
+
+
+def provisional_standings_laliga(
+    official: list[dict],
+    previous_official: list[dict],
+    events: list[dict],
+    previous_meta: dict | None = None,
+) -> tuple[list[dict], list[dict], bool, dict]:
+    """Clasificación provisional de LaLiga con memoria por partido.
+
+    La base de cada partido se captura cuando se empieza a seguir. Así, cuando la
+    clasificación oficial absorbe el resultado, podemos reconocerlo aunque hayan
+    pasado varias ejecuciones con el mismo PJ. Los partidos ya absorbidos quedan
+    marcados durante el resto del día para impedir que vuelvan a sumarse.
+    """
+    rows = deepcopy(official)
+    base_pos = {normalize_name(r["team"]): r["pos"] for r in official}
+    previous_meta = previous_meta or {}
+    previous_tracks = deepcopy(previous_meta.get("trackedGames") or {})
+    tracks: dict[str, dict] = {}
+    adjustments: list[dict] = []
+    detected_source_live = False
+
+    for ev in events:
+        if ev.get("status") not in {"live", "finished"}:
+            continue
+        if ev.get("homeScore") is None or ev.get("awayScore") is None:
+            continue
+        home = find_row(rows, ev.get("home", ""))
+        away = find_row(rows, ev.get("away", ""))
+        if not home or not away:
+            continue
+
+        key = _standings_event_key(ev)
+        track = deepcopy(previous_tracks.get(key) or {})
+        track.update({
+            "eventId": str(ev.get("eventId") or ""),
+            "date": ev.get("date"),
+            "home": ev.get("home"),
+            "away": ev.get("away"),
+            "homeScore": ev.get("homeScore"),
+            "awayScore": ev.get("awayScore"),
+            "score": ev.get("score"),
+            "status": ev.get("status"),
+        })
+
+        # Si ya quedó absorbido en una ejecución anterior, no se vuelve a sumar.
+        if track.get("absorbed"):
+            tracks[key] = track
+            continue
+
+        prev_home = find_row(previous_official, ev.get("home", "")) if previous_official else None
+        prev_away = find_row(previous_official, ev.get("away", "")) if previous_official else None
+
+        # Primera vez que vemos el partido: si justo en esta ejecución la tabla
+        # oficial ya avanzó desde la foto anterior, queda absorbido desde el inicio.
+        if not track.get("homeBase") or not track.get("awayBase"):
+            if (prev_home and prev_away
+                and _row_reflects_match(home, _standing_snapshot(prev_home), ev["homeScore"], ev["awayScore"])
+                and _row_reflects_match(away, _standing_snapshot(prev_away), ev["awayScore"], ev["homeScore"])):
+                track["absorbed"] = True
+                tracks[key] = track
+                continue
+            track["homeBase"] = _standing_snapshot(home)
+            track["awayBase"] = _standing_snapshot(away)
+            track["absorbed"] = False
+
+        home_reflected = _row_reflects_match(home, track.get("homeBase"), ev["homeScore"], ev["awayScore"])
+        away_reflected = _row_reflects_match(away, track.get("awayBase"), ev["awayScore"], ev["homeScore"])
+        live = ev.get("status") == "live"
+        label = ev.get("liveLabel") or ("En juego" if live else "Pendiente de oficializar")
+
+        if home_reflected and away_reflected:
+            if live:
+                # La fuente de clasificación está incorporando el directo. Mostramos
+                # el distintivo, pero no modificamos de nuevo PJ/puntos/goles.
+                detected_source_live = True
+                mark_provisional_row(home, live=True, label=label, score=ev["score"])
+                mark_provisional_row(away, live=True, label=label, score=ev["score"])
+                adjustments.append(ev)
+            else:
+                track["absorbed"] = True
+            tracks[key] = track
+            continue
+
+        if not home_reflected:
+            apply_match_to_row(home, ev["homeScore"], ev["awayScore"], live=live, label=label, score=ev["score"])
+        else:
+            mark_provisional_row(home, live=live, label=label, score=ev["score"])
+        if not away_reflected:
+            apply_match_to_row(away, ev["awayScore"], ev["homeScore"], live=live, label=label, score=ev["score"])
+        else:
+            mark_provisional_row(away, live=live, label=label, score=ev["score"])
+        adjustments.append(ev)
+        tracks[key] = track
+
+    rows.sort(key=lambda r: (-r["pts"], -r["dg"], -r["gf"], base_pos.get(normalize_name(r["team"]), 999)))
+    for pos, row in enumerate(rows, 1):
+        row["pos"] = pos
+    return rows, adjustments, detected_source_live, tracks
+
+
+def _laliga_catalog_match(data: dict, ev: dict) -> dict | None:
+    """Busca el mismo partido en el catálogo oficial de jornadas de LaLiga."""
+    for payload in ((data.get("jornadasAll") or {}).get("LaLiga") or {}).values():
+        for match in (payload or {}).get("matches") or []:
+            if ev.get("date") and match.get("date") != ev.get("date"):
+                continue
+            if same_team(match.get("home", ""), ev.get("home", "")) and same_team(match.get("away", ""), ev.get("away", "")):
+                return match
+    return None
+
+
+def _reconcile_laliga_scoreboard_with_catalog(data: dict, events: list[dict]) -> list[dict]:
+    """Impide que un marcador directo atrasado reabra un final oficial de LALIGA."""
+    out = []
+    for ev in events:
+        item = deepcopy(ev)
+        official = _laliga_catalog_match(data, item)
+        if official and official.get("status") == "finished" and item.get("status") != "finished":
+            item["status"] = "finished"
+            for key in ("homeScore", "awayScore", "score"):
+                if official.get(key) is not None:
+                    item[key] = official.get(key)
+            item.pop("liveLabel", None)
+        out.append(item)
+    return out
+
+
 def build_monitor_windows(scoreboards: dict[tuple[str,str], list[dict]]) -> list[dict]:
     windows = []
     for (competition, day_text), events in scoreboards.items():
@@ -1488,9 +1668,10 @@ def update_live_payload(data: dict, scoreboards: dict[tuple[str,str], list[dict]
     fixtures = data.setdefault("fixtures", [])
     all_by_comp = {"LaLiga": [], "Champions": []}
     for (competition, _day), events in scoreboards.items():
-        all_by_comp[competition].extend(events)
+        effective_events = _reconcile_laliga_scoreboard_with_catalog(data, events) if competition == "LaLiga" else events
+        all_by_comp[competition].extend(effective_events)
         # Actualizar el partido del Madrid si está en ese marcador.
-        merge_schedule(fixtures, [rm for ev in events if (rm := madrid_event(ev))])
+        merge_schedule(fixtures, [rm for ev in effective_events if (rm := madrid_event(ev))])
 
     live_matches = [ev for events in all_by_comp.values() for ev in events if ev.get("status") == "live"]
     data["live"] = {
@@ -1523,19 +1704,30 @@ def update_live_payload(data: dict, scoreboards: dict[tuple[str,str], list[dict]
         # ese resultado final para evitar que la clasificación salte hacia atrás.
         relevant = [ev for ev in all_by_comp[competition] if ev.get("status") in {"live", "finished"} and ev.get("score")]
         previous_meta = (previous.get("standingsMeta") or {}).get(competition) or {}
-        prior_source_live = bool(previous_meta.get("sourceIncludesLive")) if relevant else False
-        active_rows, adjustments, source_live = provisional_standings(
-            official, prev_official, relevant, prior_source_live
-        )
+        if competition == "LaLiga":
+            active_rows, adjustments, source_live, tracked_games = provisional_standings_laliga(
+                official, prev_official, relevant, previous_meta
+            )
+        else:
+            prior_source_live = bool(previous_meta.get("sourceIncludesLive")) if relevant else False
+            active_rows, adjustments, source_live = provisional_standings(
+                official, prev_official, relevant, prior_source_live
+            )
+            tracked_games = None
         mode = "provisional" if adjustments else "official"
         data[active_key] = active_rows if adjustments else deepcopy(official)
-        data.setdefault("standingsMeta", {})[competition] = {
+        meta_payload = {
             "mode": mode,
             "liveGames": sum(1 for ev in adjustments if ev.get("status") == "live"),
             "pendingOfficialGames": sum(1 for ev in adjustments if ev.get("status") == "finished"),
             "sourceIncludesLive": source_live,
             "updatedAt": datetime.now(TZ).isoformat(timespec="minutes"),
         }
+        if competition == "LaLiga":
+            # Se conserva también cuando todos están absorbidos: evita que un final
+            # ya oficial vuelva a sumarse en la siguiente ejecución del mismo día.
+            meta_payload["trackedGames"] = tracked_games
+        data.setdefault("standingsMeta", {})[competition] = meta_payload
         if competition == "Champions":
             data["championsStandingsStatus"] = "active"
         changed_standings += 1
