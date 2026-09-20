@@ -2,14 +2,14 @@
   "app": {
     "name": "Madridista",
     "season": "2026/27",
-    "lastUpdated": "2026-09-20T14:24+02:00",
+    "lastUpdated": "2026-09-20T17:36+02:00",
     "timezone": "Europe/Madrid",
     "sources": [
       "Real Madrid C.F. — calendario oficial de LaLiga 2026/27",
       "Real Madrid C.F. — calendario Champions 2026/27",
       "LALIGA — horarios, resultados y clasificación"
     ],
-    "lastChecked": "2026-09-20T14:24+02:00"
+    "lastChecked": "2026-09-20T17:36+02:00"
   },
   "nextMatch": {
     "competition": "LaLiga",
@@ -19,11 +19,12 @@
     "venue": "away",
     "opponent": "Atlético de Madrid",
     "time": "16:15",
-    "status": "scheduled",
-    "score": null,
+    "status": "live",
+    "score": "1–0",
     "tv": [
       "DAZN"
-    ]
+    ],
+    "liveLabel": "57'"
   },
   "fixtures": [
     {
@@ -70,6 +71,20 @@
         "Movistar LALIGA",
         "Movistar Plus+",
         "Orange TV"
+      ]
+    },
+    {
+      "competition": "LaLiga",
+      "jornada": 4,
+      "date": "2026-09-04",
+      "displayDate": "Vie. 4 septiembre",
+      "venue": "away",
+      "opponent": "Real Betis",
+      "time": "21:00",
+      "status": "finished",
+      "score": "1–0",
+      "tv": [
+        "Movistar LALIGA"
       ]
     },
     {
@@ -122,11 +137,12 @@
       "venue": "away",
       "opponent": "Atlético de Madrid",
       "time": "16:15",
-      "status": "scheduled",
-      "score": null,
+      "status": "live",
+      "score": "1–0",
       "tv": [
         "DAZN"
-      ]
+      ],
+      "liveLabel": "57'"
     },
     {
       "competition": "LaLiga",
@@ -203,20 +219,6 @@
       "status": "scheduled",
       "score": null,
       "tv": []
-    },
-    {
-      "competition": "LaLiga",
-      "jornada": 4,
-      "date": "2026-11-04",
-      "displayDate": "Mié. 4 noviembre",
-      "venue": "away",
-      "opponent": "Real Betis",
-      "time": "18:45",
-      "status": "finished",
-      "score": "1–0",
-      "tv": [
-        "Movistar LALIGA"
-      ]
     },
     {
       "competition": "Champions",
@@ -569,8 +571,8 @@
     {
       "competition": "LaLiga",
       "jornada": 36,
-      "date": "2027-05-15",
-      "displayDate": "15–16 mayo",
+      "date": "2027-05-16",
+      "displayDate": "Dom. 16 mayo",
       "venue": "home",
       "opponent": "Racing de Santander",
       "time": null,
@@ -618,18 +620,38 @@
     },
     {
       "pos": 2,
-      "team": "Real Madrid",
-      "pts": 15,
-      "pj": 6,
+      "team": "Atlético Madrid",
+      "pts": 16,
+      "pj": 7,
       "g": 5,
-      "e": 0,
+      "e": 1,
       "p": 1,
-      "gf": 17,
+      "gf": 15,
       "gc": 6,
-      "dg": 11
+      "dg": 9,
+      "provisional": true,
+      "live": true,
+      "liveLabel": "57'",
+      "liveScore": "1–0"
     },
     {
       "pos": 3,
+      "team": "Real Madrid",
+      "pts": 15,
+      "pj": 7,
+      "g": 5,
+      "e": 0,
+      "p": 2,
+      "gf": 17,
+      "gc": 7,
+      "dg": 10,
+      "provisional": true,
+      "live": true,
+      "liveLabel": "57'",
+      "liveScore": "1–0"
+    },
+    {
+      "pos": 4,
       "team": "Real Betis",
       "pts": 15,
       "pj": 6,
@@ -639,18 +661,6 @@
       "gf": 8,
       "gc": 6,
       "dg": 2
-    },
-    {
-      "pos": 4,
-      "team": "Atlético Madrid",
-      "pts": 13,
-      "pj": 6,
-      "g": 4,
-      "e": 1,
-      "p": 1,
-      "gf": 14,
-      "gc": 6,
-      "dg": 8
     },
     {
       "pos": 5,
@@ -702,6 +712,18 @@
     },
     {
       "pos": 9,
+      "team": "Getafe",
+      "pts": 8,
+      "pj": 7,
+      "g": 2,
+      "e": 2,
+      "p": 3,
+      "gf": 4,
+      "gc": 7,
+      "dg": -3
+    },
+    {
+      "pos": 10,
       "team": "Rayo Vallecano",
       "pts": 8,
       "pj": 7,
@@ -713,7 +735,7 @@
       "dg": -5
     },
     {
-      "pos": 10,
+      "pos": 11,
       "team": "Osasuna",
       "pts": 8,
       "pj": 7,
@@ -725,7 +747,7 @@
       "dg": -7
     },
     {
-      "pos": 11,
+      "pos": 12,
       "team": "Celta Vigo",
       "pts": 7,
       "pj": 7,
@@ -737,7 +759,7 @@
       "dg": 2
     },
     {
-      "pos": 12,
+      "pos": 13,
       "team": "Espanyol",
       "pts": 7,
       "pj": 7,
@@ -749,7 +771,7 @@
       "dg": 0
     },
     {
-      "pos": 13,
+      "pos": 14,
       "team": "Real Sociedad",
       "pts": 7,
       "pj": 6,
@@ -761,7 +783,7 @@
       "dg": -5
     },
     {
-      "pos": 14,
+      "pos": 15,
       "team": "Racing Santander",
       "pts": 7,
       "pj": 7,
@@ -771,22 +793,6 @@
       "gf": 11,
       "gc": 21,
       "dg": -10
-    },
-    {
-      "pos": 15,
-      "team": "Getafe",
-      "pts": 6,
-      "pj": 7,
-      "g": 1,
-      "e": 3,
-      "p": 3,
-      "gf": 3,
-      "gc": 7,
-      "dg": -4,
-      "provisional": true,
-      "live": true,
-      "liveLabel": "22'",
-      "liveScore": "0–0"
     },
     {
       "pos": 16,
@@ -826,22 +832,6 @@
     },
     {
       "pos": 19,
-      "team": "Málaga",
-      "pts": 4,
-      "pj": 7,
-      "g": 0,
-      "e": 4,
-      "p": 3,
-      "gf": 3,
-      "gc": 11,
-      "dg": -8,
-      "provisional": true,
-      "live": true,
-      "liveLabel": "22'",
-      "liveScore": "0–0"
-    },
-    {
-      "pos": 20,
       "team": "Valencia",
       "pts": 4,
       "pj": 6,
@@ -851,6 +841,18 @@
       "gf": 2,
       "gc": 10,
       "dg": -8
+    },
+    {
+      "pos": 20,
+      "team": "Málaga",
+      "pts": 3,
+      "pj": 7,
+      "g": 0,
+      "e": 3,
+      "p": 4,
+      "gf": 3,
+      "gc": 12,
+      "dg": -9
     }
   ],
   "championsStandings": [
@@ -1375,22 +1377,22 @@
   ],
   "live": {
     "hasLiveMatches": true,
-    "updatedAt": "2026-09-20T14:24+02:00",
+    "updatedAt": "2026-09-20T17:36+02:00",
     "matches": [
       {
-        "eventId": "401882861",
+        "eventId": "401882865",
         "competition": "LaLiga",
         "date": "2026-09-20",
         "displayDate": "Dom. 20 septiembre",
-        "time": "14:00",
-        "kickoff": "2026-09-20T14:00+02:00",
-        "home": "Getafe",
-        "away": "Málaga",
-        "homeScore": 0,
+        "time": "16:15",
+        "kickoff": "2026-09-20T16:15+02:00",
+        "home": "Atlético Madrid",
+        "away": "Real Madrid",
+        "homeScore": 1,
         "awayScore": 0,
-        "score": "0–0",
+        "score": "1–0",
         "status": "live",
-        "liveLabel": "22'"
+        "liveLabel": "57'"
       }
     ]
   },
@@ -1493,6 +1495,18 @@
     },
     {
       "pos": 9,
+      "team": "Getafe",
+      "pts": 8,
+      "pj": 7,
+      "g": 2,
+      "e": 2,
+      "p": 3,
+      "gf": 4,
+      "gc": 7,
+      "dg": -3
+    },
+    {
+      "pos": 10,
       "team": "Rayo Vallecano",
       "pts": 8,
       "pj": 7,
@@ -1504,7 +1518,7 @@
       "dg": -5
     },
     {
-      "pos": 10,
+      "pos": 11,
       "team": "Osasuna",
       "pts": 8,
       "pj": 7,
@@ -1516,7 +1530,7 @@
       "dg": -7
     },
     {
-      "pos": 11,
+      "pos": 12,
       "team": "Celta Vigo",
       "pts": 7,
       "pj": 7,
@@ -1528,7 +1542,7 @@
       "dg": 2
     },
     {
-      "pos": 12,
+      "pos": 13,
       "team": "Espanyol",
       "pts": 7,
       "pj": 7,
@@ -1540,7 +1554,7 @@
       "dg": 0
     },
     {
-      "pos": 13,
+      "pos": 14,
       "team": "Real Sociedad",
       "pts": 7,
       "pj": 6,
@@ -1552,7 +1566,7 @@
       "dg": -5
     },
     {
-      "pos": 14,
+      "pos": 15,
       "team": "Racing Santander",
       "pts": 7,
       "pj": 7,
@@ -1564,7 +1578,7 @@
       "dg": -10
     },
     {
-      "pos": 15,
+      "pos": 16,
       "team": "Villarreal",
       "pts": 5,
       "pj": 6,
@@ -1576,7 +1590,7 @@
       "dg": -1
     },
     {
-      "pos": 16,
+      "pos": 17,
       "team": "Levante",
       "pts": 5,
       "pj": 5,
@@ -1586,18 +1600,6 @@
       "gf": 7,
       "gc": 9,
       "dg": -2
-    },
-    {
-      "pos": 17,
-      "team": "Getafe",
-      "pts": 5,
-      "pj": 6,
-      "g": 1,
-      "e": 2,
-      "p": 3,
-      "gf": 3,
-      "gc": 7,
-      "dg": -4
     },
     {
       "pos": 18,
@@ -1627,13 +1629,13 @@
       "pos": 20,
       "team": "Málaga",
       "pts": 3,
-      "pj": 6,
+      "pj": 7,
       "g": 0,
       "e": 3,
-      "p": 3,
+      "p": 4,
       "gf": 3,
-      "gc": 11,
-      "dg": -8
+      "gc": 12,
+      "dg": -9
     }
   ],
   "standingsMeta": {
@@ -1642,14 +1644,56 @@
       "liveGames": 1,
       "pendingOfficialGames": 0,
       "sourceIncludesLive": false,
-      "updatedAt": "2026-09-20T14:24+02:00"
+      "updatedAt": "2026-09-20T17:36+02:00",
+      "trackedGames": {
+        "401882861": {
+          "eventId": "401882861",
+          "date": "2026-09-20",
+          "home": "Getafe",
+          "away": "Málaga",
+          "homeScore": 1,
+          "awayScore": 0,
+          "score": "1–0",
+          "status": "finished",
+          "absorbed": true
+        },
+        "401882865": {
+          "eventId": "401882865",
+          "date": "2026-09-20",
+          "home": "Atlético Madrid",
+          "away": "Real Madrid",
+          "homeScore": 1,
+          "awayScore": 0,
+          "score": "1–0",
+          "status": "live",
+          "homeBase": {
+            "pj": 6,
+            "pts": 13,
+            "g": 4,
+            "e": 1,
+            "p": 1,
+            "gf": 14,
+            "gc": 6
+          },
+          "awayBase": {
+            "pj": 6,
+            "pts": 15,
+            "g": 5,
+            "e": 0,
+            "p": 1,
+            "gf": 17,
+            "gc": 6
+          },
+          "absorbed": false
+        }
+      }
     },
     "Champions": {
       "mode": "official",
       "liveGames": 0,
       "pendingOfficialGames": 0,
       "sourceIncludesLive": false,
-      "updatedAt": "2026-09-20T14:24+02:00"
+      "updatedAt": "2026-09-20T17:36+02:00"
     }
   },
   "championsOfficialStandings": [
@@ -2093,11 +2137,11 @@
       "phase": "active",
       "windowStart": "2026-09-18",
       "windowEnd": "2026-09-20",
-      "finished": 4,
-      "total": 9,
+      "finished": 6,
+      "total": 10,
       "live": 1,
-      "postponed": 1,
-      "updatedAt": "2026-09-20T14:23+02:00",
+      "postponed": 0,
+      "updatedAt": "2026-09-20T17:35+02:00",
       "matches": [
         {
           "eventId": "401882862",
@@ -2145,7 +2189,7 @@
           "officialSource": "LALIGA"
         },
         {
-          "eventId": "",
+          "eventId": "401882864",
           "competition": "LaLiga",
           "date": "2026-09-19",
           "displayDate": "Sáb. 19 septiembre",
@@ -2153,10 +2197,10 @@
           "kickoff": "2026-09-19T18:30+02:00",
           "home": "Celta",
           "away": "R. Racing Club",
-          "homeScore": null,
-          "awayScore": null,
-          "score": null,
-          "status": "postponed",
+          "homeScore": 5,
+          "awayScore": 0,
+          "score": "5–0",
+          "status": "finished",
           "officialSource": "LALIGA",
           "rescheduled": true
         },
@@ -2184,11 +2228,10 @@
           "kickoff": "2026-09-20T14:00+02:00",
           "home": "Getafe CF",
           "away": "Málaga CF",
-          "homeScore": 0,
+          "homeScore": 1,
           "awayScore": 0,
-          "score": "0–0",
-          "status": "live",
-          "liveLabel": "22'",
+          "score": "1–0",
+          "status": "finished",
           "officialSource": "LALIGA"
         },
         {
@@ -2200,11 +2243,11 @@
           "kickoff": "2026-09-20T16:15+02:00",
           "home": "Atlético de Madrid",
           "away": "Real Madrid",
-          "homeScore": 0,
+          "homeScore": 1,
           "awayScore": 0,
-          "score": "0–0",
-          "status": "scheduled",
-          "liveLabel": null,
+          "score": "1–0",
+          "status": "live",
+          "liveLabel": "56'",
           "officialSource": "LALIGA"
         },
         {
@@ -2553,7 +2596,7 @@
       "total": 10,
       "live": 0,
       "postponed": 0,
-      "updatedAt": "2026-09-20T14:23+02:00",
+      "updatedAt": "2026-09-20T17:35+02:00",
       "matches": [
         {
           "eventId": "",
@@ -2730,7 +2773,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-09-20T14:23+02:00",
+        "updatedAt": "2026-09-20T17:35+02:00",
         "matches": [
           {
             "eventId": "",
@@ -2904,7 +2947,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-09-20T14:23+02:00",
+        "updatedAt": "2026-09-20T17:35+02:00",
         "matches": [
           {
             "eventId": "",
@@ -3078,7 +3121,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-09-20T14:23+02:00",
+        "updatedAt": "2026-09-20T17:35+02:00",
         "matches": [
           {
             "eventId": "",
@@ -3252,7 +3295,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-09-20T14:23+02:00",
+        "updatedAt": "2026-09-20T17:35+02:00",
         "matches": [
           {
             "eventId": "",
@@ -3426,7 +3469,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-09-20T14:23+02:00",
+        "updatedAt": "2026-09-20T17:35+02:00",
         "matches": [
           {
             "eventId": "",
@@ -3600,7 +3643,7 @@
         "total": 9,
         "live": 0,
         "postponed": 1,
-        "updatedAt": "2026-09-20T14:23+02:00",
+        "updatedAt": "2026-09-20T17:35+02:00",
         "matches": [
           {
             "eventId": "",
@@ -3773,9 +3816,9 @@
         "windowEnd": "2026-09-20",
         "finished": 6,
         "total": 10,
-        "live": 0,
+        "live": 1,
         "postponed": 0,
-        "updatedAt": "2026-09-20T14:23+02:00",
+        "updatedAt": "2026-09-20T17:35+02:00",
         "matches": [
           {
             "eventId": "",
@@ -3858,19 +3901,18 @@
             "officialSource": "LALIGA"
           },
           {
-            "eventId": "",
+            "eventId": "401882861",
             "competition": "LaLiga",
             "date": "2026-09-20",
             "displayDate": "Dom. 20 septiembre",
             "time": "14:00",
             "kickoff": "2026-09-20T14:00+02:00",
             "home": "Getafe CF",
-            "away": "DIRECTO Málaga CF",
-            "homeScore": 0,
+            "away": "Málaga CF",
+            "homeScore": 1,
             "awayScore": 0,
-            "score": "0–0",
+            "score": "1–0",
             "status": "finished",
-            "liveLabel": null,
             "officialSource": "LALIGA"
           },
           {
@@ -3882,11 +3924,11 @@
             "kickoff": "2026-09-20T16:15+02:00",
             "home": "Atlético de Madrid",
             "away": "Real Madrid",
-            "homeScore": 0,
+            "homeScore": 1,
             "awayScore": 0,
-            "score": "0–0",
-            "status": "scheduled",
-            "liveLabel": null,
+            "score": "1–0",
+            "status": "live",
+            "liveLabel": "56'",
             "officialSource": "LALIGA"
           },
           {
@@ -3949,7 +3991,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-09-20T14:23+02:00",
+        "updatedAt": "2026-09-20T17:35+02:00",
         "matches": [
           {
             "eventId": "",
@@ -4123,7 +4165,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-09-20T14:23+02:00",
+        "updatedAt": "2026-09-20T17:35+02:00",
         "matches": [
           {
             "eventId": "",
@@ -4297,7 +4339,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-09-20T14:23+02:00",
+        "updatedAt": "2026-09-20T17:35+02:00",
         "matches": [
           {
             "eventId": "",
@@ -4471,7 +4513,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-09-20T14:23+02:00",
+        "updatedAt": "2026-09-20T17:35+02:00",
         "matches": [
           {
             "eventId": "",
@@ -4645,7 +4687,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-09-20T14:23+02:00",
+        "updatedAt": "2026-09-20T17:35+02:00",
         "matches": [
           {
             "eventId": "",
@@ -4819,7 +4861,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-09-20T14:23+02:00",
+        "updatedAt": "2026-09-20T17:35+02:00",
         "matches": [
           {
             "eventId": "",
@@ -4993,7 +5035,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-09-20T14:23+02:00",
+        "updatedAt": "2026-09-20T17:35+02:00",
         "matches": [
           {
             "eventId": "",
@@ -5167,7 +5209,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-09-20T14:23+02:00",
+        "updatedAt": "2026-09-20T17:35+02:00",
         "matches": [
           {
             "eventId": "",
@@ -5341,7 +5383,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-09-20T14:24+02:00",
+        "updatedAt": "2026-09-20T17:35+02:00",
         "matches": [
           {
             "eventId": "",
@@ -5515,7 +5557,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-09-20T14:24+02:00",
+        "updatedAt": "2026-09-20T17:35+02:00",
         "matches": [
           {
             "eventId": "",
@@ -5689,7 +5731,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-09-20T14:24+02:00",
+        "updatedAt": "2026-09-20T17:35+02:00",
         "matches": [
           {
             "eventId": "",
@@ -5863,7 +5905,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-09-20T14:24+02:00",
+        "updatedAt": "2026-09-20T17:35+02:00",
         "matches": [
           {
             "eventId": "",
@@ -6037,7 +6079,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-09-20T14:24+02:00",
+        "updatedAt": "2026-09-20T17:35+02:00",
         "matches": [
           {
             "eventId": "",
@@ -6211,7 +6253,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-09-20T14:24+02:00",
+        "updatedAt": "2026-09-20T17:35+02:00",
         "matches": [
           {
             "eventId": "",
@@ -6385,7 +6427,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-09-20T14:24+02:00",
+        "updatedAt": "2026-09-20T17:35+02:00",
         "matches": [
           {
             "eventId": "",
@@ -6559,7 +6601,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-09-20T14:24+02:00",
+        "updatedAt": "2026-09-20T17:35+02:00",
         "matches": [
           {
             "eventId": "",
@@ -6733,7 +6775,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-09-20T14:24+02:00",
+        "updatedAt": "2026-09-20T17:35+02:00",
         "matches": [
           {
             "eventId": "",
@@ -6907,7 +6949,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-09-20T14:24+02:00",
+        "updatedAt": "2026-09-20T17:35+02:00",
         "matches": [
           {
             "eventId": "",
@@ -7081,7 +7123,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-09-20T14:24+02:00",
+        "updatedAt": "2026-09-20T17:35+02:00",
         "matches": [
           {
             "eventId": "",
@@ -7255,7 +7297,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-09-20T14:24+02:00",
+        "updatedAt": "2026-09-20T17:35+02:00",
         "matches": [
           {
             "eventId": "",
@@ -7429,7 +7471,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-09-20T14:24+02:00",
+        "updatedAt": "2026-09-20T17:35+02:00",
         "matches": [
           {
             "eventId": "",
@@ -7603,7 +7645,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-09-20T14:24+02:00",
+        "updatedAt": "2026-09-20T17:35+02:00",
         "matches": [
           {
             "eventId": "",
@@ -7777,7 +7819,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-09-20T14:24+02:00",
+        "updatedAt": "2026-09-20T17:35+02:00",
         "matches": [
           {
             "eventId": "",
@@ -7951,7 +7993,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-09-20T14:24+02:00",
+        "updatedAt": "2026-09-20T17:35+02:00",
         "matches": [
           {
             "eventId": "",
@@ -8125,7 +8167,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-09-20T14:24+02:00",
+        "updatedAt": "2026-09-20T17:35+02:00",
         "matches": [
           {
             "eventId": "",
@@ -8299,7 +8341,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-09-20T14:24+02:00",
+        "updatedAt": "2026-09-20T17:36+02:00",
         "matches": [
           {
             "eventId": "",
@@ -8473,7 +8515,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-09-20T14:24+02:00",
+        "updatedAt": "2026-09-20T17:36+02:00",
         "matches": [
           {
             "eventId": "",
@@ -8647,7 +8689,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-09-20T14:24+02:00",
+        "updatedAt": "2026-09-20T17:36+02:00",
         "matches": [
           {
             "eventId": "",
@@ -8821,7 +8863,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-09-20T14:24+02:00",
+        "updatedAt": "2026-09-20T17:36+02:00",
         "matches": [
           {
             "eventId": "",
@@ -8995,7 +9037,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-09-20T14:24+02:00",
+        "updatedAt": "2026-09-20T17:36+02:00",
         "matches": [
           {
             "eventId": "",
@@ -9169,7 +9211,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-09-20T14:24+02:00",
+        "updatedAt": "2026-09-20T17:36+02:00",
         "matches": [
           {
             "eventId": "",
@@ -9337,7 +9379,7 @@
     "Champions": {}
   },
   "jornadasCatalogMeta": {
-    "updatedAt": "2026-09-20T14:24+02:00",
+    "updatedAt": "2026-09-20T17:36+02:00",
     "laligaLoaded": 38,
     "championsLoaded": 0,
     "rebuiltAt": "2026-09-18T21:52+02:00",
