@@ -193,7 +193,14 @@ function showRefreshMessage(text){
   clearTimeout(window.__refreshTimer);
   window.__refreshTimer=setTimeout(()=>el.classList.remove('show'),2200);
 }
-const venueIcon=v=>v==='home'?'🏠':'✈️'; const plus=n=>n>0?'+'+n:String(n); const rmRow=()=>APP.laligaStandings.find(x=>x.team==='Real Madrid')||{};
+const venueIcon=v=>v==='home'?'🏠':'✈️'; const plus=n=>n>0?'+'+n:String(n); const rmRow=()=>APP.laligaStandings.find(x=>directSame(x.team,'Real Madrid'))||{};
+function displayTeamName(name){
+  const n=directNorm(name);
+  if(n==='deportivo alaves')return 'D. Alavés';
+  if(n==='rc deportivo')return 'D. Coruña';
+  if(n==='racing de santander')return 'R. Santander';
+  return name||'';
+}
 function liveLabel(x){return x.liveLabel||'En juego'}
 function validKickoffTime(t){return typeof t==='string'&&/^([01]\d|2[0-3]):[0-5]\d$/.test(t.trim())}
 function fixtureIsStaleLive(x){
@@ -226,7 +233,7 @@ function renderAll(includeJornada=true){
   document.getElementById('updated').innerHTML='Datos<br><b>'+fmtStamp(APP.app.lastUpdated)+'</b>'+`<div class="official-check">Comprobado · ${fmtStamp(APP.app.lastChecked||APP.app.lastUpdated)}</div>`;
   const n=APP.nextMatch;
   document.getElementById('nextTitle').textContent=n?.status==='live'?'Partido en juego':'Próximo partido';
-  document.getElementById('nextMatch').textContent=venueIcon(n.venue)+' '+(n.venue==='home'?'Real Madrid – '+n.opponent:n.opponent+' – Real Madrid');
+  document.getElementById('nextMatch').textContent=venueIcon(n.venue)+' '+(n.venue==='home'?'Real Madrid – '+displayTeamName(n.opponent):displayTeamName(n.opponent)+' – Real Madrid');
   document.getElementById('nextMeta').innerHTML=n.status==='live'
     ? `<span class="chip">${n.competition}</span><span class="chip">📅 ${n.displayDate}</span><span class="chip">⚽ ${n.score||'0–0'}</span><span class="chip">🔴 ${liveLabel(n)}</span>`
     : `<span class="chip">${n.competition}</span><span class="chip">📅 ${n.displayDate}</span><span class="chip">🕘 ${validKickoffTime(n.time)?n.time:'Por confirmar'}</span>`;
@@ -241,11 +248,11 @@ function labelComp(x){return x.competition==='Champions'?'Champions':'Liga'}
 function renderFixtures(){
   const list=APP.fixtures.filter(x=>currentFilter==='all'||x.competition===currentFilter);
   document.getElementById('fixtureCount').textContent=`${list.length} partidos`;
-  document.getElementById('fixtures').innerHTML=list.map(x=>`<div class="fixture ${x.competition==='Champions'?'champ':''} ${x.status||''}"><div><div class="date">${x.displayDate}</div><div class="jornada">${x.jornada?`J${x.jornada}`:''}</div></div><div class="compcol"><div class="comp">${labelComp(x)}</div></div><div class="opponent"><span class="venue">${venueIcon(x.venue)}</span>${x.opponent}</div><div class="right">${matchRight(x)}</div></div>`).join('');
+  document.getElementById('fixtures').innerHTML=list.map(x=>`<div class="fixture ${x.competition==='Champions'?'champ':''} ${x.status||''}"><div><div class="date">${x.displayDate}</div><div class="jornada">${x.jornada?`J${x.jornada}`:''}</div></div><div class="compcol"><div class="comp">${labelComp(x)}</div></div><div class="opponent"><span class="venue">${venueIcon(x.venue)}</span>${displayTeamName(x.opponent)}</div><div class="right">${matchRight(x)}</div></div>`).join('');
 }
 function renderResults(){
   const list=APP.fixtures.filter(x=>x.competition===resultFilter);
-  document.getElementById('rmResults').innerHTML=list.map(x=>`<div class="result-row ${x.status||''}"><div><div class="date">${x.displayDate}</div><div class="jornada">${x.jornada?`J${x.jornada}`:''}</div></div><div class="compcol"><div class="comp">${labelComp(x)}</div></div><div class="opponent"><span class="venue">${venueIcon(x.venue)}</span>${x.opponent}</div><div class="result-score">${x.status==='finished'?x.score:x.status==='live'?`${x.score||'0–0'}<div class="live-state"><i class="live-dot"></i>${liveLabel(x)}</div>`:(validKickoffTime(x.time)?x.time:'Por confirmar')}</div></div>`).join('');
+  document.getElementById('rmResults').innerHTML=list.map(x=>`<div class="result-row ${x.status||''}"><div><div class="date">${x.displayDate}</div><div class="jornada">${x.jornada?`J${x.jornada}`:''}</div></div><div class="compcol"><div class="comp">${labelComp(x)}</div></div><div class="opponent"><span class="venue">${venueIcon(x.venue)}</span>${displayTeamName(x.opponent)}</div><div class="result-score">${x.status==='finished'?x.score:x.status==='live'?`${x.score||'0–0'}<div class="live-state"><i class="live-dot"></i>${liveLabel(x)}</div>`:(validKickoffTime(x.time)?x.time:'Por confirmar')}</div></div>`).join('');
 }
 function zoneFor(pos,competition){
   const zones=APP.qualificationZones?.[competition]||[];
@@ -291,7 +298,7 @@ function provisionalBadge(x){
 function tableHtml(rows,competition){
   const banner=standingsBanner(competition);
   const note=(APP.standingsMeta?.[competition]?.mode==='provisional')?`<div class="provisional-note">* La tabla se recalcula con los marcadores actuales. En caso de empate, el orden puede variar cuando se apliquen todos los criterios oficiales de desempate.</div>`:'';
-  return `${banner}${legendHtml(competition)}<div class="card table-wrap standings-card"><table class="standings"><colgroup><col class="pos"><col class="team">${'<col class="num">'.repeat(8)}</colgroup><thead><tr><th>Pos</th><th class="teamh">Equipo</th><th>Pts</th><th>PJ</th><th>G</th><th>E</th><th>P</th><th>GF</th><th>GC</th><th>DG</th></tr></thead><tbody>${rows.map(x=>{const z=zoneFor(x.pos,competition);const badge=provisionalBadge(x);return `<tr class="${x.team==='Real Madrid'?'rm ':''}${z?'zone-'+z+' ':''}${x.provisional?'provisional-row':''}"><td>${x.pos}</td><td class="team">${x.team==='Real Madrid'?'👑 ':''}${x.team}${badge}</td><td>${x.pts}</td><td>${x.pj}</td><td>${x.g}</td><td>${x.e}</td><td>${x.p}</td><td>${x.gf}</td><td>${x.gc}</td><td>${plus(x.dg)}</td></tr>`}).join('')}</tbody></table></div>${note}`;
+  return `${banner}${legendHtml(competition)}<div class="card table-wrap standings-card"><table class="standings"><colgroup><col class="pos"><col class="team">${'<col class="num">'.repeat(8)}</colgroup><thead><tr><th>Pos</th><th class="teamh">Equipo</th><th>Pts</th><th>PJ</th><th>G</th><th>E</th><th>P</th><th>GF</th><th>GC</th><th>DG</th></tr></thead><tbody>${rows.map(x=>{const z=zoneFor(x.pos,competition);const badge=provisionalBadge(x);return `<tr class="${directSame(x.team,'Real Madrid')?'rm ':''}${z?'zone-'+z+' ':''}${x.provisional?'provisional-row':''}"><td>${x.pos}</td><td class="team">${directSame(x.team,'Real Madrid')?'👑 ':''}${displayTeamName(x.team)}${badge}</td><td>${x.pts}</td><td>${x.pj}</td><td>${x.g}</td><td>${x.e}</td><td>${x.p}</td><td>${x.gf}</td><td>${x.gc}</td><td>${plus(x.dg)}</td></tr>`}).join('')}</tbody></table></div>${note}`;
 }
 function renderStandings(){
   const a=document.getElementById('standingArea');
@@ -307,20 +314,33 @@ function renderStandings(){
 }
 
 const DIRECT_LEAGUES={LaLiga:'esp.1',Champions:'uefa.champions'};
-const DIRECT_STORE_KEY='madridista_pending_results_v3';
+const DIRECT_STORE_KEY='madridista_pending_results_v4';
 const DIRECT_ALIASES={
   'internazionale':'inter de milan','inter milan':'inter de milan','internazionale milano':'inter de milan',
   'as roma':'roma','aek athens':'aek atenas','aek athens fc':'aek atenas','psv eindhoven':'psv',
-  'racing santander':'racing de santander','r racing club':'racing de santander','deportivo la coruna':'rc deportivo','deportivo de la coruna':'rc deportivo',
-  'espanyol':'rcd espanyol','malaga':'malaga cf','athletic bilbao':'athletic club','alaves':'deportivo alaves',
-  'celta vigo':'celta','barcelona':'fc barcelona','atletico madrid':'atletico de madrid'
+  'racing santander':'racing de santander','racing de santander':'racing de santander','r racing club':'racing de santander','r santander':'racing de santander','real racing club':'racing de santander','real racing club de santander':'racing de santander',
+  'deportivo':'rc deportivo','d coruna':'rc deportivo','deportivo coruna':'rc deportivo','deportivo la coruna':'rc deportivo','deportivo de la coruna':'rc deportivo','rc deportivo':'rc deportivo','rc deportivo la coruna':'rc deportivo','rc deportivo de la coruna':'rc deportivo','rc deportivo de a coruna':'rc deportivo',
+  'd alaves':'deportivo alaves','deportivo alaves':'deportivo alaves','alaves':'deportivo alaves',
+  'espanyol':'rcd espanyol','espanyol barcelona':'rcd espanyol','rcd espanyol':'rcd espanyol','rcd espanyol barcelona':'rcd espanyol','rcd espanyol de barcelona':'rcd espanyol',
+  'ca osasuna':'osasuna','osasuna':'osasuna','malaga':'malaga cf','athletic bilbao':'athletic club','alaves':'deportivo alaves',
+  'celta vigo':'celta','celta de vigo':'celta','rc celta de vigo':'celta','barcelona':'fc barcelona','atletico madrid':'atletico de madrid',
+  'real betis seville':'real betis','real betis balompie':'real betis','levante ud':'levante','levante union deportiva':'levante','real sociedad san sebastian':'real sociedad'
 };
 function directNorm(s){
   s=(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/&/g,' y ')
     .replace(/\b(fc|cf|football club|club de futbol)\b/g,' ').replace(/[^a-z0-9]+/g,' ').replace(/\s+/g,' ').trim();
   return DIRECT_ALIASES[s]||s;
 }
-function directSame(a,b){const x=directNorm(a),y=directNorm(b);return !!x&&!!y&&(x===y||x.includes(y)||y.includes(x));}
+function directSame(a,b){
+  const x=directNorm(a),y=directNorm(b);if(!x||!y)return false;if(x===y)return true;
+  // Solo aceptamos una coincidencia por inclusión cuando el nombre corto tiene
+  // al menos dos palabras completas. Evita el bug Deportivo -> Deportivo Alavés.
+  const xt=x.split(' '),yt=y.split(' '),short=xt.length<=yt.length?xt:yt,long=xt.length<=yt.length?yt:xt;
+  if(short.length<2)return false;
+  const forbidden=new Set(['castilla','femenino','women','juvenil','u19','u20','u21','b']);
+  const extras=long.filter(t=>!short.includes(t));if(extras.some(t=>forbidden.has(t)))return false;
+  return short.every(t=>long.includes(t));
+}
 function directToday(){return madridTodayIso().replace(/-/g,'');}
 function directScore(c){const s=c?.score;const v=(s&&typeof s==='object')?(s.value??s.displayValue):s;const n=Number(v);return Number.isFinite(n)?Math.trunc(n):null;}
 function directLiveLabel(status){
@@ -400,7 +420,7 @@ function directClearCompetition(store,competition){delete store[competition];dir
 function directOutcome(teamScore,oppScore){return teamScore>oppScore?'win':teamScore<oppScore?'loss':'draw';}
 function directPoints(teamScore,oppScore){return teamScore>oppScore?3:teamScore<oppScore?0:1;}
 function directApplyGame(rows,g,{live=true,pendingOfficial=false}={}){
-  const h=rows.find(r=>directSame(r.team,g.home)),a=rows.find(r=>directSame(r.team,g.away));if(!h||!a||g.homeScore==null||g.awayScore==null)return false;
+  const h=rows.find(r=>directSame(r.team,g.home)),a=rows.find(r=>directSame(r.team,g.away));if(!h||!a||h===a||g.homeScore==null||g.awayScore==null)return false;
   const hp=directPoints(g.homeScore,g.awayScore),ap=directPoints(g.awayScore,g.homeScore);
   for(const [r,ts,os,pts] of [[h,g.homeScore,g.awayScore,hp],[a,g.awayScore,g.homeScore,ap]]){
     r.pj+=1;r.provisional=true;r.live=live;r.pendingOfficial=pendingOfficial;r.liveLabel=live?(g.liveLabel||'EN JUEGO'):'FINAL';r.liveScore=`${g.homeScore}–${g.awayScore}`;r.livePoints=pts;r.liveOutcome=directOutcome(ts,os);
@@ -631,7 +651,7 @@ function renderJornada(data){
   const normal=(data.matches||[]).filter(x=>x.status!=='postponed'),finished=normal.filter(x=>x.status==='finished').length,live=normal.filter(x=>x.status==='live').length,post=(data.matches||[]).filter(x=>x.status==='postponed').length;
   sum.innerHTML=`<span class="jornada-pill ${live?'live':finished===normal.length&&normal.length?'done':'pending'}">${live?`🔴 ${live} en juego`:`${finished}/${normal.length||0} finalizados`}</span>${post?`<span class="jornada-pill">${post} aplazado${post===1?'':'s'}</span>`:''}`;
   if(!data.matches?.length){box.innerHTML='<div class="jornada-empty">No se han encontrado partidos para esta jornada.</div>';return;}
-  box.innerHTML=data.matches.map(m=>{const rm=directSame(m.home,'Real Madrid')||directSame(m.away,'Real Madrid');return `<div class="jornada-row ${rm?'rm ':''}${m.status==='live'?'live ':''}${m.status==='postponed'?'postponed':''}"><div class="jornada-when"><b>${jornadaDateText(m)}</b><span>${validKickoffTime(m.time)?m.time:'Hora por confirmar'}</span></div><div class="jornada-teams"><div class="jornada-team ${directSame(m.home,'Real Madrid')?'rmteam':''}"><span class="home-away">L</span>${directSame(m.home,'Real Madrid')?'👑 ':''}${m.home}</div><div class="jornada-team ${directSame(m.away,'Real Madrid')?'rmteam':''}"><span class="home-away">V</span>${directSame(m.away,'Real Madrid')?'👑 ':''}${m.away}</div></div><div class="jornada-result">${jornadaResultHtml(m)}</div></div>`}).join('');
+  box.innerHTML=data.matches.map(m=>{const rm=directSame(m.home,'Real Madrid')||directSame(m.away,'Real Madrid');return `<div class="jornada-row ${rm?'rm ':''}${m.status==='live'?'live ':''}${m.status==='postponed'?'postponed':''}"><div class="jornada-when"><b>${jornadaDateText(m)}</b><span>${validKickoffTime(m.time)?m.time:'Hora por confirmar'}</span></div><div class="jornada-teams"><div class="jornada-team ${directSame(m.home,'Real Madrid')?'rmteam':''}"><span class="home-away">L</span>${directSame(m.home,'Real Madrid')?'👑 ':''}${displayTeamName(m.home)}</div><div class="jornada-team ${directSame(m.away,'Real Madrid')?'rmteam':''}"><span class="home-away">V</span>${directSame(m.away,'Real Madrid')?'👑 ':''}${displayTeamName(m.away)}</div></div><div class="jornada-result">${jornadaResultHtml(m)}</div></div>`}).join('');
 }
 function renderJornadaStatic(){
   if(!document.getElementById('jornadaView'))return;
@@ -690,7 +710,7 @@ async function refreshBrowserLive(showToast=false,refreshVisibleJornada=true){
   for(const competition of ['LaLiga','Champions']){
     try{
       const slug=DIRECT_LEAGUES[competition];
-      const scorePayload=await directFetchJson(`https://site.api.espn.com/apis/site/v2/sports/soccer/${slug}/scoreboard?dates=${day}`);
+      const scorePayload=await directFetchJson(`https://site.api.espn.com/apis/site/v2/sports/soccer/${slug}/scoreboard?dates=${day}&limit=200`);
       let games=directReconcileGamesWithJornada(competition,parseDirectScoreboard(scorePayload,competition));success=true;
       let rows=directBaseRows(competition);
       if(rows.length){

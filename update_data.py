@@ -60,10 +60,14 @@ WEEKDAYS_ES = {0:"Lun.",1:"Mar.",2:"Mié.",3:"Jue.",4:"Vie.",5:"Sáb.",6:"Dom."}
 NAME_ALIASES = {
     "inter milan":"inter de milan","internazionale":"inter de milan","internazionale milano":"inter de milan",
     "as roma":"roma","aek athens":"aek atenas","aek athens fc":"aek atenas","psv eindhoven":"psv",
-    "lask linz":"lask","racing santander":"racing de santander","r racing club":"racing de santander","deportivo la coruna":"rc deportivo",
-    "deportivo de la coruna":"rc deportivo","deportivo":"rc deportivo","espanyol":"rcd espanyol",
-    "malaga":"malaga cf","athletic bilbao":"athletic club","alaves":"deportivo alaves","celta vigo":"celta",
+    "lask linz":"lask",
+    "racing santander":"racing de santander","racing de santander":"racing de santander","r racing club":"racing de santander","r santander":"racing de santander","real racing club":"racing de santander","real racing club de santander":"racing de santander",
+    "deportivo":"rc deportivo","d coruna":"rc deportivo","deportivo coruna":"rc deportivo","deportivo la coruna":"rc deportivo","deportivo de la coruna":"rc deportivo","rc deportivo":"rc deportivo","rc deportivo la coruna":"rc deportivo","rc deportivo de la coruna":"rc deportivo","rc deportivo de a coruna":"rc deportivo",
+    "d alaves":"deportivo alaves","deportivo alaves":"deportivo alaves","alaves":"deportivo alaves",
+    "espanyol":"rcd espanyol","espanyol barcelona":"rcd espanyol","rcd espanyol":"rcd espanyol","rcd espanyol barcelona":"rcd espanyol","rcd espanyol de barcelona":"rcd espanyol",
+    "ca osasuna":"osasuna","osasuna":"osasuna","malaga":"malaga cf","athletic bilbao":"athletic club","celta vigo":"celta","celta de vigo":"celta","rc celta de vigo":"celta",
     "barcelona":"fc barcelona","atletico madrid":"atletico de madrid","atletico de madrid":"atletico de madrid",
+    "real betis seville":"real betis","real betis balompie":"real betis","levante ud":"levante","levante union deportiva":"levante","real sociedad san sebastian":"real sociedad",
 }
 
 
@@ -262,9 +266,21 @@ def same_team(a: str, b: str) -> bool:
     na, nb = normalize_name(a), normalize_name(b)
     if not na or not nb:
         return False
-    if na == nb or na in nb or nb in na:
+    if na == nb:
         return True
-    return SequenceMatcher(None, na, nb).ratio() >= 0.72
+
+    # Coincidencia tolerante, pero nunca por una sola palabra genérica. La regla
+    # antigua `na in nb` hacía que "Deportivo" coincidiera con
+    # "Deportivo Alavés" y atribuía sus puntos al equipo equivocado.
+    ta, tb = na.split(), nb.split()
+    short, long_ = (ta, tb) if len(ta) <= len(tb) else (tb, ta)
+    forbidden = {"castilla", "femenino", "women", "juvenil", "u19", "u20", "u21", "b"}
+    if len(short) >= 2 and all(tok in long_ for tok in short):
+        extras = [tok for tok in long_ if tok not in short]
+        if not any(tok in forbidden for tok in extras):
+            return True
+
+    return SequenceMatcher(None, na, nb).ratio() >= 0.90
 
 
 def parse_iso(text: str) -> datetime:
