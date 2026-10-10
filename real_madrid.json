@@ -2,14 +2,14 @@
   "app": {
     "name": "Madridista",
     "season": "2026/27",
-    "lastUpdated": "2026-10-10T19:18+02:00",
+    "lastUpdated": "2026-10-10T19:45+02:00",
     "timezone": "Europe/Madrid",
     "sources": [
       "Real Madrid C.F. — calendario oficial de LaLiga 2026/27",
       "Real Madrid C.F. — calendario Champions 2026/27",
       "LALIGA — horarios, resultados y clasificación"
     ],
-    "lastChecked": "2026-10-10T19:18+02:00"
+    "lastChecked": "2026-10-10T19:45+02:00"
   },
   "nextMatch": {
     "competition": "LaLiga",
@@ -25,7 +25,8 @@
       "Movistar LALIGA",
       "Movistar Plus+",
       "Orange Fútbol 1"
-    ]
+    ],
+    "eventId": "401882848"
   },
   "fixtures": [
     {
@@ -41,7 +42,37 @@
       "tv": [
         "DAZN",
         "Orange TV"
-      ]
+      ],
+      "eventId": "401882912",
+      "goalDetailsCheckedAt": "2026-10-10T19:45+02:00",
+      "goalDetails": [
+        {
+          "side": "away",
+          "player": "Jude Bellingham",
+          "playerId": "291281",
+          "minute": "9'",
+          "penalty": false,
+          "ownGoal": false
+        },
+        {
+          "side": "home",
+          "player": "Cala",
+          "playerId": "355902",
+          "minute": "30'",
+          "penalty": false,
+          "ownGoal": false
+        },
+        {
+          "side": "away",
+          "player": "Carlos Espí",
+          "playerId": "380286",
+          "minute": "90'",
+          "penalty": false,
+          "ownGoal": false
+        }
+      ],
+      "goalsVerified": true,
+      "goalDetailsScore": "1–2"
     },
     {
       "competition": "LaLiga",
@@ -56,7 +87,53 @@
       "tv": [
         "Movistar LALIGA",
         "Orange TV"
-      ]
+      ],
+      "eventId": "401882919",
+      "goalDetailsCheckedAt": "2026-10-10T19:45+02:00",
+      "goalDetails": [
+        {
+          "side": "home",
+          "player": "Kylian Mbappé",
+          "playerId": "231388",
+          "minute": "40'",
+          "penalty": false,
+          "ownGoal": false
+        },
+        {
+          "side": "away",
+          "player": "Luka Sucic",
+          "playerId": "306263",
+          "minute": "44'",
+          "penalty": false,
+          "ownGoal": false
+        },
+        {
+          "side": "home",
+          "player": "Kylian Mbappé",
+          "playerId": "231388",
+          "minute": "60'",
+          "penalty": false,
+          "ownGoal": false
+        },
+        {
+          "side": "home",
+          "player": "Vinícius Júnior",
+          "playerId": "252107",
+          "minute": "68'",
+          "penalty": false,
+          "ownGoal": false
+        },
+        {
+          "side": "home",
+          "player": "Kylian Mbappé",
+          "playerId": "231388",
+          "minute": "80'",
+          "penalty": false,
+          "ownGoal": false
+        }
+      ],
+      "goalsVerified": true,
+      "goalDetailsScore": "4–1"
     },
     {
       "competition": "LaLiga",
@@ -72,7 +149,45 @@
         "Movistar LALIGA",
         "Movistar Plus+",
         "Orange TV"
-      ]
+      ],
+      "eventId": "401882899",
+      "goalDetailsCheckedAt": "2026-10-10T19:45+02:00",
+      "goalDetails": [
+        {
+          "side": "home",
+          "player": "Jude Bellingham",
+          "playerId": "291281",
+          "minute": "19'",
+          "penalty": false,
+          "ownGoal": false
+        },
+        {
+          "side": "home",
+          "player": "Alfonso Herrero",
+          "playerId": "240624",
+          "minute": "26'",
+          "penalty": false,
+          "ownGoal": true
+        },
+        {
+          "side": "home",
+          "player": "Kylian Mbappé",
+          "playerId": "231388",
+          "minute": "30'",
+          "penalty": false,
+          "ownGoal": false
+        },
+        {
+          "side": "home",
+          "player": "Arda Güler",
+          "playerId": "310452",
+          "minute": "90'+1'",
+          "penalty": false,
+          "ownGoal": false
+        }
+      ],
+      "goalsVerified": true,
+      "goalDetailsScore": "4–0"
     },
     {
       "competition": "LaLiga",
@@ -86,7 +201,21 @@
       "score": "1–0",
       "tv": [
         "Movistar LALIGA"
-      ]
+      ],
+      "eventId": "401882894",
+      "goalDetailsCheckedAt": "2026-10-10T19:45+02:00",
+      "goalDetails": [
+        {
+          "side": "home",
+          "player": "Troy Parrott",
+          "playerId": "279790",
+          "minute": "81'",
+          "penalty": false,
+          "ownGoal": false
+        }
+      ],
+      "goalsVerified": true,
+      "goalDetailsScore": "1–0"
     },
     {
       "competition": "Champions",
@@ -98,7 +227,37 @@
       "time": "21:00",
       "status": "finished",
       "score": "2–1",
-      "tv": []
+      "tv": [],
+      "eventId": "401915451",
+      "goalDetailsCheckedAt": "2026-10-10T19:45+02:00",
+      "goalDetails": [
+        {
+          "side": "home",
+          "player": "Kylian Mbappé",
+          "playerId": "231388",
+          "minute": "14'",
+          "penalty": false,
+          "ownGoal": false
+        },
+        {
+          "side": "home",
+          "player": "Federico Valverde",
+          "playerId": "235818",
+          "minute": "23'",
+          "penalty": false,
+          "ownGoal": false
+        },
+        {
+          "side": "away",
+          "player": "Carlos Augusto",
+          "playerId": "271769",
+          "minute": "77'",
+          "penalty": false,
+          "ownGoal": false
+        }
+      ],
+      "goalsVerified": true,
+      "goalDetailsScore": "2–1"
     },
     {
       "competition": "LaLiga",
@@ -112,7 +271,9 @@
       "score": "2–0",
       "tv": [
         "DAZN"
-      ]
+      ],
+      "eventId": "401882880",
+      "goalDetailsCheckedAt": "2026-10-10T19:45+02:00"
     },
     {
       "competition": "LaLiga",
@@ -128,7 +289,53 @@
         "Movistar LALIGA",
         "Movistar Plus+",
         "Orange Fútbol 1"
-      ]
+      ],
+      "eventId": "401882872",
+      "goalDetailsCheckedAt": "2026-10-10T19:45+02:00",
+      "goalDetails": [
+        {
+          "side": "away",
+          "player": "Matías Dituro",
+          "playerId": "173749",
+          "minute": "25'",
+          "penalty": false,
+          "ownGoal": true
+        },
+        {
+          "side": "away",
+          "player": "Kylian Mbappé",
+          "playerId": "231388",
+          "minute": "33'",
+          "penalty": false,
+          "ownGoal": false
+        },
+        {
+          "side": "home",
+          "player": "Abiel Osorio",
+          "playerId": "336840",
+          "minute": "71'",
+          "penalty": false,
+          "ownGoal": false
+        },
+        {
+          "side": "home",
+          "player": "Fer Niño",
+          "playerId": "301684",
+          "minute": "83'",
+          "penalty": false,
+          "ownGoal": false
+        },
+        {
+          "side": "away",
+          "player": "Carlos Espí",
+          "playerId": "380286",
+          "minute": "90'+1'",
+          "penalty": false,
+          "ownGoal": false
+        }
+      ],
+      "goalsVerified": true,
+      "goalDetailsScore": "2–3"
     },
     {
       "competition": "LaLiga",
@@ -142,7 +349,37 @@
       "score": "2–1",
       "tv": [
         "DAZN"
-      ]
+      ],
+      "eventId": "401882865",
+      "goalDetailsCheckedAt": "2026-10-10T19:45+02:00",
+      "goalDetails": [
+        {
+          "side": "home",
+          "player": "Alejandro Grimaldo",
+          "playerId": "166396",
+          "minute": "53'",
+          "penalty": true,
+          "ownGoal": false
+        },
+        {
+          "side": "home",
+          "player": "Jonathan David",
+          "playerId": "273499",
+          "minute": "59'",
+          "penalty": false,
+          "ownGoal": false
+        },
+        {
+          "side": "away",
+          "player": "Antonio Rüdiger",
+          "playerId": "169438",
+          "minute": "89'",
+          "penalty": false,
+          "ownGoal": false
+        }
+      ],
+      "goalsVerified": true,
+      "goalDetailsScore": "2–1"
     },
     {
       "competition": "LaLiga",
@@ -158,7 +395,8 @@
         "Movistar LALIGA",
         "Movistar Plus+",
         "Orange Fútbol 1"
-      ]
+      ],
+      "eventId": "401882848"
     },
     {
       "competition": "Champions",
@@ -625,7 +863,7 @@
       "dg": 26,
       "provisional": true,
       "live": true,
-      "liveLabel": "44'",
+      "liveLabel": "49'",
       "liveScore": "2–0"
     },
     {
@@ -773,7 +1011,7 @@
       "dg": -5,
       "provisional": true,
       "live": true,
-      "liveLabel": "44'",
+      "liveLabel": "49'",
       "liveScore": "2–0"
     },
     {
@@ -1376,7 +1614,7 @@
   ],
   "live": {
     "hasLiveMatches": true,
-    "updatedAt": "2026-10-10T19:18+02:00",
+    "updatedAt": "2026-10-10T19:45+02:00",
     "matches": [
       {
         "eventId": "401882853",
@@ -1391,7 +1629,7 @@
         "awayScore": 0,
         "score": "2–0",
         "status": "live",
-        "liveLabel": "44'"
+        "liveLabel": "49'"
       }
     ]
   },
@@ -1643,7 +1881,7 @@
       "liveGames": 1,
       "pendingOfficialGames": 0,
       "sourceIncludesLive": false,
-      "updatedAt": "2026-10-10T19:18+02:00",
+      "updatedAt": "2026-10-10T19:45+02:00",
       "trackedGames": {
         "401882856": {
           "eventId": "401882856",
@@ -1692,7 +1930,7 @@
       "liveGames": 0,
       "pendingOfficialGames": 0,
       "sourceIncludesLive": false,
-      "updatedAt": "2026-10-10T19:18+02:00"
+      "updatedAt": "2026-10-10T19:45+02:00"
     }
   },
   "championsOfficialStandings": [
@@ -2140,7 +2378,7 @@
       "total": 10,
       "live": 1,
       "postponed": 0,
-      "updatedAt": "2026-10-10T19:17+02:00",
+      "updatedAt": "2026-10-10T19:44+02:00",
       "matches": [
         {
           "eventId": "401882851",
@@ -2201,7 +2439,7 @@
           "awayScore": 0,
           "score": "2–0",
           "status": "live",
-          "liveLabel": "43'",
+          "liveLabel": "47'",
           "officialSource": "LALIGA"
         },
         {
@@ -2598,7 +2836,7 @@
       "total": 10,
       "live": 0,
       "postponed": 0,
-      "updatedAt": "2026-10-10T19:17+02:00",
+      "updatedAt": "2026-10-10T19:44+02:00",
       "matches": [
         {
           "eventId": "",
@@ -2775,7 +3013,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-10T19:17+02:00",
+        "updatedAt": "2026-10-10T19:44+02:00",
         "matches": [
           {
             "eventId": "",
@@ -2949,7 +3187,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-10T19:17+02:00",
+        "updatedAt": "2026-10-10T19:44+02:00",
         "matches": [
           {
             "eventId": "",
@@ -3123,7 +3361,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-10T19:17+02:00",
+        "updatedAt": "2026-10-10T19:44+02:00",
         "matches": [
           {
             "eventId": "",
@@ -3297,7 +3535,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-10T19:17+02:00",
+        "updatedAt": "2026-10-10T19:44+02:00",
         "matches": [
           {
             "eventId": "",
@@ -3471,7 +3709,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-10T19:17+02:00",
+        "updatedAt": "2026-10-10T19:44+02:00",
         "matches": [
           {
             "eventId": "",
@@ -3645,7 +3883,7 @@
         "total": 9,
         "live": 0,
         "postponed": 1,
-        "updatedAt": "2026-10-10T19:17+02:00",
+        "updatedAt": "2026-10-10T19:44+02:00",
         "matches": [
           {
             "eventId": "",
@@ -3820,7 +4058,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-10T19:17+02:00",
+        "updatedAt": "2026-10-10T19:44+02:00",
         "matches": [
           {
             "eventId": "",
@@ -4168,7 +4406,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-10T19:17+02:00",
+        "updatedAt": "2026-10-10T19:44+02:00",
         "matches": [
           {
             "eventId": "",
@@ -4342,7 +4580,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-10T19:17+02:00",
+        "updatedAt": "2026-10-10T19:44+02:00",
         "matches": [
           {
             "eventId": "",
@@ -4516,7 +4754,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-10T19:17+02:00",
+        "updatedAt": "2026-10-10T19:44+02:00",
         "matches": [
           {
             "eventId": "",
@@ -4690,7 +4928,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-10T19:17+02:00",
+        "updatedAt": "2026-10-10T19:44+02:00",
         "matches": [
           {
             "eventId": "",
@@ -4864,7 +5102,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-10T19:17+02:00",
+        "updatedAt": "2026-10-10T19:44+02:00",
         "matches": [
           {
             "eventId": "",
@@ -5038,7 +5276,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-10T19:17+02:00",
+        "updatedAt": "2026-10-10T19:44+02:00",
         "matches": [
           {
             "eventId": "",
@@ -5212,7 +5450,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-10T19:17+02:00",
+        "updatedAt": "2026-10-10T19:44+02:00",
         "matches": [
           {
             "eventId": "",
@@ -5386,7 +5624,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-10T19:17+02:00",
+        "updatedAt": "2026-10-10T19:44+02:00",
         "matches": [
           {
             "eventId": "",
@@ -5560,7 +5798,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-10T19:17+02:00",
+        "updatedAt": "2026-10-10T19:44+02:00",
         "matches": [
           {
             "eventId": "",
@@ -5734,7 +5972,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-10T19:17+02:00",
+        "updatedAt": "2026-10-10T19:44+02:00",
         "matches": [
           {
             "eventId": "",
@@ -5908,7 +6146,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-10T19:17+02:00",
+        "updatedAt": "2026-10-10T19:44+02:00",
         "matches": [
           {
             "eventId": "",
@@ -6082,7 +6320,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-10T19:17+02:00",
+        "updatedAt": "2026-10-10T19:44+02:00",
         "matches": [
           {
             "eventId": "",
@@ -6256,7 +6494,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-10T19:17+02:00",
+        "updatedAt": "2026-10-10T19:44+02:00",
         "matches": [
           {
             "eventId": "",
@@ -6430,7 +6668,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-10T19:17+02:00",
+        "updatedAt": "2026-10-10T19:44+02:00",
         "matches": [
           {
             "eventId": "",
@@ -6604,7 +6842,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-10T19:17+02:00",
+        "updatedAt": "2026-10-10T19:44+02:00",
         "matches": [
           {
             "eventId": "",
@@ -6778,7 +7016,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-10T19:17+02:00",
+        "updatedAt": "2026-10-10T19:44+02:00",
         "matches": [
           {
             "eventId": "",
@@ -6952,7 +7190,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-10T19:17+02:00",
+        "updatedAt": "2026-10-10T19:45+02:00",
         "matches": [
           {
             "eventId": "",
@@ -7126,7 +7364,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-10T19:17+02:00",
+        "updatedAt": "2026-10-10T19:45+02:00",
         "matches": [
           {
             "eventId": "",
@@ -7300,7 +7538,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-10T19:18+02:00",
+        "updatedAt": "2026-10-10T19:45+02:00",
         "matches": [
           {
             "eventId": "",
@@ -7474,7 +7712,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-10T19:18+02:00",
+        "updatedAt": "2026-10-10T19:45+02:00",
         "matches": [
           {
             "eventId": "",
@@ -7648,7 +7886,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-10T19:18+02:00",
+        "updatedAt": "2026-10-10T19:45+02:00",
         "matches": [
           {
             "eventId": "",
@@ -7822,7 +8060,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-10T19:18+02:00",
+        "updatedAt": "2026-10-10T19:45+02:00",
         "matches": [
           {
             "eventId": "",
@@ -7996,7 +8234,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-10T19:18+02:00",
+        "updatedAt": "2026-10-10T19:45+02:00",
         "matches": [
           {
             "eventId": "",
@@ -8170,7 +8408,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-10T19:18+02:00",
+        "updatedAt": "2026-10-10T19:45+02:00",
         "matches": [
           {
             "eventId": "",
@@ -8344,7 +8582,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-10T19:18+02:00",
+        "updatedAt": "2026-10-10T19:45+02:00",
         "matches": [
           {
             "eventId": "",
@@ -8518,7 +8756,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-10T19:18+02:00",
+        "updatedAt": "2026-10-10T19:45+02:00",
         "matches": [
           {
             "eventId": "",
@@ -8692,7 +8930,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-10T19:18+02:00",
+        "updatedAt": "2026-10-10T19:45+02:00",
         "matches": [
           {
             "eventId": "",
@@ -8866,7 +9104,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-10T19:18+02:00",
+        "updatedAt": "2026-10-10T19:45+02:00",
         "matches": [
           {
             "eventId": "",
@@ -9040,7 +9278,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-10T19:18+02:00",
+        "updatedAt": "2026-10-10T19:45+02:00",
         "matches": [
           {
             "eventId": "",
@@ -9214,7 +9452,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-10T19:18+02:00",
+        "updatedAt": "2026-10-10T19:45+02:00",
         "matches": [
           {
             "eventId": "",
@@ -9382,7 +9620,7 @@
     "Champions": {}
   },
   "jornadasCatalogMeta": {
-    "updatedAt": "2026-10-10T19:18+02:00",
+    "updatedAt": "2026-10-10T19:45+02:00",
     "laligaLoaded": 38,
     "championsLoaded": 0,
     "rebuiltAt": "2026-09-18T21:52+02:00",
