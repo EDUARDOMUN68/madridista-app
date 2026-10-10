@@ -1,4 +1,4 @@
-const CACHE='madridista-v3-16-home-away-badges';
+const CACHE='madridista-v3-19-resultados-goleadores';
 const STATIC=['./','./index.html','./manifest.webmanifest','./icon-192.png','./icon-512.png','./icon-maskable-512.png'];
 
 self.addEventListener('install',e=>{

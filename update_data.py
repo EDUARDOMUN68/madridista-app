@@ -385,12 +385,14 @@ def generic_event(evt: dict, competition_name: str) -> dict | None:
 def madrid_event(item: dict) -> dict | None:
     if same_team(item["home"], "Real Madrid"):
         return {
+            "eventId": item.get("eventId", ""),
             "competition": item["competition"], "date": item["date"], "displayDate": item["displayDate"],
             "time": item["time"], "venue": "home", "opponent": item["away"], "status": item["status"],
             "score": item["score"], "liveLabel": item.get("liveLabel"),
         }
     if same_team(item["away"], "Real Madrid"):
         return {
+            "eventId": item.get("eventId", ""),
             "competition": item["competition"], "date": item["date"], "displayDate": item["displayDate"],
             "time": item["time"], "venue": "away", "opponent": item["home"], "status": item["status"],
             "score": item["score"], "liveLabel": item.get("liveLabel"),
@@ -1205,6 +1207,16 @@ def merge_schedule(fixtures: list[dict], events: list[dict]) -> None:
                 fixtures.append(new_fx)
             continue
         fx = fixtures[idx]
+        # La identificación de ESPN se conserva incluso en los resultados ya
+        # finalizados. No debe alterar su fecha, marcador ni competición.
+        if event.get("eventId"):
+            new_id = str(event["eventId"])
+            if fx.get("eventId") and str(fx["eventId"]) != new_id:
+                fx.pop("goalDetails", None)
+                fx.pop("goalsVerified", None)
+                fx.pop("goalDetailsScore", None)
+                fx.pop("goalDetailsCheckedAt", None)
+            fx["eventId"] = new_id
         # Los resultados de Liga ya finalizados no cambian de fecha por una
         # relectura del calendario. Su fecha se repara exclusivamente con el
         # catálogo de jornadas oficiales en reconcile_finished_laliga_dates().
@@ -1808,6 +1820,154 @@ def update_live_payload(data: dict, scoreboards: dict[tuple[str,str], list[dict]
     return changed_standings
 
 
+def _summary_goal_scorer(event: dict) -> tuple[str | None, str | None]:
+    """El jugador proviene de un participante explícito de ESPN, nunca del texto del evento."""
+    candidates = event.get("participants") or []
+    if not candidates:
+        candidates = event.get("athletesInvolved") or []
+    for item in candidates:
+        if not isinstance(item, dict):
+            continue
+        athlete = item.get("athlete") or item
+        if not isinstance(athlete, dict):
+            continue
+        name = athlete.get("displayName") or athlete.get("fullName")
+        if isinstance(name, str) and name.strip():
+            return name.strip(), str(athlete.get("id") or "") or None
+    return None, None
+
+
+def verified_match_goals(payload: dict, fixture: dict) -> list[dict] | None:
+    """Lee goles acreditados por ESPN. None significa datos ausentes o no fiables.
+
+    Nunca infiere un goleador a partir de titulares/noticias ni rellena el
+    desglose si no concuerda exactamente con el marcador final.
+    """
+    if not isinstance(payload, dict):
+        return None
+    events = payload.get("keyEvents")
+    if not isinstance(events, list):
+        return None
+    header = payload.get("header") or {}
+    match = header.get("competitions") or []
+    competition = match[0] if match and isinstance(match[0], dict) else {}
+    # Un ID de encuentro discrepante invalida el desglose, aunque los
+    # equipos y el resultado coincidan con otro partido.
+    expected_id = str(fixture.get("eventId") or "")
+    recorded_id = str(competition.get("id") or header.get("id") or "")
+    if recorded_id and expected_id and recorded_id != expected_id:
+        return None
+    official_status = (competition.get("status") or {}).get("type") or {}
+    if official_status.get("completed") is False and official_status.get("state") in {"in", "pre"}:
+        return None
+    competitors = competition.get("competitors") or []
+    home = next((c for c in competitors if c.get("homeAway") == "home"), None)
+    away = next((c for c in competitors if c.get("homeAway") == "away"), None)
+    if not home or not away:
+        return None
+    home_team, away_team = home.get("team") or {}, away.get("team") or {}
+    if fixture.get("venue") == "home":
+        expected_home, expected_away = "Real Madrid", fixture.get("opponent")
+    else:
+        expected_home, expected_away = fixture.get("opponent"), "Real Madrid"
+    if not same_team(home_team.get("displayName") or home_team.get("name"), expected_home):
+        return None
+    if not same_team(away_team.get("displayName") or away_team.get("name"), expected_away):
+        return None
+    score = re.fullmatch(r"\s*(\d+)\s*[–—-]\s*(\d+)\s*", str(fixture.get("score") or ""))
+    if score is None:
+        return None
+    expected_score = [int(score.group(1)), int(score.group(2))]
+    goals = []
+    seen_ids = set()
+    for e in events:
+        if not isinstance(e, dict) or not e.get("scoringPlay") or e.get("shootout"):
+            continue
+        typ = str((e.get("type") or {}).get("text") or "").lower()
+        if "shootout" in typ or "shoot-out" in typ or "tanda" in typ:
+            continue
+        eid = str(e.get("id") or "")
+        if eid and eid in seen_ids:
+            continue
+        if eid:
+            seen_ids.add(eid)
+        team = e.get("team") or {}
+        if str(team.get("id") or "") == str(home_team.get("id") or "") and home_team.get("id"):
+            side = "home"
+        elif str(team.get("id") or "") == str(away_team.get("id") or "") and away_team.get("id"):
+            side = "away"
+        elif same_team(team.get("displayName") or team.get("name"), expected_home):
+            side = "home"
+        elif same_team(team.get("displayName") or team.get("name"), expected_away):
+            side = "away"
+        else:
+            return None  # Sin equipo acreditado no atribuimos un gol.
+        name, player_id = _summary_goal_scorer(e)
+        clock = str((e.get("clock") or {}).get("displayValue") or "").strip()
+        own = bool(e.get("ownGoal")) or "own goal" in typ or "autogol" in typ
+        pen = (bool(e.get("penalty")) or "penalty" in typ or "penalti" in typ) and not own
+        if not name and not own:
+            return None  # Sin goleador acreditado, el desglose no está completo.
+        goals.append({"side": side, "player": name, "playerId": player_id,
+                      "minute": clock, "penalty": pen, "ownGoal": own})
+    if [sum(g["side"] == "home" for g in goals),
+        sum(g["side"] == "away" for g in goals)] != expected_score:
+        return None
+    return goals
+
+
+def refresh_verified_goals(data: dict, *, max_requests: int = 16) -> int:
+    """Rellena progresivamente el historial. Los fallos nunca bloquean la app."""
+    checked = 0
+    changed = 0
+    failures = 0
+    now = datetime.now(TZ)
+    # Preferir partidos recientes; a continuación rellenar el historial antiguo.
+    fixtures = sorted((f for f in data.get("fixtures") or [] if
+                       f.get("competition") in LEAGUE_SLUGS and
+                       f.get("status") == "finished" and f.get("eventId") and f.get("score")),
+                      key=lambda f: f.get("date") or "", reverse=True)
+    for fx in fixtures:
+        if fx.get("goalsVerified") and fx.get("goalDetailsScore") == fx.get("score"):
+            continue
+        checked_at = fx.get("goalDetailsCheckedAt")
+        if checked_at:
+            try:
+                if now - datetime.fromisoformat(checked_at) < timedelta(hours=8):
+                    continue
+            except (ValueError, TypeError):
+                pass
+        if checked >= max_requests or failures >= 2:
+            break
+        checked += 1
+        fx["goalDetailsCheckedAt"] = now.isoformat(timespec="minutes")
+        try:
+            slug = LEAGUE_SLUGS[fx["competition"]]
+            event_id = str(fx["eventId"])
+            if not event_id.isdigit():
+                continue
+            url = f"https://site.api.espn.com/apis/site/v2/sports/soccer/{slug}/summary?event={event_id}"
+            summary = fetch_json(url)
+            goals = verified_match_goals(summary, fx)
+            if goals is not None:
+                fx["goalDetails"] = goals
+                fx["goalsVerified"] = True
+                fx["goalDetailsScore"] = fx["score"]
+                changed += 1
+                log(f"Goleadores verificados: {fx['competition']} {fx['date']} {fx['opponent']}")
+            else:
+                # No publicar eventos parciales o incoherentes con el marcador.
+                fx.pop("goalDetails", None)
+                fx.pop("goalsVerified", None)
+                fx.pop("goalDetailsScore", None)
+        except Exception as exc:
+            failures += 1
+            log(f"AVISO goleadores {fx.get('date')} {fx.get('opponent')}: {exc}")
+    if checked:
+        log(f"Detalle de goles: {changed} partidos confirmados de {checked} consultas")
+    return changed
+
+
 def full_refresh(data: dict, original: dict) -> int:
     successes = 0
     fixtures = data.setdefault("fixtures", [])
@@ -1891,6 +2051,8 @@ def full_refresh(data: dict, original: dict) -> int:
     # Aprovechamos la misma lectura para directo/provisional y tablas oficiales.
     successes += update_live_payload(data, scoreboards, original)
     sanitize_stale_fixture_states(fixtures)
+    # Solo resultados confirmados; la nueva pestaña no depende del directo.
+    successes += refresh_verified_goals(data, max_requests=16)
     fixtures.sort(key=lambda x: (x.get("date") or "9999-99-99", x.get("time") or "99:99"))
     return successes
 
@@ -1914,6 +2076,8 @@ def live_refresh(data: dict, original: dict) -> int:
 
     successes += update_live_payload(data, scoreboards, original)
     sanitize_stale_fixture_states(data.setdefault("fixtures", []))
+    # Al finalizar un partido, su ficha puede incorporarse ya en esta ejecución.
+    successes += refresh_verified_goals(data, max_requests=2)
     data.setdefault("fixtures", []).sort(key=lambda x: (x.get("date") or "9999-99-99", x.get("time") or "99:99"))
     return successes
 
