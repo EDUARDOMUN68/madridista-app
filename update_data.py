@@ -427,6 +427,17 @@ def get_scoreboard(competition: str, day: date) -> list[dict]:
 
 
 def get_scoreboard_range(competition: str, start_day: date, end_day: date) -> list[dict]:
+    if competition == "Champions":
+        # Este endpoint rechaza los rangos de fechas para Champions (HTTP 400).
+        # Si falla un día, no publicamos una jornada parcial.
+        by_id = {}
+        day = start_day
+        while day <= end_day:
+            for item in get_scoreboard(competition, day):
+                key = item.get("eventId") or (item["home"], item["away"], item["date"])
+                by_id[key] = item
+            day += timedelta(days=1)
+        return sorted(by_id.values(), key=lambda x: (x.get("date") or "", x.get("time") or ""))
     start_s = start_day.strftime("%Y%m%d")
     end_s = end_day.strftime("%Y%m%d")
     dates = start_s if start_s == end_s else f"{start_s}-{end_s}"
@@ -1140,10 +1151,10 @@ def refresh_jornadas_catalog(data: dict) -> int:
         key = str(int(jornada))
         old = champions_bucket.get(key)
         try:
-            payload = _refresh_persisted_jornada(old, "Champions", today) if old else None
+            payload = _refresh_persisted_jornada(old, "Champions", today) if old and len(old.get("matches") or []) == 18 else None
             if payload is None:
                 payload = build_specific_jornada_payload(fixtures, "Champions", int(jornada), today)
-            if payload and payload.get("matches"):
+            if payload and len(payload.get("matches") or []) == 18:
                 champions_bucket[key] = payload
                 successes += 1
         except Exception as exc:
