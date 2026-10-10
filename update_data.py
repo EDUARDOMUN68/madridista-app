@@ -176,14 +176,15 @@ def _official_block_contains_team(block: str, team: str) -> bool:
 
 
 def get_real_madrid_official_laliga_schedule(fixtures: list[dict]) -> list[dict]:
-    """Lee la web oficial del Real Madrid y confirma fechas/horas de LaLiga.
+    """Confirma horarios FUTUROS solamente en tarjetas inequívocas de LaLiga.
 
-    Se usa como segunda fuente oficial. La idea importante es que una hora futura
-    solo se considere confirmada si aparece en LALIGA o en realmadrid.com. Si la
-    web del club indica "fecha y hora por confirmar", devolvemos time=None para
-    borrar cualquier hora provisional heredada de ESPN.
+    La página oficial intercala partidos de Liga y Champions con el mismo número
+    de jornada. Nunca buscamos simplemente ``Jornada N`` en una ventana amplia,
+    pues la J4 de Champions desplazaba el Betis-Real Madrid ya finalizado.
+    Si no se identifica de forma inequívoca competición y rival, se descarta.
     """
     text = _strip_html_for_schedule(fetch_text(REAL_MADRID_FIXTURES_URL))
+    today = datetime.now(TZ).date()
     out: list[dict] = []
     date_re = re.compile(
         r"(?:lunes|martes|mi[eé]rcoles|jueves|viernes|s[aá]bado|domingo)?\s*,?\s*"
@@ -193,62 +194,64 @@ def get_real_madrid_official_laliga_schedule(fixtures: list[dict]) -> list[dict]
         r"(?:\s*,?\s*(\d{1,2}:\d{2})\s*h)?",
         re.I,
     )
-
+    # La pareja COMPETICIÓN + JORNADA es inseparable. Además, cada partido de
+    # la página tiene su propia cabecera de competición: no puede atravesarse
+    # una tarjeta de Champions para extraer una fecha de LaLiga (ni al revés).
+    round_re = re.compile(r"\bJornada\s+(\d+)\b", re.I)
+    labels_re = re.compile(r"\b(La\s+Liga|Champions\s+League)\b", re.I)
+    rounds = list(round_re.finditer(text))
     for fx in fixtures:
-        if fx.get("competition") != "LaLiga" or not fx.get("jornada"):
+        if fx.get("competition") != "LaLiga" or fx.get("status") == "finished":
             continue
         try:
             jornada = int(fx["jornada"])
-        except Exception:
+            if date.fromisoformat(fx["date"]) < today:
+                continue
+        except (ValueError, TypeError, KeyError):
             continue
-        jm = None
-        block = ""
-        for candidate in re.finditer(rf"Jornada\s+{jornada}\b", text, re.I):
-            candidate_block = text[max(0, candidate.start() - 900): candidate.end() + 900]
-            if _official_block_contains_team(candidate_block, fx.get("opponent", "")):
-                jm = candidate
-                block = candidate_block
-                break
-        if jm is None:
-            continue
-
-        # Priorizamos la fecha que aparece después del rótulo de jornada.
-        after = text[jm.end(): jm.end() + 700]
-        dm = date_re.search(after) or date_re.search(block)
-        if not dm:
-            continue
-        day_s, month_s, time_s = dm.groups()
-        month_key = normalize_name(month_s).replace(" ", "")
-        month = _MONTHS_RM.get(month_key)
-        if not month:
-            # abreviaturas como "sept" o "sep"
-            month = _MONTHS_RM.get(month_key[:4]) or _MONTHS_RM.get(month_key[:3])
-        if not month:
-            continue
-
-        try:
-            base_year = date.fromisoformat(fx.get("date", "")).year
-        except Exception:
-            base_year = datetime.now(TZ).year
-        try:
-            dt = datetime(base_year, month, int(day_s), tzinfo=TZ)
-        except Exception:
-            continue
-
-        # Si la web oficial publica una hora válida, queda confirmada. Si solo
-        # aparece la fecha (por ejemplo, "fecha y hora por confirmar"), time=None.
-        confirmed_time = valid_time(time_s)
-        out.append({
-            "competition": "LaLiga",
-            "jornada": jornada,
-            "date": dt.date().isoformat(),
-            "displayDate": display_date(dt),
-            "time": confirmed_time,
-            "venue": fx.get("venue"),
-            "opponent": fx.get("opponent"),
-            "tv": deepcopy(fx.get("tv") or []),
-            "officialSource": "Real Madrid",
-        })
+        for candidate in rounds:
+            if int(candidate.group(1)) != jornada:
+                continue
+            # Inspeccionar solamente la cabecera de esta tarjeta. Debe ser Liga,
+            # no Champions, y el rival debe aparecer en la MISMA tarjeta.
+            before = text[max(0, candidate.start() - 450):candidate.start()]
+            labels = list(labels_re.finditer(before))
+            if not labels or normalize_name(labels[-1].group(1)) != "la liga":
+                continue
+            # El rival está antes de la etiqueta «La Liga», no después de «Jornada».
+            opponent_text = before[:labels[-1].start()]
+            # Recortamos hasta el cierre de la tarjeta anterior cuando exista.
+            last_separator = max(opponent_text.rfind("\nMás"), opponent_text.rfind("\nMas"))
+            if last_separator >= 0:
+                opponent_text = opponent_text[last_separator + 4:]
+            if not _official_block_contains_team(opponent_text, fx.get("opponent", "")):
+                continue
+            after = text[candidate.end():rounds[rounds.index(candidate)+1].start() if rounds.index(candidate)+1 < len(rounds) else len(text)]
+            dm = date_re.search(after[:150])
+            if not dm:
+                continue
+            day_s, month_s, time_s = dm.groups()
+            month_key = normalize_name(month_s).replace(" ", "")
+            month = _MONTHS_RM.get(month_key) or _MONTHS_RM.get(month_key[:4]) or _MONTHS_RM.get(month_key[:3])
+            if month is None:
+                continue
+            try:
+                base_year = date.fromisoformat(fx["date"]).year
+                dt = datetime(base_year, month, int(day_s), tzinfo=TZ)
+            except (ValueError, TypeError):
+                continue
+            # No rescatar un partido histórico como futuro por una coincidencia
+            # parcial entre nombres o una tarjeta de otra competición.
+            if dt.date() < today:
+                continue
+            out.append({
+                "competition": "LaLiga", "jornada": jornada,
+                "date": dt.date().isoformat(), "displayDate": display_date(dt),
+                "time": valid_time(time_s), "venue": fx.get("venue"),
+                "opponent": fx.get("opponent"), "tv": deepcopy(fx.get("tv") or []),
+                "officialSource": "Real Madrid",
+            })
+            break
     return out
 
 def normalize_name(value: str | None) -> str:
@@ -1202,6 +1205,12 @@ def merge_schedule(fixtures: list[dict], events: list[dict]) -> None:
                 fixtures.append(new_fx)
             continue
         fx = fixtures[idx]
+        # Los resultados de Liga ya finalizados no cambian de fecha por una
+        # relectura del calendario. Su fecha se repara exclusivamente con el
+        # catálogo de jornadas oficiales en reconcile_finished_laliga_dates().
+        if fx.get("competition") == "LaLiga" and fx.get("status") == "finished" and fx.get("score"):
+            fx.pop("liveLabel", None)
+            continue
         for key in ("date", "displayDate", "venue"):
             if event.get(key) is not None:
                 fx[key] = event[key]
@@ -1235,6 +1244,10 @@ def merge_laliga_official(fixtures: list[dict], events: list[dict]) -> None:
         if idx is None:
             continue
         fx = fixtures[idx]
+        # Nunca mover un resultado ya jugado por una tarjeta del calendario.
+        # La reparación de su fecha usa el partido de su JORNADA oficial.
+        if fx.get("status") == "finished" and fx.get("score"):
+            continue
         # LALIGA is authoritative for LaLiga calendar/TV. A confirmed date/time
         # must replace the original weekend placeholder.
         for key in ("date", "displayDate", "venue"):
@@ -1248,6 +1261,51 @@ def merge_laliga_official(fixtures: list[dict], events: list[dict]) -> None:
         if event.get("tv"):
             fx["tv"] = event["tv"]
 
+
+
+def reconcile_finished_laliga_dates(fixtures: list[dict], data: dict) -> int:
+    """Repara fechas históricas con competición + jornada + rival + marcador.
+
+    El catálogo de LaLiga se lee ya de las 38 jornadas oficiales, con sus 10
+    partidos. No depende de ESPN ni del listado conjunto Liga/Champions del club.
+    Solo afecta a partidos finalizados de Liga y nunca sobrescribe un dato ante
+    ambigüedad, resultado distinto o ausencia de fuente oficial.
+    """
+    rounds = ((data.get("jornadasAll") or {}).get("LaLiga") or {})
+    repaired = 0
+    for fx in fixtures:
+        if fx.get("competition") != "LaLiga" or fx.get("status") != "finished" or not fx.get("score"):
+            continue
+        try:
+            jornada = int(fx["jornada"])
+        except (KeyError, ValueError, TypeError):
+            continue
+        payload = rounds.get(str(jornada)) or rounds.get(jornada) or {}
+        matches = payload.get("matches") or []
+        if len(matches) != 10:
+            continue
+        venue = fx.get("venue")
+        if venue not in {"home", "away"}:
+            continue
+        candidates = [m for m in matches
+                      if m.get("competition") == "LaLiga"
+                      and m.get("status") == "finished"
+                      and same_team(m.get("away") if venue == "home" else m.get("home"), fx.get("opponent"))
+                      and same_team(m.get("home") if venue == "home" else m.get("away"), "Real Madrid")
+                      and m.get("score") == fx.get("score")]
+        if len(candidates) != 1:
+            continue
+        match = candidates[0]
+        if not match.get("date") or not match.get("time"):
+            continue
+        if any(fx.get(key) != match.get(key) for key in ("date", "time")):
+            old_date = fx.get("date")
+            fx["date"] = match["date"]
+            fx["displayDate"] = match.get("displayDate") or display_date(datetime.fromisoformat(match["date"]).replace(tzinfo=TZ))
+            fx["time"] = valid_time(match["time"])
+            repaired += 1
+            log(f"Reparada LaLiga J{jornada} {fx.get('opponent')}: {old_date} → {fx['date']} (fuente: jornada oficial)")
+    return repaired
 
 
 def enforce_official_future_laliga_times(fixtures: list[dict], official_sources_ok: bool) -> None:
@@ -1814,6 +1872,9 @@ def full_refresh(data: dict, original: dict) -> int:
     # Catálogo completo para el selector manual de Jornada. Esto es aditivo:
     # no modifica la lógica de clasificación, directo, calendario ni resultados.
     successes += refresh_jornadas_catalog(data)
+    # Corregir fechas históricas desplazadas ANTES de ordenar y publicar fixtures.
+    # Un «Jornada 4» de Champions nunca puede modificar el Betis de Liga J4.
+    reconcile_finished_laliga_dates(fixtures, data)
 
     # Scoreboards de hoy: sirven para detectar todas las ventanas de Liga/Champions.
     today = datetime.now(TZ).date()
