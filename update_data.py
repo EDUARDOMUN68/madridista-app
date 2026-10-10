@@ -1276,12 +1276,13 @@ def merge_laliga_official(fixtures: list[dict], events: list[dict]) -> None:
 
 
 def reconcile_finished_laliga_dates(fixtures: list[dict], data: dict) -> int:
-    """Repara fechas históricas con competición + jornada + rival + marcador.
+    """Repara fechas y marcadores históricos con competición + jornada + rival.
 
     El catálogo de LaLiga se lee ya de las 38 jornadas oficiales, con sus 10
     partidos. No depende de ESPN ni del listado conjunto Liga/Champions del club.
     Solo afecta a partidos finalizados de Liga y nunca sobrescribe un dato ante
-    ambigüedad, resultado distinto o ausencia de fuente oficial.
+    ambigüedad o ausencia de fuente oficial. Un marcador distinto solo se
+    sustituye si el partido está acreditado explícitamente por LALIGA.
     """
     rounds = ((data.get("jornadasAll") or {}).get("LaLiga") or {})
     repaired = 0
@@ -1304,10 +1305,19 @@ def reconcile_finished_laliga_dates(fixtures: list[dict], data: dict) -> int:
                       and m.get("status") == "finished"
                       and same_team(m.get("away") if venue == "home" else m.get("home"), fx.get("opponent"))
                       and same_team(m.get("home") if venue == "home" else m.get("away"), "Real Madrid")
-                      and m.get("score") == fx.get("score")]
+                      and (m.get("score") == fx.get("score")
+                           or (m.get("officialSource") == "LALIGA"
+                               and re.fullmatch(r"\d+\s*[–—-]\s*\d+", str(m.get("score") or ""))))]
         if len(candidates) != 1:
             continue
         match = candidates[0]
+        if match.get("score") != fx.get("score"):
+            old_score = fx["score"]
+            fx["score"] = match["score"]
+            for key in ("goalDetails", "goalsVerified", "goalDetailsScore", "goalDetailsCheckedAt"):
+                fx.pop(key, None)
+            repaired += 1
+            log(f"Reparado marcador LaLiga J{jornada} {fx.get('opponent')}: {old_score} → {fx['score']} (LALIGA)")
         if not match.get("date") or not match.get("time"):
             continue
         if any(fx.get(key) != match.get(key) for key in ("date", "time")):

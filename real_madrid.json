@@ -2,7 +2,7 @@
   "app": {
     "name": "Madridista",
     "season": "2026/27",
-    "lastUpdated": "2026-10-10T19:45+02:00",
+    "lastUpdated": "2026-10-10T20:21+02:00",
     "timezone": "Europe/Madrid",
     "sources": [
       "Real Madrid C.F. — calendario oficial de LaLiga 2026/27",
@@ -268,12 +268,56 @@
       "opponent": "Rayo Vallecano",
       "time": "21:00",
       "status": "finished",
-      "score": "2–0",
+      "score": "4–1",
       "tv": [
         "DAZN"
       ],
       "eventId": "401882880",
-      "goalDetailsCheckedAt": "2026-10-10T19:45+02:00"
+      "goalDetails": [
+        {
+          "side": "home",
+          "player": "Kylian Mbappé",
+          "playerId": "231388",
+          "minute": "14'",
+          "penalty": true,
+          "ownGoal": false
+        },
+        {
+          "side": "home",
+          "player": "Álvaro Carreras",
+          "playerId": "310637",
+          "minute": "17'",
+          "penalty": false,
+          "ownGoal": false
+        },
+        {
+          "side": "home",
+          "player": "Jude Bellingham",
+          "playerId": "291281",
+          "minute": "35'",
+          "penalty": false,
+          "ownGoal": false
+        },
+        {
+          "side": "away",
+          "player": "Sergio Camello",
+          "playerId": "276652",
+          "minute": "51'",
+          "penalty": false,
+          "ownGoal": false
+        },
+        {
+          "side": "home",
+          "player": "Kylian Mbappé",
+          "playerId": "231388",
+          "minute": "90'+1'",
+          "penalty": false,
+          "ownGoal": false
+        }
+      ],
+      "goalsVerified": true,
+      "goalDetailsScore": "4–1",
+      "goalDetailsCheckedAt": "2026-10-10T20:21+02:00"
     },
     {
       "competition": "LaLiga",
