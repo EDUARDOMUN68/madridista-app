@@ -1,4 +1,4 @@
-const CACHE='madridista-v3-19-resultados-goleadores';
+const CACHE='madridista-v3-21-champions-jornadas';
 const STATIC=['./','./index.html','./manifest.webmanifest','./icon-192.png','./icon-512.png','./icon-maskable-512.png'];
 
 self.addEventListener('install',e=>{

@@ -713,8 +713,20 @@ async function fetchJornada(competition,jornada,reference=null){
   // Respaldo para datos antiguos: ventana compacta calculada desde el calendario.
   const w=jornadaWindow(competition,jornada);if(!w)throw new Error('Sin ventana de jornada');
   const dates=w.start===w.end?compactDay(w.start):`${compactDay(w.start)}-${compactDay(w.end)}`;
-  const payload=await directFetchJson(`https://site.api.espn.com/apis/site/v2/sports/soccer/${slug}/scoreboard?dates=${dates}&limit=200`);
-  const games=parseDirectScoreboard(payload,competition).sort((a,b)=>`${a.date||''} ${a.time||''}`.localeCompare(`${b.date||''} ${b.time||''}`));
+  let games;
+  if(competition==='Champions'){
+    const members=new Map();
+    for(let day=dayNumber(w.start);day<=dayNumber(w.end);day++){
+      const payload=await directFetchJson(`https://site.api.espn.com/apis/site/v2/sports/soccer/${slug}/scoreboard?dates=${compactDay(isoFromDayNumber(day))}`);
+      for(const game of parseDirectScoreboard(payload,competition))members.set(game.eventId||`${game.home}|${game.away}|${game.date}`,game);
+    }
+    games=[...members.values()];
+    if(games.length!==18)throw new Error('Jornada Champions incompleta');
+  }else{
+    const payload=await directFetchJson(`https://site.api.espn.com/apis/site/v2/sports/soccer/${slug}/scoreboard?dates=${dates}&limit=200`);
+    games=parseDirectScoreboard(payload,competition);
+  }
+  games.sort((a,b)=>`${a.date||''} ${a.time||''}`.localeCompare(`${b.date||''} ${b.time||''}`));
   return jornadaPayload(competition,jornada,sanitizeJornadaMatches(games),w);
 }
 function jornadaFallback(competition){const raw=APP?.jornadas?.[competition];if(!raw||(raw.competition&&raw.competition!==competition))return null;return JSON.parse(JSON.stringify(raw))}
