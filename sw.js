@@ -1,5 +1,5 @@
-const CACHE='madridista-v3.22.1';
-const STATIC=['./','./index.html','./manifest.webmanifest?v=3.22.1','./icon-192.png?v=3.22.1','./icon-512.png?v=3.22.1','./icon-maskable-512.png?v=3.22.1'];
+const CACHE='madridista-v3.22.2';
+const STATIC=['./','./index.html','./manifest.webmanifest?v=3.22.2','./crest-192.png?v=3.22.2','./icon-512.png?v=3.22.2','./icon-maskable-512.png?v=3.22.2'];
 
 self.addEventListener('install',e=>{
   e.waitUntil(caches.open(CACHE).then(c=>c.addAll(STATIC)));
