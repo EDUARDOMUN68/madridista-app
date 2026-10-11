@@ -29,9 +29,9 @@ Nota: las plazas europeas de LaLiga pueden desplazarse por Copa del Rey o por cu
 
 El actualizador conserva las 38 jornadas completas ya publicadas si la página oficial de LaLiga no responde. Refresca los estados y marcadores pendientes mediante consultas diarias y traslada los finales del catálogo al calendario del Real Madrid, conservando la TV. Los goleadores siguen requiriendo un desglose acreditado que coincida con el marcador.
 
-## Versión 3.22.0 — 11 de octubre de 2026
+## Versión 3.22.1 — 11 de octubre de 2026
 
 - Versión visible bajo el nombre Madridista, independiente de la fecha de los datos.
 - Escudo del Real Madrid en cabecera, favicon e iconos instalables de 192 y 512 píxeles. Fondo blanco y margen seguro en el icono maskable. Recurso del equipo servido por ESPN: https://a.espncdn.com/i/teamlogos/soccer/500/86.png.
 - Columnas de goleadores vacías cuando un equipo no marca, sin el texto «Sin goles».
-- Manifest e iconos versionados; caché 3.22.0. Algunos sistemas renuevan el icono instalado con retraso.
+- Manifest e iconos versionados; caché 3.22.1. Algunos sistemas renuevan el icono instalado con retraso.
