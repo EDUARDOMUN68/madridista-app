@@ -24,3 +24,7 @@ Nota: las plazas europeas de LaLiga pueden desplazarse por Copa del Rey o por cu
 - Muestra un aviso cuando los datos se han recargado.
 - El service worker prioriza siempre la versión online del JSON y usa la caché solo como respaldo.
 - Preparada para combinar este botón con GitHub Actions: la automatización actualizará el JSON y el botón permitirá pedir la versión más reciente al instante.
+
+## Recuperación de resultados pendientes
+
+El actualizador conserva las 38 jornadas completas ya publicadas si la página oficial de LaLiga no responde. Refresca los estados y marcadores pendientes mediante consultas diarias y traslada los finales del catálogo al calendario del Real Madrid, conservando la TV. Los goleadores siguen requiriendo un desglose acreditado que coincida con el marcador.

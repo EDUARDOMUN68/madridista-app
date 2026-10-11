@@ -1119,8 +1119,13 @@ def refresh_jornadas_catalog(data: dict) -> int:
         try:
             official = get_laliga_official_round_matches(jornada)
             if not official:
-                missing_laliga.append(jornada)
-                continue
+                # Conservar la pertenencia oficial ya publicada, pero refrescar
+                # resultados pendientes aunque la página oficial no responda.
+                saved = laliga_bucket.get(key) or {}
+                official = saved.get("matches") or []
+                if len(official) != 10:
+                    missing_laliga.append(jornada)
+                    continue
             matches = overlay_today_round_status(official, "LaLiga", today)
             matches = _mark_expired_laliga_scheduled_as_postponed(matches, today)
             dates = [date.fromisoformat(m["date"]) for m in matches if m.get("date")]
@@ -2053,6 +2058,14 @@ def full_refresh(data: dict, original: dict) -> int:
     # Catálogo completo para el selector manual de Jornada. Esto es aditivo:
     # no modifica la lógica de clasificación, directo, calendario ni resultados.
     successes += refresh_jornadas_catalog(data)
+    # El catálogo también es fuente de resultados del Madrid. El calendario
+    # del equipo puede seguir atrasado después del final del encuentro.
+    for competition, rounds in (data.get("jornadasAll") or {}).items():
+        for payload in rounds.values():
+            events = [rm for match in payload.get("matches") or []
+                      if match.get("status") == "finished"
+                      and (rm := madrid_event(match))]
+            merge_schedule(fixtures, events)
     # Corregir fechas históricas desplazadas ANTES de ordenar y publicar fixtures.
     # Un «Jornada 4» de Champions nunca puede modificar el Betis de Liga J4.
     reconcile_finished_laliga_dates(fixtures, data)
