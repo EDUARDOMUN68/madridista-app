@@ -14,7 +14,7 @@
 - URLs de iconos y manifest versionadas, caché renovada y registro del service worker sin caché HTTP del script.
 - Revisada la interfaz en navegador local, incluidos resultados y anchura móvil sin desbordamiento horizontal.
 
-## 3.22.1 — 11 de octubre de 2026
+## 3.22.2 — 11 de octubre de 2026
 
 - Sustituidos los PNG dañados que cortaban el escudo en la cabecera.
 - Renovadas las URLs de recursos y la caché para descargar las imágenes completas.
