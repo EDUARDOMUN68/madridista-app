@@ -18,3 +18,8 @@
 
 - Sustituidos los PNG dañados que cortaban el escudo en la cabecera.
 - Renovadas las URLs de recursos y la caché para descargar las imágenes completas.
+
+## Datos — 12 de octubre de 2026
+
+- Actualizado Valencia–Real Madrid (J12) al sábado 7 de noviembre, 21:00 Europe/Madrid, con DAZN, según los calendarios oficiales de LaLiga y Real Madrid.
+- Comprobados calendario y jornada J12; conservadas las 38 jornadas de diez partidos y las ocho jornadas de Champions. La versión de interfaz continúa en 3.22.2.
