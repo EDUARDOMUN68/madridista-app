@@ -2,14 +2,14 @@
   "app": {
     "name": "Madridista",
     "season": "2026/27",
-    "lastUpdated": "2026-10-13T18:02+02:00",
+    "lastUpdated": "2026-10-13T23:17+02:00",
     "timezone": "Europe/Madrid",
     "sources": [
       "Real Madrid C.F. — calendario oficial de LaLiga 2026/27",
       "Real Madrid C.F. — calendario Champions 2026/27",
       "LALIGA — horarios, resultados y clasificación"
     ],
-    "lastChecked": "2026-10-13T18:02+02:00"
+    "lastChecked": "2026-10-13T23:17+02:00"
   },
   "nextMatch": {
     "competition": "Champions",
@@ -1148,6 +1148,54 @@
   "championsStandings": [
     {
       "pos": 1,
+      "team": "Barcelona",
+      "pts": 6,
+      "pj": 2,
+      "g": 2,
+      "e": 0,
+      "p": 0,
+      "gf": 9,
+      "gc": 2,
+      "dg": 7
+    },
+    {
+      "pos": 2,
+      "team": "Sporting CP",
+      "pts": 6,
+      "pj": 2,
+      "g": 2,
+      "e": 0,
+      "p": 0,
+      "gf": 5,
+      "gc": 1,
+      "dg": 4
+    },
+    {
+      "pos": 3,
+      "team": "Arsenal",
+      "pts": 6,
+      "pj": 2,
+      "g": 2,
+      "e": 0,
+      "p": 0,
+      "gf": 4,
+      "gc": 0,
+      "dg": 4
+    },
+    {
+      "pos": 4,
+      "team": "Bayern Munich",
+      "pts": 4,
+      "pj": 2,
+      "g": 1,
+      "e": 1,
+      "p": 0,
+      "gf": 8,
+      "gc": 3,
+      "dg": 5
+    },
+    {
+      "pos": 5,
       "team": "Paris Saint-Germain",
       "pts": 3,
       "pj": 1,
@@ -1159,43 +1207,7 @@
       "dg": 5
     },
     {
-      "pos": 2,
-      "team": "Bayern Munich",
-      "pts": 3,
-      "pj": 1,
-      "g": 1,
-      "e": 0,
-      "p": 0,
-      "gf": 5,
-      "gc": 0,
-      "dg": 5
-    },
-    {
-      "pos": 3,
-      "team": "Barcelona",
-      "pts": 3,
-      "pj": 1,
-      "g": 1,
-      "e": 0,
-      "p": 0,
-      "gf": 5,
-      "gc": 1,
-      "dg": 4
-    },
-    {
-      "pos": 4,
-      "team": "Manchester United",
-      "pts": 3,
-      "pj": 1,
-      "g": 1,
-      "e": 0,
-      "p": 0,
-      "gf": 4,
-      "gc": 0,
-      "dg": 4
-    },
-    {
-      "pos": 5,
+      "pos": 6,
       "team": "Como",
       "pts": 3,
       "pj": 1,
@@ -1207,19 +1219,19 @@
       "dg": 3
     },
     {
-      "pos": 6,
-      "team": "Sporting CP",
+      "pos": 7,
+      "team": "Manchester United",
       "pts": 3,
-      "pj": 1,
+      "pj": 2,
       "g": 1,
       "e": 0,
-      "p": 0,
-      "gf": 3,
-      "gc": 1,
+      "p": 1,
+      "gf": 4,
+      "gc": 2,
       "dg": 2
     },
     {
-      "pos": 7,
+      "pos": 8,
       "team": "VfB Stuttgart",
       "pts": 3,
       "pj": 1,
@@ -1231,7 +1243,7 @@
       "dg": 2
     },
     {
-      "pos": 8,
+      "pos": 9,
       "team": "Manchester City",
       "pts": 3,
       "pj": 1,
@@ -1243,7 +1255,19 @@
       "dg": 2
     },
     {
-      "pos": 9,
+      "pos": 10,
+      "team": "Villarreal",
+      "pts": 3,
+      "pj": 2,
+      "g": 1,
+      "e": 0,
+      "p": 1,
+      "gf": 5,
+      "gc": 4,
+      "dg": 1
+    },
+    {
+      "pos": 11,
       "team": "Aston Villa",
       "pts": 3,
       "pj": 1,
@@ -1255,19 +1279,7 @@
       "dg": 1
     },
     {
-      "pos": 10,
-      "team": "Lens",
-      "pts": 3,
-      "pj": 1,
-      "g": 1,
-      "e": 0,
-      "p": 0,
-      "gf": 3,
-      "gc": 2,
-      "dg": 1
-    },
-    {
-      "pos": 11,
+      "pos": 12,
       "team": "Real Betis",
       "pts": 3,
       "pj": 1,
@@ -1279,7 +1291,19 @@
       "dg": 1
     },
     {
-      "pos": 12,
+      "pos": 13,
+      "team": "Atlético Madrid",
+      "pts": 3,
+      "pj": 2,
+      "g": 1,
+      "e": 0,
+      "p": 1,
+      "gf": 3,
+      "gc": 2,
+      "dg": 1
+    },
+    {
+      "pos": 14,
       "team": "Borussia Dortmund",
       "pts": 3,
       "pj": 1,
@@ -1291,7 +1315,7 @@
       "dg": 1
     },
     {
-      "pos": 13,
+      "pos": 15,
       "team": "Liverpool",
       "pts": 3,
       "pj": 1,
@@ -1303,7 +1327,7 @@
       "dg": 1
     },
     {
-      "pos": 14,
+      "pos": 16,
       "team": "Real Madrid",
       "pts": 3,
       "pj": 1,
@@ -1315,19 +1339,7 @@
       "dg": 1
     },
     {
-      "pos": 15,
-      "team": "Arsenal",
-      "pts": 3,
-      "pj": 1,
-      "g": 1,
-      "e": 0,
-      "p": 0,
-      "gf": 1,
-      "gc": 0,
-      "dg": 1
-    },
-    {
-      "pos": 16,
+      "pos": 17,
       "team": "AEK Athens",
       "pts": 3,
       "pj": 1,
@@ -1339,7 +1351,55 @@
       "dg": 1
     },
     {
-      "pos": 17,
+      "pos": 18,
+      "team": "Club Brugge",
+      "pts": 3,
+      "pj": 2,
+      "g": 1,
+      "e": 0,
+      "p": 1,
+      "gf": 6,
+      "gc": 6,
+      "dg": 0
+    },
+    {
+      "pos": 19,
+      "team": "Lens",
+      "pts": 3,
+      "pj": 2,
+      "g": 1,
+      "e": 0,
+      "p": 1,
+      "gf": 3,
+      "gc": 4,
+      "dg": -1
+    },
+    {
+      "pos": 20,
+      "team": "RB Leipzig",
+      "pts": 3,
+      "pj": 2,
+      "g": 1,
+      "e": 0,
+      "p": 1,
+      "gf": 2,
+      "gc": 4,
+      "dg": -2
+    },
+    {
+      "pos": 21,
+      "team": "Sabah FK",
+      "pts": 3,
+      "pj": 2,
+      "g": 1,
+      "e": 0,
+      "p": 1,
+      "gf": 2,
+      "gc": 4,
+      "dg": -2
+    },
+    {
+      "pos": 22,
       "team": "AS Roma",
       "pts": 1,
       "pj": 1,
@@ -1351,7 +1411,7 @@
       "dg": 0
     },
     {
-      "pos": 18,
+      "pos": 23,
       "team": "Shakhtar Donetsk",
       "pts": 1,
       "pj": 1,
@@ -1363,7 +1423,7 @@
       "dg": 0
     },
     {
-      "pos": 19,
+      "pos": 24,
       "team": "Fenerbahce",
       "pts": 1,
       "pj": 1,
@@ -1375,72 +1435,12 @@
       "dg": 0
     },
     {
-      "pos": 20,
+      "pos": 25,
       "team": "PSV Eindhoven",
       "pts": 1,
-      "pj": 1,
+      "pj": 2,
       "g": 0,
       "e": 1,
-      "p": 0,
-      "gf": 1,
-      "gc": 1,
-      "dg": 0
-    },
-    {
-      "pos": 21,
-      "team": "Villarreal",
-      "pts": 0,
-      "pj": 1,
-      "g": 0,
-      "e": 0,
-      "p": 1,
-      "gf": 2,
-      "gc": 3,
-      "dg": -1
-    },
-    {
-      "pos": 22,
-      "team": "Club Brugge",
-      "pts": 0,
-      "pj": 1,
-      "g": 0,
-      "e": 0,
-      "p": 1,
-      "gf": 2,
-      "gc": 3,
-      "dg": -1
-    },
-    {
-      "pos": 23,
-      "team": "Lille",
-      "pts": 0,
-      "pj": 1,
-      "g": 0,
-      "e": 0,
-      "p": 1,
-      "gf": 2,
-      "gc": 3,
-      "dg": -1
-    },
-    {
-      "pos": 24,
-      "team": "Slavia Prague",
-      "pts": 0,
-      "pj": 1,
-      "g": 0,
-      "e": 0,
-      "p": 1,
-      "gf": 2,
-      "gc": 3,
-      "dg": -1
-    },
-    {
-      "pos": 25,
-      "team": "Atlético Madrid",
-      "pts": 0,
-      "pj": 1,
-      "g": 0,
-      "e": 0,
       "p": 1,
       "gf": 1,
       "gc": 2,
@@ -1448,15 +1448,15 @@
     },
     {
       "pos": 26,
-      "team": "Internazionale",
-      "pts": 0,
-      "pj": 1,
+      "team": "Viking FK",
+      "pts": 1,
+      "pj": 2,
       "g": 0,
-      "e": 0,
+      "e": 1,
       "p": 1,
-      "gf": 1,
-      "gc": 2,
-      "dg": -1
+      "gf": 4,
+      "gc": 6,
+      "dg": -2
     },
     {
       "pos": 27,
@@ -1472,42 +1472,18 @@
     },
     {
       "pos": 28,
-      "team": "Napoli",
+      "team": "Internazionale",
       "pts": 0,
-      "pj": 1,
+      "pj": 2,
       "g": 0,
       "e": 0,
-      "p": 1,
-      "gf": 0,
-      "gc": 1,
-      "dg": -1
+      "p": 2,
+      "gf": 4,
+      "gc": 6,
+      "dg": -2
     },
     {
       "pos": 29,
-      "team": "Galatasaray",
-      "pts": 0,
-      "pj": 1,
-      "g": 0,
-      "e": 0,
-      "p": 1,
-      "gf": 1,
-      "gc": 3,
-      "dg": -2
-    },
-    {
-      "pos": 30,
-      "team": "Viking FK",
-      "pts": 0,
-      "pj": 1,
-      "g": 0,
-      "e": 0,
-      "p": 1,
-      "gf": 1,
-      "gc": 3,
-      "dg": -2
-    },
-    {
-      "pos": 31,
       "team": "FC Porto",
       "pts": 0,
       "pj": 1,
@@ -1519,16 +1495,40 @@
       "dg": -2
     },
     {
-      "pos": 32,
-      "team": "RB Leipzig",
+      "pos": 30,
+      "team": "Slavia Prague",
       "pts": 0,
-      "pj": 1,
+      "pj": 2,
       "g": 0,
       "e": 0,
-      "p": 1,
+      "p": 2,
+      "gf": 2,
+      "gc": 5,
+      "dg": -3
+    },
+    {
+      "pos": 31,
+      "team": "Napoli",
+      "pts": 0,
+      "pj": 2,
+      "g": 0,
+      "e": 0,
+      "p": 2,
       "gf": 1,
       "gc": 4,
       "dg": -3
+    },
+    {
+      "pos": 32,
+      "team": "Lille",
+      "pts": 0,
+      "pj": 2,
+      "g": 0,
+      "e": 0,
+      "p": 2,
+      "gf": 2,
+      "gc": 6,
+      "dg": -4
     },
     {
       "pos": 33,
@@ -1544,15 +1544,15 @@
     },
     {
       "pos": 34,
-      "team": "Sabah FK",
+      "team": "Galatasaray",
       "pts": 0,
-      "pj": 1,
+      "pj": 2,
       "g": 0,
       "e": 0,
-      "p": 1,
-      "gf": 0,
-      "gc": 4,
-      "dg": -4
+      "p": 2,
+      "gf": 2,
+      "gc": 7,
+      "dg": -5
     },
     {
       "pos": 35,
@@ -1695,7 +1695,7 @@
   ],
   "live": {
     "hasLiveMatches": false,
-    "updatedAt": "2026-10-13T18:02+02:00",
+    "updatedAt": "2026-10-13T23:17+02:00",
     "matches": []
   },
   "laligaOfficialStandings": [
@@ -1946,7 +1946,7 @@
       "liveGames": 0,
       "pendingOfficialGames": 0,
       "sourceIncludesLive": false,
-      "updatedAt": "2026-10-13T18:02+02:00",
+      "updatedAt": "2026-10-13T23:17+02:00",
       "trackedGames": {}
     },
     "Champions": {
@@ -1954,12 +1954,60 @@
       "liveGames": 0,
       "pendingOfficialGames": 0,
       "sourceIncludesLive": false,
-      "updatedAt": "2026-10-13T18:02+02:00"
+      "updatedAt": "2026-10-13T23:17+02:00"
     }
   },
   "championsOfficialStandings": [
     {
       "pos": 1,
+      "team": "Barcelona",
+      "pts": 6,
+      "pj": 2,
+      "g": 2,
+      "e": 0,
+      "p": 0,
+      "gf": 9,
+      "gc": 2,
+      "dg": 7
+    },
+    {
+      "pos": 2,
+      "team": "Sporting CP",
+      "pts": 6,
+      "pj": 2,
+      "g": 2,
+      "e": 0,
+      "p": 0,
+      "gf": 5,
+      "gc": 1,
+      "dg": 4
+    },
+    {
+      "pos": 3,
+      "team": "Arsenal",
+      "pts": 6,
+      "pj": 2,
+      "g": 2,
+      "e": 0,
+      "p": 0,
+      "gf": 4,
+      "gc": 0,
+      "dg": 4
+    },
+    {
+      "pos": 4,
+      "team": "Bayern Munich",
+      "pts": 4,
+      "pj": 2,
+      "g": 1,
+      "e": 1,
+      "p": 0,
+      "gf": 8,
+      "gc": 3,
+      "dg": 5
+    },
+    {
+      "pos": 5,
       "team": "Paris Saint-Germain",
       "pts": 3,
       "pj": 1,
@@ -1971,43 +2019,7 @@
       "dg": 5
     },
     {
-      "pos": 2,
-      "team": "Bayern Munich",
-      "pts": 3,
-      "pj": 1,
-      "g": 1,
-      "e": 0,
-      "p": 0,
-      "gf": 5,
-      "gc": 0,
-      "dg": 5
-    },
-    {
-      "pos": 3,
-      "team": "Barcelona",
-      "pts": 3,
-      "pj": 1,
-      "g": 1,
-      "e": 0,
-      "p": 0,
-      "gf": 5,
-      "gc": 1,
-      "dg": 4
-    },
-    {
-      "pos": 4,
-      "team": "Manchester United",
-      "pts": 3,
-      "pj": 1,
-      "g": 1,
-      "e": 0,
-      "p": 0,
-      "gf": 4,
-      "gc": 0,
-      "dg": 4
-    },
-    {
-      "pos": 5,
+      "pos": 6,
       "team": "Como",
       "pts": 3,
       "pj": 1,
@@ -2019,19 +2031,19 @@
       "dg": 3
     },
     {
-      "pos": 6,
-      "team": "Sporting CP",
+      "pos": 7,
+      "team": "Manchester United",
       "pts": 3,
-      "pj": 1,
+      "pj": 2,
       "g": 1,
       "e": 0,
-      "p": 0,
-      "gf": 3,
-      "gc": 1,
+      "p": 1,
+      "gf": 4,
+      "gc": 2,
       "dg": 2
     },
     {
-      "pos": 7,
+      "pos": 8,
       "team": "VfB Stuttgart",
       "pts": 3,
       "pj": 1,
@@ -2043,7 +2055,7 @@
       "dg": 2
     },
     {
-      "pos": 8,
+      "pos": 9,
       "team": "Manchester City",
       "pts": 3,
       "pj": 1,
@@ -2055,7 +2067,19 @@
       "dg": 2
     },
     {
-      "pos": 9,
+      "pos": 10,
+      "team": "Villarreal",
+      "pts": 3,
+      "pj": 2,
+      "g": 1,
+      "e": 0,
+      "p": 1,
+      "gf": 5,
+      "gc": 4,
+      "dg": 1
+    },
+    {
+      "pos": 11,
       "team": "Aston Villa",
       "pts": 3,
       "pj": 1,
@@ -2067,19 +2091,7 @@
       "dg": 1
     },
     {
-      "pos": 10,
-      "team": "Lens",
-      "pts": 3,
-      "pj": 1,
-      "g": 1,
-      "e": 0,
-      "p": 0,
-      "gf": 3,
-      "gc": 2,
-      "dg": 1
-    },
-    {
-      "pos": 11,
+      "pos": 12,
       "team": "Real Betis",
       "pts": 3,
       "pj": 1,
@@ -2091,7 +2103,19 @@
       "dg": 1
     },
     {
-      "pos": 12,
+      "pos": 13,
+      "team": "Atlético Madrid",
+      "pts": 3,
+      "pj": 2,
+      "g": 1,
+      "e": 0,
+      "p": 1,
+      "gf": 3,
+      "gc": 2,
+      "dg": 1
+    },
+    {
+      "pos": 14,
       "team": "Borussia Dortmund",
       "pts": 3,
       "pj": 1,
@@ -2103,7 +2127,7 @@
       "dg": 1
     },
     {
-      "pos": 13,
+      "pos": 15,
       "team": "Liverpool",
       "pts": 3,
       "pj": 1,
@@ -2115,7 +2139,7 @@
       "dg": 1
     },
     {
-      "pos": 14,
+      "pos": 16,
       "team": "Real Madrid",
       "pts": 3,
       "pj": 1,
@@ -2127,19 +2151,7 @@
       "dg": 1
     },
     {
-      "pos": 15,
-      "team": "Arsenal",
-      "pts": 3,
-      "pj": 1,
-      "g": 1,
-      "e": 0,
-      "p": 0,
-      "gf": 1,
-      "gc": 0,
-      "dg": 1
-    },
-    {
-      "pos": 16,
+      "pos": 17,
       "team": "AEK Athens",
       "pts": 3,
       "pj": 1,
@@ -2151,7 +2163,55 @@
       "dg": 1
     },
     {
-      "pos": 17,
+      "pos": 18,
+      "team": "Club Brugge",
+      "pts": 3,
+      "pj": 2,
+      "g": 1,
+      "e": 0,
+      "p": 1,
+      "gf": 6,
+      "gc": 6,
+      "dg": 0
+    },
+    {
+      "pos": 19,
+      "team": "Lens",
+      "pts": 3,
+      "pj": 2,
+      "g": 1,
+      "e": 0,
+      "p": 1,
+      "gf": 3,
+      "gc": 4,
+      "dg": -1
+    },
+    {
+      "pos": 20,
+      "team": "RB Leipzig",
+      "pts": 3,
+      "pj": 2,
+      "g": 1,
+      "e": 0,
+      "p": 1,
+      "gf": 2,
+      "gc": 4,
+      "dg": -2
+    },
+    {
+      "pos": 21,
+      "team": "Sabah FK",
+      "pts": 3,
+      "pj": 2,
+      "g": 1,
+      "e": 0,
+      "p": 1,
+      "gf": 2,
+      "gc": 4,
+      "dg": -2
+    },
+    {
+      "pos": 22,
       "team": "AS Roma",
       "pts": 1,
       "pj": 1,
@@ -2163,7 +2223,7 @@
       "dg": 0
     },
     {
-      "pos": 18,
+      "pos": 23,
       "team": "Shakhtar Donetsk",
       "pts": 1,
       "pj": 1,
@@ -2175,7 +2235,7 @@
       "dg": 0
     },
     {
-      "pos": 19,
+      "pos": 24,
       "team": "Fenerbahce",
       "pts": 1,
       "pj": 1,
@@ -2187,72 +2247,12 @@
       "dg": 0
     },
     {
-      "pos": 20,
+      "pos": 25,
       "team": "PSV Eindhoven",
       "pts": 1,
-      "pj": 1,
+      "pj": 2,
       "g": 0,
       "e": 1,
-      "p": 0,
-      "gf": 1,
-      "gc": 1,
-      "dg": 0
-    },
-    {
-      "pos": 21,
-      "team": "Villarreal",
-      "pts": 0,
-      "pj": 1,
-      "g": 0,
-      "e": 0,
-      "p": 1,
-      "gf": 2,
-      "gc": 3,
-      "dg": -1
-    },
-    {
-      "pos": 22,
-      "team": "Club Brugge",
-      "pts": 0,
-      "pj": 1,
-      "g": 0,
-      "e": 0,
-      "p": 1,
-      "gf": 2,
-      "gc": 3,
-      "dg": -1
-    },
-    {
-      "pos": 23,
-      "team": "Lille",
-      "pts": 0,
-      "pj": 1,
-      "g": 0,
-      "e": 0,
-      "p": 1,
-      "gf": 2,
-      "gc": 3,
-      "dg": -1
-    },
-    {
-      "pos": 24,
-      "team": "Slavia Prague",
-      "pts": 0,
-      "pj": 1,
-      "g": 0,
-      "e": 0,
-      "p": 1,
-      "gf": 2,
-      "gc": 3,
-      "dg": -1
-    },
-    {
-      "pos": 25,
-      "team": "Atlético Madrid",
-      "pts": 0,
-      "pj": 1,
-      "g": 0,
-      "e": 0,
       "p": 1,
       "gf": 1,
       "gc": 2,
@@ -2260,15 +2260,15 @@
     },
     {
       "pos": 26,
-      "team": "Internazionale",
-      "pts": 0,
-      "pj": 1,
+      "team": "Viking FK",
+      "pts": 1,
+      "pj": 2,
       "g": 0,
-      "e": 0,
+      "e": 1,
       "p": 1,
-      "gf": 1,
-      "gc": 2,
-      "dg": -1
+      "gf": 4,
+      "gc": 6,
+      "dg": -2
     },
     {
       "pos": 27,
@@ -2284,42 +2284,18 @@
     },
     {
       "pos": 28,
-      "team": "Napoli",
+      "team": "Internazionale",
       "pts": 0,
-      "pj": 1,
+      "pj": 2,
       "g": 0,
       "e": 0,
-      "p": 1,
-      "gf": 0,
-      "gc": 1,
-      "dg": -1
+      "p": 2,
+      "gf": 4,
+      "gc": 6,
+      "dg": -2
     },
     {
       "pos": 29,
-      "team": "Galatasaray",
-      "pts": 0,
-      "pj": 1,
-      "g": 0,
-      "e": 0,
-      "p": 1,
-      "gf": 1,
-      "gc": 3,
-      "dg": -2
-    },
-    {
-      "pos": 30,
-      "team": "Viking FK",
-      "pts": 0,
-      "pj": 1,
-      "g": 0,
-      "e": 0,
-      "p": 1,
-      "gf": 1,
-      "gc": 3,
-      "dg": -2
-    },
-    {
-      "pos": 31,
       "team": "FC Porto",
       "pts": 0,
       "pj": 1,
@@ -2331,16 +2307,40 @@
       "dg": -2
     },
     {
-      "pos": 32,
-      "team": "RB Leipzig",
+      "pos": 30,
+      "team": "Slavia Prague",
       "pts": 0,
-      "pj": 1,
+      "pj": 2,
       "g": 0,
       "e": 0,
-      "p": 1,
+      "p": 2,
+      "gf": 2,
+      "gc": 5,
+      "dg": -3
+    },
+    {
+      "pos": 31,
+      "team": "Napoli",
+      "pts": 0,
+      "pj": 2,
+      "g": 0,
+      "e": 0,
+      "p": 2,
       "gf": 1,
       "gc": 4,
       "dg": -3
+    },
+    {
+      "pos": 32,
+      "team": "Lille",
+      "pts": 0,
+      "pj": 2,
+      "g": 0,
+      "e": 0,
+      "p": 2,
+      "gf": 2,
+      "gc": 6,
+      "dg": -4
     },
     {
       "pos": 33,
@@ -2356,15 +2356,15 @@
     },
     {
       "pos": 34,
-      "team": "Sabah FK",
+      "team": "Galatasaray",
       "pts": 0,
-      "pj": 1,
+      "pj": 2,
       "g": 0,
       "e": 0,
-      "p": 1,
-      "gf": 0,
-      "gc": 4,
-      "dg": -4
+      "p": 2,
+      "gf": 2,
+      "gc": 7,
+      "dg": -5
     },
     {
       "pos": 35,
@@ -2402,7 +2402,7 @@
       "total": 10,
       "live": 0,
       "postponed": 0,
-      "updatedAt": "2026-10-13T18:00+02:00",
+      "updatedAt": "2026-10-13T23:16+02:00",
       "matches": [
         {
           "eventId": "",
@@ -2569,14 +2569,14 @@
     "Champions": {
       "competition": "Champions",
       "jornada": 2,
-      "phase": "upcoming",
+      "phase": "active",
       "windowStart": "2026-10-12",
       "windowEnd": "2026-10-16",
-      "finished": 0,
+      "finished": 9,
       "total": 18,
       "live": 0,
       "postponed": 0,
-      "updatedAt": "2026-10-13T18:00+02:00",
+      "updatedAt": "2026-10-13T23:16+02:00",
       "matches": [
         {
           "eventId": "401915418",
@@ -2588,9 +2588,9 @@
           "home": "Lens",
           "away": "Sporting CP",
           "homeScore": 0,
-          "awayScore": 0,
-          "score": "0–0",
-          "status": "scheduled",
+          "awayScore": 2,
+          "score": "0–2",
+          "status": "finished",
           "liveLabel": null
         },
         {
@@ -2602,10 +2602,10 @@
           "kickoff": "2026-10-13T18:45+02:00",
           "home": "Sabah FK",
           "away": "Slavia Prague",
-          "homeScore": 0,
+          "homeScore": 2,
           "awayScore": 0,
-          "score": "0–0",
-          "status": "scheduled",
+          "score": "2–0",
+          "status": "finished",
           "liveLabel": null
         },
         {
@@ -2617,10 +2617,10 @@
           "kickoff": "2026-10-13T21:00+02:00",
           "home": "Arsenal",
           "away": "Lille",
-          "homeScore": 0,
+          "homeScore": 3,
           "awayScore": 0,
-          "score": "0–0",
-          "status": "scheduled",
+          "score": "3–0",
+          "status": "finished",
           "liveLabel": null
         },
         {
@@ -2632,10 +2632,10 @@
           "kickoff": "2026-10-13T21:00+02:00",
           "home": "Atlético Madrid",
           "away": "Manchester United",
-          "homeScore": 0,
+          "homeScore": 2,
           "awayScore": 0,
-          "score": "0–0",
-          "status": "scheduled",
+          "score": "2–0",
+          "status": "finished",
           "liveLabel": null
         },
         {
@@ -2647,10 +2647,10 @@
           "kickoff": "2026-10-13T21:00+02:00",
           "home": "Galatasaray",
           "away": "Barcelona",
-          "homeScore": 0,
-          "awayScore": 0,
-          "score": "0–0",
-          "status": "scheduled",
+          "homeScore": 1,
+          "awayScore": 4,
+          "score": "1–4",
+          "status": "finished",
           "liveLabel": null
         },
         {
@@ -2662,10 +2662,10 @@
           "kickoff": "2026-10-13T21:00+02:00",
           "home": "Internazionale",
           "away": "Club Brugge",
-          "homeScore": 0,
-          "awayScore": 0,
-          "score": "0–0",
-          "status": "scheduled",
+          "homeScore": 3,
+          "awayScore": 4,
+          "score": "3–4",
+          "status": "finished",
           "liveLabel": null
         },
         {
@@ -2677,10 +2677,10 @@
           "kickoff": "2026-10-13T21:00+02:00",
           "home": "RB Leipzig",
           "away": "PSV Eindhoven",
-          "homeScore": 0,
+          "homeScore": 1,
           "awayScore": 0,
-          "score": "0–0",
-          "status": "scheduled",
+          "score": "1–0",
+          "status": "finished",
           "liveLabel": null
         },
         {
@@ -2692,10 +2692,10 @@
           "kickoff": "2026-10-13T21:00+02:00",
           "home": "Viking FK",
           "away": "Bayern Munich",
-          "homeScore": 0,
-          "awayScore": 0,
-          "score": "0–0",
-          "status": "scheduled",
+          "homeScore": 3,
+          "awayScore": 3,
+          "score": "3–3",
+          "status": "finished",
           "liveLabel": null
         },
         {
@@ -2707,10 +2707,10 @@
           "kickoff": "2026-10-13T21:00+02:00",
           "home": "Villarreal",
           "away": "Napoli",
-          "homeScore": 0,
-          "awayScore": 0,
-          "score": "0–0",
-          "status": "scheduled",
+          "homeScore": 3,
+          "awayScore": 1,
+          "score": "3–1",
+          "status": "finished",
           "liveLabel": null
         },
         {
@@ -2862,7 +2862,7 @@
       "total": 10,
       "live": 0,
       "postponed": 0,
-      "updatedAt": "2026-10-13T18:00+02:00",
+      "updatedAt": "2026-10-13T23:16+02:00",
       "matches": [
         {
           "eventId": "",
@@ -3036,7 +3036,7 @@
       "total": 18,
       "live": 0,
       "postponed": 0,
-      "updatedAt": "2026-10-13T18:00+02:00",
+      "updatedAt": "2026-10-13T23:16+02:00",
       "matches": [
         {
           "eventId": "401915403",
@@ -3323,7 +3323,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-13T18:00+02:00",
+        "updatedAt": "2026-10-13T23:16+02:00",
         "matches": [
           {
             "eventId": "",
@@ -3497,7 +3497,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-13T18:00+02:00",
+        "updatedAt": "2026-10-13T23:16+02:00",
         "matches": [
           {
             "eventId": "",
@@ -3671,7 +3671,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-13T18:00+02:00",
+        "updatedAt": "2026-10-13T23:16+02:00",
         "matches": [
           {
             "eventId": "",
@@ -3845,7 +3845,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-13T18:00+02:00",
+        "updatedAt": "2026-10-13T23:16+02:00",
         "matches": [
           {
             "eventId": "",
@@ -4019,7 +4019,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-13T18:01+02:00",
+        "updatedAt": "2026-10-13T23:16+02:00",
         "matches": [
           {
             "eventId": "",
@@ -4193,7 +4193,7 @@
         "total": 9,
         "live": 0,
         "postponed": 1,
-        "updatedAt": "2026-10-13T18:01+02:00",
+        "updatedAt": "2026-10-13T23:16+02:00",
         "matches": [
           {
             "eventId": "",
@@ -4368,7 +4368,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-13T18:01+02:00",
+        "updatedAt": "2026-10-13T23:16+02:00",
         "matches": [
           {
             "eventId": "",
@@ -4542,7 +4542,7 @@
         "total": 9,
         "live": 0,
         "postponed": 1,
-        "updatedAt": "2026-10-13T18:01+02:00",
+        "updatedAt": "2026-10-13T23:16+02:00",
         "matches": [
           {
             "eventId": "",
@@ -4708,7 +4708,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-13T18:01+02:00",
+        "updatedAt": "2026-10-13T23:16+02:00",
         "matches": [
           {
             "eventId": "",
@@ -4882,7 +4882,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-13T18:01+02:00",
+        "updatedAt": "2026-10-13T23:16+02:00",
         "matches": [
           {
             "eventId": "",
@@ -5056,7 +5056,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-13T18:01+02:00",
+        "updatedAt": "2026-10-13T23:16+02:00",
         "matches": [
           {
             "eventId": "",
@@ -5230,7 +5230,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-13T18:01+02:00",
+        "updatedAt": "2026-10-13T23:16+02:00",
         "matches": [
           {
             "eventId": "",
@@ -5404,7 +5404,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-13T18:01+02:00",
+        "updatedAt": "2026-10-13T23:16+02:00",
         "matches": [
           {
             "eventId": "",
@@ -5578,7 +5578,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-13T18:01+02:00",
+        "updatedAt": "2026-10-13T23:16+02:00",
         "matches": [
           {
             "eventId": "",
@@ -5752,7 +5752,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-13T18:01+02:00",
+        "updatedAt": "2026-10-13T23:16+02:00",
         "matches": [
           {
             "eventId": "",
@@ -5926,7 +5926,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-13T18:01+02:00",
+        "updatedAt": "2026-10-13T23:16+02:00",
         "matches": [
           {
             "eventId": "",
@@ -6100,7 +6100,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-13T18:01+02:00",
+        "updatedAt": "2026-10-13T23:16+02:00",
         "matches": [
           {
             "eventId": "",
@@ -6274,7 +6274,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-13T18:01+02:00",
+        "updatedAt": "2026-10-13T23:16+02:00",
         "matches": [
           {
             "eventId": "",
@@ -6448,7 +6448,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-13T18:01+02:00",
+        "updatedAt": "2026-10-13T23:16+02:00",
         "matches": [
           {
             "eventId": "",
@@ -6622,7 +6622,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-13T18:01+02:00",
+        "updatedAt": "2026-10-13T23:16+02:00",
         "matches": [
           {
             "eventId": "",
@@ -6796,7 +6796,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-13T18:01+02:00",
+        "updatedAt": "2026-10-13T23:17+02:00",
         "matches": [
           {
             "eventId": "",
@@ -6970,7 +6970,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-13T18:01+02:00",
+        "updatedAt": "2026-10-13T23:17+02:00",
         "matches": [
           {
             "eventId": "",
@@ -7144,7 +7144,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-13T18:01+02:00",
+        "updatedAt": "2026-10-13T23:17+02:00",
         "matches": [
           {
             "eventId": "",
@@ -7318,7 +7318,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-13T18:01+02:00",
+        "updatedAt": "2026-10-13T23:17+02:00",
         "matches": [
           {
             "eventId": "",
@@ -7492,7 +7492,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-13T18:01+02:00",
+        "updatedAt": "2026-10-13T23:17+02:00",
         "matches": [
           {
             "eventId": "",
@@ -7666,7 +7666,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-13T18:01+02:00",
+        "updatedAt": "2026-10-13T23:17+02:00",
         "matches": [
           {
             "eventId": "",
@@ -7840,7 +7840,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-13T18:01+02:00",
+        "updatedAt": "2026-10-13T23:17+02:00",
         "matches": [
           {
             "eventId": "",
@@ -8014,7 +8014,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-13T18:01+02:00",
+        "updatedAt": "2026-10-13T23:17+02:00",
         "matches": [
           {
             "eventId": "",
@@ -8188,7 +8188,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-13T18:01+02:00",
+        "updatedAt": "2026-10-13T23:17+02:00",
         "matches": [
           {
             "eventId": "",
@@ -8362,7 +8362,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-13T18:01+02:00",
+        "updatedAt": "2026-10-13T23:17+02:00",
         "matches": [
           {
             "eventId": "",
@@ -8536,7 +8536,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-13T18:02+02:00",
+        "updatedAt": "2026-10-13T23:17+02:00",
         "matches": [
           {
             "eventId": "",
@@ -8710,7 +8710,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-13T18:02+02:00",
+        "updatedAt": "2026-10-13T23:17+02:00",
         "matches": [
           {
             "eventId": "",
@@ -8884,7 +8884,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-13T18:02+02:00",
+        "updatedAt": "2026-10-13T23:17+02:00",
         "matches": [
           {
             "eventId": "",
@@ -9058,7 +9058,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-13T18:02+02:00",
+        "updatedAt": "2026-10-13T23:17+02:00",
         "matches": [
           {
             "eventId": "",
@@ -9232,7 +9232,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-13T18:02+02:00",
+        "updatedAt": "2026-10-13T23:17+02:00",
         "matches": [
           {
             "eventId": "",
@@ -9406,7 +9406,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-13T18:02+02:00",
+        "updatedAt": "2026-10-13T23:17+02:00",
         "matches": [
           {
             "eventId": "",
@@ -9580,7 +9580,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-13T18:02+02:00",
+        "updatedAt": "2026-10-13T23:17+02:00",
         "matches": [
           {
             "eventId": "",
@@ -9754,7 +9754,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-13T18:02+02:00",
+        "updatedAt": "2026-10-13T23:17+02:00",
         "matches": [
           {
             "eventId": "",
@@ -9930,7 +9930,7 @@
         "total": 18,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-13T18:02+02:00",
+        "updatedAt": "2026-10-13T23:17+02:00",
         "matches": [
           {
             "eventId": "401915452",
@@ -10207,14 +10207,14 @@
       "2": {
         "competition": "Champions",
         "jornada": 2,
-        "phase": "upcoming",
+        "phase": "active",
         "windowStart": "2026-10-12",
         "windowEnd": "2026-10-16",
-        "finished": 0,
+        "finished": 9,
         "total": 18,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-13T18:02+02:00",
+        "updatedAt": "2026-10-13T23:17+02:00",
         "matches": [
           {
             "eventId": "401915418",
@@ -10226,10 +10226,9 @@
             "home": "Lens",
             "away": "Sporting CP",
             "homeScore": 0,
-            "awayScore": 0,
-            "score": "0–0",
-            "status": "scheduled",
-            "liveLabel": null
+            "awayScore": 2,
+            "score": "0–2",
+            "status": "finished"
           },
           {
             "eventId": "401915436",
@@ -10240,11 +10239,10 @@
             "kickoff": "2026-10-13T18:45+02:00",
             "home": "Sabah FK",
             "away": "Slavia Prague",
-            "homeScore": 0,
+            "homeScore": 2,
             "awayScore": 0,
-            "score": "0–0",
-            "status": "scheduled",
-            "liveLabel": null
+            "score": "2–0",
+            "status": "finished"
           },
           {
             "eventId": "401915417",
@@ -10255,11 +10253,10 @@
             "kickoff": "2026-10-13T21:00+02:00",
             "home": "Arsenal",
             "away": "Lille",
-            "homeScore": 0,
+            "homeScore": 3,
             "awayScore": 0,
-            "score": "0–0",
-            "status": "scheduled",
-            "liveLabel": null
+            "score": "3–0",
+            "status": "finished"
           },
           {
             "eventId": "401915412",
@@ -10270,11 +10267,10 @@
             "kickoff": "2026-10-13T21:00+02:00",
             "home": "Atlético Madrid",
             "away": "Manchester United",
-            "homeScore": 0,
+            "homeScore": 2,
             "awayScore": 0,
-            "score": "0–0",
-            "status": "scheduled",
-            "liveLabel": null
+            "score": "2–0",
+            "status": "finished"
           },
           {
             "eventId": "401915435",
@@ -10285,11 +10281,10 @@
             "kickoff": "2026-10-13T21:00+02:00",
             "home": "Galatasaray",
             "away": "Barcelona",
-            "homeScore": 0,
-            "awayScore": 0,
-            "score": "0–0",
-            "status": "scheduled",
-            "liveLabel": null
+            "homeScore": 1,
+            "awayScore": 4,
+            "score": "1–4",
+            "status": "finished"
           },
           {
             "eventId": "401915413",
@@ -10300,11 +10295,10 @@
             "kickoff": "2026-10-13T21:00+02:00",
             "home": "Internazionale",
             "away": "Club Brugge",
-            "homeScore": 0,
-            "awayScore": 0,
-            "score": "0–0",
-            "status": "scheduled",
-            "liveLabel": null
+            "homeScore": 3,
+            "awayScore": 4,
+            "score": "3–4",
+            "status": "finished"
           },
           {
             "eventId": "401915434",
@@ -10315,11 +10309,10 @@
             "kickoff": "2026-10-13T21:00+02:00",
             "home": "RB Leipzig",
             "away": "PSV Eindhoven",
-            "homeScore": 0,
+            "homeScore": 1,
             "awayScore": 0,
-            "score": "0–0",
-            "status": "scheduled",
-            "liveLabel": null
+            "score": "1–0",
+            "status": "finished"
           },
           {
             "eventId": "401915411",
@@ -10330,11 +10323,10 @@
             "kickoff": "2026-10-13T21:00+02:00",
             "home": "Viking FK",
             "away": "Bayern Munich",
-            "homeScore": 0,
-            "awayScore": 0,
-            "score": "0–0",
-            "status": "scheduled",
-            "liveLabel": null
+            "homeScore": 3,
+            "awayScore": 3,
+            "score": "3–3",
+            "status": "finished"
           },
           {
             "eventId": "401915410",
@@ -10345,11 +10337,10 @@
             "kickoff": "2026-10-13T21:00+02:00",
             "home": "Villarreal",
             "away": "Napoli",
-            "homeScore": 0,
-            "awayScore": 0,
-            "score": "0–0",
-            "status": "scheduled",
-            "liveLabel": null
+            "homeScore": 3,
+            "awayScore": 1,
+            "score": "3–1",
+            "status": "finished"
           },
           {
             "eventId": "401915416",
@@ -10498,7 +10489,7 @@
         "total": 18,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-13T18:02+02:00",
+        "updatedAt": "2026-10-13T23:17+02:00",
         "matches": [
           {
             "eventId": "401915403",
@@ -10782,7 +10773,7 @@
         "total": 18,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-13T18:02+02:00",
+        "updatedAt": "2026-10-13T23:17+02:00",
         "matches": [
           {
             "eventId": "401915311",
@@ -11066,7 +11057,7 @@
         "total": 18,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-13T18:02+02:00",
+        "updatedAt": "2026-10-13T23:17+02:00",
         "matches": [
           {
             "eventId": "401915380",
@@ -11350,7 +11341,7 @@
         "total": 18,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-13T18:02+02:00",
+        "updatedAt": "2026-10-13T23:17+02:00",
         "matches": [
           {
             "eventId": "401915290",
@@ -11634,7 +11625,7 @@
         "total": 18,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-13T18:02+02:00",
+        "updatedAt": "2026-10-13T23:17+02:00",
         "matches": [
           {
             "eventId": "401915364",
@@ -11918,7 +11909,7 @@
         "total": 18,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-13T18:02+02:00",
+        "updatedAt": "2026-10-13T23:17+02:00",
         "matches": [
           {
             "eventId": "401915346",
@@ -12195,7 +12186,7 @@
     }
   },
   "jornadasCatalogMeta": {
-    "updatedAt": "2026-10-13T18:02+02:00",
+    "updatedAt": "2026-10-13T23:17+02:00",
     "laligaLoaded": 38,
     "championsLoaded": 8,
     "rebuiltAt": "2026-09-18T21:52+02:00",
