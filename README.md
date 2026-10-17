@@ -1,4 +1,4 @@
-Versión actual de la interfaz: **3.25.0**.
+Versión actual de la interfaz: **3.25.1**.
 
 # Madridista App v3
 
@@ -51,6 +51,8 @@ Los módulos match-detail.js y match-detail.css están incluidos en la caché 3.
 La primera pestaña es Alineaciones, seguida de Resumen y Estadísticas. Los encuentros programados de Liga también permiten abrir la ficha. Se muestran titulares iniciales y suplentes, sin registrar cambios en esta pestaña. Solo se presenta un once cuando la fuente aporta once titulares únicos explícitos; si falta, se indica que todavía no está disponible. No se deduce un once a partir de una convocatoria. Las alineaciones suelen conocerse aproximadamente una hora antes, pero la publicación depende de la fuente. La ficha se revisa cada 60 segundos también antes del inicio mientras esté abierta.
 
 
-## Avisos de alineación — 3.25.0
+## Avisos de alineación — 3.25.1
 
 Web Push con Cloudflare Workers, almacenamiento privado y cron cada dos minutos. push-config.js contiene únicamente la URL pública; las claves privadas son secretos del servicio. Cada móvil necesita conceder el permiso inicial y registrar su suscripción. Activación y límites en docs/NOTIFICACIONES.md. La entrega en un móvil real debe confirmarse por separado.
+
+El registro espera confirmación del receptor actualizado del service worker. Muestra su estado también con permiso ya concedido y recupera el aviso inicial si el receptor no lo recibió, con espera entre reintentos y deduplicación local. La respuesta del servidor distingue un fallo del envío de prueba.

@@ -18,11 +18,12 @@ export default {
       return json({ready:true,publicKey:env.VAPID_PUBLIC_KEY});
     }
     if(path!=='/subscription'||!['POST','DELETE'].includes(request.method)||!request.headers.get('Content-Type')?.startsWith('application/json'))return json({error:'Not found'},404);
-    let sub;try{sub=await readJson(request);}catch{return json({error:'Invalid request'},400);}
+    let payload;try{payload=await readJson(request);}catch{return json({error:'Invalid request'},400);}
+    const sub=payload?.subscription||payload;
     if(!validSubscription(sub))return json({error:'Invalid subscription'},400);
     if(!env.VAPID_PUBLIC_KEY||!env.VAPID_PRIVATE_KEY)return json({error:'Not configured'},503);
     const object=env.LINEUP_NOTICES.get(env.LINEUP_NOTICES.idFromName('madrid'));
-    return object.fetch(new Request('https://internal/subscription',{method:request.method,body:JSON.stringify(sub)}));
+    return object.fetch(new Request('https://internal/subscription',{method:request.method,body:JSON.stringify(payload)}));
   },
   scheduled(event,env,ctx){const object=env.LINEUP_NOTICES.get(env.LINEUP_NOTICES.idFromName('madrid'));ctx.waitUntil(object.fetch('https://internal/check').then(r=>{if(!r.ok)throw Error('Lineup check failed');}));}
 };
@@ -35,20 +36,23 @@ export class LineupNotices {
   async fetch(request){
     const path=new URL(request.url).pathname;
     if(path==='/subscription'){
-      const sub=await request.json(),id='sub:'+await deviceId(sub.endpoint);
+      const payload=await request.json(),sub=payload.subscription||payload,id='sub:'+await deviceId(sub.endpoint);
+      const version=typeof payload.receiverVersion==='string'?payload.receiverVersion.slice(0,20):null;
       return this.ctx.blockConcurrencyWhile(async()=>{
         if(request.method==='DELETE'){await this.ctx.storage.delete(id);return json({ok:true});}
         const existing=await this.ctx.storage.get(id);
         const all=await this.ctx.storage.list({prefix:'sub:'});
         if(!existing&&all.size>=50)return json({error:'Device limit reached'},429);
-        const device={subscription:sub,sent:existing?.sent||{},updatedAt:Date.now(),welcomeSentAt:existing?.welcomeSentAt||null};
+        const device={subscription:sub,sent:existing?.sent||{},updatedAt:Date.now(),welcomeSentAt:existing?.welcomeSentAt||null,welcomeVersion:existing?.welcomeVersion||null};
         await this.ctx.storage.put(id,device);
-        if(!device.welcomeSentAt){
+        const recover=version&&payload.confirmationReceived===false&&(version!==device.welcomeVersion||Date.now()-device.welcomeSentAt>60000);
+        if(payload.confirmationReceived!==true&&(!device.welcomeSentAt||recover)){
           try{
             const result=await this.deliver(sub,{kind:'madrid-ready',matchId:'0',title:'Avisos del Madrid activados',body:'Este móvil ya puede recibir el aviso de la alineación del Real Madrid.',url:APP_URL,expiresAt:Date.now()+10*60000});
-            if(result.ok){device.welcomeSentAt=Date.now();await this.ctx.storage.put(id,device);}
+            if(result.ok){device.welcomeSentAt=Date.now();device.welcomeVersion=version;await this.ctx.storage.put(id,device);}
             else if([404,410].includes(result.status)){await this.ctx.storage.delete(id);return json({error:'Expired subscription'},410);}
-          }catch{/* La suscripción queda guardada; se reintenta al volver a abrir la app. */}
+            else{return json({ok:true,confirmationSent:false});}
+          }catch{return json({ok:true,confirmationSent:false});}
         }
         return json({ok:true,confirmationSent:!!device.welcomeSentAt});
       });

@@ -1,17 +1,24 @@
 /* Recibe avisos incluso cuando la ventana de Madridista está cerrada. */
-function rememberPush(id){
+function rememberPush(id,readOnly=false){
   return new Promise((resolve,reject)=>{
     const open=indexedDB.open('madridista-push',1);
     open.onupgradeneeded=()=>open.result.createObjectStore('seen',{keyPath:'id'});
     open.onerror=()=>reject(open.error);
     open.onsuccess=()=>{
       const db=open.result,tx=db.transaction('seen','readwrite'),store=tx.objectStore('seen');let added=false;
-      const get=store.get(id);get.onsuccess=()=>{if(!get.result){store.add({id,at:Date.now()});added=true;}};
+      const get=store.get(id);get.onsuccess=()=>{if(readOnly){added=!!get.result;}else if(!get.result){store.add({id,at:Date.now()});added=true;}};
       const cursor=store.openCursor();cursor.onsuccess=()=>{const c=cursor.result;if(c){if(c.value.at<Date.now()-45*86400000)c.delete();c.continue();}};
       tx.oncomplete=()=>{db.close();resolve(added);};tx.onerror=()=>{db.close();reject(tx.error);};
     };
   });
 }
+self.addEventListener('message',event=>{
+  if(event.data?.type!=='MADRIDISTA_PUSH_STATUS'||!event.ports?.[0])return;
+  event.waitUntil((async()=>{
+    try{event.ports[0].postMessage({ready:true,version:'3.25.1',confirmationReceived:await rememberPush('madrid-ready:0',true)});}
+    catch{event.ports[0].postMessage({ready:false});}
+  })());
+});
 self.addEventListener('push',event=>{
   event.waitUntil((async()=>{
     let notice;try{notice=event.data?.json();}catch{return;}

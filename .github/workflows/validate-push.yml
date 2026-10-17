@@ -5,6 +5,7 @@ on:
       - 'notifications/**'
       - 'push-*.js'
       - 'test_push_receiver.cjs'
+      - 'test_push_client.cjs'
       - '.github/workflows/validate-push.yml'
   workflow_dispatch:
 permissions:
@@ -23,5 +24,5 @@ jobs:
         working-directory: notifications
       - run: npm test
         working-directory: notifications
-      - run: node --test test_push_receiver.cjs
+      - run: node --test test_push_receiver.cjs test_push_client.cjs
       - run: node --check push-client.js && node --check push-open.js && node --check push-receiver.js && node --check sw.js
