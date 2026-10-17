@@ -31,3 +31,11 @@
 - Resumen por tiempos con goles, tarjetas y sustituciones, y pestaña de estadísticas de equipo.
 - Consulta bajo demanda, actualización cada 60 segundos en directo y estados de carga/error/reintento.
 - Fondo claro, cierre por Escape y navegación por teclado. Champions queda sin cambios.
+
+
+## 3.24.0 — 17 de octubre de 2026
+
+- Alineaciones como primera pestaña: titulares, dorsales, posición, formación y suplentes disponibles.
+- Permite abrir encuentros de Liga antes del inicio y revisa la ficha cada 60 segundos abierta.
+- Informa cuando las alineaciones aún no están publicadas; no muestra convocatorias como onces ni duplica cambios del Resumen.
+- Renovación automática de la página al activar una nueva caché; los recursos versionados se buscan con su URL exacta.
