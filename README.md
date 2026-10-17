@@ -1,4 +1,4 @@
-Versión actual de la interfaz: **3.23.0**.
+Versión actual de la interfaz: **3.24.0**.
 
 # Madridista App v3
 
@@ -39,8 +39,13 @@ El actualizador conserva las 38 jornadas completas ya publicadas si la página o
 - Manifest e iconos versionados; caché 3.22.2. Algunos sistemas renuevan el icono instalado con retraso.
 
 
-## Detalle de LaLiga — 3.23.0
+## Detalle de LaLiga — 3.24.0
 
-En Jornada, los partidos de LaLiga en directo y finalizados permiten abrir un diálogo con Resumen (goles, tarjetas y cambios por tiempos) y Estadísticas de equipo. Consulta bajo demanda el resumen de ESPN, comprueba ambos equipos y resuelve el identificador por marcador diario cuando el catálogo oficial no lo aporta. Mientras permanece abierto se consulta cada 60 segundos; se detiene al cerrar o recibir un final y se pausa en segundo plano. Muestra carga, ausencia de datos y reintento con aviso si conserva una respuesta anterior. Champions no incorpora esta interacción todavía.
+En Jornada, los partidos de LaLiga programados, en directo y finalizados permiten abrir un diálogo con Resumen (goles, tarjetas y cambios por tiempos) y Estadísticas de equipo. Consulta bajo demanda el resumen de ESPN, comprueba ambos equipos y resuelve el identificador por marcador diario cuando el catálogo oficial no lo aporta. Mientras permanece abierto se consulta cada 60 segundos; se detiene al cerrar o recibir un final y se pausa en segundo plano. Muestra carga, ausencia de datos y reintento con aviso si conserva una respuesta anterior. Champions no incorpora esta interacción todavía.
 
-Los módulos match-detail.js y match-detail.css están incluidos en la caché 3.23.0; no modifican marcadores ni datos deportivos persistidos. Diálogo con cierre, Escape, teclado y pestañas accesibles.
+Los módulos match-detail.js y match-detail.css están incluidos en la caché 3.24.0; no modifican marcadores ni datos deportivos persistidos. Diálogo con cierre, Escape, teclado y pestañas accesibles.
+
+
+### Alineaciones antes del inicio — 3.24.0
+
+La primera pestaña es Alineaciones, seguida de Resumen y Estadísticas. Los encuentros programados de Liga también permiten abrir la ficha. Se muestran titulares iniciales y suplentes, sin registrar cambios en esta pestaña. Solo se presenta un once cuando la fuente aporta once titulares únicos explícitos; si falta, se indica que todavía no está disponible. No se deduce un once a partir de una convocatoria. Las alineaciones suelen conocerse aproximadamente una hora antes, pero la publicación depende de la fuente. La ficha se revisa cada 60 segundos también antes del inicio mientras esté abierta.

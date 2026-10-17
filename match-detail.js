@@ -3,6 +3,22 @@
   'use strict';
   const escape=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const stats=[['possessionPct','Posesión','%'],['totalShots','Tiros',''],['shotsOnTarget','Tiros a puerta',''],['wonCorners','Córners',''],['foulsCommitted','Faltas',''],['yellowCards','Tarjetas amarillas',''],['redCards','Tarjetas rojas',''],['offsides','Fueras de juego',''],['saves','Paradas',''],['totalPasses','Pases','']];
+  function lineups(payload,home,away){
+    return [home,away].map(team=>{
+      const roster=(payload.rosters||[]).find(r=>String(r.team?.id)===String(team.id));
+      const seen=new Set();
+      const players=(roster?.roster||[]).filter(p=>{const key=p.athlete?.id||p.athlete?.displayName;if(!key||seen.has(key))return false;seen.add(key);return true;}).map(p=>({name:p.athlete?.displayName||p.athlete?.fullName||'',number:p.jersey||'',starter:p.starter,order:Number(p.formationPlace)||99,position:({G:'Portero',GK:'Portero',D:'Defensa',M:'Centrocampista',F:'Delantero'})[p.position?.abbreviation]||''}));
+      const starters=players.filter(p=>p.starter===true).sort((a,b)=>a.order-b.order);
+      return {team:team.team.displayName,confirmed:starters.length===11,formation:roster?.formation||'',starters,bench:players.filter(p=>p.starter===false)};
+    });
+  }
+  function lineupHtml(teams){
+    return '<p class="lineup-note">Las alineaciones suelen publicarse aproximadamente una hora antes del inicio. Se mostrarán cuando estén disponibles en la fuente.</p><div class="lineup-teams">'+teams.map(t=>{
+      if(!t.confirmed)return `<section class="lineup-team"><h3>${escape(t.team)}</h3><p class="detail-empty">Alineación todavía no disponible.</p></section>`;
+      const list=players=>'<ul class="lineup-list">'+players.map(p=>`<li><span class="lineup-number">${escape(p.number||'—')}</span><span>${escape(p.name)}${p.position?`<small>${escape(p.position)}</small>`:''}</span></li>`).join('')+'</ul>';
+      return `<section class="lineup-team"><h3>${escape(t.team)}</h3>${t.formation?`<p class="lineup-formation">Formación: ${escape(t.formation)}</p>`:''}<h4>Titulares</h4>${list(t.starters)}<h4>Suplentes</h4>${t.bench.length?list(t.bench):'<p class="detail-empty">Suplentes no disponibles.</p>'}</section>`;
+    }).join('')+'</div>';
+  }
   function parse(payload,match,same){
     const game=payload.header?.competitions?.[0];
     const home=game?.competitors?.find(c=>c.homeAway==='home'),away=game?.competitors?.find(c=>c.homeAway==='away');
@@ -24,7 +40,7 @@
     const boxes=payload.boxscore?.teams||[];
     const values=team=>Object.fromEntries((boxes.find(b=>String(b.team?.id)===String(team.id))?.statistics||[]).map(s=>[s.name,s.displayValue]));
     const hs=values(home),as=values(away);
-    return {home,away,live:state.state==='in',finished:!!state.completed,status:state.state==='in'?(state.shortDetail==='HT'?'Descanso':state.shortDetail||'En juego'):state.completed?'Finalizado':'Pendiente de inicio',events,stats:stats.filter(([key])=>hs[key]!=null||as[key]!=null).map(([key,label,suffix])=>({label,home:hs[key]==null?'—':String(hs[key])+(suffix&&!String(hs[key]).includes(suffix)?suffix:''),away:as[key]==null?'—':String(as[key])+(suffix&&!String(as[key]).includes(suffix)?suffix:'')}))};
+    return {home,away,lineups:lineups(payload,home,away),live:state.state==='in',finished:!!state.completed,status:state.state==='in'?(state.shortDetail==='HT'?'Descanso':state.shortDetail||'En juego'):state.completed?'Finalizado':'Pendiente de inicio',events,stats:stats.filter(([key])=>hs[key]!=null||as[key]!=null).map(([key,label,suffix])=>({label,home:hs[key]==null?'—':String(hs[key])+(suffix&&!String(hs[key]).includes(suffix)?suffix:''),away:as[key]==null?'—':String(as[key])+(suffix&&!String(as[key]).includes(suffix)?suffix:'')}))};
   }
   function timeline(data){
     if(!data.events.length)return '<p class="detail-empty">'+(data.finished?'La fuente no ofrece incidencias de este partido.':data.live?'Todavía no hay incidencias disponibles.':'El resumen estará disponible cuando comience el partido.')+'</p>';
@@ -40,15 +56,16 @@
     }
     return out;
   }
-  if(typeof module!=='undefined'&&module.exports)module.exports={parse,timeline};
+  if(typeof module!=='undefined'&&module.exports)module.exports={parse,timeline,lineupHtml};
   if(typeof document==='undefined')return;
-  let selected=null,timer=null,controller=null,token=0,busy=false,tab='summary';
+  let selected=null,timer=null,controller=null,token=0,busy=false,tab='lineups';
   const dialog=document.createElement('dialog');dialog.className='match-detail';dialog.setAttribute('aria-labelledby','matchDetailTitle');
-  dialog.innerHTML='<div class="detail-top"><h2 id="matchDetailTitle">Detalle del partido</h2><button type="button" class="detail-close" aria-label="Cerrar detalle">✕</button></div><div id="detailHeading"></div><div class="detail-tabs" role="tablist" aria-label="Detalle del partido"><button type="button" id="detailSummaryTab" role="tab" aria-controls="detailSummary" aria-selected="true">Resumen</button><button type="button" id="detailStatsTab" role="tab" aria-controls="detailStats" aria-selected="false" tabindex="-1">Estadísticas</button></div><p id="detailStatus" role="status" aria-live="polite"></p><button type="button" id="detailRetry" hidden>Volver a intentar</button><div id="detailSummary" role="tabpanel" aria-labelledby="detailSummaryTab"></div><div id="detailStats" role="tabpanel" aria-labelledby="detailStatsTab" hidden></div><p class="detail-source">Datos de ESPN · Durante el directo se revisan cada 60 segundos.</p>';
+  dialog.innerHTML='<div class="detail-top"><h2 id="matchDetailTitle">Detalle del partido</h2><button type="button" class="detail-close" aria-label="Cerrar detalle">✕</button></div><div id="detailHeading"></div><div class="detail-tabs" role="tablist" aria-label="Detalle del partido"><button type="button" id="detailLineupsTab" role="tab" aria-controls="detailLineups" aria-selected="true">Alineaciones</button><button type="button" id="detailSummaryTab" role="tab" aria-controls="detailSummary" aria-selected="false" tabindex="-1">Resumen</button><button type="button" id="detailStatsTab" role="tab" aria-controls="detailStats" aria-selected="false" tabindex="-1">Estadísticas</button></div><p id="detailStatus" role="status" aria-live="polite"></p><button type="button" id="detailRetry" hidden>Volver a intentar</button><div id="detailLineups" role="tabpanel" aria-labelledby="detailLineupsTab"></div><div id="detailSummary" hidden role="tabpanel" aria-labelledby="detailSummaryTab"></div><div id="detailStats" role="tabpanel" aria-labelledby="detailStatsTab" hidden></div><p class="detail-source">Datos de ESPN · Antes del inicio y durante el directo se revisan cada 60 segundos.</p>';
   document.body.append(dialog);
   const el=id=>dialog.querySelector('#'+id);
-  function choose(value){tab=value;for(const [name,id] of [['summary','Summary'],['stats','Stats']]){el('detail'+id).hidden=name!==tab;el('detail'+id+'Tab').setAttribute('aria-selected',String(name===tab));el('detail'+id+'Tab').tabIndex=name===tab?0:-1;}}
-  for(const [name,id] of [['summary','Summary'],['stats','Stats']]){el('detail'+id+'Tab').onclick=()=>choose(name);el('detail'+id+'Tab').onkeydown=e=>{if(['ArrowLeft','ArrowRight','Home','End'].includes(e.key)){e.preventDefault();const next=e.key==='Home'?'summary':e.key==='End'?'stats':tab==='summary'?'stats':'summary';choose(next);el('detail'+(next==='summary'?'Summary':'Stats')+'Tab').focus();}};}
+  const tabs=[['lineups','Lineups'],['summary','Summary'],['stats','Stats']];
+  function choose(value){tab=value;for(const [name,id] of tabs){el('detail'+id).hidden=name!==tab;el('detail'+id+'Tab').setAttribute('aria-selected',String(name===tab));el('detail'+id+'Tab').tabIndex=name===tab?0:-1;}}
+  for(const [name,id] of tabs){el('detail'+id+'Tab').onclick=()=>choose(name);el('detail'+id+'Tab').onkeydown=e=>{if(['ArrowLeft','ArrowRight','Home','End'].includes(e.key)){e.preventDefault();const index=tabs.findIndex(t=>t[0]===tab),next=e.key==='Home'?0:e.key==='End'?2:(index+(e.key==='ArrowRight'?1:2))%3;choose(tabs[next][0]);el('detail'+tabs[next][1]+'Tab').focus();}};}
   function stop(){clearInterval(timer);timer=null;controller?.abort();controller=null;selected=null;token++;busy=false;document.body.classList.remove('detail-open');}
   dialog.querySelector('.detail-close').onclick=()=>dialog.close();dialog.addEventListener('close',stop);
   dialog.addEventListener('click',e=>{if(e.target===dialog){const r=dialog.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)dialog.close();}});
@@ -67,9 +84,10 @@
       const payload=await request(`https://site.api.espn.com/apis/site/v2/sports/soccer/esp.1/summary?event=${encodeURIComponent(match.eventId)}`,signal);
       if(current!==token||!dialog.open)return;
       const data=parse(payload,match,root.directSame);
-      const score=t=>t.score==null?'—':String(t.score);
+      const score=t=>!data.live&&!data.finished?'—':t.score==null?'—':String(t.score);
       el('detailHeading').innerHTML=`<div class="detail-score"><b>${escape(match.home)}</b><strong>${escape(score(data.home))} – ${escape(score(data.away))}</strong><b>${escape(match.away)}</b></div><p class="detail-state ${data.live?'live':''}">${data.live?'🔴 ':''}${escape(data.status)}</p>`;
       el('detailSummary').innerHTML=timeline(data);
+      el('detailLineups').innerHTML=lineupHtml(data.lineups);
       el('detailStats').innerHTML=data.stats.length?`<table class="detail-stat-table"><caption>Estadísticas del partido</caption><thead><tr><th scope="col">${escape(match.home)}</th><th scope="col">Dato</th><th scope="col">${escape(match.away)}</th></tr></thead><tbody>${data.stats.map(s=>`<tr><td>${escape(s.home)}</td><th scope="row">${s.label}</th><td>${escape(s.away)}</td></tr>`).join('')}</tbody></table>`:'<p class="detail-empty">Estadísticas todavía no disponibles en la fuente.</p>';
       el('detailStatus').textContent='Actualizado a las '+new Intl.DateTimeFormat('es-ES',{hour:'2-digit',minute:'2-digit',second:'2-digit',timeZone:'Europe/Madrid'}).format(new Date());
       if(data.finished){clearInterval(timer);timer=null;}
@@ -78,5 +96,5 @@
   }
   el('detailRetry').onclick=refresh;
   document.addEventListener('visibilitychange',()=>{if(!document.hidden&&dialog.open)refresh();});
-  root.openLigaMatchDetail=match=>{if(match.competition!=='LaLiga'||!['live','finished'].includes(match.status))return;stop();selected={...match};tab='summary';choose(tab);el('matchDetailTitle').textContent='LaLiga · Resumen del partido';el('detailHeading').innerHTML=`<div class="detail-score"><b>${escape(match.home)}</b><strong>${escape(match.score||'—')}</strong><b>${escape(match.away)}</b></div>`;el('detailSummary').innerHTML='';el('detailStats').innerHTML='';el('detailStatus').textContent='Cargando detalle…';el('detailRetry').hidden=true;if(!dialog.open)dialog.showModal();document.body.classList.add('detail-open');timer=setInterval(refresh,60000);refresh();};
+  root.openLigaMatchDetail=match=>{if(match.competition!=='LaLiga'||!['scheduled','live','finished'].includes(match.status))return;stop();selected={...match};tab='lineups';choose(tab);el('matchDetailTitle').textContent='LaLiga · Detalle del partido';el('detailHeading').innerHTML=`<div class="detail-score"><b>${escape(match.home)}</b><strong>${escape(match.score||'—')}</strong><b>${escape(match.away)}</b></div>`;el('detailLineups').innerHTML='';el('detailSummary').innerHTML='';el('detailStats').innerHTML='';el('detailStatus').textContent='Cargando detalle…';el('detailRetry').hidden=true;if(!dialog.open)dialog.showModal();document.body.classList.add('detail-open');timer=setInterval(refresh,60000);refresh();};
 })(typeof window==='undefined'?globalThis:window);

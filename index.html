@@ -4,14 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#0b1f3a">
-<link rel="manifest" href="manifest.webmanifest?v=3.23.0">
-<link rel="apple-touch-icon" href="crest-192.png?v=3.23.0">
+<link rel="manifest" href="manifest.webmanifest?v=3.24.0">
+<link rel="apple-touch-icon" href="crest-192.png?v=3.24.0">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
-<link rel="icon" type="image/png" href="crest-192.png?v=3.23.0">
+<link rel="icon" type="image/png" href="crest-192.png?v=3.24.0">
 <title>Madridista</title>
-<meta name="madridista-version" content="3.23.0">
+<meta name="madridista-version" content="3.24.0">
 <style>
 :root{--bg:#f4f6fb;--card:#fff;--navy:#0b1f3a;--blue:#244f94;--gold:#d7b34c;--text:#1d2530;--muted:#6d7787;--line:#e3e8f0;--champ:#eef3ff;--done:#f7f8fa;--danger:#fff0f0;--green:#eaf7ef}
 *{box-sizing:border-box} html{background:var(--bg)} body{margin:0;font-family:Arial,Helvetica,sans-serif;background:radial-gradient(circle at 90% -10%,rgba(36,79,148,.16),transparent 25%),var(--bg);color:var(--text)} button{font:inherit}
@@ -78,11 +78,11 @@
 .history-goals-pending{border-top:1px solid var(--line);padding-top:10px}.goal-minute,.goal-label{color:var(--muted);white-space:nowrap}
 @media(max-width:420px){.history-stat b{font-size:17px}.history-stat small{font-size:9px}.history-match{padding:12px 10px}.history-team{font-size:12px}.history-score{font-size:19px}.scorer-heading{flex-wrap:wrap}}
 </style>
-<link rel="stylesheet" href="match-detail.css?v=3.23.0">
+<link rel="stylesheet" href="match-detail.css?v=3.24.0">
 </head>
 <body>
 <div class="refresh-msg" id="refreshMsg">Datos actualizados</div><div class="app">
-<header class="topbar"><div class="brand"><img class="crest" src="crest-192.png?v=3.23.0" alt="Escudo del Real Madrid" width="48" height="48"><div>Madridista<span class="app-version">Versión 3.23.0</span></div></div><div class="updated-wrap"><div class="updated" id="updated">Cargando…</div><button class="refresh-btn" id="refreshBtn" title="Forzar actualización de datos" aria-label="Actualizar datos"><span>↻</span></button></div></header>
+<header class="topbar"><div class="brand"><img class="crest" src="crest-192.png?v=3.24.0" alt="Escudo del Real Madrid" width="48" height="48"><div>Madridista<span class="app-version">Versión 3.24.0</span></div></div><div class="updated-wrap"><div class="updated" id="updated">Cargando…</div><button class="refresh-btn" id="refreshBtn" title="Forzar actualización de datos" aria-label="Actualizar datos"><span>↻</span></button></div></header>
 <main class="content">
 <section id="calendarView" class="view active">
   <div class="hero"><div class="kicker">Temporada <span id="season"></span></div><div class="next-title" id="nextTitle">Próximo partido</div><div class="next-match" id="nextMatch"></div><div class="meta" id="nextMeta"></div><div class="hero-tv" id="nextTv"></div></div>
@@ -754,7 +754,7 @@ function renderJornada(data){
   const normal=(data.matches||[]).filter(x=>x.status!=='postponed'),finished=normal.filter(x=>x.status==='finished').length,live=normal.filter(x=>x.status==='live').length,post=(data.matches||[]).filter(x=>x.status==='postponed').length;
   sum.innerHTML=`<span class="jornada-pill ${live?'live':finished===normal.length&&normal.length?'done':'pending'}">${live?`🔴 ${live} en juego`:`${finished}/${normal.length||0} finalizados`}</span>${post?`<span class="jornada-pill">${post} aplazado${post===1?'':'s'}</span>`:''}`;
   if(!data.matches?.length){box.innerHTML='<div class="jornada-empty">No se han encontrado partidos para esta jornada.</div>';return;}
-  box.innerHTML=data.matches.map((m,index)=>{const detail=data.competition==='LaLiga'&&['live','finished'].includes(m.status);const rm=directSame(m.home,'Real Madrid')||directSame(m.away,'Real Madrid');return `<div ${detail?`role="button" tabindex="0" data-match-index="${index}" aria-label="Ver resumen y estadísticas: ${escapeResults(m.home)} contra ${escapeResults(m.away)}"`:""} class="jornada-row ${detail?'detail-link ':''}${rm?'rm ':''}${m.status==='live'?'live ':''}${m.status==='postponed'?'postponed':''}"><div class="jornada-when"><b>${jornadaDateText(m)}</b><span>${validKickoffTime(m.time)?m.time:'Hora por confirmar'}</span></div><div class="jornada-teams"><div class="jornada-team ${directSame(m.home,'Real Madrid')?'rmteam':''}"><span class="home-away">L</span>${directSame(m.home,'Real Madrid')?'👑 ':''}${displayTeamName(m.home)}</div><div class="jornada-team ${directSame(m.away,'Real Madrid')?'rmteam':''}"><span class="home-away">V</span>${directSame(m.away,'Real Madrid')?'👑 ':''}${displayTeamName(m.away)}</div></div><div class="jornada-result">${jornadaResultHtml(m)}${detail?'<span class="detail-hint">Ver detalle ›</span>':''}</div></div>`}).join('');
+  box.innerHTML=data.matches.map((m,index)=>{const detail=data.competition==='LaLiga'&&['scheduled','live','finished'].includes(m.status);const rm=directSame(m.home,'Real Madrid')||directSame(m.away,'Real Madrid');return `<div ${detail?`role="button" tabindex="0" data-match-index="${index}" aria-label="Ver alineaciones, resumen y estadísticas: ${escapeResults(m.home)} contra ${escapeResults(m.away)}"`:""} class="jornada-row ${detail?'detail-link ':''}${rm?'rm ':''}${m.status==='live'?'live ':''}${m.status==='postponed'?'postponed':''}"><div class="jornada-when"><b>${jornadaDateText(m)}</b><span>${validKickoffTime(m.time)?m.time:'Hora por confirmar'}</span></div><div class="jornada-teams"><div class="jornada-team ${directSame(m.home,'Real Madrid')?'rmteam':''}"><span class="home-away">L</span>${directSame(m.home,'Real Madrid')?'👑 ':''}${displayTeamName(m.home)}</div><div class="jornada-team ${directSame(m.away,'Real Madrid')?'rmteam':''}"><span class="home-away">V</span>${directSame(m.away,'Real Madrid')?'👑 ':''}${displayTeamName(m.away)}</div></div><div class="jornada-result">${jornadaResultHtml(m)}${detail?'<span class="detail-hint">Ver detalle ›</span>':''}</div></div>`}).join('');
 }
 function renderJornadaStatic(){
   if(!document.getElementById('jornadaView'))return;
@@ -873,6 +873,7 @@ function startBrowserLive(){
 }
 function activateFilter(container,btn){container.querySelectorAll('.filter').forEach(x=>x.classList.remove('active'));btn.classList.add('active')}
 document.querySelectorAll('[data-filter]').forEach(b=>b.onclick=()=>{activateFilter(document.getElementById('calendarFilters'),b);currentFilter=b.dataset.filter;renderFixtures()});document.querySelectorAll('[data-rfilter]').forEach(b=>b.onclick=()=>{activateFilter(document.getElementById('resultFilters'),b);resultFilter=b.dataset.rfilter;renderResults()});document.querySelectorAll('[data-sfilter]').forEach(b=>b.onclick=()=>{activateFilter(document.getElementById('standingFilters'),b);standingFilter=b.dataset.sfilter;renderStandings()});document.querySelectorAll('[data-jfilter]').forEach(b=>b.onclick=()=>setJornadaCompetition(b.dataset.jfilter));document.getElementById('jornadaPrev')?.addEventListener('click',()=>moveJornada(-1));document.getElementById('jornadaNext')?.addEventListener('click',()=>moveJornada(1));document.getElementById('jornadaSelect')?.addEventListener('change',e=>setJornadaNumber(Number(e.target.value),true));document.querySelectorAll('.navbtn').forEach(b=>b.onclick=()=>{document.querySelectorAll('.navbtn').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.view').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.getElementById(b.dataset.view).classList.add('active');if(b.dataset.view==='jornadaView')refreshJornadaDirect(false,jornadaCompetition,jornadaSelectedNumber(jornadaCompetition||chooseInitialJornadaCompetition()));window.scrollTo({top:0,behavior:'smooth'})});
+if('serviceWorker' in navigator&&navigator.serviceWorker.controller){let reloadingForUpdate=false;navigator.serviceWorker.addEventListener('controllerchange',()=>{if(!reloadingForUpdate){reloadingForUpdate=true;location.reload();}});}
 if('serviceWorker' in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).catch(()=>{});
 async function manualRefreshAll(){
   const btn=document.getElementById('refreshBtn');if(btn)btn.classList.add('loading');
@@ -889,5 +890,5 @@ document.getElementById('jornadaMatches').addEventListener('click',e=>{const row
 document.getElementById('jornadaMatches').addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&e.target.matches('[data-match-index]')){e.preventDefault();e.target.click();}});
 document.getElementById('refreshBtn')?.addEventListener('click',manualRefreshAll);loadData().then(()=>startBrowserLive());
 </script>
-<script src="match-detail.js?v=3.23.0"></script>
+<script src="match-detail.js?v=3.24.0"></script>
 </body></html>
