@@ -1,0 +1,32 @@
+# Avisos de alineación del Real Madrid — preparación 3.25.0
+
+Estado: integración preparada y comprobada localmente, sin servicio desplegado ni avisos activos. La app publicada continúa en 3.24.1 hasta completar la configuración.
+
+## Funcionamiento
+
+- Solo LaLiga y el Real Madrid en esta primera entrega. Champions queda pendiente.
+- Un servicio de Cloudflare Workers revisa cada dos minutos el calendario publicado. Solo consulta fichas de partidos con horario confirmado que comienzan en las dos horas siguientes.
+- Resuelve la ficha por fecha, hora, localía y equipo 86. No usa identificadores históricos sin contrastarlos. Rechaza encuentros iniciados, finalizados o reprogramados respecto del calendario.
+- Envía cuando el Madrid tiene once jugadores únicos señalados explícitamente como titulares. No equivale a una convocatoria ni garantiza que la fuente publique exactamente una hora antes.
+- Web Push cifra el mensaje. Las claves privadas VAPID se guardan como secretos del servicio. Las suscripciones y el registro de avisos permanecen en almacenamiento privado de un Durable Object SQLite; no se guardan en el repositorio ni en el JSON público.
+- Un dispositivo registrado recibe siempre los avisos, sin interruptor en la app. El primer permiso requiere pulsación y confirmación del navegador; ningún sitio puede concedérselo por el usuario.
+- El receptor usa IndexedDB y un tag por partido para no repetir un aviso reenviado. No se promete entrega infalible: red, permisos y sistema operativo pueden impedirla. El TTL termina al inicio, evitando avisos antiguos al reconectar.
+- Al tocar el aviso se abre la alineación del partido en Jornada. Al finalizar se detiene el seguimiento del servicio para ese encuentro. La app puede permanecer cerrada y el ordenador apagado.
+
+## Activación pendiente
+
+1. Crear una cuenta de Cloudflare y completar personalmente sus condiciones y verificaciones.
+2. Desde `notifications/`, instalar con `npm ci` y autorizar Wrangler en esa cuenta. Usar Workers Free con Durable Objects SQLite; no activar un plan de pago para esta integración.
+3. Generar el par VAPID mediante `web-push`. Introducir `VAPID_PUBLIC_KEY` y `VAPID_PRIVATE_KEY` como secretos con `wrangler secret put`, sin escribirlos en archivos públicos ni en mensajes. La clave pública se sirve por `/config`; la privada nunca sale del servicio.
+4. Ejecutar `wrangler deploy`, comprobar el Worker y su cron, y poner su URL HTTPS en `push-config.js`. La URL no es un secreto. No configurar la URL antes de verificar el servicio.
+5. Revisar/publicar la app 3.25.0 con esos recursos, abrirla en el móvil y aceptar el permiso. Confirmar registro y comprobar la recepción real con la app cerrada antes de dar la función por terminada.
+
+La cuenta, la autorización y el permiso físico del móvil todavía faltan. No se han generado claves privadas ni se ha solicitado acceso a una cuenta en esta preparación.
+
+## Verificaciones
+
+`cd notifications && npm test` comprueba horario Madrid y horario de invierno, exclusión de Champions/históricos, onces completos, identidad de ficha, endpoints push, cifrado, deduplicación persistente y borrado de endpoints 410. `node --test test_push_receiver.cjs`, desde la raíz, comprueba filtrado y deduplicación del receptor con almacenamiento simulado. `wrangler deploy --dry-run` valida el paquete sin desplegar.
+
+El servicio limita a 50 dispositivos, acepta registros desde el origen de la app, valida servidores push conocidos y limita el tamaño de las peticiones. No expone un listado de suscripciones ni un endpoint público para disparar avisos. Una respuesta 503/429 se reintenta en otro ciclo; una 404/410 elimina la suscripción. Una entrega de red incierta puede reenviarse; el receptor la filtra por partido.
+
+Fuentes técnicas: [Web Push](https://web.dev/articles/push-notifications-overview), [web-push](https://github.com/web-push-libs/web-push), [Workers Free y Durable Objects SQLite](https://developers.cloudflare.com/workers/platform/pricing/).

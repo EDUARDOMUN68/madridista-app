@@ -23,3 +23,8 @@ Los módulos match-detail.js y match-detail.css están incluidos en la caché 3.
 La primera pestaña es Alineaciones, seguida de Resumen y Estadísticas. Los encuentros programados de Liga también permiten abrir la ficha. Se muestran titulares iniciales y suplentes, sin registrar cambios en esta pestaña. Solo se presenta un once cuando la fuente aporta once titulares únicos explícitos; si falta, se indica que todavía no está disponible. No se deduce un once a partir de una convocatoria. Las alineaciones suelen conocerse aproximadamente una hora antes, pero la publicación depende de la fuente. La ficha se revisa cada 60 segundos también antes del inicio mientras esté abierta.
 
 La versión 3.24.1 incorpora acentos azul, lavanda, verde y dorado en Alineaciones; cambio exclusivamente visual.
+
+
+## Avisos de alineación — preparación 3.25.0
+
+Integración Web Push preparada en notifications/ con Cloudflare Workers, almacenamiento privado y cron cada dos minutos. El servicio aún no está desplegado; push-config.js no contiene una URL y los avisos permanecen inactivos. Activación y límites en docs/NOTIFICACIONES.md. La app publicada continúa en 3.24.1 hasta configurar y verificar servicio y móvil.

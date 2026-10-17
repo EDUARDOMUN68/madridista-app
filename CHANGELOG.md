@@ -44,3 +44,10 @@
 ## 3.24.1 — 17 de octubre de 2026
 
 - Alineaciones con cabeceras azul y lavanda, formación dorada, titulares en verde suave y suplentes en ámbar. Dorsales destacados y filas alternas, conservando fondos claros y texto oscuro.
+
+
+## 3.25.0 — en preparación, sin publicar
+
+- Servicio Web Push para avisar del once del Real Madrid en LaLiga antes del inicio.
+- Permiso inicial del móvil, registro privado, recepción con ventana cerrada y apertura de Alineaciones.
+- Pendiente cuenta/despliegue Cloudflare, claves del servicio, configuración pública y verificación real en móvil. Los avisos no están activos.

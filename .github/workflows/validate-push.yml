@@ -1,0 +1,27 @@
+name: Validar avisos de alineación
+on:
+  pull_request:
+    paths:
+      - 'notifications/**'
+      - 'push-*.js'
+      - 'test_push_receiver.cjs'
+      - '.github/workflows/validate-push.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: notifications/package-lock.json
+      - run: npm ci --ignore-scripts --no-audit --no-fund
+        working-directory: notifications
+      - run: npm test
+        working-directory: notifications
+      - run: node --test test_push_receiver.cjs
+      - run: node --check push-client.js && node --check push-open.js && node --check push-receiver.js && node --check sw.js
