@@ -39,3 +39,8 @@
 - Permite abrir encuentros de Liga antes del inicio y revisa la ficha cada 60 segundos abierta.
 - Informa cuando las alineaciones aún no están publicadas; no muestra convocatorias como onces ni duplica cambios del Resumen.
 - Renovación automática de la página al activar una nueva caché; los recursos versionados se buscan con su URL exacta.
+
+
+## 3.24.1 — 17 de octubre de 2026
+
+- Alineaciones con cabeceras azul y lavanda, formación dorada, titulares en verde suave y suplentes en ámbar. Dorsales destacados y filas alternas, conservando fondos claros y texto oscuro.
