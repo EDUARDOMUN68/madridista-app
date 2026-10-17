@@ -1,6 +1,6 @@
-# Avisos de alineación del Real Madrid — preparación 3.25.0
+# Avisos de alineación del Real Madrid — 3.25.0
 
-Estado: integración preparada y comprobada localmente, sin servicio desplegado ni avisos activos. La app publicada continúa en 3.24.1 hasta completar la configuración.
+Servicio desplegado y configurado con cron cada dos minutos. La app registra el dispositivo después del permiso inicial; la entrega real en el móvil requiere comprobación adicional.
 
 ## Funcionamiento
 
@@ -13,7 +13,7 @@ Estado: integración preparada y comprobada localmente, sin servicio desplegado 
 - El receptor usa IndexedDB y un tag por partido para no repetir un aviso reenviado. No se promete entrega infalible: red, permisos y sistema operativo pueden impedirla. El TTL termina al inicio, evitando avisos antiguos al reconectar.
 - Al tocar el aviso se abre la alineación del partido en Jornada. Al finalizar se detiene el seguimiento del servicio para ese encuentro. La app puede permanecer cerrada y el ordenador apagado.
 
-## Activación pendiente
+## Configuración y activación
 
 1. Crear una cuenta de Cloudflare y completar personalmente sus condiciones y verificaciones.
 2. Desde `notifications/`, instalar con `npm ci` y autorizar Wrangler en esa cuenta. Usar Workers Free con Durable Objects SQLite; no activar un plan de pago para esta integración.
@@ -21,7 +21,7 @@ Estado: integración preparada y comprobada localmente, sin servicio desplegado 
 4. Ejecutar `wrangler deploy`, comprobar el Worker y su cron, y poner su URL HTTPS en `push-config.js`. La URL no es un secreto. No configurar la URL antes de verificar el servicio.
 5. Revisar/publicar la app 3.25.0 con esos recursos, abrirla en el móvil y aceptar el permiso. Confirmar registro y comprobar la recepción real con la app cerrada antes de dar la función por terminada.
 
-La cuenta, la autorización y el permiso físico del móvil todavía faltan. No se han generado claves privadas ni se ha solicitado acceso a una cuenta en esta preparación.
+La cuenta y la autorización de despliegue están configuradas. Las claves VAPID se guardan como secretos del Worker. Falta el permiso y la comprobación física de recepción en el móvil del usuario.
 
 ## Verificaciones
 
@@ -30,3 +30,5 @@ La cuenta, la autorización y el permiso físico del móvil todavía faltan. No 
 El servicio limita a 50 dispositivos, acepta registros desde el origen de la app, valida servidores push conocidos y limita el tamaño de las peticiones. No expone un listado de suscripciones ni un endpoint público para disparar avisos. Una respuesta 503/429 se reintenta en otro ciclo; una 404/410 elimina la suscripción. Una entrega de red incierta puede reenviarse; el receptor la filtra por partido.
 
 Fuentes técnicas: [Web Push](https://web.dev/articles/push-notifications-overview), [web-push](https://github.com/web-push-libs/web-push), [Workers Free y Durable Objects SQLite](https://developers.cloudflare.com/workers/platform/pricing/).
+
+Al registrar un móvil nuevo, el servicio envía un único aviso de confirmación «Avisos del Madrid activados». También se filtran reenvíos de esta confirmación. El permiso y la recepción física deben confirmarse en el dispositivo; una respuesta satisfactoria del servidor push no acredita por sí sola que Android haya mostrado el aviso.

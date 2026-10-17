@@ -28,6 +28,10 @@ export default {
 };
 export class LineupNotices {
   constructor(ctx,env){this.ctx=ctx;this.env=env;this.running=null;}
+  async deliver(subscription,notice){
+    const details=webpush.generateRequestDetails(subscription,JSON.stringify(notice),{TTL:Math.max(1,Math.floor((notice.expiresAt-Date.now())/1000)),urgency:'high',topic:notice.kind==='madrid-ready'?'madrid-ready':'madrid-lineup-'+notice.matchId,vapidDetails:{subject:APP_URL,publicKey:this.env.VAPID_PUBLIC_KEY,privateKey:this.env.VAPID_PRIVATE_KEY}});
+    return fetch(details.endpoint,{method:details.method,headers:details.headers,body:details.body,signal:AbortSignal.timeout(12000),redirect:'error'});
+  }
   async fetch(request){
     const path=new URL(request.url).pathname;
     if(path==='/subscription'){
@@ -37,7 +41,16 @@ export class LineupNotices {
         const existing=await this.ctx.storage.get(id);
         const all=await this.ctx.storage.list({prefix:'sub:'});
         if(!existing&&all.size>=50)return json({error:'Device limit reached'},429);
-        await this.ctx.storage.put(id,{subscription:sub,sent:existing?.sent||{},updatedAt:Date.now()});return json({ok:true});
+        const device={subscription:sub,sent:existing?.sent||{},updatedAt:Date.now(),welcomeSentAt:existing?.welcomeSentAt||null};
+        await this.ctx.storage.put(id,device);
+        if(!device.welcomeSentAt){
+          try{
+            const result=await this.deliver(sub,{kind:'madrid-ready',matchId:'0',title:'Avisos del Madrid activados',body:'Este móvil ya puede recibir el aviso de la alineación del Real Madrid.',url:APP_URL,expiresAt:Date.now()+10*60000});
+            if(result.ok){device.welcomeSentAt=Date.now();await this.ctx.storage.put(id,device);}
+            else if([404,410].includes(result.status)){await this.ctx.storage.delete(id);return json({error:'Expired subscription'},410);}
+          }catch{/* La suscripción queda guardada; se reintenta al volver a abrir la app. */}
+        }
+        return json({ok:true,confirmationSent:!!device.welcomeSentAt});
       });
     }
     if(path==='/check'){
@@ -58,8 +71,7 @@ export class LineupNotices {
       for(const [key,device] of devices){
         if(device.sent[id])continue;
         try{
-          const details=webpush.generateRequestDetails(device.subscription,JSON.stringify(notice),{TTL:Math.max(1,Math.floor((notice.expiresAt-Date.now())/1000)),urgency:'high',topic:'madrid-lineup-'+id,vapidDetails:{subject:APP_URL,publicKey:this.env.VAPID_PUBLIC_KEY,privateKey:this.env.VAPID_PRIVATE_KEY}});
-          const response=await fetch(details.endpoint,{method:details.method,headers:details.headers,body:details.body,signal:AbortSignal.timeout(12000),redirect:'error'});
+          const response=await this.deliver(device.subscription,notice);
           if([404,410].includes(response.status)){await this.ctx.storage.delete(key);continue;}
           if(!response.ok)continue;
           // Conservar los últimos avisos por dispositivo para no repetirlos al volver a registrar.

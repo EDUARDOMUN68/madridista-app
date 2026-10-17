@@ -15,10 +15,10 @@ function rememberPush(id){
 self.addEventListener('push',event=>{
   event.waitUntil((async()=>{
     let notice;try{notice=event.data?.json();}catch{return;}
-    if(notice?.kind!=='madrid-lineup'||!/^\d+$/.test(notice.matchId)||!Number.isFinite(notice.expiresAt)||notice.expiresAt<=Date.now())return;
+    if(!['madrid-lineup','madrid-ready'].includes(notice?.kind)||!/^\d+$/.test(notice.matchId)||!Number.isFinite(notice.expiresAt)||notice.expiresAt<=Date.now())return;
     let url;try{url=new URL(notice.url);const scope=new URL(self.registration.scope);if(url.origin!==scope.origin||url.pathname!==scope.pathname)return;}catch{return;}
-    if(!await rememberPush(notice.matchId))return;
-    await self.registration.showNotification('¡Ya hay once del Real Madrid!',{body:String(notice.body||'Toca para ver la alineación.').slice(0,180),icon:new URL('crest-192.png',self.registration.scope).href,badge:new URL('crest-192.png',self.registration.scope).href,tag:'madrid-lineup-'+notice.matchId,renotify:false,data:{url:url.href}});
+    if(!await rememberPush(notice.kind+':'+notice.matchId))return;
+    await self.registration.showNotification(notice.kind==='madrid-ready'?'Avisos del Madrid activados':'¡Ya hay once del Real Madrid!',{body:String(notice.body||'Toca para ver la alineación.').slice(0,180),icon:new URL('crest-192.png',self.registration.scope).href,badge:new URL('crest-192.png',self.registration.scope).href,tag:notice.kind+'-'+notice.matchId,renotify:false,data:{url:url.href}});
   })());
 });
 self.addEventListener('notificationclick',event=>{

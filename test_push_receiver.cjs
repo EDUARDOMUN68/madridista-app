@@ -10,4 +10,5 @@ test('El receptor descarta repetidos, avisos caducados y enlaces externos',async
  await push(notice);await push(notice);assert.equal(shown.length,1);assert.equal(shown[0].options.tag,'madrid-lineup-123');
  await push({...notice,matchId:'124',expiresAt:Date.now()-1});
  await push({...notice,matchId:'125',url:'https://example.com/'});assert.equal(shown.length,1);
+ await push({...notice,kind:'madrid-ready',matchId:'0',url:scope});await push({...notice,kind:'madrid-ready',matchId:'0',url:scope});assert.equal(shown.length,2);assert.equal(shown[1].title,'Avisos del Madrid activados');
 });

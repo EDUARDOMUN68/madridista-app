@@ -10,7 +10,6 @@ test('Envío cifrado, deduplicación persistente y limpieza de suscripción cadu
  const data=new Map(),ctx={blockConcurrencyWhile:fn=>fn(),storage:{async get(k){return structuredClone(data.get(k));},async put(k,v){data.set(k,structuredClone(v));},async delete(k){data.delete(k);},async list(){return new Map([...data].map(([k,v])=>[k,structuredClone(v)]));}}};
  const env={VAPID_PUBLIC_KEY:keys.publicKey,VAPID_PRIVATE_KEY:keys.privateKey};
  const object=new LineupNotices(ctx,env),url='https://internal/subscription',request=()=>new Request(url,{method:'POST',body:JSON.stringify(subscription)});
- assert.equal((await object.fetch(request())).status,200);
  const start=new Date(Date.now()+3600000);start.setUTCSeconds(0,0);
  const parts=new Intl.DateTimeFormat('sv-SE',{timeZone:'Europe/Madrid',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).format(start).split(' ');
  const fixture={competition:'LaLiga',status:'scheduled',date:parts[0],time:parts[1],venue:'home',jornada:9};
@@ -24,8 +23,9 @@ test('Envío cifrado, deduplicación persistente y limpieza de suscripción cadu
   assert.equal(u,subscription.endpoint);assert.equal(options.method,'POST');assert.equal(options.headers['Content-Encoding'],'aes128gcm');assert.ok(options.body.length>100);sent++;return new Response(null,{status});
  };
  try{
-  await Promise.all([object.fetch(new Request('https://internal/check')),object.fetch(new Request('https://internal/check'))]);assert.equal(sent,1);
-  await object.fetch(request());const reloaded=new LineupNotices(ctx,env);await reloaded.fetch(new Request('https://internal/check'));assert.equal(sent,1);
+  assert.equal((await object.fetch(request())).status,200);assert.equal(sent,1);
+  await Promise.all([object.fetch(new Request('https://internal/check')),object.fetch(new Request('https://internal/check'))]);assert.equal(sent,2);
+  await object.fetch(request());const reloaded=new LineupNotices(ctx,env);await reloaded.fetch(new Request('https://internal/check'));assert.equal(sent,2);
   const key='sub:'+await deviceId(subscription.endpoint),entry=data.get(key);entry.sent={};data.set(key,entry);status=503;
   await reloaded.fetch(new Request('https://internal/check'));assert.equal(data.get(key).sent['123'],undefined);
   status=410;await reloaded.fetch(new Request('https://internal/check'));assert.equal(data.has(key),false);

@@ -1,2 +1,2 @@
-// URL pública del servicio. Se completa únicamente después de desplegarlo.
-window.MADRIDISTA_PUSH_API='';
+// Servicio público de avisos del Real Madrid.
+window.MADRIDISTA_PUSH_API='https://madridista-alineaciones.madridista-lineup-notices.workers.dev';

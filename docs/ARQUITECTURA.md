@@ -6,16 +6,16 @@ LaLiga define la pertenencia a las 38 jornadas de diez partidos. Si su página n
 
 Los goles se acreditan por participantes explícitos y se publican únicamente si el desglose coincide con el marcador. Champions utiliza consultas diarias y exige 18 partidos por jornada.
 
-## Identidad visual y versión 3.24.1
+## Identidad visual y versión 3.25.0
 
-HTML declara y muestra 3.24.1; sw.js utiliza la misma versión de caché. Manifest, favicon, cabecera y apple-touch-icon utilizan recursos locales versionados. Los PNG incluyen fondo blanco y margen para conservar el escudo en iconos recortados por el sistema. La fecha del JSON expresa actualización de datos y no la versión de la aplicación.
+HTML declara y muestra 3.25.0; sw.js utiliza la misma versión de caché. Manifest, favicon, cabecera y apple-touch-icon utilizan recursos locales versionados. Los PNG incluyen fondo blanco y margen para conservar el escudo en iconos recortados por el sistema. La fecha del JSON expresa actualización de datos y no la versión de la aplicación.
 
 
 ## Detalle de LaLiga — 3.24.1
 
 En Jornada, los partidos de LaLiga programados, en directo y finalizados permiten abrir un diálogo con Resumen (goles, tarjetas y cambios por tiempos) y Estadísticas de equipo. Consulta bajo demanda el resumen de ESPN, comprueba ambos equipos y resuelve el identificador por marcador diario cuando el catálogo oficial no lo aporta. Mientras permanece abierto se consulta cada 60 segundos; se detiene al cerrar o recibir un final y se pausa en segundo plano. Muestra carga, ausencia de datos y reintento con aviso si conserva una respuesta anterior. Champions no incorpora esta interacción todavía.
 
-Los módulos match-detail.js y match-detail.css están incluidos en la caché 3.24.1; no modifican marcadores ni datos deportivos persistidos. Diálogo con cierre, Escape, teclado y pestañas accesibles.
+Los módulos match-detail.js y match-detail.css están incluidos en la caché 3.25.0; no modifican marcadores ni datos deportivos persistidos. Diálogo con cierre, Escape, teclado y pestañas accesibles.
 
 
 ### Alineaciones antes del inicio — 3.24.1
@@ -25,6 +25,6 @@ La primera pestaña es Alineaciones, seguida de Resumen y Estadísticas. Los enc
 La versión 3.24.1 incorpora acentos azul, lavanda, verde y dorado en Alineaciones; cambio exclusivamente visual.
 
 
-## Avisos de alineación — preparación 3.25.0
+## Avisos de alineación — 3.25.0
 
-Integración Web Push preparada en notifications/ con Cloudflare Workers, almacenamiento privado y cron cada dos minutos. El servicio aún no está desplegado; push-config.js no contiene una URL y los avisos permanecen inactivos. Activación y límites en docs/NOTIFICACIONES.md. La app publicada continúa en 3.24.1 hasta configurar y verificar servicio y móvil.
+Web Push con Cloudflare Workers, almacenamiento privado y cron cada dos minutos. push-config.js contiene únicamente la URL pública; las claves privadas son secretos del servicio. Cada móvil necesita conceder el permiso inicial y registrar su suscripción. Activación y límites en docs/NOTIFICACIONES.md. La entrega en un móvil real debe confirmarse por separado.
