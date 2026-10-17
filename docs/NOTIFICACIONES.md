@@ -34,3 +34,5 @@ Fuentes técnicas: [Web Push](https://web.dev/articles/push-notifications-overvi
 Al registrar un móvil nuevo, el servicio envía un único aviso de confirmación «Avisos del Madrid activados». También se filtran reenvíos de esta confirmación. El permiso y la recepción física deben confirmarse en el dispositivo; una respuesta satisfactoria del servidor push no acredita por sí sola que Android haya mostrado el aviso.
 
 El registro espera confirmación del receptor actualizado del service worker. Muestra su estado también con permiso ya concedido y recupera el aviso inicial si el receptor no lo recibió, con espera entre reintentos y deduplicación local. La respuesta del servidor distingue un fallo del envío de prueba.
+
+Compatibilidad Workers: los envíos usan fetch con redirect manual. Los 3xx se consideran fallos y no se siguen, manteniendo el envío en el endpoint validado. Los registros de error omiten endpoints y claves.

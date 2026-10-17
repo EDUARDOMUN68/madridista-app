@@ -20,7 +20,7 @@ test('Envío cifrado, deduplicación persistente y limpieza de suscripción cadu
   if(u===FEED_URL)return Response.json({fixtures:[fixture]});
   if(u.includes('/scoreboard?'))return Response.json({events:[{id:'123',competitions:[game]}]});
   if(u.includes('/summary?'))return Response.json({header:{competitions:[game]},rosters:[{team:{id:'86'},roster:Array.from({length:11},(_,i)=>({starter:true,athlete:{id:String(i),displayName:'Jugador '+i}}))}]});
-  assert.equal(u,subscription.endpoint);assert.equal(options.method,'POST');assert.equal(options.headers['Content-Encoding'],'aes128gcm');assert.ok(options.body.length>100);sent++;return new Response(null,{status});
+  assert.equal(u,subscription.endpoint);assert.equal(options.redirect,'manual','Workers solo admite follow o manual; nunca seguir redirecciones push');assert.equal(options.method,'POST');assert.equal(options.headers['Content-Encoding'],'aes128gcm');assert.ok(options.body.length>100);sent++;return new Response(null,{status});
  };
  try{
   assert.equal((await object.fetch(request())).status,200);assert.equal(sent,1);

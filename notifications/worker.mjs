@@ -30,8 +30,15 @@ export default {
 export class LineupNotices {
   constructor(ctx,env){this.ctx=ctx;this.env=env;this.running=null;}
   async deliver(subscription,notice){
+    try{
     const details=webpush.generateRequestDetails(subscription,JSON.stringify(notice),{TTL:Math.max(1,Math.floor((notice.expiresAt-Date.now())/1000)),urgency:'high',topic:notice.kind==='madrid-ready'?'madrid-ready':'madrid-lineup-'+notice.matchId,vapidDetails:{subject:APP_URL,publicKey:this.env.VAPID_PUBLIC_KEY,privateKey:this.env.VAPID_PRIVATE_KEY}});
-    return fetch(details.endpoint,{method:details.method,headers:details.headers,body:details.body,signal:AbortSignal.timeout(12000),redirect:'error'});
+    const response=await fetch(details.endpoint,{method:details.method,headers:details.headers,body:details.body,signal:AbortSignal.timeout(12000),redirect:'manual'});
+    if(!response.ok)console.error('push-http',response.status);
+    return response;
+    }catch(error){
+      const detail=String(error?.message||'').replace(/https?:\/\/\S+/g,'[url]').replace(/[A-Za-z0-9_\-+/=]{30,}/g,'[redacted]').slice(0,220);
+      console.error('push-error',String(error?.name||'Error'),detail);throw error;
+    }
   }
   async fetch(request){
     const path=new URL(request.url).pathname;
