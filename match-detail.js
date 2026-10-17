@@ -1,7 +1,8 @@
-/* Detalle bajo demanda de los partidos de LaLiga. */
+/* Detalle bajo demanda de los partidos de LaLiga y Champions. */
 (function(root){
   'use strict';
   const escape=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const leagues={LaLiga:'esp.1',Champions:'uefa.champions'};
   const stats=[['possessionPct','Posesión','%'],['totalShots','Tiros',''],['shotsOnTarget','Tiros a puerta',''],['wonCorners','Córners',''],['foulsCommitted','Faltas',''],['yellowCards','Tarjetas amarillas',''],['redCards','Tarjetas rojas',''],['offsides','Fueras de juego',''],['saves','Paradas',''],['totalPasses','Pases','']];
   function lineups(payload,home,away){
     return [home,away].map(team=>{
@@ -76,12 +77,12 @@
     el('detailStatus').textContent='Actualizando detalle…';el('detailRetry').hidden=true;
     try{
       if(!match.eventId){
-        const board=await request(`https://site.api.espn.com/apis/site/v2/sports/soccer/esp.1/scoreboard?dates=${match.date.replaceAll('-','')}&limit=200`,signal);
-        const candidates=root.parseDirectScoreboard(board,'LaLiga').filter(g=>root.directSame(g.home,match.home)&&root.directSame(g.away,match.away));
+        const board=await request(`https://site.api.espn.com/apis/site/v2/sports/soccer/${leagues[match.competition]}/scoreboard?dates=${match.date.replaceAll('-','')}&limit=200`,signal);
+        const candidates=root.parseDirectScoreboard(board,match.competition).filter(g=>root.directSame(g.home,match.home)&&root.directSame(g.away,match.away));
         if(candidates.length!==1)throw new Error('Sin ficha disponible');match.eventId=candidates[0].eventId;
       }
       if(!/^\d+$/.test(String(match.eventId)))throw new Error('Sin ficha disponible');
-      const payload=await request(`https://site.api.espn.com/apis/site/v2/sports/soccer/esp.1/summary?event=${encodeURIComponent(match.eventId)}`,signal);
+      const payload=await request(`https://site.api.espn.com/apis/site/v2/sports/soccer/${leagues[match.competition]}/summary?event=${encodeURIComponent(match.eventId)}`,signal);
       if(current!==token||!dialog.open)return;
       const data=parse(payload,match,root.directSame);
       const score=t=>!data.live&&!data.finished?'—':t.score==null?'—':String(t.score);
@@ -96,5 +97,6 @@
   }
   el('detailRetry').onclick=refresh;
   document.addEventListener('visibilitychange',()=>{if(!document.hidden&&dialog.open)refresh();});
-  root.openLigaMatchDetail=match=>{if(match.competition!=='LaLiga'||!['scheduled','live','finished'].includes(match.status))return;stop();selected={...match};tab='lineups';choose(tab);el('matchDetailTitle').textContent='LaLiga · Detalle del partido';el('detailHeading').innerHTML=`<div class="detail-score"><b>${escape(match.home)}</b><strong>${escape(match.score||'—')}</strong><b>${escape(match.away)}</b></div>`;el('detailLineups').innerHTML='';el('detailSummary').innerHTML='';el('detailStats').innerHTML='';el('detailStatus').textContent='Cargando detalle…';el('detailRetry').hidden=true;if(!dialog.open)dialog.showModal();document.body.classList.add('detail-open');timer=setInterval(refresh,60000);refresh();};
+  root.openMatchDetail=match=>{if(!Object.hasOwn(leagues,match.competition)||!['scheduled','live','finished'].includes(match.status))return;stop();selected={...match};tab='lineups';choose(tab);el('matchDetailTitle').textContent=match.competition+' · Detalle del partido';el('detailHeading').innerHTML=`<div class="detail-score"><b>${escape(match.home)}</b><strong>${escape(match.score||'—')}</strong><b>${escape(match.away)}</b></div>`;el('detailLineups').innerHTML='';el('detailSummary').innerHTML='';el('detailStats').innerHTML='';el('detailStatus').textContent='Cargando detalle…';el('detailRetry').hidden=true;if(!dialog.open)dialog.showModal();document.body.classList.add('detail-open');timer=setInterval(refresh,60000);refresh();};
+  root.openLigaMatchDetail=root.openMatchDetail; // Compatibilidad con los enlaces de avisos de Liga.
 })(typeof window==='undefined'?globalThis:window);
