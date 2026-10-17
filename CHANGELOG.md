@@ -63,3 +63,9 @@
 
 - Corregida incompatibilidad de fetch en Cloudflare: utiliza redirect manual y rechaza redirecciones sin seguirlas. El modo error impedía todos los envíos.
 - Prueba de regresión para el modo de redirección y diagnóstico sin endpoints ni claves. La interfaz continúa en 3.25.1.
+
+## 3.26.0 — 17 de octubre de 2026
+
+- Detalle de los partidos de Champions en Jornada, antes del inicio, en directo y finalizados.
+- Mismas pestañas que en Liga: Alineaciones primero, Resumen y Estadísticas, con colores y seguimiento cada 60 segundos.
+- Consulta la ficha de la competición seleccionada; conserva validación de equipos, carga, ausencia de datos y reintento. Los avisos móviles continúan limitados al Madrid en Liga.

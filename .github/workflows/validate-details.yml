@@ -1,0 +1,22 @@
+name: Validar detalle de partidos
+on:
+  pull_request:
+    paths:
+      - 'match-detail.*'
+      - 'test_match_*.cjs'
+      - 'index.html'
+      - '.github/workflows/validate-details.yml'
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - run: node test_match_detail.cjs
+      - run: node test_match_lifecycle.cjs
+      - run: node --test test_push_client.cjs test_push_receiver.cjs
+      - run: node --check match-detail.js && node --check sw.js
