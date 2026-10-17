@@ -1,3 +1,5 @@
+Versión actual de la interfaz: **3.23.0**.
+
 # Madridista App v3
 
 Cambios de esta versión:
@@ -35,3 +37,10 @@ El actualizador conserva las 38 jornadas completas ya publicadas si la página o
 - Escudo del Real Madrid en cabecera, favicon e iconos instalables de 192 y 512 píxeles. Fondo blanco y margen seguro en el icono maskable. Recurso del equipo servido por ESPN: https://a.espncdn.com/i/teamlogos/soccer/500/86.png.
 - Columnas de goleadores vacías cuando un equipo no marca, sin el texto «Sin goles».
 - Manifest e iconos versionados; caché 3.22.2. Algunos sistemas renuevan el icono instalado con retraso.
+
+
+## Detalle de LaLiga — 3.23.0
+
+En Jornada, los partidos de LaLiga en directo y finalizados permiten abrir un diálogo con Resumen (goles, tarjetas y cambios por tiempos) y Estadísticas de equipo. Consulta bajo demanda el resumen de ESPN, comprueba ambos equipos y resuelve el identificador por marcador diario cuando el catálogo oficial no lo aporta. Mientras permanece abierto se consulta cada 60 segundos; se detiene al cerrar o recibir un final y se pausa en segundo plano. Muestra carga, ausencia de datos y reintento con aviso si conserva una respuesta anterior. Champions no incorpora esta interacción todavía.
+
+Los módulos match-detail.js y match-detail.css están incluidos en la caché 3.23.0; no modifican marcadores ni datos deportivos persistidos. Diálogo con cierre, Escape, teclado y pestañas accesibles.
