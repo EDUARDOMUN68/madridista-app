@@ -58,3 +58,8 @@
 - Espera al receptor actualizado antes de registrar los avisos.
 - Estado visible con permiso previo y recuperación del aviso inicial no recibido.
 - Pruebas de actualización del receptor, reintentos y confirmación recibida.
+
+### Servicio de avisos — corrección del 17 de octubre de 2026
+
+- Corregida incompatibilidad de fetch en Cloudflare: utiliza redirect manual y rechaza redirecciones sin seguirlas. El modo error impedía todos los envíos.
+- Prueba de regresión para el modo de redirección y diagnóstico sin endpoints ni claves. La interfaz continúa en 3.25.1.
