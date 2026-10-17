@@ -26,6 +26,13 @@ test('Envío cifrado, deduplicación persistente y limpieza de suscripción cadu
   assert.equal((await object.fetch(request())).status,200);assert.equal(sent,1);
   await Promise.all([object.fetch(new Request('https://internal/check')),object.fetch(new Request('https://internal/check'))]);assert.equal(sent,2);
   await object.fetch(request());const reloaded=new LineupNotices(ctx,env);await reloaded.fetch(new Request('https://internal/check'));assert.equal(sent,2);
+  const modern=(received,version='3.25.1')=>new Request(url,{method:'POST',body:JSON.stringify({subscription,receiverVersion:version,confirmationReceived:received})});
+  assert.equal((await (await reloaded.fetch(modern(false))).json()).confirmationSent,true);assert.equal(sent,3,'Recupera confirmación enviada al receptor antiguo');
+  await reloaded.fetch(modern(false));assert.equal(sent,3,'Espera mientras llega');
+  await reloaded.fetch(modern(true,'3.25.2'));assert.equal(sent,3,'No repite confirmación ya recibida');
+  status=503;
+  assert.equal((await (await reloaded.fetch(modern(false,'3.25.2'))).json()).confirmationSent,false);
+  assert.equal(sent,4,'Informa del fallo aunque exista un envío anterior');
   const key='sub:'+await deviceId(subscription.endpoint),entry=data.get(key);entry.sent={};data.set(key,entry);status=503;
   await reloaded.fetch(new Request('https://internal/check'));assert.equal(data.get(key).sent['123'],undefined);
   status=410;await reloaded.fetch(new Request('https://internal/check'));assert.equal(data.has(key),false);

@@ -1,4 +1,4 @@
-# Avisos de alineación del Real Madrid — 3.25.0
+# Avisos de alineación del Real Madrid — 3.25.1
 
 Servicio desplegado y configurado con cron cada dos minutos. La app registra el dispositivo después del permiso inicial; la entrega real en el móvil requiere comprobación adicional.
 
@@ -19,9 +19,9 @@ Servicio desplegado y configurado con cron cada dos minutos. La app registra el 
 2. Desde `notifications/`, instalar con `npm ci` y autorizar Wrangler en esa cuenta. Usar Workers Free con Durable Objects SQLite; no activar un plan de pago para esta integración.
 3. Generar el par VAPID mediante `web-push`. Introducir `VAPID_PUBLIC_KEY` y `VAPID_PRIVATE_KEY` como secretos con `wrangler secret put`, sin escribirlos en archivos públicos ni en mensajes. La clave pública se sirve por `/config`; la privada nunca sale del servicio.
 4. Ejecutar `wrangler deploy`, comprobar el Worker y su cron, y poner su URL HTTPS en `push-config.js`. La URL no es un secreto. No configurar la URL antes de verificar el servicio.
-5. Revisar/publicar la app 3.25.0 con esos recursos, abrirla en el móvil y aceptar el permiso. Confirmar registro y comprobar la recepción real con la app cerrada antes de dar la función por terminada.
+5. Revisar/publicar la app 3.25.1 con esos recursos, abrirla en el móvil y aceptar el permiso. Confirmar registro y comprobar la recepción real con la app cerrada antes de dar la función por terminada.
 
-La cuenta y la autorización de despliegue están configuradas. Las claves VAPID se guardan como secretos del Worker. Falta el permiso y la comprobación física de recepción en el móvil del usuario.
+La cuenta y la autorización de despliegue están configuradas. Las claves VAPID se guardan como secretos del Worker. El usuario confirma permiso ya concedido; falta comprobar físicamente la recepción en su móvil.
 
 ## Verificaciones
 
@@ -32,3 +32,5 @@ El servicio limita a 50 dispositivos, acepta registros desde el origen de la app
 Fuentes técnicas: [Web Push](https://web.dev/articles/push-notifications-overview), [web-push](https://github.com/web-push-libs/web-push), [Workers Free y Durable Objects SQLite](https://developers.cloudflare.com/workers/platform/pricing/).
 
 Al registrar un móvil nuevo, el servicio envía un único aviso de confirmación «Avisos del Madrid activados». También se filtran reenvíos de esta confirmación. El permiso y la recepción física deben confirmarse en el dispositivo; una respuesta satisfactoria del servidor push no acredita por sí sola que Android haya mostrado el aviso.
+
+El registro espera confirmación del receptor actualizado del service worker. Muestra su estado también con permiso ya concedido y recupera el aviso inicial si el receptor no lo recibió, con espera entre reintentos y deduplicación local. La respuesta del servidor distingue un fallo del envío de prueba.

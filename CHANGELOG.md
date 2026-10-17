@@ -52,3 +52,9 @@
 - Permiso inicial del móvil, registro privado, recepción con ventana cerrada y apertura de Alineaciones.
 - Servicio Cloudflare configurado con claves privadas y cron cada dos minutos. Activación por dispositivo al conceder permiso; entrega real en móvil pendiente de confirmación.
 - Aviso único de confirmación al registrar el móvil.
+
+## 3.25.1 — 17 de octubre de 2026
+
+- Espera al receptor actualizado antes de registrar los avisos.
+- Estado visible con permiso previo y recuperación del aviso inicial no recibido.
+- Pruebas de actualización del receptor, reintentos y confirmación recibida.
