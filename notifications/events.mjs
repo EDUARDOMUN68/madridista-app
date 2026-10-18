@@ -38,7 +38,7 @@ export function changes(current,previous,fixture,now=Date.now()){
   const url=new URL(APP_URL);url.searchParams.set('lineup',current.id);url.searchParams.set('jornada',String(fixture.jornada));url.searchParams.set('competition',fixture.competition);url.searchParams.set('detail','summary');
   const score=current.scores.every(n=>n!==null)?`${current.home} ${current.scores.join('–')} ${current.away}`:`${current.home} – ${current.away}`;
   const notices=[],old=new Set(previous?.seen||[]);
-  const add=(key,title,body)=>notices.push({kind:'madrid-event',eventKey:key,matchId:current.id,title,body,url:url.href,observedAt:now,expiresAt:now+3*60000});
+  const add=(key,title,body)=>notices.push({kind:'madrid-event',eventKey:key,matchId:current.id,title,body,url:url.href,sourceAt:previous?.at||now,observedAt:now,expiresAt:now+3*60000});
   // El primer sondeo es una referencia, no una repetición de todo el partido.
   const continuous=previous&&now-previous.at<=5*60000;
   if(continuous){

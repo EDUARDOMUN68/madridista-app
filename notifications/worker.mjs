@@ -1,5 +1,5 @@
 import webpush from 'web-push';
-import {APP_URL,FEED_URL,LEAGUES,candidates,confirmedNotice,resolveEventId,validSubscription,deviceId} from './core.mjs';
+import {APP_URL,FEED_URL,LEAGUES,kickoff,candidates,confirmedNotice,resolveEventId,validSubscription,deviceId} from './core.mjs';
 import {snapshot,changes} from './events.mjs';
 const ORIGIN=new URL(APP_URL).origin;
 const json=(body,status=200)=>Response.json(body,{status,headers:{'Cache-Control':'no-store','Access-Control-Allow-Origin':ORIGIN,'Vary':'Origin'}});
@@ -98,7 +98,10 @@ export class LineupNotices {
           for(const notice of notices){
             if(notice.kind==='madrid-event'&&!device.liveNotices)continue;
             if(fixture.competition==='Champions'&&!device.liveNotices)continue;
-            if(notice.kind==='madrid-event'&&(device.createdAt||device.updatedAt)>notice.observedAt)continue;
+            if(notice.kind==='madrid-event'){
+              const joined=device.createdAt||device.updatedAt;
+              if(joined>notice.observedAt||joined>kickoff(fixture)&&joined>(notice.sourceAt||notice.observedAt))continue;
+            }
             const sentKey=notice.kind==='madrid-lineup'?id:id+':'+notice.eventKey;
             const latest=await this.ctx.storage.get(deviceKey);if(!latest)break;
             if(latest.sent[sentKey])continue;

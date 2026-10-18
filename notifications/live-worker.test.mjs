@@ -28,6 +28,6 @@ test('Servicio: transición real, cola persistente, reintento, receptores compat
    now+=1000;await register('new','3.28.0');await check();assert.equal(delivered.length,3,'Nuevo dispositivo no reproduce la cola anterior');
    now+=60000;phase='half';await check();assert.equal(delivered.length,5);assert.ok(delivered.slice(3).every(d=>/Descanso/.test(d.notice.title)));
    await object.fetch(new Request('https://internal/subscription',{method:'DELETE',body:JSON.stringify({endpoint:'modern'})}));
-   now+=60000;phase='second';await check();assert.equal(delivered.length,6);assert.equal(delivered.at(-1).endpoint,'new');
+   now+=60000;await register('late','3.28.0');phase='second';await check();assert.equal(delivered.length,6);assert.equal(delivered.at(-1).endpoint,'new');assert.ok(!delivered.some(d=>d.endpoint==='late'),'No reproduce transición detectada después de un alta a mitad del partido');
  }finally{globalThis.fetch=originalFetch;Date.now=originalNow;}
 });
