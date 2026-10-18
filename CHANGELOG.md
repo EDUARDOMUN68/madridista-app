@@ -69,3 +69,9 @@
 - Detalle de los partidos de Champions en Jornada, antes del inicio, en directo y finalizados.
 - Mismas pestañas que en Liga: Alineaciones primero, Resumen y Estadísticas, con colores y seguimiento cada 60 segundos.
 - Consulta la ficha de la competición seleccionada; conserva validación de equipos, carga, ausencia de datos y reintento. Los avisos móviles continúan limitados al Madrid en Liga.
+
+## 3.27.0 — 18 de octubre de 2026
+
+- Cabecera compacta con Datos y Directo, sin comprobación repetida.
+- Campana para activar o desactivar los avisos en este móvil, con preferencia persistente y baja de suscripción real.
+- Eliminado recuadro permanente de avisos preparados; confirmaciones breves y errores accesibles desde la campana.
