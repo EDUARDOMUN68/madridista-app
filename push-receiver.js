@@ -15,17 +15,19 @@ function rememberPush(id,readOnly=false){
 self.addEventListener('message',event=>{
   if(event.data?.type!=='MADRIDISTA_PUSH_STATUS'||!event.ports?.[0])return;
   event.waitUntil((async()=>{
-    try{event.ports[0].postMessage({ready:true,version:'3.25.1',confirmationReceived:await rememberPush('madrid-ready:0',true)});}
+    try{event.ports[0].postMessage({ready:true,version:'3.28.0',confirmationReceived:await rememberPush('madrid-ready:0',true)});}
     catch{event.ports[0].postMessage({ready:false});}
   })());
 });
 self.addEventListener('push',event=>{
   event.waitUntil((async()=>{
     let notice;try{notice=event.data?.json();}catch{return;}
-    if(!['madrid-lineup','madrid-ready'].includes(notice?.kind)||!/^\d+$/.test(notice.matchId)||!Number.isFinite(notice.expiresAt)||notice.expiresAt<=Date.now())return;
+    if(!['madrid-lineup','madrid-ready','madrid-event'].includes(notice?.kind)||!/^\d+$/.test(notice.matchId)||!Number.isFinite(notice.expiresAt)||notice.expiresAt<=Date.now())return;
     let url;try{url=new URL(notice.url);const scope=new URL(self.registration.scope);if(url.origin!==scope.origin||url.pathname!==scope.pathname)return;}catch{return;}
-    if(!await rememberPush(notice.kind+':'+notice.matchId))return;
-    await self.registration.showNotification(notice.kind==='madrid-ready'?'Avisos del Madrid activados':'¡Ya hay once del Real Madrid!',{body:String(notice.body||'Toca para ver la alineación.').slice(0,180),icon:new URL('crest-192.png',self.registration.scope).href,badge:new URL('crest-192.png',self.registration.scope).href,tag:notice.kind+'-'+notice.matchId,renotify:false,data:{url:url.href}});
+    if(notice.kind==='madrid-event'&&(typeof notice.eventKey!=='string'||!notice.eventKey||notice.eventKey.length>500))return;
+    const key=notice.kind+':'+notice.matchId+(notice.kind==='madrid-event'?':'+notice.eventKey:'');
+    if(!await rememberPush(key))return;
+    await self.registration.showNotification(notice.kind==='madrid-ready'?'Avisos del Madrid activados':notice.kind==='madrid-lineup'?'¡Ya hay once del Real Madrid!':String(notice.title||'Partido del Real Madrid').slice(0,120),{body:String(notice.body||'Toca para ver la alineación.').slice(0,180),icon:new URL('crest-192.png',self.registration.scope).href,badge:new URL('crest-192.png',self.registration.scope).href,tag:key,renotify:false,data:{url:url.href}});
   })());
 });
 self.addEventListener('notificationclick',event=>{

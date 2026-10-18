@@ -1,42 +1,33 @@
-# Avisos de alineación del Real Madrid — 3.25.1
+# Avisos de los partidos del Real Madrid — 3.28.0
 
-Servicio desplegado y configurado con cron cada dos minutos. La app registra el dispositivo después del permiso inicial; la entrega real en el móvil requiere comprobación adicional.
+La campana de la cabecera activa o desactiva los avisos en ese dispositivo, con preferencia local persistente. La baja cancela la suscripción del navegador y borra su registro remoto cuando hay red. En dispositivos nuevos el permiso se pide tras tocar la campana; los ya activados mantienen la elección.
 
-## Funcionamiento
+## Cobertura
 
-- Solo LaLiga y el Real Madrid en esta primera entrega. Champions queda pendiente.
-- Un servicio de Cloudflare Workers revisa cada dos minutos el calendario publicado. Solo consulta fichas de partidos con horario confirmado que comienzan en las dos horas siguientes.
-- Resuelve la ficha por fecha, hora, localía y equipo 86. No usa identificadores históricos sin contrastarlos. Rechaza encuentros iniciados, finalizados o reprogramados respecto del calendario.
-- Envía cuando el Madrid tiene once jugadores únicos señalados explícitamente como titulares. No equivale a una convocatoria ni garantiza que la fuente publique exactamente una hora antes.
-- Web Push cifra el mensaje. Las claves privadas VAPID se guardan como secretos del servicio. Las suscripciones y el registro de avisos permanecen en almacenamiento privado de un Durable Object SQLite; no se guardan en el repositorio ni en el JSON público.
-- Un dispositivo registrado y activado recibe los avisos, con interruptor en la campana de la cabecera. El primer permiso requiere pulsación y confirmación del navegador; ningún sitio puede concedérselo por el usuario.
-- El receptor usa IndexedDB y un tag por partido para no repetir un aviso reenviado. No se promete entrega infalible: red, permisos y sistema operativo pueden impedirla. El TTL termina al inicio, evitando avisos antiguos al reconectar.
-- Al tocar el aviso se abre la alineación del partido en Jornada. Al finalizar se detiene el seguimiento del servicio para ese encuentro. La app puede permanecer cerrada y el ordenador apagado.
+- Real Madrid en LaLiga y Champions, tanto local como visitante.
+- Once confirmado de once titulares únicos antes del inicio.
+- Inicio, goles de ambos equipos con goleador y marcador, expulsiones de ambos equipos con jugador (incluida doble amarilla), descanso, inicio de segunda parte y final con resultado.
+- Los avisos de incidencias abren Resumen; las alineaciones abren Alineaciones, en la competición y jornada correspondientes.
+- El servicio consulta cada minuto. Hay retraso de sondeo y de publicación de la fuente; no garantiza avisar en el instante de la jugada. Red, permisos y Android también condicionan la entrega.
 
-## Configuración y activación
+## Fuente y límites
 
-1. Crear una cuenta de Cloudflare y completar personalmente sus condiciones y verificaciones.
-2. Desde `notifications/`, instalar con `npm ci` y autorizar Wrangler en esa cuenta. Usar Workers Free con Durable Objects SQLite; no activar un plan de pago para esta integración.
-3. Generar el par VAPID mediante `web-push`. Introducir `VAPID_PUBLIC_KEY` y `VAPID_PRIVATE_KEY` como secretos con `wrangler secret put`, sin escribirlos en archivos públicos ni en mensajes. La clave pública se sirve por `/config`; la privada nunca sale del servicio.
-4. Ejecutar `wrangler deploy`, comprobar el Worker y su cron, y poner su URL HTTPS en `push-config.js`. La URL no es un secreto. No configurar la URL antes de verificar el servicio.
-5. Revisar/publicar la app 3.25.1 con esos recursos, abrirla en el móvil y aceptar el permiso. Confirmar registro y comprobar la recepción real con la app cerrada antes de dar la función por terminada.
+El servicio consulta el calendario público y las fichas ESPN de esp.1 / uefa.champions, resueltas por fecha, horario, Madrid (equipo 86) y localía. Solo sigue encuentros dentro de las dos horas previas y seis posteriores al horario confirmado. Rechaza cambios de fecha, fichas ajenas, fases desconocidas y partidos suspendidos. No deduce el inicio o final por el reloj.
 
-La cuenta y la autorización de despliegue están configuradas. Las claves VAPID se guardan como secretos del Worker. El usuario confirma permiso ya concedido; falta comprobar físicamente la recepción en su móvil.
+Para goles exige que los eventos acreditados coincidan con el marcador de ambos equipos. Usa el jugador explícito y no inventa nombres si faltan. Las correcciones de marcador a la baja pueden generar «Marcador corregido». No son avisos oficiales del club: dependen de la fuente disponible.
 
-## Verificaciones
+Cada partido guarda una referencia de fase e incidencias y una cola con caducidad de tres minutos. El primer sondeo a mitad de partido establece una referencia sin repetir el histórico; tampoco reproduce todo lo perdido tras más de cinco minutos sin sondeos. Un móvil recién activado no recibe incidencias anteriores a su alta. Cambios de fase e incidencias se deduplican por dispositivo y en IndexedDB del receptor; reintentos de red no deben repetir el mismo aviso. No se fusionan goles distintos en un mismo topic push.
 
-`cd notifications && npm test` comprueba horario Madrid y horario de invierno, exclusión de Champions/históricos, onces completos, identidad de ficha, endpoints push, cifrado, deduplicación persistente y borrado de endpoints 410. `node --test test_push_receiver.cjs`, desde la raíz, comprueba filtrado y deduplicación del receptor con almacenamiento simulado. `wrangler deploy --dry-run` valida el paquete sin desplegar.
+Las suscripciones antiguas siguen recibiendo los avisos de Liga compatibles. Los nuevos eventos y Champions requieren abrir 3.28.0 para actualizar el receptor y registrar su capacidad. No hay que renovar claves ni reinstalar.
 
-El servicio limita a 50 dispositivos, acepta registros desde el origen de la app, valida servidores push conocidos y limita el tamaño de las peticiones. No expone un listado de suscripciones ni un endpoint público para disparar avisos. Una respuesta 503/429 se reintenta en otro ciclo; una 404/410 elimina la suscripción. Una entrega de red incierta puede reenviarse; el receptor la filtra por partido.
+## Servicio y privacidad
 
-Fuentes técnicas: [Web Push](https://web.dev/articles/push-notifications-overview), [web-push](https://github.com/web-push-libs/web-push), [Workers Free y Durable Objects SQLite](https://developers.cloudflare.com/workers/platform/pricing/).
+Worker madridista-alineaciones, Durable Object SQLite privado y cron cada minuto. VAPID privado como secreto; ninguna clave privada o suscripción en GitHub, JSON público o documentación. Registro limitado a 50 dispositivos, origen de la app, cuerpo limitado y endpoints push validados. No expone listas de suscripciones ni una ruta pública para enviar avisos arbitrarios. Los endpoints 404/410 se eliminan.
 
-Al registrar un móvil nuevo, el servicio envía un único aviso de confirmación «Avisos del Madrid activados». También se filtran reenvíos de esta confirmación. El permiso y la recepción física deben confirmarse en el dispositivo; una respuesta satisfactoria del servidor push no acredita por sí sola que Android haya mostrado el aviso.
+Web Push cifra mensajes. fetch usa redirect manual y rechaza redirecciones; el diagnóstico omite URLs y claves. El permiso y el aviso de activación se confirmaron en un móvil real antes de esta ampliación; las incidencias nuevas se comprueban con secuencias simuladas hasta observar un partido real.
 
-El registro espera confirmación del receptor actualizado del service worker. Muestra su estado también con permiso ya concedido y recupera el aviso inicial si el receptor no lo recibió, con espera entre reintentos y deduplicación local. La respuesta del servidor distingue un fallo del envío de prueba.
+## Verificación y despliegue
 
-Compatibilidad Workers: los envíos usan fetch con redirect manual. Los 3xx se consideran fallos y no se siguen, manteniendo el envío en el endpoint validado. Los registros de error omiten endpoints y claves.
+Desde notifications: npm ci, npm test y wrangler deploy --dry-run. Desde la raíz: node --test test_push_client.cjs test_push_receiver.cjs. Pruebas de fases, goleadores/marcadores, expulsiones, históricos, VAR, cola/reintento, persistencia y alta/baja. CI valida esas suites. Desplegar con las claves existentes y publicar la app; comprobar Pages y abrir la nueva versión en el móvil. El reloj del equipo no decide fases deportivas.
 
-### Control compacto de avisos — 3.27.0
-
-Campana junto a actualizar: activa/desactiva avisos por dispositivo y recuerda la elección local. Usuarios con permiso previo continúan activos hasta desactivarlos. En dispositivos nuevos se pide permiso solo al tocar la campana. La baja cancela primero la suscripción del navegador y después intenta borrar el registro del servicio; si la red falla, el endpoint cancelado deja de recibir y se depura al responder 410. Los errores se indican en la campana con reintento; confirmaciones breves sin recuadro permanente. Cabecera con Datos y Directo, sin la línea Comprobado duplicada.
+Fuentes técnicas: [Web Push](https://web.dev/articles/push-notifications-overview), [web-push](https://github.com/web-push-libs/web-push), [Cloudflare Workers](https://developers.cloudflare.com/workers/).

@@ -1,5 +1,6 @@
 import webpush from 'web-push';
-import {APP_URL,FEED_URL,SUMMARY,candidates,confirmedNotice,resolveEventId,validSubscription,deviceId} from './core.mjs';
+import {APP_URL,FEED_URL,LEAGUES,candidates,confirmedNotice,resolveEventId,validSubscription,deviceId} from './core.mjs';
+import {snapshot,changes} from './events.mjs';
 const ORIGIN=new URL(APP_URL).origin;
 const json=(body,status=200)=>Response.json(body,{status,headers:{'Cache-Control':'no-store','Access-Control-Allow-Origin':ORIGIN,'Vary':'Origin'}});
 async function readJson(request){
@@ -31,7 +32,7 @@ export class LineupNotices {
   constructor(ctx,env){this.ctx=ctx;this.env=env;this.running=null;}
   async deliver(subscription,notice){
     try{
-    const details=webpush.generateRequestDetails(subscription,JSON.stringify(notice),{TTL:Math.max(1,Math.floor((notice.expiresAt-Date.now())/1000)),urgency:'high',topic:notice.kind==='madrid-ready'?'madrid-ready':'madrid-lineup-'+notice.matchId,vapidDetails:{subject:APP_URL,publicKey:this.env.VAPID_PUBLIC_KEY,privateKey:this.env.VAPID_PRIVATE_KEY}});
+    const details=webpush.generateRequestDetails(subscription,JSON.stringify(notice),{TTL:Math.max(1,Math.floor((notice.expiresAt-Date.now())/1000)),urgency:'high',topic:(await deviceId(notice.matchId+':'+(notice.eventKey||notice.kind))).slice(0,32),vapidDetails:{subject:APP_URL,publicKey:this.env.VAPID_PUBLIC_KEY,privateKey:this.env.VAPID_PRIVATE_KEY}});
     const response=await fetch(details.endpoint,{method:details.method,headers:details.headers,body:details.body,signal:AbortSignal.timeout(12000),redirect:'manual'});
     if(!response.ok)console.error('push-http',response.status);
     return response;
@@ -50,12 +51,12 @@ export class LineupNotices {
         const existing=await this.ctx.storage.get(id);
         const all=await this.ctx.storage.list({prefix:'sub:'});
         if(!existing&&all.size>=50)return json({error:'Device limit reached'},429);
-        const device={subscription:sub,sent:existing?.sent||{},updatedAt:Date.now(),welcomeSentAt:existing?.welcomeSentAt||null,welcomeVersion:existing?.welcomeVersion||null};
+        const device={subscription:sub,sent:existing?.sent||{},updatedAt:Date.now(),welcomeSentAt:existing?.welcomeSentAt||null,welcomeVersion:existing?.welcomeVersion||null,createdAt:existing?.createdAt||existing?.updatedAt||Date.now(),liveNotices:version==='3.28.0'};
         await this.ctx.storage.put(id,device);
         const recover=version&&payload.confirmationReceived===false&&(version!==device.welcomeVersion||Date.now()-device.welcomeSentAt>60000);
         if(payload.confirmationReceived!==true&&(!device.welcomeSentAt||recover)){
           try{
-            const result=await this.deliver(sub,{kind:'madrid-ready',matchId:'0',title:'Avisos del Madrid activados',body:'Este móvil ya puede recibir el aviso de la alineación del Real Madrid.',url:APP_URL,expiresAt:Date.now()+10*60000});
+            const result=await this.deliver(sub,{kind:'madrid-ready',matchId:'0',title:'Avisos del Madrid activados',body:'Este móvil ya puede recibir los avisos de los partidos del Real Madrid.',url:APP_URL,expiresAt:Date.now()+10*60000});
             if(result.ok){device.welcomeSentAt=Date.now();device.welcomeVersion=version;await this.ctx.storage.put(id,device);}
             else if([404,410].includes(result.status)){await this.ctx.storage.delete(id);return json({error:'Expired subscription'},410);}
             else{return json({ok:true,confirmationSent:false});}
@@ -73,24 +74,45 @@ export class LineupNotices {
   async check(){
     if(!this.env.VAPID_PUBLIC_KEY||!this.env.VAPID_PRIVATE_KEY)return;
     const devices=await this.ctx.storage.list({prefix:'sub:'});if(!devices.size)return;
-    const feed=await getJson(FEED_URL);
-    for(const fixture of candidates(feed)){
-      // Siempre resolver por el marcador del día: no depender de un ID viejo del JSON.
-      const board=await getJson(`https://site.api.espn.com/apis/site/v2/sports/soccer/esp.1/scoreboard?dates=${fixture.date.replaceAll('-','')}&limit=200`);
-      const id=resolveEventId(board,fixture);if(!id)continue;
-      const notice=confirmedNotice(await getJson(SUMMARY+id),fixture);if(!notice)continue;
-      for(const [key,device] of devices){
-        if(device.sent[id])continue;
-        try{
-          const response=await this.deliver(device.subscription,notice);
-          if([404,410].includes(response.status)){await this.ctx.storage.delete(key);continue;}
-          if(!response.ok)continue;
-          // Conservar los últimos avisos por dispositivo para no repetirlos al volver a registrar.
-          const latest=await this.ctx.storage.get(key);if(!latest)continue;
-          latest.sent[id]=Date.now();latest.sent=Object.fromEntries(Object.entries(latest.sent).filter(([,at])=>at>Date.now()-45*86400000));
-          await this.ctx.storage.put(key,latest);
-        }catch{/* No registrar endpoints ni claves. Otro ciclo reintenta; el receptor deduplica. */}
-      }
+    const now=Date.now(),feed=await getJson(FEED_URL);
+    // Estado y cola independientes del dispositivo para no repetir el pasado al activarlo.
+    const oldMatches=await this.ctx.storage.list({prefix:'match:'});
+    for(const [key,state] of oldMatches)if(state.at<now-2*86400000)await this.ctx.storage.delete(key);
+    for(const fixture of candidates(feed,now)){
+      const league=LEAGUES[fixture.competition];
+      try{
+        const board=await getJson(`https://site.api.espn.com/apis/site/v2/sports/soccer/${league}/scoreboard?dates=${fixture.date.replaceAll('-','')}&limit=200`);
+        const id=resolveEventId(board,fixture);if(!id)continue;
+        const summary=await getJson(`https://site.api.espn.com/apis/site/v2/sports/soccer/${league}/summary?event=${id}`);
+        const boardEvent=board.events?.find(e=>String(e.id)===id);
+        const current=snapshot(summary,fixture,boardEvent?.status||boardEvent?.competitions?.[0]?.status);if(!current)continue;
+        const key='match:'+id,previous=await this.ctx.storage.get(key);
+        const result=changes(current,previous,fixture,now);
+        if(previous&&result.state===previous)continue; // Fuente que retrocede de fase.
+        const queue=(previous?.queue||[]).filter(n=>n.expiresAt>now&&(!n.eventKey.startsWith('goal:')||!current.goalsCoherent||current.events.some(e=>e.key===n.eventKey)));
+        for(const notice of result.notices)if(!queue.some(n=>n.eventKey===notice.eventKey))queue.push(notice);
+        const lineup=confirmedNotice(summary,fixture,now);
+        const notices=[...(lineup?[{...lineup,eventKey:'lineup'}]:[]),...queue];
+        await this.ctx.storage.put(key,{...result.state,queue});
+        for(const [deviceKey,device] of devices){
+          for(const notice of notices){
+            if(notice.kind==='madrid-event'&&!device.liveNotices)continue;
+            if(fixture.competition==='Champions'&&!device.liveNotices)continue;
+            if(notice.kind==='madrid-event'&&(device.createdAt||device.updatedAt)>notice.observedAt)continue;
+            const sentKey=notice.kind==='madrid-lineup'?id:id+':'+notice.eventKey;
+            const latest=await this.ctx.storage.get(deviceKey);if(!latest)break;
+            if(latest.sent[sentKey])continue;
+            try{
+              const response=await this.deliver(latest.subscription,notice);
+              if([404,410].includes(response.status)){await this.ctx.storage.delete(deviceKey);break;}
+              if(!response.ok)continue;
+              const fresh=await this.ctx.storage.get(deviceKey);if(!fresh)break;
+              fresh.sent[sentKey]=Date.now();fresh.sent=Object.fromEntries(Object.entries(fresh.sent).filter(([,at])=>at>now-45*86400000));
+              await this.ctx.storage.put(deviceKey,fresh);
+            }catch{/* Reintento limitado por TTL; el receptor deduplica. */}
+          }
+        }
+      }catch{console.error('match-check-failed',fixture.competition);}
     }
   }
 }

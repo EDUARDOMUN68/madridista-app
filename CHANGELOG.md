@@ -75,3 +75,9 @@
 - Cabecera compacta con Datos y Directo, sin comprobación repetida.
 - Campana para activar o desactivar los avisos en este móvil, con preferencia persistente y baja de suscripción real.
 - Eliminado recuadro permanente de avisos preparados; confirmaciones breves y errores accesibles desde la campana.
+
+## 3.28.0 — 18 de octubre de 2026
+
+- Avisos del Madrid en Liga y Champions: once, inicio, goles con marcador y goleador, expulsiones, descanso, segunda parte y final.
+- Sondeo cada minuto, cola persistente con caducidad y filtro de histórico al activar o reiniciar el seguimiento.
+- Validación de goles frente al marcador, correcciones, deduplicación por incidencia y enlaces a Resumen/Alineaciones de la competición correcta. La campana controla todos los avisos.

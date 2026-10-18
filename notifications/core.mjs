@@ -1,5 +1,6 @@
 export const APP_URL='https://eduardomun68.github.io/madridista-app/';
 export const FEED_URL=new URL('real_madrid.json',APP_URL).href;
+export const LEAGUES={LaLiga:'esp.1',Champions:'uefa.champions'};
 export const SUMMARY='https://site.api.espn.com/apis/site/v2/sports/soccer/esp.1/summary?event=';
 export function kickoff(fixture){
   if(!/^\d{4}-\d{2}-\d{2}$/.test(fixture.date||'')||!/^\d{2}:\d{2}$/.test(fixture.time||''))return NaN;
@@ -10,7 +11,7 @@ export function kickoff(fixture){
   return instant;
 }
 export function candidates(feed,now=Date.now()){
-  return (feed.fixtures||[]).filter(f=>f.competition==='LaLiga'&&f.status==='scheduled'&&kickoff(f)>=now&&kickoff(f)-now<=120*60000);
+  return (feed.fixtures||[]).filter(f=>Object.hasOwn(LEAGUES,f.competition)&&['scheduled','live','finished'].includes(f.status)&&kickoff(f)<=now+120*60000&&kickoff(f)>=now-6*3600000);
 }
 export function confirmedNotice(summary,fixture,now=Date.now()){
   const game=summary.header?.competitions?.[0],state=game?.status?.type;
@@ -27,7 +28,7 @@ export function confirmedNotice(summary,fixture,now=Date.now()){
   const home=game.competitors.find(t=>t.homeAway==='home')?.team?.displayName;
   const away=game.competitors.find(t=>t.homeAway==='away')?.team?.displayName;
   if(!home||!away)return null;
-  const url=new URL(APP_URL);url.searchParams.set('lineup',id);url.searchParams.set('jornada',String(fixture.jornada));
+  const url=new URL(APP_URL);url.searchParams.set('competition',fixture.competition);url.searchParams.set('lineup',id);url.searchParams.set('jornada',String(fixture.jornada));
   return {kind:'madrid-lineup',matchId:id,title:'¡Ya hay once del Real Madrid!',body:`${home} – ${away}. Toca para ver la alineación.`,url:url.href,expiresAt:sourceKickoff,players:starters.map(p=>p.athlete.displayName)};
 }
 export function resolveEventId(board,fixture){

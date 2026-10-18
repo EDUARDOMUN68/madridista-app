@@ -25,7 +25,7 @@
         channel.port1.onmessage=event=>{clearTimeout(timer);channel.port1.close();resolve(event.data);};
         registration.active?.postMessage({type:'MADRIDISTA_PUSH_STATUS'},[channel.port2]);
       });
-      if(state?.ready&&state.version==='3.25.1')return state;
+      if(state?.ready&&state.version==='3.28.0')return state;
       await new Promise(resolve=>setTimeout(resolve,250));
     }
     throw Error('receiver');
