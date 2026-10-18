@@ -1,6 +1,6 @@
-importScripts('./push-receiver.js?v=3.26.0');
-const CACHE='madridista-v3.26.0';
-const STATIC=['./push-config.js?v=3.26.0','./push-client.js?v=3.26.0','./push-open.js?v=3.26.0','./push-receiver.js?v=3.26.0','./match-detail.js?v=3.26.0','./match-detail.css?v=3.26.0','./','./index.html','./manifest.webmanifest?v=3.26.0','./crest-192.png?v=3.26.0','./icon-512.png?v=3.26.0','./icon-maskable-512.png?v=3.26.0'];
+importScripts('./push-receiver.js?v=3.27.0');
+const CACHE='madridista-v3.27.0';
+const STATIC=['./push-config.js?v=3.27.0','./push-client.js?v=3.27.0','./push-open.js?v=3.27.0','./push-receiver.js?v=3.27.0','./match-detail.js?v=3.27.0','./match-detail.css?v=3.27.0','./','./index.html','./manifest.webmanifest?v=3.27.0','./crest-192.png?v=3.27.0','./icon-512.png?v=3.27.0','./icon-maskable-512.png?v=3.27.0'];
 
 self.addEventListener('install',e=>{
   e.waitUntil(caches.open(CACHE).then(c=>c.addAll(STATIC)));

@@ -9,7 +9,7 @@ Servicio desplegado y configurado con cron cada dos minutos. La app registra el 
 - Resuelve la ficha por fecha, hora, localía y equipo 86. No usa identificadores históricos sin contrastarlos. Rechaza encuentros iniciados, finalizados o reprogramados respecto del calendario.
 - Envía cuando el Madrid tiene once jugadores únicos señalados explícitamente como titulares. No equivale a una convocatoria ni garantiza que la fuente publique exactamente una hora antes.
 - Web Push cifra el mensaje. Las claves privadas VAPID se guardan como secretos del servicio. Las suscripciones y el registro de avisos permanecen en almacenamiento privado de un Durable Object SQLite; no se guardan en el repositorio ni en el JSON público.
-- Un dispositivo registrado recibe siempre los avisos, sin interruptor en la app. El primer permiso requiere pulsación y confirmación del navegador; ningún sitio puede concedérselo por el usuario.
+- Un dispositivo registrado y activado recibe los avisos, con interruptor en la campana de la cabecera. El primer permiso requiere pulsación y confirmación del navegador; ningún sitio puede concedérselo por el usuario.
 - El receptor usa IndexedDB y un tag por partido para no repetir un aviso reenviado. No se promete entrega infalible: red, permisos y sistema operativo pueden impedirla. El TTL termina al inicio, evitando avisos antiguos al reconectar.
 - Al tocar el aviso se abre la alineación del partido en Jornada. Al finalizar se detiene el seguimiento del servicio para ese encuentro. La app puede permanecer cerrada y el ordenador apagado.
 
@@ -36,3 +36,7 @@ Al registrar un móvil nuevo, el servicio envía un único aviso de confirmació
 El registro espera confirmación del receptor actualizado del service worker. Muestra su estado también con permiso ya concedido y recupera el aviso inicial si el receptor no lo recibió, con espera entre reintentos y deduplicación local. La respuesta del servidor distingue un fallo del envío de prueba.
 
 Compatibilidad Workers: los envíos usan fetch con redirect manual. Los 3xx se consideran fallos y no se siguen, manteniendo el envío en el endpoint validado. Los registros de error omiten endpoints y claves.
+
+### Control compacto de avisos — 3.27.0
+
+Campana junto a actualizar: activa/desactiva avisos por dispositivo y recuerda la elección local. Usuarios con permiso previo continúan activos hasta desactivarlos. En dispositivos nuevos se pide permiso solo al tocar la campana. La baja cancela primero la suscripción del navegador y después intenta borrar el registro del servicio; si la red falla, el endpoint cancelado deja de recibir y se depura al responder 410. Los errores se indican en la campana con reintento; confirmaciones breves sin recuadro permanente. Cabecera con Datos y Directo, sin la línea Comprobado duplicada.

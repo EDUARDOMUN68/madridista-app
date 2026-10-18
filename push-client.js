@@ -1,15 +1,21 @@
 (function(){
   'use strict';
-  const api=window.MADRIDISTA_PUSH_API;
-  if(!api||!('serviceWorker' in navigator)||!('PushManager' in window)||!('Notification' in window))return;
+  const button=document.getElementById('pushToggle'),api=window.MADRIDISTA_PUSH_API;
+  if(!button)return;
+  if(!api||!('serviceWorker' in navigator)||!('PushManager' in window)||!('Notification' in window)){button.hidden=true;return;}
   let base;try{base=new URL(api);if(base.protocol!=='https:')return;}catch{return;}
+  const key='madridista-push-enabled';
+  let preferred=null;try{preferred=localStorage.getItem(key);}catch{}
+  let enabled=preferred==='on'||(preferred===null&&Notification.permission==='granted'),busy=false,retryOff=false,failed=false;
   const request=(path,options={})=>fetch(new URL(path,base),{...options,cache:'no-store',signal:AbortSignal.timeout(15000)});
-  let message=null;
-  function banner(text,action){
-    if(!message){message=document.createElement('div');message.className='push-permission';message.style.cssText='margin:10px 14px;padding:14px;background:#eef4ff;border:1px solid #c6d8f4;border-radius:14px;color:#193d69;font-size:13px;line-height:1.5';document.querySelector('header').after(message);}
-    message.replaceChildren(document.createTextNode(text));
-    if(action){const button=document.createElement('button');button.type='button';button.textContent=action.label;button.style.cssText='display:block;margin-top:10px;padding:10px 14px;background:#fff;border:1px solid #8daed8;border-radius:10px;color:#193d69;font-weight:700';button.onclick=action.run;message.append(button);}
+  function save(value){try{localStorage.setItem(key,value?'on':'off');}catch{}}
+  function paint(text){
+    button.textContent=busy?'…':failed?'⚠':enabled?'🔔':'🔕';
+    button.disabled=busy;button.setAttribute('aria-pressed',String(enabled));
+    button.title=text||(enabled?'Avisos activados · Pulsar para desactivar':'Avisos desactivados · Pulsar para activar');
+    button.setAttribute('aria-label',button.title);
   }
+  function notify(text){if(typeof window.showRefreshMessage==='function')window.showRefreshMessage(text);}
   function bytes(value){return Uint8Array.from(atob(value.replace(/-/g,'+').replace(/_/g,'/')),c=>c.charCodeAt(0));}
   async function receiver(registration){
     const deadline=Date.now()+30000;
@@ -24,25 +30,41 @@
     }
     throw Error('receiver');
   }
-  async function subscribe(){
+
+  async function disable(manual){
+    enabled=false;save(false);busy=true;failed=false;paint('Desactivando avisos…');
     try{
-      if(Notification.permission==='default'){
-        const permission=await Notification.requestPermission();
-        if(permission!=='granted'){banner('Los avisos necesitan permiso del móvil. Puedes permitirlos en los ajustes del navegador.');return;}
-      }
-      if(Notification.permission!=='granted'){banner('Los avisos están bloqueados en el navegador. Permítelos en sus ajustes para recibir la alineación del Madrid.');return;}
-      banner('Preparando los avisos de la alineación del Madrid…');
-      const response=await request('/config');if(!response.ok)throw Error('service');const config=await response.json();if(!config.ready||!config.publicKey)throw Error('config');
       const registration=await navigator.serviceWorker.ready;
-      const state=await receiver(registration);
+      const subscription=await registration.pushManager.getSubscription();
+      if(subscription){
+        const payload=JSON.stringify(subscription);
+        if(!await subscription.unsubscribe())throw Error('unsubscribe');
+        // La baja del navegador corta los envíos aunque el servicio no responda.
+        try{await request('/subscription',{method:'DELETE',headers:{'Content-Type':'application/json'},body:payload});}catch{}
+      }
+      retryOff=false;if(manual)notify('Avisos desactivados en este móvil');
+    }catch{retryOff=true;failed=true;notify('No se ha podido completar la baja. Toca la campana para reintentar.');}
+    finally{busy=false;paint(retryOff?'No se han podido desactivar · Pulsar para reintentar':undefined);}
+  }
+  async function enable(manual){
+    busy=true;failed=false;paint('Preparando avisos…');
+    try{
+      if(Notification.permission==='default'&&manual)await Notification.requestPermission();
+      if(Notification.permission!=='granted'){enabled=false;save(false);notify('Permite las notificaciones en los ajustes del navegador para activar los avisos.');return;}
+      enabled=true;save(true);
+      const response=await request('/config');if(!response.ok)throw Error('service');const config=await response.json();if(!config.ready||!config.publicKey)throw Error('config');
+      const registration=await navigator.serviceWorker.ready,state=await receiver(registration);
       let subscription=await registration.pushManager.getSubscription();
       if(!subscription)subscription=await registration.pushManager.subscribe({userVisibleOnly:true,applicationServerKey:bytes(config.publicKey)});
       const sent=await request('/subscription',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({subscription,receiverVersion:state.version,confirmationReceived:state.confirmationReceived})});
       if(!sent.ok)throw Error('registration');
       const result=await sent.json();
-      if(!result.confirmationSent&&!state.confirmationReceived){banner('El móvil está registrado, pero el aviso de prueba no se ha podido enviar.',{label:'Volver a intentar',run:subscribe});return;}
-      banner('Avisos de la alineación del Madrid preparados en este móvil.');
-    }catch{banner('No se han podido preparar los avisos. La app sigue funcionando.',{label:'Volver a intentar',run:subscribe});}
+      if(!result.confirmationSent&&!state.confirmationReceived)throw Error('confirmation');
+      if(manual)notify('Avisos activados en este móvil');
+    }catch{failed=true;notify('No se han podido preparar los avisos. Toca la campana para reintentar.');}
+    finally{busy=false;paint(failed?'Error al preparar avisos · Pulsar para reintentar':undefined);}
   }
-  if(Notification.permission==='default')banner('Permite una vez las notificaciones para recibir siempre el once del Real Madrid, también con la app cerrada.',{label:'Permitir notificaciones',run:subscribe});else subscribe();
+  button.onclick=()=>{if(busy)return;if(retryOff||enabled&&!failed)disable(true);else enable(true);};
+  paint();
+  if(preferred==='off')disable(false);else if(enabled)enable(false);
 })();
