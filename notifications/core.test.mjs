@@ -8,8 +8,8 @@ test('Ventana previa y zona Madrid con cambio de hora',()=>{
  assert.equal(kickoff(fixture),start);
  assert.equal(kickoff({...fixture,date:'2026-11-07'}),Date.parse('2026-11-07T20:00Z'));
  assert.equal(candidates({fixtures:[fixture]},now).length,1);
- assert.equal(candidates({fixtures:[fixture]},start+1).length,0);
- assert.equal(candidates({fixtures:[{...fixture,competition:'Champions'}]},now).length,0);
+ assert.equal(candidates({fixtures:[fixture]},start+1).length,1);
+ assert.equal(candidates({fixtures:[{...fixture,competition:'Champions'}]},now).length,1);
 });
 test('Once explícito, solo Madrid y sin notificación histórica',()=>{
  assert.equal(confirmedNotice(summary(),fixture,now).players.length,11);

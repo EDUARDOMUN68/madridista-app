@@ -4,7 +4,7 @@
   "compatibility_date": "2026-10-17",
   "compatibility_flags": ["nodejs_compat"],
   "workers_dev": true,
-  "triggers": {"crons": ["*/2 * * * *"]},
+  "triggers": {"crons": ["* * * * *"]},
   "durable_objects": {"bindings": [{"name":"LINEUP_NOTICES","class_name":"LineupNotices"}]},
   "migrations": [{"tag":"v1","new_sqlite_classes":["LineupNotices"]}]
 }

@@ -3,7 +3,7 @@ function app({preference=null,permission='granted',offline=false,unsubscribeFail
  const calls=[],toasts=[],attrs={},storage=new Map(preference===null?[]:[['madridista-push-enabled',preference]]);
  let subscription={endpoint:'https://push.example/device',async unsubscribe(){calls.push('unsubscribe');if(unsubscribeFails)return false;subscription=null;return true;}},requested=0;
  const button={setAttribute(k,v){attrs[k]=v;}},notification={permission,async requestPermission(){requested++;this.permission='granted';return 'granted';}};
- const registration={active:{postMessage(data,ports){if(oldReceiver)return;ports[0].other.onmessage({data:{ready:true,version:'3.25.1',confirmationReceived:true}});}},pushManager:{async getSubscription(){return subscription;},async subscribe(){calls.push('subscribe');subscription={endpoint:'new',unsubscribe:async()=>true};return subscription;}}};
+ const registration={active:{postMessage(data,ports){if(oldReceiver)return;ports[0].other.onmessage({data:{ready:true,version:'3.28.0',confirmationReceived:true}});}},pushManager:{async getSubscription(){return subscription;},async subscribe(){calls.push('subscribe');subscription={endpoint:'new',unsubscribe:async()=>true};return subscription;}}};
  const context={URL,Uint8Array,atob,AbortSignal,Date,Promise,setTimeout(fn,ms){return setTimeout(()=>{if(ms===1000)oldReceiver=false;fn();},ms===1000?5:ms);},clearTimeout,
  window:{MADRIDISTA_PUSH_API:'https://service.example',PushManager:{},Notification:{},showRefreshMessage:t=>toasts.push(t)},Notification:notification,
  localStorage:{getItem:k=>storage.get(k)??null,setItem:(k,v)=>storage.set(k,v)},navigator:{serviceWorker:{ready:Promise.resolve(registration)}},

@@ -7,7 +7,7 @@ import {APP_URL,FEED_URL,deviceId} from './core.mjs';
 test('Envío cifrado, deduplicación persistente y limpieza de suscripción caducada',async()=>{
  const keys=webpush.generateVAPIDKeys(),ecdh=createECDH('prime256v1');ecdh.generateKeys();
  const subscription={endpoint:'https://fcm.googleapis.com/fcm/send/test-device-long-token',keys:{p256dh:ecdh.getPublicKey().toString('base64url'),auth:randomBytes(16).toString('base64url')}};
- const data=new Map(),ctx={blockConcurrencyWhile:fn=>fn(),storage:{async get(k){return structuredClone(data.get(k));},async put(k,v){data.set(k,structuredClone(v));},async delete(k){data.delete(k);},async list(){return new Map([...data].map(([k,v])=>[k,structuredClone(v)]));}}};
+ const data=new Map(),ctx={blockConcurrencyWhile:fn=>fn(),storage:{async get(k){return structuredClone(data.get(k));},async put(k,v){data.set(k,structuredClone(v));},async delete(k){data.delete(k);},async list({prefix='' }={}){return new Map([...data].filter(([key])=>key.startsWith(prefix)).map(([k,v])=>[k,structuredClone(v)]));}}};
  const env={VAPID_PUBLIC_KEY:keys.publicKey,VAPID_PRIVATE_KEY:keys.privateKey};
  const object=new LineupNotices(ctx,env),url='https://internal/subscription',request=()=>new Request(url,{method:'POST',body:JSON.stringify(subscription)});
  const start=new Date(Date.now()+3600000);start.setUTCSeconds(0,0);
