@@ -2,14 +2,14 @@
   "app": {
     "name": "Madridista",
     "season": "2026/27",
-    "lastUpdated": "2026-10-18T16:37+02:00",
+    "lastUpdated": "2026-10-18T20:08+02:00",
     "timezone": "Europe/Madrid",
     "sources": [
       "Real Madrid C.F. — calendario oficial de LaLiga 2026/27",
       "Real Madrid C.F. — calendario Champions 2026/27",
       "LALIGA — horarios, resultados y clasificación"
     ],
-    "lastChecked": "2026-10-18T16:37+02:00"
+    "lastChecked": "2026-10-18T20:08+02:00"
   },
   "nextMatch": {
     "competition": "LaLiga",
@@ -1020,6 +1020,22 @@
     },
     {
       "pos": 5,
+      "team": "Real Sociedad",
+      "pts": 16,
+      "pj": 9,
+      "g": 5,
+      "e": 1,
+      "p": 3,
+      "gf": 17,
+      "gc": 17,
+      "dg": 0,
+      "provisional": true,
+      "live": true,
+      "liveLabel": "80'",
+      "liveScore": "2–5"
+    },
+    {
+      "pos": 6,
       "team": "Sevilla",
       "pts": 14,
       "pj": 8,
@@ -1031,35 +1047,31 @@
       "dg": 1
     },
     {
-      "pos": 6,
-      "team": "Real Sociedad",
-      "pts": 13,
-      "pj": 8,
-      "g": 4,
-      "e": 1,
-      "p": 3,
-      "gf": 12,
-      "gc": 15,
-      "dg": -3
-    },
-    {
       "pos": 7,
       "team": "Alavés",
-      "pts": 12,
+      "pts": 11,
       "pj": 9,
       "g": 3,
-      "e": 3,
-      "p": 3,
-      "gf": 12,
-      "gc": 8,
-      "dg": 4,
-      "provisional": true,
-      "live": true,
-      "liveLabel": "21'",
-      "liveScore": "0–0"
+      "e": 2,
+      "p": 4,
+      "gf": 13,
+      "gc": 10,
+      "dg": 3
     },
     {
       "pos": 8,
+      "team": "Celta Vigo",
+      "pts": 11,
+      "pj": 9,
+      "g": 2,
+      "e": 5,
+      "p": 2,
+      "gf": 10,
+      "gc": 7,
+      "dg": 3
+    },
+    {
+      "pos": 9,
       "team": "Deportivo",
       "pts": 11,
       "pj": 9,
@@ -1071,7 +1083,7 @@
       "dg": 1
     },
     {
-      "pos": 9,
+      "pos": 10,
       "team": "Osasuna",
       "pts": 11,
       "pj": 9,
@@ -1081,22 +1093,6 @@
       "gf": 10,
       "gc": 18,
       "dg": -8
-    },
-    {
-      "pos": 10,
-      "team": "Celta Vigo",
-      "pts": 9,
-      "pj": 9,
-      "g": 1,
-      "e": 6,
-      "p": 2,
-      "gf": 8,
-      "gc": 6,
-      "dg": 2,
-      "provisional": true,
-      "live": true,
-      "liveLabel": "21'",
-      "liveScore": "0–0"
     },
     {
       "pos": 11,
@@ -1210,13 +1206,17 @@
       "pos": 20,
       "team": "Málaga",
       "pts": 4,
-      "pj": 8,
+      "pj": 9,
       "g": 0,
       "e": 4,
-      "p": 4,
-      "gf": 4,
-      "gc": 13,
-      "dg": -9
+      "p": 5,
+      "gf": 6,
+      "gc": 18,
+      "dg": -12,
+      "provisional": true,
+      "live": true,
+      "liveLabel": "80'",
+      "liveScore": "2–5"
     }
   ],
   "championsStandings": [
@@ -1734,22 +1734,22 @@
   ],
   "live": {
     "hasLiveMatches": true,
-    "updatedAt": "2026-10-18T16:37+02:00",
+    "updatedAt": "2026-10-18T20:08+02:00",
     "matches": [
       {
-        "eventId": "401882845",
+        "eventId": "401882841",
         "competition": "LaLiga",
         "date": "2026-10-18",
         "displayDate": "Dom. 18 octubre",
-        "time": "16:15",
-        "kickoff": "2026-10-18T16:15+02:00",
-        "home": "Celta Vigo",
-        "away": "Alavés",
-        "homeScore": 0,
-        "awayScore": 0,
-        "score": "0–0",
+        "time": "18:30",
+        "kickoff": "2026-10-18T18:30+02:00",
+        "home": "Málaga",
+        "away": "Real Sociedad",
+        "homeScore": 2,
+        "awayScore": 5,
+        "score": "2–5",
         "status": "live",
-        "liveLabel": "21'"
+        "liveLabel": "80'"
       }
     ]
   },
@@ -1830,16 +1830,28 @@
       "pos": 7,
       "team": "Alavés",
       "pts": 11,
-      "pj": 8,
+      "pj": 9,
       "g": 3,
       "e": 2,
-      "p": 3,
-      "gf": 12,
-      "gc": 8,
-      "dg": 4
+      "p": 4,
+      "gf": 13,
+      "gc": 10,
+      "dg": 3
     },
     {
       "pos": 8,
+      "team": "Celta Vigo",
+      "pts": 11,
+      "pj": 9,
+      "g": 2,
+      "e": 5,
+      "p": 2,
+      "gf": 10,
+      "gc": 7,
+      "dg": 3
+    },
+    {
+      "pos": 9,
       "team": "Deportivo",
       "pts": 11,
       "pj": 9,
@@ -1851,7 +1863,7 @@
       "dg": 1
     },
     {
-      "pos": 9,
+      "pos": 10,
       "team": "Osasuna",
       "pts": 11,
       "pj": 9,
@@ -1863,7 +1875,7 @@
       "dg": -8
     },
     {
-      "pos": 10,
+      "pos": 11,
       "team": "Athletic Club",
       "pts": 9,
       "pj": 7,
@@ -1875,7 +1887,7 @@
       "dg": 1
     },
     {
-      "pos": 11,
+      "pos": 12,
       "team": "Villarreal",
       "pts": 9,
       "pj": 9,
@@ -1885,18 +1897,6 @@
       "gf": 13,
       "gc": 13,
       "dg": 0
-    },
-    {
-      "pos": 12,
-      "team": "Celta Vigo",
-      "pts": 8,
-      "pj": 8,
-      "g": 1,
-      "e": 5,
-      "p": 2,
-      "gf": 8,
-      "gc": 6,
-      "dg": 2
     },
     {
       "pos": 13,
@@ -2001,7 +2001,7 @@
       "liveGames": 1,
       "pendingOfficialGames": 0,
       "sourceIncludesLive": false,
-      "updatedAt": "2026-10-18T16:37+02:00",
+      "updatedAt": "2026-10-18T20:08+02:00",
       "trackedGames": {
         "401882840": {
           "eventId": "401882840",
@@ -2019,10 +2019,10 @@
           "date": "2026-10-18",
           "home": "Celta Vigo",
           "away": "Alavés",
-          "homeScore": 0,
-          "awayScore": 0,
-          "score": "0–0",
-          "status": "live",
+          "homeScore": 2,
+          "awayScore": 1,
+          "score": "2–1",
+          "status": "finished",
           "homeBase": {
             "pj": 8,
             "pts": 8,
@@ -2041,6 +2041,35 @@
             "gf": 12,
             "gc": 8
           },
+          "absorbed": true
+        },
+        "401882841": {
+          "eventId": "401882841",
+          "date": "2026-10-18",
+          "home": "Málaga",
+          "away": "Real Sociedad",
+          "homeScore": 2,
+          "awayScore": 5,
+          "score": "2–5",
+          "status": "live",
+          "homeBase": {
+            "pj": 8,
+            "pts": 4,
+            "g": 0,
+            "e": 4,
+            "p": 4,
+            "gf": 4,
+            "gc": 13
+          },
+          "awayBase": {
+            "pj": 8,
+            "pts": 13,
+            "g": 4,
+            "e": 1,
+            "p": 3,
+            "gf": 12,
+            "gc": 15
+          },
           "absorbed": false
         }
       }
@@ -2050,7 +2079,7 @@
       "liveGames": 0,
       "pendingOfficialGames": 0,
       "sourceIncludesLive": false,
-      "updatedAt": "2026-10-18T16:37+02:00"
+      "updatedAt": "2026-10-18T20:08+02:00"
     }
   },
   "championsOfficialStandings": [
@@ -2494,11 +2523,11 @@
       "phase": "active",
       "windowStart": "2026-10-16",
       "windowEnd": "2026-10-19",
-      "finished": 6,
+      "finished": 7,
       "total": 10,
       "live": 1,
       "postponed": 0,
-      "updatedAt": "2026-10-18T16:36+02:00",
+      "updatedAt": "2026-10-18T20:06+02:00",
       "matches": [
         {
           "eventId": "401882844",
@@ -2599,11 +2628,10 @@
           "kickoff": "2026-10-18T16:15+02:00",
           "home": "Celta",
           "away": "Deportivo Alavés",
-          "homeScore": 0,
-          "awayScore": 0,
-          "score": "0–0",
-          "status": "live",
-          "liveLabel": "19'",
+          "homeScore": 2,
+          "awayScore": 1,
+          "score": "2–1",
+          "status": "finished",
           "officialSource": "LALIGA"
         },
         {
@@ -2615,11 +2643,11 @@
           "kickoff": "2026-10-18T18:30+02:00",
           "home": "Málaga CF",
           "away": "Real Sociedad",
-          "homeScore": 0,
-          "awayScore": 0,
-          "score": "0–0",
-          "status": "scheduled",
-          "liveLabel": null,
+          "homeScore": 2,
+          "awayScore": 5,
+          "score": "2–5",
+          "status": "live",
+          "liveLabel": "79'",
           "officialSource": "LALIGA"
         },
         {
@@ -2666,7 +2694,7 @@
       "total": 18,
       "live": 0,
       "postponed": 0,
-      "updatedAt": "2026-10-18T16:36+02:00",
+      "updatedAt": "2026-10-18T20:07+02:00",
       "matches": [
         {
           "eventId": "401915403",
@@ -2952,7 +2980,7 @@
       "total": 10,
       "live": 0,
       "postponed": 0,
-      "updatedAt": "2026-10-18T16:36+02:00",
+      "updatedAt": "2026-10-18T20:06+02:00",
       "matches": [
         {
           "eventId": "",
@@ -3126,7 +3154,7 @@
       "total": 18,
       "live": 0,
       "postponed": 0,
-      "updatedAt": "2026-10-18T16:36+02:00",
+      "updatedAt": "2026-10-18T20:07+02:00",
       "matches": [
         {
           "eventId": "401915311",
@@ -3413,7 +3441,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-18T16:36+02:00",
+        "updatedAt": "2026-10-18T20:07+02:00",
         "matches": [
           {
             "eventId": "",
@@ -3587,7 +3615,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-18T16:36+02:00",
+        "updatedAt": "2026-10-18T20:07+02:00",
         "matches": [
           {
             "eventId": "",
@@ -3761,7 +3789,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-18T16:36+02:00",
+        "updatedAt": "2026-10-18T20:07+02:00",
         "matches": [
           {
             "eventId": "",
@@ -3935,7 +3963,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-18T16:36+02:00",
+        "updatedAt": "2026-10-18T20:07+02:00",
         "matches": [
           {
             "eventId": "",
@@ -4109,7 +4137,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-18T16:36+02:00",
+        "updatedAt": "2026-10-18T20:07+02:00",
         "matches": [
           {
             "eventId": "",
@@ -4283,7 +4311,7 @@
         "total": 9,
         "live": 0,
         "postponed": 1,
-        "updatedAt": "2026-10-18T16:36+02:00",
+        "updatedAt": "2026-10-18T20:07+02:00",
         "matches": [
           {
             "eventId": "",
@@ -4458,7 +4486,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-18T16:36+02:00",
+        "updatedAt": "2026-10-18T20:07+02:00",
         "matches": [
           {
             "eventId": "",
@@ -4632,7 +4660,7 @@
         "total": 9,
         "live": 0,
         "postponed": 1,
-        "updatedAt": "2026-10-18T16:36+02:00",
+        "updatedAt": "2026-10-18T20:07+02:00",
         "matches": [
           {
             "eventId": "",
@@ -4794,11 +4822,11 @@
         "phase": "active",
         "windowStart": "2026-10-16",
         "windowEnd": "2026-10-19",
-        "finished": 6,
+        "finished": 7,
         "total": 10,
         "live": 1,
         "postponed": 0,
-        "updatedAt": "2026-10-18T16:36+02:00",
+        "updatedAt": "2026-10-18T20:07+02:00",
         "matches": [
           {
             "eventId": "",
@@ -4904,11 +4932,10 @@
             "kickoff": "2026-10-18T16:15+02:00",
             "home": "Celta",
             "away": "Deportivo Alavés",
-            "homeScore": 0,
-            "awayScore": 0,
-            "score": "0–0",
-            "status": "live",
-            "liveLabel": "20'",
+            "homeScore": 2,
+            "awayScore": 1,
+            "score": "2–1",
+            "status": "finished",
             "officialSource": "LALIGA"
           },
           {
@@ -4920,11 +4947,11 @@
             "kickoff": "2026-10-18T18:30+02:00",
             "home": "Málaga CF",
             "away": "Real Sociedad",
-            "homeScore": 0,
-            "awayScore": 0,
-            "score": "0–0",
-            "status": "scheduled",
-            "liveLabel": null,
+            "homeScore": 2,
+            "awayScore": 5,
+            "score": "2–5",
+            "status": "live",
+            "liveLabel": "79'",
             "officialSource": "LALIGA"
           },
           {
@@ -4971,7 +4998,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-18T16:36+02:00",
+        "updatedAt": "2026-10-18T20:07+02:00",
         "matches": [
           {
             "eventId": "",
@@ -5145,7 +5172,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-18T16:36+02:00",
+        "updatedAt": "2026-10-18T20:07+02:00",
         "matches": [
           {
             "eventId": "",
@@ -5319,7 +5346,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-18T16:36+02:00",
+        "updatedAt": "2026-10-18T20:07+02:00",
         "matches": [
           {
             "eventId": "",
@@ -5493,7 +5520,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-18T16:36+02:00",
+        "updatedAt": "2026-10-18T20:07+02:00",
         "matches": [
           {
             "eventId": "",
@@ -5667,7 +5694,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-18T16:36+02:00",
+        "updatedAt": "2026-10-18T20:07+02:00",
         "matches": [
           {
             "eventId": "",
@@ -5841,7 +5868,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-18T16:36+02:00",
+        "updatedAt": "2026-10-18T20:07+02:00",
         "matches": [
           {
             "eventId": "",
@@ -6015,7 +6042,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-18T16:36+02:00",
+        "updatedAt": "2026-10-18T20:07+02:00",
         "matches": [
           {
             "eventId": "",
@@ -6189,7 +6216,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-18T16:36+02:00",
+        "updatedAt": "2026-10-18T20:07+02:00",
         "matches": [
           {
             "eventId": "",
@@ -6363,7 +6390,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-18T16:36+02:00",
+        "updatedAt": "2026-10-18T20:07+02:00",
         "matches": [
           {
             "eventId": "",
@@ -6537,7 +6564,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-18T16:36+02:00",
+        "updatedAt": "2026-10-18T20:07+02:00",
         "matches": [
           {
             "eventId": "",
@@ -6711,7 +6738,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-18T16:36+02:00",
+        "updatedAt": "2026-10-18T20:07+02:00",
         "matches": [
           {
             "eventId": "",
@@ -6885,7 +6912,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-18T16:36+02:00",
+        "updatedAt": "2026-10-18T20:07+02:00",
         "matches": [
           {
             "eventId": "",
@@ -7059,7 +7086,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-18T16:37+02:00",
+        "updatedAt": "2026-10-18T20:07+02:00",
         "matches": [
           {
             "eventId": "",
@@ -7233,7 +7260,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-18T16:37+02:00",
+        "updatedAt": "2026-10-18T20:07+02:00",
         "matches": [
           {
             "eventId": "",
@@ -7407,7 +7434,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-18T16:37+02:00",
+        "updatedAt": "2026-10-18T20:07+02:00",
         "matches": [
           {
             "eventId": "",
@@ -7581,7 +7608,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-18T16:37+02:00",
+        "updatedAt": "2026-10-18T20:07+02:00",
         "matches": [
           {
             "eventId": "",
@@ -7755,7 +7782,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-18T16:37+02:00",
+        "updatedAt": "2026-10-18T20:07+02:00",
         "matches": [
           {
             "eventId": "",
@@ -7929,7 +7956,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-18T16:37+02:00",
+        "updatedAt": "2026-10-18T20:07+02:00",
         "matches": [
           {
             "eventId": "",
@@ -8103,7 +8130,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-18T16:37+02:00",
+        "updatedAt": "2026-10-18T20:07+02:00",
         "matches": [
           {
             "eventId": "",
@@ -8277,7 +8304,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-18T16:37+02:00",
+        "updatedAt": "2026-10-18T20:07+02:00",
         "matches": [
           {
             "eventId": "",
@@ -8451,7 +8478,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-18T16:37+02:00",
+        "updatedAt": "2026-10-18T20:07+02:00",
         "matches": [
           {
             "eventId": "",
@@ -8625,7 +8652,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-18T16:37+02:00",
+        "updatedAt": "2026-10-18T20:08+02:00",
         "matches": [
           {
             "eventId": "",
@@ -8799,7 +8826,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-18T16:37+02:00",
+        "updatedAt": "2026-10-18T20:08+02:00",
         "matches": [
           {
             "eventId": "",
@@ -8973,7 +9000,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-18T16:37+02:00",
+        "updatedAt": "2026-10-18T20:08+02:00",
         "matches": [
           {
             "eventId": "",
@@ -9147,7 +9174,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-18T16:37+02:00",
+        "updatedAt": "2026-10-18T20:08+02:00",
         "matches": [
           {
             "eventId": "",
@@ -9321,7 +9348,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-18T16:37+02:00",
+        "updatedAt": "2026-10-18T20:08+02:00",
         "matches": [
           {
             "eventId": "",
@@ -9495,7 +9522,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-18T16:37+02:00",
+        "updatedAt": "2026-10-18T20:08+02:00",
         "matches": [
           {
             "eventId": "",
@@ -9669,7 +9696,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-18T16:37+02:00",
+        "updatedAt": "2026-10-18T20:08+02:00",
         "matches": [
           {
             "eventId": "",
@@ -9843,7 +9870,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-18T16:37+02:00",
+        "updatedAt": "2026-10-18T20:08+02:00",
         "matches": [
           {
             "eventId": "",
@@ -10019,7 +10046,7 @@
         "total": 18,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-18T16:37+02:00",
+        "updatedAt": "2026-10-18T20:08+02:00",
         "matches": [
           {
             "eventId": "401915452",
@@ -10303,7 +10330,7 @@
         "total": 18,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-18T16:37+02:00",
+        "updatedAt": "2026-10-18T20:08+02:00",
         "matches": [
           {
             "eventId": "401915418",
@@ -10569,7 +10596,7 @@
         "total": 18,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-18T16:37+02:00",
+        "updatedAt": "2026-10-18T20:08+02:00",
         "matches": [
           {
             "eventId": "401915403",
@@ -10853,7 +10880,7 @@
         "total": 18,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-18T16:37+02:00",
+        "updatedAt": "2026-10-18T20:08+02:00",
         "matches": [
           {
             "eventId": "401915311",
@@ -11137,7 +11164,7 @@
         "total": 18,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-18T16:37+02:00",
+        "updatedAt": "2026-10-18T20:08+02:00",
         "matches": [
           {
             "eventId": "401915380",
@@ -11421,7 +11448,7 @@
         "total": 18,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-18T16:37+02:00",
+        "updatedAt": "2026-10-18T20:08+02:00",
         "matches": [
           {
             "eventId": "401915290",
@@ -11705,7 +11732,7 @@
         "total": 18,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-18T16:37+02:00",
+        "updatedAt": "2026-10-18T20:08+02:00",
         "matches": [
           {
             "eventId": "401915364",
@@ -11989,7 +12016,7 @@
         "total": 18,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-10-18T16:37+02:00",
+        "updatedAt": "2026-10-18T20:08+02:00",
         "matches": [
           {
             "eventId": "401915346",
@@ -12266,7 +12293,7 @@
     }
   },
   "jornadasCatalogMeta": {
-    "updatedAt": "2026-10-18T16:37+02:00",
+    "updatedAt": "2026-10-18T20:08+02:00",
     "laligaLoaded": 38,
     "championsLoaded": 8,
     "rebuiltAt": "2026-09-18T21:52+02:00",
