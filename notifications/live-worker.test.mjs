@@ -16,7 +16,8 @@ test('Servicio: transición real, cola persistente, reintento, receptores compat
  globalThis.fetch=async input=>{
    const url=String(input);if(url===FEED_URL)return Response.json({fixtures:[fixture]});
    assert.match(url,/uefa\.champions/);
-   if(url.includes('/scoreboard?'))return Response.json({events:[{id:'999',competitions:[game()]}]});
+   if(url.includes('/scoreboard?'))return Response.json({events:[{id:'999',competitions:[{...game(),details:goals.map(e=>({...e,athletesInvolved:e.participants.map(p=>p.athlete)}))}]}]});
+   assert.equal(phase,'pre','El directo no espera ni consulta el resumen');
    return Response.json({header:{competitions:[game()]},keyEvents:goals});
  };
  try{

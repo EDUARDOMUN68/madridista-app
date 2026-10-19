@@ -35,3 +35,9 @@ Fuentes técnicas: [Web Push](https://web.dev/articles/push-notifications-overvi
 ### Estabilidad del control — 3.29.0
 
 La elección guardada no se sustituye al comprobar el permiso al abrir o al fallar la red. La campana muestra la preferencia y un pequeño indicador si falta conexión o permiso; al volver la conexión reintenta. El alta/baja explícita sigue controlando la suscripción. Los avisos de once continúan abriendo Alineaciones aunque Jornada abra Resumen por defecto.
+
+### Latencia del directo — 19 de octubre de 2026
+
+Las fases, goles y expulsiones se leen directamente de status y details del marcador diario. El directo no espera ni consulta el summary; este solo se consulta antes del inicio para obtener los onces. Se conservan validación de identidad, jugadores explícitos, coherencia de goles con el marcador, TTL y deduplicación. La identidad de incidencia usa equipo, reloj y atleta para permanecer estable entre formatos de fuente. Los logs de aceptación push incluyen tipo y tiempos de detección/aceptación, sin endpoints ni claves.
+
+No se puede reconstruir con estos cambios la latencia de un partido anterior ni garantizar entrega instantánea. La fuente aún puede publicar tarde y Android puede retrasar la entrega. La mejora elimina la espera adicional de una ficha detallada; queda contrastarla en un partido real. La interfaz sigue en 3.29.0.
