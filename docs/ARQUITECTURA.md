@@ -6,35 +6,39 @@ LaLiga define la pertenencia a las 38 jornadas de diez partidos. Si su página n
 
 Los goles se acreditan por participantes explícitos y se publican únicamente si el desglose coincide con el marcador. Champions utiliza consultas diarias y exige 18 partidos por jornada.
 
-## Identidad visual y versión 3.28.0
+## Identidad visual y versión 3.29.0
 
-HTML declara y muestra 3.28.0; sw.js utiliza la misma versión de caché. Manifest, favicon, cabecera y apple-touch-icon utilizan recursos locales versionados. Los PNG incluyen fondo blanco y margen para conservar el escudo en iconos recortados por el sistema. La fecha del JSON expresa actualización de datos y no la versión de la aplicación.
+HTML declara y muestra 3.29.0; sw.js utiliza la misma versión de caché. Manifest, favicon, cabecera y apple-touch-icon utilizan recursos locales versionados. Los PNG incluyen fondo blanco y margen para conservar el escudo en iconos recortados por el sistema. La fecha del JSON expresa actualización de datos y no la versión de la aplicación.
 
 
-## Detalle de LaLiga y Champions — 3.28.0
+## Detalle de LaLiga y Champions — 3.29.0
 
 En Jornada, los partidos de LaLiga y Champions programados, en directo y finalizados permiten abrir un diálogo con Resumen (goles, tarjetas y cambios por tiempos) y Estadísticas de equipo. Consulta bajo demanda el resumen de ESPN, comprueba ambos equipos y resuelve el identificador por marcador diario cuando el catálogo oficial no lo aporta. Mientras permanece abierto se consulta cada 60 segundos; se detiene al cerrar o recibir un final y se pausa en segundo plano. Muestra carga, ausencia de datos y reintento con aviso si conserva una respuesta anterior. Cada competición consulta su propia ficha y marcador diario: esp.1 para LaLiga y uefa.champions para Champions.
 
-Los módulos match-detail.js y match-detail.css están incluidos en la caché 3.28.0; no modifican marcadores ni datos deportivos persistidos. Diálogo con cierre, Escape, teclado y pestañas accesibles.
+Los módulos match-detail.js y match-detail.css están incluidos en la caché 3.29.0; no modifican marcadores ni datos deportivos persistidos. Diálogo con cierre, Escape, teclado y pestañas accesibles.
 
 
 ### Alineaciones antes del inicio — 3.24.1
 
-La primera pestaña es Alineaciones, seguida de Resumen y Estadísticas. Los encuentros programados de Liga y Champions también permiten abrir la ficha. Se muestran titulares iniciales y suplentes, sin registrar cambios en esta pestaña. Solo se presenta un once cuando la fuente aporta once titulares únicos explícitos; si falta, se indica que todavía no está disponible. No se deduce un once a partir de una convocatoria. Las alineaciones suelen conocerse aproximadamente una hora antes, pero la publicación depende de la fuente. La ficha se revisa cada 60 segundos también antes del inicio mientras esté abierta.
+El detalle abre Resumen por defecto; mantiene las pestañas Alineaciones, Resumen y Estadísticas. Los encuentros programados de Liga y Champions también permiten abrir la ficha. Se muestran titulares iniciales y suplentes, sin registrar cambios en esta pestaña. Solo se presenta un once cuando la fuente aporta once titulares únicos explícitos; si falta, se indica que todavía no está disponible. No se deduce un once a partir de una convocatoria. Las alineaciones suelen conocerse aproximadamente una hora antes, pero la publicación depende de la fuente. La ficha se revisa cada 60 segundos también antes del inicio mientras esté abierta.
 
 La versión 3.24.1 incorpora acentos azul, lavanda, verde y dorado en Alineaciones; cambio exclusivamente visual.
 
 
-## Avisos de alineación — 3.28.0
+## Avisos de alineación — 3.29.0
 
 Web Push con Cloudflare Workers, almacenamiento privado y cron cada dos minutos. push-config.js contiene únicamente la URL pública; las claves privadas son secretos del servicio. Cada móvil necesita conceder el permiso inicial y registrar su suscripción. Activación y límites en docs/NOTIFICACIONES.md. La entrega en un móvil real debe confirmarse por separado.
 
 El registro espera confirmación del receptor actualizado del service worker. Muestra su estado también con permiso ya concedido y recupera el aviso inicial si el receptor no lo recibió, con espera entre reintentos y deduplicación local. La respuesta del servidor distingue un fallo del envío de prueba.
 
-### Control compacto de avisos — 3.28.0
+### Control compacto de avisos — 3.29.0
 
 Campana junto a actualizar: activa/desactiva avisos por dispositivo y recuerda la elección local. Usuarios con permiso previo continúan activos hasta desactivarlos. En dispositivos nuevos se pide permiso solo al tocar la campana. La baja cancela primero la suscripción del navegador y después intenta borrar el registro del servicio; si la red falla, el endpoint cancelado deja de recibir y se depura al responder 410. Los errores se indican en la campana con reintento; confirmaciones breves sin recuadro permanente. Cabecera con Datos y Directo, sin la línea Comprobado duplicada.
 
-## Avisos de partido — 3.28.0
+## Avisos de partido — 3.29.0
 
-Campana común para Madrid en Liga y Champions: alineaciones, inicio, goles de ambos equipos con marcador/goleador, expulsiones con jugador, descanso, segunda parte y final. Cron cada minuto, referencia persistente sin reproducir históricos, cola con TTL de tres minutos y deduplicación por incidencia/dispositivo. Las incidencias abren Resumen y los onces Alineaciones. Nuevos eventos solo en receptores actualizados a 3.28.0. No se inventan goles o nombres ausentes; retrasos dependen de la fuente/red. Ver docs/NOTIFICACIONES.md.
+Campana común para Madrid en Liga y Champions: alineaciones, inicio, goles de ambos equipos con marcador/goleador, expulsiones con jugador, descanso, segunda parte y final. Cron cada minuto, referencia persistente sin reproducir históricos, cola con TTL de tres minutos y deduplicación por incidencia/dispositivo. Las incidencias abren Resumen y los onces Alineaciones. Nuevos eventos solo en receptores actualizados a 3.29.0. No se inventan goles o nombres ausentes; retrasos dependen de la fuente/red. Ver docs/NOTIFICACIONES.md.
+
+## Apertura y avisos estables — 3.29.0
+
+La campana conserva la elección guardada al comprobar permisos o conectividad: no cambia a apagada por un fallo temporal. El icono se mantiene durante la carga; un indicador pequeño señala problemas, y puede desactivarse aun si el registro falló. Solo una pulsación cambia la preferencia, con migración inicial del permiso existente. El detalle de Jornada abre Resumen; un aviso de once abre Alineaciones explícitamente. Goles con fondo verde y mayor énfasis; cambios con fondo lila, icono propio y textos de entrada/salida, además de tarjetas con tonos propios.

@@ -17,3 +17,13 @@
 .lineup-number{background:#deebff;color:#24528c;border:1px solid #bed2f0;box-shadow:0 2px 4px #355f9310}
 .lineup-team:nth-child(2) .lineup-number{background:#ede4fb;border-color:#d6c4ec;color:#6a4693}
 .lineup-list~.lineup-list .lineup-number{background:#fff0d5;border-color:#edd29e;color:#87601c}
+
+/* Tipos de incidencia reconocibles por color, icono y texto. */
+.detail-event.event-goal{background:#e8f6ee;border-inline-start:5px solid #26965d}
+.event-goal .detail-player strong{color:#145b36;font-size:16px}.event-goal .detail-player small{color:#226b45;font-weight:700}
+.event-goal .detail-symbol{background:#fff;border:1px solid #a8d6bc;border-radius:50%;padding:6px}
+.detail-event.event-sub{background:#f4effb;border-inline-start:5px solid #9b7bc5}
+.event-sub .detail-player strong{color:#603f89;font-size:13px;font-weight:650}.event-sub .detail-player small{color:#725d87}
+.event-sub .detail-symbol{background:#e8ddf6;border-radius:8px;padding:5px}
+.detail-event.event-red,.detail-event.event-second{background:#fff0ef;border-inline-start:5px solid #cf5e58}
+.detail-event.event-yellow{background:#fffbed;border-inline-start:5px solid #d7b84f}

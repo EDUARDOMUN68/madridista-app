@@ -8,8 +8,7 @@
     if(!match)return false;
     // La ficha valida de nuevo ambos equipos antes de mostrar la respuesta.
     document.querySelector('[data-view="jornadaView"]')?.click();setJornadaCompetition(competition);setJornadaNumber(round,true);
-    openMatchDetail({...match,eventId:id,competition});
-    if(query.get('detail')==='summary')document.getElementById('detailSummaryTab')?.click();
+    openMatchDetail({...match,eventId:id,competition},query.get('detail')==='summary'?'summary':'lineups');
     const clean=new URL(location.href);clean.searchParams.delete('lineup');clean.searchParams.delete('jornada');clean.searchParams.delete('competition');clean.searchParams.delete('detail');history.replaceState(null,'',clean);return true;
   }
   let tries=0;const timer=setInterval(()=>{if(open()||++tries>=40)clearInterval(timer);},250);

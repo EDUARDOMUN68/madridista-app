@@ -31,3 +31,7 @@ Web Push cifra mensajes. fetch usa redirect manual y rechaza redirecciones; el d
 Desde notifications: npm ci, npm test y wrangler deploy --dry-run. Desde la raíz: node --test test_push_client.cjs test_push_receiver.cjs. Pruebas de fases, goleadores/marcadores, expulsiones, históricos, VAR, cola/reintento, persistencia y alta/baja. CI valida esas suites. Desplegar con las claves existentes y publicar la app; comprobar Pages y abrir la nueva versión en el móvil. El reloj del equipo no decide fases deportivas.
 
 Fuentes técnicas: [Web Push](https://web.dev/articles/push-notifications-overview), [web-push](https://github.com/web-push-libs/web-push), [Cloudflare Workers](https://developers.cloudflare.com/workers/).
+
+### Estabilidad del control — 3.29.0
+
+La elección guardada no se sustituye al comprobar el permiso al abrir o al fallar la red. La campana muestra la preferencia y un pequeño indicador si falta conexión o permiso; al volver la conexión reintenta. El alta/baja explícita sigue controlando la suscripción. Los avisos de once continúan abriendo Alineaciones aunque Jornada abra Resumen por defecto.
