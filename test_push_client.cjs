@@ -24,10 +24,17 @@ test('Recuerda apagado al reabrir, incluso sin red; no registra ni pide permiso'
 });
 test('Nuevo dispositivo solo pide permiso al tocar; una baja fallida permite reintentar',async()=>{
  const a=app({permission:'default'});await a.settle();assert.equal(a.requested(),0);assert.equal(a.calls.length,0);a.button.onclick();await a.settle();assert.equal(a.requested(),1);assert.equal(a.attrs['aria-pressed'],'true');
- const b=app({unsubscribeFails:true});await b.settle();b.button.onclick();await b.settle();assert.match(b.button.title,/reintentar/);assert.equal(b.button.textContent,'⚠');
+ const b=app({unsubscribeFails:true});await b.settle();b.button.onclick();await b.settle();assert.match(b.button.title,/reintentar/);assert.equal(b.button.textContent,'🔕');assert.equal(b.attrs['data-status'],'error');
 });
 
 test('Espera al receptor actualizado antes de registrar una actualización',async()=>{
  const a=app({oldReceiver:true});await a.settle();assert.ok(!a.calls.includes('POST /subscription'));
  await new Promise(r=>setTimeout(r,300));await a.settle();assert.ok(a.calls.includes('POST /subscription'));assert.equal(a.button.textContent,'🔔');
+});
+
+test('Abrir sin red o con permiso temporal no borra una elección activa ni cambia su campana',async()=>{
+ const a=app({preference:'on',offline:true});await a.settle();assert.equal(a.storage.get('madridista-push-enabled'),'on');assert.equal(a.button.textContent,'🔔');assert.equal(a.attrs['data-status'],'error');
+ const b=app({preference:'on',permission:'default'});await b.settle();assert.equal(b.storage.get('madridista-push-enabled'),'on');assert.equal(b.attrs['aria-pressed'],'true');assert.equal(b.requested(),0);
+ const reopened=app({preference:a.storage.get('madridista-push-enabled')});await reopened.settle();assert.equal(reopened.button.textContent,'🔔');
+ a.button.onclick();await a.settle();assert.equal(a.storage.get('madridista-push-enabled'),'off');
 });

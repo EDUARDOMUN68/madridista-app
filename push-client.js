@@ -7,10 +7,13 @@
   const key='madridista-push-enabled';
   let preferred=null;try{preferred=localStorage.getItem(key);}catch{}
   let enabled=preferred==='on'||(preferred===null&&Notification.permission==='granted'),busy=false,retryOff=false,failed=false;
+  if(preferred===null)save(enabled); // Migración única; después manda la elección guardada.
   const request=(path,options={})=>fetch(new URL(path,base),{...options,cache:'no-store',signal:AbortSignal.timeout(15000)});
   function save(value){try{localStorage.setItem(key,value?'on':'off');}catch{}}
+  function stillEnabled(){try{const value=localStorage.getItem(key);return value==='on'?true:value==='off'?false:enabled;}catch{return enabled;}}
   function paint(text){
-    button.textContent=busy?'…':failed?'⚠':enabled?'🔔':'🔕';
+    button.textContent=enabled?'🔔':'🔕';
+    button.setAttribute('data-status',busy?'checking':failed?'error':'ready');
     button.disabled=busy;button.setAttribute('aria-pressed',String(enabled));
     button.title=text||(enabled?'Avisos activados · Pulsar para desactivar':'Avisos desactivados · Pulsar para activar');
     button.setAttribute('aria-label',button.title);
@@ -32,10 +35,11 @@
   }
 
   async function disable(manual){
-    enabled=false;save(false);busy=true;failed=false;paint('Desactivando avisos…');
+    enabled=false;if(manual)save(false);busy=true;failed=false;paint('Desactivando avisos…');
     try{
       const registration=await navigator.serviceWorker.ready;
       const subscription=await registration.pushManager.getSubscription();
+      if(stillEnabled()){enabled=true;return;}
       if(subscription){
         const payload=JSON.stringify(subscription);
         if(!await subscription.unsubscribe())throw Error('unsubscribe');
@@ -50,21 +54,25 @@
     busy=true;failed=false;paint('Preparando avisos…');
     try{
       if(Notification.permission==='default'&&manual)await Notification.requestPermission();
-      if(Notification.permission!=='granted'){enabled=false;save(false);notify('Permite las notificaciones en los ajustes del navegador para activar los avisos.');return;}
-      enabled=true;save(true);
+      if(Notification.permission!=='granted'){failed=true;notify('La elección sigue guardada. Permite las notificaciones en los ajustes del navegador para recibir avisos.');return;}
+      enabled=true;if(manual)save(true);
       const response=await request('/config');if(!response.ok)throw Error('service');const config=await response.json();if(!config.ready||!config.publicKey)throw Error('config');
       const registration=await navigator.serviceWorker.ready,state=await receiver(registration);
+      if(!stillEnabled()){enabled=false;return;}
       let subscription=await registration.pushManager.getSubscription();
       if(!subscription)subscription=await registration.pushManager.subscribe({userVisibleOnly:true,applicationServerKey:bytes(config.publicKey)});
+      if(!stillEnabled()){enabled=false;if(subscription)await subscription.unsubscribe();return;}
       const sent=await request('/subscription',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({subscription,receiverVersion:state.version,confirmationReceived:state.confirmationReceived})});
       if(!sent.ok)throw Error('registration');
       const result=await sent.json();
       if(!result.confirmationSent&&!state.confirmationReceived)throw Error('confirmation');
       if(manual)notify('Avisos activados en este móvil');
     }catch{failed=true;notify('No se han podido preparar los avisos. Toca la campana para reintentar.');}
-    finally{busy=false;paint(failed?'Error al preparar avisos · Pulsar para reintentar':undefined);}
+    finally{busy=false;paint(failed?'Avisos activados · Pendiente de conexión o permiso · Pulsar para desactivar':undefined);}
   }
-  button.onclick=()=>{if(busy)return;if(retryOff||enabled&&!failed)disable(true);else enable(true);};
-  paint();
+  button.onclick=()=>{if(busy)return;if(retryOff||enabled)disable(true);else{enabled=true;save(true);enable(true);}};
+  window.addEventListener?.('storage',event=>{if(event.key!==key||!['on','off'].includes(event.newValue))return;enabled=event.newValue==='on';failed=false;paint();});
+  window.addEventListener?.('online',()=>{if(enabled&&!busy)enable(false);});
+  button.hidden=false;paint();
   if(preferred==='off')disable(false);else if(enabled)enable(false);
 })();

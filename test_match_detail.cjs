@@ -29,3 +29,5 @@ assert.match(lineupHtml(result.lineups),/Suplentes/);assert.doesNotMatch(lineupH
 payload.rosters[0].roster.push(payload.rosters[0].roster[0]);assert.equal(parse(payload,match,same).lineups[1].starters.length,11);
 payload.rosters[0].roster[0].starter=undefined;assert.equal(parse(payload,match,same).lineups[1].confirmed,false);
 console.log('Alineaciones: identidad de equipo, once único, suplentes iniciales y ausencia de datos comprobados.');
+
+assert.match(timeline(parse({...payload,keyEvents:[{type:{type:'substitution'},team:{id:'1'},participants:[{athlete:{displayName:'Entra'}}]}]},match,same)),/event-sub/);

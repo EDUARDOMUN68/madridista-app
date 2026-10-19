@@ -53,13 +53,13 @@
       if(e.period!==period){period=e.period;const score=[data.home,data.away].map(t=>t.linescores?.[period-1]?.displayValue);out+=`<h3 class="detail-period">${labels[period]||'Incidencias'}${score.every(x=>x!=null)?`<span>${escape(score.join(' – '))}</span>`:''}</h3>`;}
       const player=e.people[0]||'Jugador sin confirmar',extra=e.people[1];
       const note=e.kind==='sub'?(extra?`Sale: ${extra}`:''):(e.kind==='goal'?(e.own?'En propia puerta':e.penalty?'De penalti':extra?`Asistencia: ${extra}`:''):'');
-      out+=`<div class="detail-event ${e.side}"><span class="detail-minute">${escape(e.minute)}</span><span class="detail-symbol" aria-label="${names[e.kind]}">${symbols[e.kind]}</span><div class="detail-player"><strong>${e.kind==='sub'?'Entra: ':''}${escape(player)}</strong><small>${names[e.kind]}${note?' · '+escape(note):''}</small></div></div>`;
+      out+=`<div class="detail-event ${e.side} event-${e.kind}"><span class="detail-minute">${escape(e.minute)}</span><span class="detail-symbol" aria-label="${names[e.kind]}">${symbols[e.kind]}</span><div class="detail-player"><strong>${e.kind==='sub'?'Entra: ':''}${escape(player)}</strong><small>${names[e.kind]}${note?' · '+escape(note):''}</small></div></div>`;
     }
     return out;
   }
   if(typeof module!=='undefined'&&module.exports)module.exports={parse,timeline,lineupHtml};
   if(typeof document==='undefined')return;
-  let selected=null,timer=null,controller=null,token=0,busy=false,tab='lineups';
+  let selected=null,timer=null,controller=null,token=0,busy=false,tab='summary';
   const dialog=document.createElement('dialog');dialog.className='match-detail';dialog.setAttribute('aria-labelledby','matchDetailTitle');
   dialog.innerHTML='<div class="detail-top"><h2 id="matchDetailTitle">Detalle del partido</h2><button type="button" class="detail-close" aria-label="Cerrar detalle">✕</button></div><div id="detailHeading"></div><div class="detail-tabs" role="tablist" aria-label="Detalle del partido"><button type="button" id="detailLineupsTab" role="tab" aria-controls="detailLineups" aria-selected="true">Alineaciones</button><button type="button" id="detailSummaryTab" role="tab" aria-controls="detailSummary" aria-selected="false" tabindex="-1">Resumen</button><button type="button" id="detailStatsTab" role="tab" aria-controls="detailStats" aria-selected="false" tabindex="-1">Estadísticas</button></div><p id="detailStatus" role="status" aria-live="polite"></p><button type="button" id="detailRetry" hidden>Volver a intentar</button><div id="detailLineups" role="tabpanel" aria-labelledby="detailLineupsTab"></div><div id="detailSummary" hidden role="tabpanel" aria-labelledby="detailSummaryTab"></div><div id="detailStats" role="tabpanel" aria-labelledby="detailStatsTab" hidden></div><p class="detail-source">Datos de ESPN · Antes del inicio y durante el directo se revisan cada 60 segundos.</p>';
   document.body.append(dialog);
@@ -97,6 +97,6 @@
   }
   el('detailRetry').onclick=refresh;
   document.addEventListener('visibilitychange',()=>{if(!document.hidden&&dialog.open)refresh();});
-  root.openMatchDetail=match=>{if(!Object.hasOwn(leagues,match.competition)||!['scheduled','live','finished'].includes(match.status))return;stop();selected={...match};tab='lineups';choose(tab);el('matchDetailTitle').textContent=match.competition+' · Detalle del partido';el('detailHeading').innerHTML=`<div class="detail-score"><b>${escape(match.home)}</b><strong>${escape(match.score||'—')}</strong><b>${escape(match.away)}</b></div>`;el('detailLineups').innerHTML='';el('detailSummary').innerHTML='';el('detailStats').innerHTML='';el('detailStatus').textContent='Cargando detalle…';el('detailRetry').hidden=true;if(!dialog.open)dialog.showModal();document.body.classList.add('detail-open');timer=setInterval(refresh,60000);refresh();};
+  root.openMatchDetail=(match,initialTab='summary')=>{if(!Object.hasOwn(leagues,match.competition)||!['scheduled','live','finished'].includes(match.status))return;stop();selected={...match};tab=initialTab==='lineups'?'lineups':'summary';choose(tab);el('matchDetailTitle').textContent=match.competition+' · Detalle del partido';el('detailHeading').innerHTML=`<div class="detail-score"><b>${escape(match.home)}</b><strong>${escape(match.score||'—')}</strong><b>${escape(match.away)}</b></div>`;el('detailLineups').innerHTML='';el('detailSummary').innerHTML='';el('detailStats').innerHTML='';el('detailStatus').textContent='Cargando detalle…';el('detailRetry').hidden=true;if(!dialog.open)dialog.showModal();document.body.classList.add('detail-open');timer=setInterval(refresh,60000);refresh();};
   root.openLigaMatchDetail=root.openMatchDetail; // Compatibilidad con los enlaces de avisos de Liga.
 })(typeof window==='undefined'?globalThis:window);

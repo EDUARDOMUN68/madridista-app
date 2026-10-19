@@ -81,3 +81,9 @@
 - Avisos del Madrid en Liga y Champions: once, inicio, goles con marcador y goleador, expulsiones, descanso, segunda parte y final.
 - Sondeo cada minuto, cola persistente con caducidad y filtro de histórico al activar o reiniciar el seguimiento.
 - Validación de goles frente al marcador, correcciones, deduplicación por incidencia y enlaces a Resumen/Alineaciones de la competición correcta. La campana controla todos los avisos.
+
+## 3.29.0 — 19 de octubre de 2026
+
+- Campana estable al abrir y cerrar: conserva la preferencia durante comprobaciones y errores temporales, sin sustituir el icono.
+- Jornada abre Resumen por defecto; los avisos de once conservan acceso directo a Alineaciones.
+- Goles en verde destacado, cambios en lila y tarjetas con tonos propios para distinguir las incidencias.
