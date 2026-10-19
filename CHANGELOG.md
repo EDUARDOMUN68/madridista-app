@@ -87,3 +87,9 @@
 - Campana estable al abrir y cerrar: conserva la preferencia durante comprobaciones y errores temporales, sin sustituir el icono.
 - Jornada abre Resumen por defecto; los avisos de once conservan acceso directo a Alineaciones.
 - Goles en verde destacado, cambios en lila y tarjetas con tonos propios para distinguir las incidencias.
+
+### Servicio de avisos — 19 de octubre de 2026
+
+- Directo desde el marcador diario, sin esperar al resumen para inicio, goles, rojas, descansos y final. Summary queda para alineaciones previas.
+- Identidad de incidencias estable y diagnóstico de tiempos de detección/aceptación sin datos de suscripción.
+- Validado con once pruebas y los cinco goles reales del Madrid–Sevilla; falta contrastar la reducción de demora en directo. Interfaz 3.29.0 sin cambios.

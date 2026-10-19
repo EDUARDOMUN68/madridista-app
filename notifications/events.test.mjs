@@ -1,6 +1,6 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
-import {snapshot,changes} from './events.mjs';
+import {snapshot,changes,scoreboardSnapshot} from './events.mjs';
 const start=Date.parse('2026-10-18T19:00Z'),fixture={competition:'LaLiga',date:'2026-10-18',time:'21:00',venue:'home',jornada:9};
 function source(phase='pre',goals=[],reds=[]){
  const scores=[0,0];for(const e of goals)scores[e.side]++;
@@ -47,4 +47,16 @@ test('El resumen real omite periodo: usa el marcador diario y rechaza fases cont
  const data=source('second');delete data.header.competitions[0].status.period;
  assert.equal(snapshot(data,fixture,{period:2,type:{state:'in'},displayClock:"60'"}).phase,'second');
  assert.equal(snapshot(data,fixture,{period:1,type:{state:'pre'}}),null);
+});
+
+test('Marcador diario: goleador, roja y fases sin resumen; identidad estable entre fuentes',()=>{
+ const summary=source('second',[goal],[{id:'red',side:1,player:'Defensa',minute:61}]);
+ summary.keyEvents.forEach((e,i)=>e.participants[0].athlete.id=String(i+10));
+ const game=summary.header.competitions[0];
+ const board={id:game.id,status:game.status,competitions:[{...game,details:summary.keyEvents.map(e=>({...e,id:undefined,period:undefined,redCard:e.type.type==='red-card',athletesInvolved:e.participants.map(p=>p.athlete)}))}]};
+ const current=scoreboardSnapshot(board,fixture);
+ assert.equal(current.phase,'second');assert.equal(current.goalsCoherent,true);assert.equal(current.events.length,2);
+ assert.deepEqual(current.events.map(e=>e.key),snapshot(summary,fixture).events.map(e=>e.key));
+ assert.equal(current.events[0].player,'Mbappé');assert.equal(current.events[1].kind,'red');
+ board.status={period:1,type:{state:'in',name:'STATUS_HALFTIME'}};assert.equal(scoreboardSnapshot(board,fixture).phase,'half');
 });

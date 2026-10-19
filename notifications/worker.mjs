@@ -1,6 +1,6 @@
 import webpush from 'web-push';
 import {APP_URL,FEED_URL,LEAGUES,kickoff,candidates,confirmedNotice,resolveEventId,validSubscription,deviceId} from './core.mjs';
-import {snapshot,changes} from './events.mjs';
+import {scoreboardSnapshot,changes} from './events.mjs';
 const ORIGIN=new URL(APP_URL).origin;
 const json=(body,status=200)=>Response.json(body,{status,headers:{'Cache-Control':'no-store','Access-Control-Allow-Origin':ORIGIN,'Vary':'Origin'}});
 async function readJson(request){
@@ -33,8 +33,10 @@ export class LineupNotices {
   async deliver(subscription,notice){
     try{
     const details=webpush.generateRequestDetails(subscription,JSON.stringify(notice),{TTL:Math.max(1,Math.floor((notice.expiresAt-Date.now())/1000)),urgency:'high',topic:(await deviceId(notice.matchId+':'+(notice.eventKey||notice.kind))).slice(0,32),vapidDetails:{subject:APP_URL,publicKey:this.env.VAPID_PUBLIC_KEY,privateKey:this.env.VAPID_PRIVATE_KEY}});
+    const sendStarted=Date.now();
     const response=await fetch(details.endpoint,{method:details.method,headers:details.headers,body:details.body,signal:AbortSignal.timeout(12000),redirect:'manual'});
     if(!response.ok)console.error('push-http',response.status);
+    else console.log('push-accepted',{kind:notice.kind,detectedAt:notice.observedAt||null,acceptedAt:Date.now(),sendMs:Date.now()-sendStarted});
     return response;
     }catch(error){
       const detail=String(error?.message||'').replace(/https?:\/\/\S+/g,'[url]').replace(/[A-Za-z0-9_\-+/=]{30,}/g,'[redacted]').slice(0,220);
@@ -83,15 +85,19 @@ export class LineupNotices {
       try{
         const board=await getJson(`https://site.api.espn.com/apis/site/v2/sports/soccer/${league}/scoreboard?dates=${fixture.date.replaceAll('-','')}&limit=200`);
         const id=resolveEventId(board,fixture);if(!id)continue;
-        const summary=await getJson(`https://site.api.espn.com/apis/site/v2/sports/soccer/${league}/summary?event=${id}`);
         const boardEvent=board.events?.find(e=>String(e.id)===id);
-        const current=snapshot(summary,fixture,boardEvent?.status||boardEvent?.competitions?.[0]?.status);if(!current)continue;
+        const current=scoreboardSnapshot(boardEvent,fixture);if(!current)continue;
         const key='match:'+id,previous=await this.ctx.storage.get(key);
         const result=changes(current,previous,fixture,now);
         if(previous&&result.state===previous)continue; // Fuente que retrocede de fase.
         const queue=(previous?.queue||[]).filter(n=>n.expiresAt>now&&(!n.eventKey.startsWith('goal:')||!current.goalsCoherent||current.events.some(e=>e.key===n.eventKey)));
         for(const notice of result.notices)if(!queue.some(n=>n.eventKey===notice.eventKey))queue.push(notice);
-        const lineup=confirmedNotice(summary,fixture,now);
+        // El directo no espera al resumen: las fases, goles y rojas vienen del marcador.
+        let lineup=null;
+        if(current.phase==='pre'){
+          try{lineup=confirmedNotice(await getJson(`https://site.api.espn.com/apis/site/v2/sports/soccer/${league}/summary?event=${id}`),fixture,now);}
+          catch{console.error('lineup-source-failed');}
+        }
         const notices=[...(lineup?[{...lineup,eventKey:'lineup'}]:[]),...queue];
         await this.ctx.storage.put(key,{...result.state,queue});
         for(const [deviceKey,device] of devices){

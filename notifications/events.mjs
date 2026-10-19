@@ -1,5 +1,14 @@
 import {APP_URL,kickoff} from './core.mjs';
 const rank={pre:0,first:1,half:2,second:3,extra:4,penalties:5,final:6};
+export function scoreboardSnapshot(event,fixture){
+  const game=event?.competitions?.[0];if(!game)return null;
+  const keyEvents=(game.details||[]).map(e=>{
+    const minute=parseInt(e.clock?.displayValue,10)||Math.floor((e.clock?.value||0)/60);
+    const period=e.period?.number||(minute<=45?1:minute<=90?2:minute<=105?3:4);
+    return {...e,period:{number:period},type:{...e.type,type:e.redCard?'red-card':e.ownGoal?'own-goal':e.type?.type},participants:(e.athletesInvolved||[]).map(athlete=>({athlete}))};
+  });
+  return snapshot({header:{id:event.id,competitions:[{...game,date:game.date||event.date,status:event.status||game.status}]},keyEvents},fixture);
+}
 export function snapshot(summary,fixture,boardStatus=null){
   const game=summary.header?.competitions?.[0];
   if(boardStatus?.type?.state&&game?.status?.type?.state&&boardStatus.type.state!==game.status.type.state)return null;
@@ -21,7 +30,9 @@ export function snapshot(summary,fixture,boardStatus=null){
     const side=teams.findIndex(t=>String(t.id)===String(e.team?.id)),player=e.participants?.[0]?.athlete?.displayName;
     if(!kind||side<0||!player)continue;
     const eventPeriod=Number(e.period?.number)||1,clock=Number(e.clock?.value)||0;
-    const key=kind+':'+String(e.id||[eventPeriod,clock,side,player].join(':'));
+    // Misma identidad en marcador y resumen, aunque sus IDs de evento difieran.
+    const athlete=e.participants?.[0]?.athlete?.id||player.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+    const key=[kind,e.team.id,clock,athlete].join(':');
     if(seen.has(key))continue;seen.add(key);
     events.push({key,kind,side,player,period:eventPeriod,clock,minute:e.clock?.displayValue||'',own:/own.?goal/i.test(label)});
   }
