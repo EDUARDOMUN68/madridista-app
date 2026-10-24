@@ -12,11 +12,25 @@ function rememberPush(id,readOnly=false){
     };
   });
 }
+function pushRecord(id,value){
+  return new Promise((resolve,reject)=>{
+    const open=indexedDB.open('madridista-push',1);
+    open.onupgradeneeded=()=>open.result.createObjectStore('seen',{keyPath:'id'});
+    open.onerror=()=>reject(open.error);
+    open.onsuccess=()=>{
+      const db=open.result,tx=db.transaction('seen','readwrite'),store=tx.objectStore('seen');let result;
+      if(value===null)store.delete(id);
+      else if(value!==undefined)store.put({id,at:Date.now(),...value});
+      else {const get=store.get(id);get.onsuccess=()=>{result=get.result;};}
+      tx.oncomplete=()=>{db.close();resolve(result);};tx.onerror=()=>{db.close();reject(tx.error);};
+    };
+  });
+}
 self.addEventListener('message',event=>{
   if(event.data?.type!=='MADRIDISTA_PUSH_STATUS'||!event.ports?.[0])return;
   event.waitUntil((async()=>{
-    try{event.ports[0].postMessage({ready:true,version:'3.28.0',confirmationReceived:await rememberPush('madrid-ready:0',true)});}
-    catch{event.ports[0].postMessage({ready:false});}
+    try{event.ports[0].postMessage({ready:true,version:'3.28.0',confirmationReceived:await rememberPush('madrid-ready:0',true),lastDisplayed:(await pushRecord('last-displayed'))?.at||null});}
+    catch{event.ports[0].postMessage({ready:true,version:'3.28.0',confirmationReceived:null,lastDisplayed:null,storageAvailable:false});}
   })());
 });
 self.addEventListener('push',event=>{
@@ -25,9 +39,15 @@ self.addEventListener('push',event=>{
     if(!['madrid-lineup','madrid-ready','madrid-event'].includes(notice?.kind)||!/^\d+$/.test(notice.matchId)||!Number.isFinite(notice.expiresAt)||notice.expiresAt<=Date.now())return;
     let url;try{url=new URL(notice.url);const scope=new URL(self.registration.scope);if(url.origin!==scope.origin||url.pathname!==scope.pathname)return;}catch{return;}
     if(notice.kind==='madrid-event'&&(typeof notice.eventKey!=='string'||!notice.eventKey||notice.eventKey.length>500))return;
-    const key=notice.kind+':'+notice.matchId+(notice.kind==='madrid-event'?':'+notice.eventKey:'');
-    if(!await rememberPush(key))return;
-    await self.registration.showNotification(notice.kind==='madrid-ready'?'Avisos del Madrid activados':notice.kind==='madrid-lineup'?'¡Ya hay once del Real Madrid!':String(notice.title||'Partido del Real Madrid').slice(0,120),{body:String(notice.body||'Toca para ver la alineación.').slice(0,180),icon:new URL('crest-192.png',self.registration.scope).href,badge:new URL('crest-192.png',self.registration.scope).href,tag:key,renotify:false,data:{url:url.href}});
+    if(notice.testId!==undefined&&(notice.kind!=='madrid-ready'||typeof notice.testId!=='string'||!/^[a-f0-9-]{36}$/.test(notice.testId)))return;
+    const key=notice.kind+':'+notice.matchId+(notice.kind==='madrid-event'?':'+notice.eventKey:notice.testId?':'+notice.testId:'');
+    let persistent=true;
+    try{if(!await rememberPush(key))return;}catch{persistent=false;}
+    try{
+      await self.registration.showNotification(notice.kind==='madrid-ready'?'Avisos del Madrid activados':notice.kind==='madrid-lineup'?'¡Ya hay once del Real Madrid!':String(notice.title||'Partido del Real Madrid').slice(0,120),{body:String(notice.body||'Toca para ver la alineación.').slice(0,180),icon:new URL('crest-192.png',self.registration.scope).href,badge:new URL('crest-192.png',self.registration.scope).href,tag:key,renotify:false,data:{url:url.href}});
+    }catch(error){if(persistent)await pushRecord(key,null).catch(()=>{});throw error;}
+    // Un fallo del almacenamiento no debe impedir mostrar un aviso válido.
+    await pushRecord('last-displayed',{}).catch(()=>{});
   })());
 });
 self.addEventListener('notificationclick',event=>{

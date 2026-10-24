@@ -41,3 +41,12 @@ La elección guardada no se sustituye al comprobar el permiso al abrir o al fall
 Las fases, goles y expulsiones se leen directamente de status y details del marcador diario. El directo no espera ni consulta el summary; este solo se consulta antes del inicio para obtener los onces. Se conservan validación de identidad, jugadores explícitos, coherencia de goles con el marcador, TTL y deduplicación. La identidad de incidencia usa equipo, reloj y atleta para permanecer estable entre formatos de fuente. Los logs de aceptación push incluyen tipo y tiempos de detección/aceptación, sin endpoints ni claves.
 
 No se puede reconstruir con estos cambios la latencia de un partido anterior ni garantizar entrega instantánea. La fuente aún puede publicar tarde y Android puede retrasar la entrega. La mejora elimina la espera adicional de una ficha detallada; queda contrastarla en un partido real. La interfaz sigue en 3.29.0.
+
+
+## Diagnostico y prueba en segundo plano - 3.30.0
+
+Tocar la campana abre el estado; no desactiva. El panel distingue permiso pendiente o bloqueado, conexion, receptor, suscripcion y registro. El boton Desactivar es independiente. Comprobar y reintentar conserva la eleccion y puede solicitar el permiso tras la pulsacion. Una suscripcion que responde 410 se renueva una vez; se comprueba tambien su clave publica. Al volver al primer plano o cambiar el permiso se revalida el registro.
+
+Probar con app cerrada programa una alarma del servidor a 30 segundos solo para la suscripcion solicitante. Hay un limite de una solicitud por minuto y un identificador de prueba unico para no confundirla con avisos anteriores. Cerrar la app y esperar; forzar la detencion de Chrome es una accion distinta. El panel muestra el ultimo aviso que el receptor pudo presentar, no solo el que el servidor acepto enviar. Esa marca no prueba que la persona lo haya leido. El servidor no puede cambiar permisos ni restricciones de bateria del movil.
+
+Las incidencias mantienen cron de un minuto y caducidad de tres minutos. Cuatro dispositivos pueden enviarse en paralelo para que uno lento no bloquee a todos; se conserva el orden por dispositivo. La fuente deportiva y la entrega de Chrome/Android requieren medicion durante un partido: no se afirma resuelta la demora. La deduplicacion persiste en IndexedDB; ante fallo de almacenamiento se prioriza mostrar el aviso y su tag estable, con posible perdida de deduplicacion persistente.
