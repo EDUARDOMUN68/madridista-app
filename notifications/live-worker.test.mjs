@@ -1,6 +1,6 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
-import {LineupNotices} from './worker.mjs';
+import {LineupNotices,sendToDevices} from './worker.mjs';
 import {FEED_URL} from './core.mjs';
 test('Servicio: transición real, cola persistente, reintento, receptores compatibles y alta sin pasado',async()=>{
  const originalFetch=globalThis.fetch,originalNow=Date.now;
@@ -31,4 +31,24 @@ test('Servicio: transición real, cola persistente, reintento, receptores compat
    await object.fetch(new Request('https://internal/subscription',{method:'DELETE',body:JSON.stringify({endpoint:'modern'})}));
    now+=60000;await register('late','3.28.0');phase='second';await check();assert.equal(delivered.length,6);assert.equal(delivered.at(-1).endpoint,'new');assert.ok(!delivered.some(d=>d.endpoint==='late'),'No reproduce transición detectada después de un alta a mitad del partido');
  }finally{globalThis.fetch=originalFetch;Date.now=originalNow;}
+});
+
+
+test('Prueba diferida por dispositivo, limitada y enviada por alarma sin ventana abierta',async()=>{
+ const data=new Map();let alarm=null,now=Date.now();const originalNow=Date.now;Date.now=()=>now;
+ const ctx={blockConcurrencyWhile:fn=>fn(),storage:{async get(k){return structuredClone(data.get(k));},async put(k,v){data.set(k,structuredClone(v));},async delete(k){data.delete(k);},async list({prefix='' }={}){return new Map([...data].filter(([k])=>k.startsWith(prefix)));},async getAlarm(){return alarm;},async setAlarm(at){alarm=at;}}};
+ const object=new LineupNotices(ctx,{}),sent=[];object.deliver=async(sub,n)=>{sent.push({sub,n});return new Response(null,{status:201});};
+ const register=(endpoint,testDelay)=>object.fetch(new Request('https://internal/subscription',{method:'POST',body:JSON.stringify({subscription:{endpoint},receiverVersion:'3.28.0',confirmationReceived:true,testDelay})}));
+ try{
+   const response=await register('phone-one',30);assert.equal((await response.json()).testScheduled,true);assert.equal(alarm,now+30000);assert.equal(sent.length,0);
+   assert.equal((await register('phone-one',30)).status,429);
+   await register('phone-two');now+=30001;await object.alarm();assert.equal(sent.length,1);assert.equal(sent[0].sub.endpoint,'phone-one');assert.match(sent[0].n.testId,/^[a-f0-9-]{36}$/);
+   await object.alarm();assert.equal(sent.length,1);
+   now+=60000;await register('phone-one',30);await object.fetch(new Request('https://internal/subscription',{method:'DELETE',body:JSON.stringify({endpoint:'phone-one'})}));now+=30001;await object.alarm();assert.equal(sent.length,1,'No enviar tras baja del dispositivo');
+ }finally{Date.now=originalNow;}
+});
+test('Un dispositivo lento no retiene los demás; concurrencia limitada a cuatro',async()=>{
+ let release,active=0,maximum=0;const sent=[],blocked=new Promise(resolve=>{release=resolve;});
+ const work=sendToDevices(Array.from({length:8},(_,i)=>i),async i=>{active++;maximum=Math.max(maximum,active);if(i===0)await blocked;sent.push(i);active--;});
+ await new Promise(resolve=>setImmediate(resolve));assert.ok(sent.includes(7));assert.ok(!sent.includes(0));assert.ok(maximum<=4);release();await work;assert.equal(sent.length,8);
 });

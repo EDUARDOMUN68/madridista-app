@@ -9,6 +9,12 @@ async function readJson(request){
   const body=new Uint8Array(size);let offset=0;for(const chunk of chunks){body.set(chunk,offset);offset+=chunk.length;}return JSON.parse(new TextDecoder().decode(body));
 }
 async function getJson(url){const response=await fetch(url,{headers:{Accept:'application/json'},signal:AbortSignal.timeout(12000)});if(!response.ok)throw Error('source');return response.json();}
+export async function sendToDevices(devices,send){
+  const pending=[...devices];let index=0;
+  await Promise.all(Array.from({length:Math.min(4,pending.length)},async()=>{
+    while(index<pending.length){const item=pending[index++];await send(item);}
+  }));
+}
 export default {
   async fetch(request,env){
     const path=new URL(request.url).pathname;
@@ -53,12 +59,20 @@ export class LineupNotices {
         const existing=await this.ctx.storage.get(id);
         const all=await this.ctx.storage.list({prefix:'sub:'});
         if(!existing&&all.size>=50)return json({error:'Device limit reached'},429);
-        const device={subscription:sub,sent:existing?.sent||{},updatedAt:Date.now(),welcomeSentAt:existing?.welcomeSentAt||null,welcomeVersion:existing?.welcomeVersion||null,createdAt:existing?.createdAt||existing?.updatedAt||Date.now(),liveNotices:version==='3.28.0'};
+        const device={subscription:sub,sent:existing?.sent||{},updatedAt:Date.now(),welcomeSentAt:existing?.welcomeSentAt||null,welcomeVersion:existing?.welcomeVersion||null,lastTestAt:existing?.lastTestAt||null,createdAt:existing?.createdAt||existing?.updatedAt||Date.now(),liveNotices:version==='3.28.0'};
         await this.ctx.storage.put(id,device);
+        if(payload.testDelay===30){
+          if(device.lastTestAt&&Date.now()-device.lastTestAt<60000)return json({error:'Wait one minute before another test'},429);
+          device.lastTestAt=Date.now();await this.ctx.storage.put(id,device);
+          const due=Date.now()+30000;
+          await this.ctx.storage.put('test:'+id,{deviceKey:id,due});
+          const alarm=await this.ctx.storage.getAlarm();if(!alarm||alarm>due)await this.ctx.storage.setAlarm(due);
+          return json({ok:true,testScheduled:true});
+        }
         const recover=version&&payload.confirmationReceived===false&&(version!==device.welcomeVersion||Date.now()-device.welcomeSentAt>60000);
         if(payload.confirmationReceived!==true&&(!device.welcomeSentAt||recover)){
           try{
-            const result=await this.deliver(sub,{kind:'madrid-ready',matchId:'0',title:'Avisos del Madrid activados',body:'Este móvil ya puede recibir los avisos de los partidos del Real Madrid.',url:APP_URL,expiresAt:Date.now()+10*60000});
+            const result=await this.deliver(sub,{kind:'madrid-ready',matchId:'0',...(recover?{testId:crypto.randomUUID()}:{}),title:'Avisos del Madrid activados',body:'Este móvil ya puede recibir los avisos de los partidos del Real Madrid.',url:APP_URL,expiresAt:Date.now()+10*60000});
             if(result.ok){device.welcomeSentAt=Date.now();device.welcomeVersion=version;await this.ctx.storage.put(id,device);}
             else if([404,410].includes(result.status)){await this.ctx.storage.delete(id);return json({error:'Expired subscription'},410);}
             else{return json({ok:true,confirmationSent:false});}
@@ -72,6 +86,20 @@ export class LineupNotices {
       await this.running;return json({ok:true});
     }
     return json({error:'Not found'},404);
+  }
+  async alarm(){
+    const pending=await this.ctx.storage.list({prefix:'test:'});let next=null;
+    for(const [key,task] of pending){
+      if(task.due>Date.now()){next=Math.min(next||Infinity,task.due);continue;}
+      await this.ctx.storage.delete(key);
+      if(Date.now()-task.due>3*60000)continue;
+      const device=await this.ctx.storage.get(task.deviceKey);if(!device)continue;
+      try{
+        const response=await this.deliver(device.subscription,{kind:'madrid-ready',matchId:'0',testId:crypto.randomUUID(),title:'Prueba de avisos del Madrid',body:'Prueba programada tras 30 segundos. Si la app estaba cerrada, la recepción en segundo plano funciona.',url:APP_URL,expiresAt:task.due+3*60000});
+        if([404,410].includes(response.status))await this.ctx.storage.delete(task.deviceKey);
+      }catch{console.error('background-test-failed');}
+    }
+    if(next)await this.ctx.storage.setAlarm(next);
   }
   async check(){
     if(!this.env.VAPID_PUBLIC_KEY||!this.env.VAPID_PRIVATE_KEY)return;
@@ -100,7 +128,7 @@ export class LineupNotices {
         }
         const notices=[...(lineup?[{...lineup,eventKey:'lineup'}]:[]),...queue];
         await this.ctx.storage.put(key,{...result.state,queue});
-        for(const [deviceKey,device] of devices){
+        await sendToDevices(devices,async([deviceKey,device])=>{
           for(const notice of notices){
             if(notice.kind==='madrid-event'&&!device.liveNotices)continue;
             if(fixture.competition==='Champions'&&!device.liveNotices)continue;
@@ -120,7 +148,7 @@ export class LineupNotices {
               await this.ctx.storage.put(deviceKey,fresh);
             }catch{/* Reintento limitado por TTL; el receptor deduplica. */}
           }
-        }
+        });
       }catch{console.error('match-check-failed',fixture.competition);}
     }
   }

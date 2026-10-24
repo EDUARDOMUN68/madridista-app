@@ -1,5 +1,14 @@
 # Registro de cambios
 
+## 3.30.0 - 24 de octubre de 2026
+
+- La campana abre un panel compacto con el estado y la causa del error. Desactivar requiere su propio boton; consultar una advertencia ya no cambia la preferencia.
+- Reintento explicito de permiso y registro, renovacion de suscripciones caducadas y claves incompatibles; comprobacion al volver a la app.
+- Prueba por dispositivo enviada por el servidor 30 segundos despues de solicitarla, para comprobar recepcion con la app cerrada. Ultimo aviso mostrado por el receptor visible en el panel.
+- Un fallo de almacenamiento local no bloquea la presentacion del push; si falla mostrarlo, puede reintentarse sin quedar marcado como entregado.
+- Envios a un maximo de cuatro dispositivos en paralelo, manteniendo el orden de incidencias dentro de cada dispositivo. No garantiza eliminar la demora de la fuente o Android.
+
+
 ## 11 de octubre de 2026 — recuperación de resultados
 
 - Refresca resultados pendientes del catálogo completo guardado cuando LaLiga no responde.
