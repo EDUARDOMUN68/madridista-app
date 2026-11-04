@@ -31,3 +31,33 @@ payload.rosters[0].roster[0].starter=undefined;assert.equal(parse(payload,match,
 console.log('Alineaciones: identidad de equipo, once único, suplentes iniciales y ausencia de datos comprobados.');
 
 assert.match(timeline(parse({...payload,keyEvents:[{type:{type:'substitution'},team:{id:'1'},participants:[{athlete:{displayName:'Entra'}}]}]},match,same)),/event-sub/);
+
+const {pitchRows}=require('./match-detail.js');
+const roles=['G','CD-L','CD-R','LB','RB','AM','LM','RM','F','AM-L','AM-R'];
+const fieldPayload=structuredClone(payload);
+fieldPayload.rosters=[{team:{id:'2'},formation:'4-2-3-1',roster:roles.map((role,i)=>({athlete:{id:String(i),displayName:'Nombre '+i,shortName:'Jugador '+i},starter:true,jersey:String(i+1),position:{abbreviation:role}}))}];
+const fieldTeam=parse(fieldPayload,match,same).lineups[1];
+const rows=pitchRows(fieldTeam);
+assert.deepEqual(rows.map(r=>r.length),[1,3,2,4,1]);
+assert.deepEqual(rows[3].map(p=>p.role),['LB','CD-L','CD-R','RB']);
+assert.deepEqual(rows[1].map(p=>p.role),['AM-L','AM','AM-R']);
+assert.equal(rows[0][0].role,'F');assert.equal(rows.at(-1)[0].role,'G');
+assert.equal(rows.flat().length,11);
+const html=lineupHtml([fieldTeam]);assert.match(html,/lineup-pitch/);assert.match(html,/Jugador 0/);assert.doesNotMatch(html,/<img/);
+assert.equal(pitchRows({...fieldTeam,formation:'4-4-3'}),null);
+assert.equal(pitchRows({...fieldTeam,confirmed:false}),null);
+assert.equal(pitchRows({...fieldTeam,starters:fieldTeam.starters.map((p,i)=>i===2?{...p,role:''}:p)}),null);
+assert.match(lineupHtml([{...fieldTeam,formation:''}]),/posiciones suficientes/);
+assert.doesNotMatch(lineupHtml([{...fieldTeam,formation:''}]),/lineup-pitch/);
+const midfieldAmbiguous=fieldTeam.starters.map(p=>p.role.startsWith('AM')||['LM','RM'].includes(p.role)?{...p,role:'CM'}:p);
+assert.equal(pitchRows({...fieldTeam,starters:midfieldAmbiguous}),null,'No inventa que centrocampistas van en cada linea');
+for(const [formation,codes,lengths] of [
+ ['4-3-3',['G','LB','CD-L','CD-R','RB','CM-L','CM','CM-R','LW','F','RW'],[3,3,4,1]],
+ ['3-5-2',['G','CD-L','CD','CD-R','LWB','CM-L','CM','CM-R','RWB','CF-L','CF-R'],[2,5,3,1]],
+ ['4-4-2',['G','LB','CD-L','CD-R','RB','LM','CM-L','CM-R','RM','CF-L','CF-R'],[2,4,4,1]]
+]){
+ const team={...fieldTeam,formation,starters:codes.map((role,i)=>({role,name:'Jugador '+i,number:i+1}))};
+ assert.deepEqual(pitchRows(team).map(r=>r.length),lengths);
+}
+assert.match(lineupHtml([{...fieldTeam,starters:fieldTeam.starters.map(p=>({...p,shortName:'<Nombre>',number:'<9>'}))}]),/&lt;Nombre&gt;/);
+console.log('Campo: formaciones, laterales y centrales, once completo, ausencia de posiciones, ambiguedad y escape comprobados.');

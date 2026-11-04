@@ -8,16 +8,43 @@
     return [home,away].map(team=>{
       const roster=(payload.rosters||[]).find(r=>String(r.team?.id)===String(team.id));
       const seen=new Set();
-      const players=(roster?.roster||[]).filter(p=>{const key=p.athlete?.id||p.athlete?.displayName;if(!key||seen.has(key))return false;seen.add(key);return true;}).map(p=>({name:p.athlete?.displayName||p.athlete?.fullName||'',number:p.jersey||'',starter:p.starter,order:Number(p.formationPlace)||99,position:({G:'Portero',GK:'Portero',D:'Defensa',M:'Centrocampista',F:'Delantero'})[p.position?.abbreviation]||''}));
+      const players=(roster?.roster||[]).filter(p=>{const key=p.athlete?.id||p.athlete?.displayName;if(!key||seen.has(key))return false;seen.add(key);return true;}).map(p=>({name:p.athlete?.displayName||p.athlete?.fullName||'',shortName:p.athlete?.shortName||p.athlete?.displayName||'',number:p.jersey||'',starter:p.starter,order:Number(p.formationPlace)||99,role:p.position?.abbreviation||'',position:({G:'Portero',GK:'Portero',D:'Defensa',M:'Centrocampista',F:'Delantero'})[p.position?.abbreviation]||''}));
       const starters=players.filter(p=>p.starter===true).sort((a,b)=>a.order-b.order);
       return {team:team.team.displayName,confirmed:starters.length===11,formation:roster?.formation||'',starters,bench:players.filter(p=>p.starter===false)};
     });
+  }
+  function pitchRows(team){
+    if(!team.confirmed||!/^\d(?:-\d){1,4}$/.test(team.formation))return null;
+    const formation=team.formation.split('-').map(Number);
+    if(formation.some(n=>n<1||n>5)||formation.reduce((sum,n)=>sum+n,0)!==10)return null;
+    const roles={G:0,GK:0,SW:1,CB:1,CD:1,LB:1,RB:1,LWB:2,RWB:2,DM:2,CM:3,LM:3,RM:3,AM:4,LW:5,RW:5,LF:5,RF:5,SS:5,CF:5,F:5};
+    const players=team.starters.map(player=>{
+      const role=player.role,base=role?.replace(/-[LR]$/,''),rank=roles[base];
+      const side=['LB','LWB','LM','LW','LF'].includes(role)?0:['RB','RWB','RM','RW','RF'].includes(role)?4:/-L$/.test(role)?1:/-R$/.test(role)?3:2;
+      return {...player,rank,side};
+    });
+    if(players.some(p=>p.rank===undefined)||players.filter(p=>p.rank===0).length!==1)return null;
+    players.sort((a,b)=>a.rank-b.rank||a.order-b.order);
+    const rows=[[players[0]]];let offset=1;
+    for(const size of formation){
+      // Una misma función repartida entre líneas no identifica quién va delante.
+      if(offset+size<11&&players[offset+size-1].rank===players[offset+size].rank)return null;
+      const row=players.slice(offset,offset+size).sort((a,b)=>a.side-b.side||a.order-b.order);
+      if(row.some((p,i)=>i&&p.rank===row[i-1].rank&&p.side===row[i-1].side))return null;
+      rows.push(row);offset+=size;
+    }
+    return rows.reverse();
+  }
+  function pitchHtml(team){
+    const rows=pitchRows(team);if(!rows)return '';
+    return `<div class="lineup-pitch" role="group" aria-label="${escape(team.team)}: titulares en formación ${escape(team.formation)}, ataque arriba"><div class="pitch-markings" aria-hidden="true"><i class="pitch-area top"></i><i class="pitch-area bottom"></i><i class="pitch-circle"></i></div><div class="pitch-rows">${rows.map(row=>`<ul class="pitch-row" style="--players:${row.length}">${row.map(p=>`<li class="pitch-player" title="${escape(p.number||'Sin dorsal')} · ${escape(p.name)}" aria-label="${escape(p.number||'Sin dorsal')} ${escape(p.name)}"><span class="pitch-number">${escape(p.number||'—')}</span><span class="pitch-name">${escape(p.shortName||p.name)}</span></li>`).join('')}</ul>`).join('')}</div></div>`;
   }
   function lineupHtml(teams){
     return '<p class="lineup-note">Las alineaciones suelen publicarse aproximadamente una hora antes del inicio. Se mostrarán cuando estén disponibles en la fuente.</p><div class="lineup-teams">'+teams.map(t=>{
       if(!t.confirmed)return `<section class="lineup-team"><h3>${escape(t.team)}</h3><p class="detail-empty">Alineación todavía no disponible.</p></section>`;
       const list=players=>'<ul class="lineup-list">'+players.map(p=>`<li><span class="lineup-number">${escape(p.number||'—')}</span><span>${escape(p.name)}${p.position?`<small>${escape(p.position)}</small>`:''}</span></li>`).join('')+'</ul>';
-      return `<section class="lineup-team"><h3>${escape(t.team)}</h3>${t.formation?`<p class="lineup-formation">Formación: ${escape(t.formation)}</p>`:''}<h4>Titulares</h4>${list(t.starters)}<h4>Suplentes</h4>${t.bench.length?list(t.bench):'<p class="detail-empty">Suplentes no disponibles.</p>'}</section>`;
+      const pitch=pitchHtml(t);
+      return `<section class="lineup-team"><h3>${escape(t.team)}</h3>${t.formation?`<p class="lineup-formation">Formación: ${escape(t.formation)}</p>`:''}<h4>Titulares</h4>${pitch||'<p class="lineup-fallback">La fuente no ofrece posiciones suficientes para dibujar el campo.</p>'+list(t.starters)}<h4>Suplentes</h4>${t.bench.length?list(t.bench):'<p class="detail-empty">Suplentes no disponibles.</p>'}</section>`;
     }).join('')+'</div>';
   }
   function parse(payload,match,same){
@@ -57,7 +84,7 @@
     }
     return out;
   }
-  if(typeof module!=='undefined'&&module.exports)module.exports={parse,timeline,lineupHtml};
+  if(typeof module!=='undefined'&&module.exports)module.exports={parse,timeline,lineupHtml,pitchRows};
   if(typeof document==='undefined')return;
   let selected=null,timer=null,controller=null,token=0,busy=false,tab='summary';
   const dialog=document.createElement('dialog');dialog.className='match-detail';dialog.setAttribute('aria-labelledby','matchDetailTitle');

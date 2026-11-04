@@ -1,5 +1,12 @@
 # Registro de cambios
 
+## 3.31.0 - 4 de noviembre de 2026
+
+- Alineaciones de Liga y Champions sobre campo claro: dorsal y nombre, sin fotos, titulares por lineas y suplentes debajo.
+- Usa formacion y roles de la fuente para ordenar izquierda/centro/derecha; mantiene lista si faltan posiciones o son ambiguas.
+- Conserva apertura en Resumen y alineaciones iniciales tras cambios o expulsiones.
+
+
 ## 3.30.0 - 24 de octubre de 2026
 
 - La campana abre un panel compacto con el estado y la causa del error. Desactivar requiere su propio boton; consultar una advertencia ya no cambia la preferencia.
