@@ -27,3 +27,20 @@
 .event-sub .detail-symbol{background:#e8ddf6;border-radius:8px;padding:5px}
 .detail-event.event-red,.detail-event.event-second{background:#fff0ef;border-inline-start:5px solid #cf5e58}
 .detail-event.event-yellow{background:#fffbed;border-inline-start:5px solid #d7b84f}
+
+/* Once sobre campo claro: dorsales y nombres, sin fotos. */
+.lineup-pitch{position:relative;margin:12px 8px 16px;border-radius:12px;background:repeating-linear-gradient(0deg,#deefe2 0,#deefe2 12.5%,#d3e8d9 12.5%,#d3e8d9 25%);border:1px solid #a7c9b1;overflow:hidden;color:#163c31}
+.pitch-markings{position:absolute;inset:10px;border:2px solid #ffffffc9;pointer-events:none}
+.pitch-markings::before{content:"";position:absolute;top:50%;left:0;right:0;border-top:2px solid #ffffffc9}
+.pitch-area{position:absolute;left:23%;width:54%;height:17%;border:2px solid #ffffffc9;box-sizing:border-box}.pitch-area.top{top:-2px}.pitch-area.bottom{bottom:-2px}
+.pitch-area::after{content:"";position:absolute;width:46%;height:44%;left:27%;border:2px solid #ffffffc9;box-sizing:border-box}.pitch-area.top::after{top:-2px}.pitch-area.bottom::after{bottom:-2px}
+.pitch-circle{position:absolute;top:50%;left:50%;width:24%;aspect-ratio:1;border:2px solid #ffffffc9;border-radius:50%;transform:translate(-50%,-50%)}
+.pitch-rows{position:relative;display:flex;flex-direction:column;justify-content:space-between;min-height:390px;padding:24px 3px;gap:20px}
+.pitch-row{display:grid;grid-template-columns:repeat(var(--players),minmax(0,1fr));align-items:start;gap:3px;list-style:none;margin:0;padding:0}
+.pitch-player{display:flex;align-items:center;flex-direction:column;gap:5px;min-width:0;text-align:center;font-size:11px;line-height:1.3}
+.pitch-number{display:grid;place-items:center;width:30px;height:30px;flex:none;border-radius:50%;background:#fff;border:2px solid #6d90bb;box-shadow:0 2px 5px #284d4920;color:#214c82;font-weight:800;font-size:14px}
+.pitch-name{max-width:100%;padding:3px 4px;border-radius:5px;box-sizing:border-box;background:#ffffffeb;box-shadow:0 1px 3px #214b2f18;font-weight:700;overflow-wrap:anywhere;color:#193d33}
+.lineup-team:nth-child(2) .pitch-number{border-color:#aa8bc8;color:#65448e}
+.lineup-fallback{font-size:12px;line-height:1.5;color:#52647b;padding:0 14px}
+@media(max-width:520px){.pitch-rows{min-height:400px}.pitch-player{font-size:12px}.lineup-teams{padding:10px;gap:18px}}
+@media(prefers-reduced-motion:reduce){.lineup-pitch *{animation:none}}

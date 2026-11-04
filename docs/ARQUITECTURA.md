@@ -47,3 +47,8 @@ La campana conserva la elección guardada al comprobar permisos o conectividad: 
 ## Diagnostico de avisos - 3.30.0
 
 Panel modal compacto, consulta y baja separadas, recuperacion de suscripcion 410 y prueba diferida mediante alarma del Durable Object. El receptor guarda la ultima presentacion local y no bloquea el push por errores de IndexedDB; revierte la marca si showNotification falla. Envios limitados a cuatro dispositivos concurrentes, ordenados por dispositivo. Protocolo de capacidad conservado en 3.28.0 para compatibilidad con registros existentes. Detalle de uso y limitaciones en NOTIFICACIONES.md.
+
+
+## Alineaciones sobre campo - 3.31.0
+
+pitchRows distribuye el once confirmado segun formacion valida de diez jugadores de campo mas portero y roles explicitos. Ordena izquierda, centrales y derecha dentro de cada linea; los delanteros se muestran arriba y el portero abajo para ambos equipos. Si faltan roles o existe ambiguedad entre lineas o posiciones, se conserva la lista con explicacion. Los nombres cortos proceden de la fuente y el nombre completo queda accesible. No descarga fotos ni altera Resumen, suplentes, datos deportivos o notificaciones.
