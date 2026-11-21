@@ -1,5 +1,13 @@
 # Registro de cambios
 
+## 3.32.0 - 21 de noviembre de 2026
+
+- Corrige #21: interpreta casillas formationPlace para 4-4-2 y 4-2-3-1 solo con correspondencias contrastadas en respuestas de ESPN, roles compatibles y once completo. No trata la casilla como orden de izquierda a derecha.
+- Sin distribucion verificable, agrupa titulares por posicion general y dorsal, sin atribuir automaticamente el problema a la fuente.
+- Refuerza identidad de equipos y unicidad del once: no confirma rosters ambiguos, incompletos ni atletas compartidos.
+- Nuevas regresiones con campos originales de Madrid-Celta 401882798 y AEK-Madrid 401915383; mantiene el once inicial y los suplentes tras cambios.
+
+
 ## 3.31.0 - 4 de noviembre de 2026
 
 - Alineaciones de Liga y Champions sobre campo claro: dorsal y nombre, sin fotos, titulares por lineas y suplentes debajo.

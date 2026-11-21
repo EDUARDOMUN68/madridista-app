@@ -52,3 +52,12 @@ Panel modal compacto, consulta y baja separadas, recuperacion de suscripcion 410
 ## Alineaciones sobre campo - 3.31.0
 
 pitchRows distribuye el once confirmado segun formacion valida de diez jugadores de campo mas portero y roles explicitos. Ordena izquierda, centrales y derecha dentro de cada linea; los delanteros se muestran arriba y el portero abajo para ambos equipos. Si faltan roles o existe ambiguedad entre lineas o posiciones, se conserva la lista con explicacion. Los nombres cortos proceden de la fuente y el nombre completo queda accesible. No descarga fotos ni altera Resumen, suplentes, datos deportivos o notificaciones.
+
+
+## Incidencia #21: granularidad y casillas ESPN - 3.32.0
+
+Verificado el 21/11/2026: esp.1/summary?event=401882798 identifica Real Madrid (86) contra Celta Vigo (85), once titulares por equipo, Madrid 4-4-2 y posiciones G/D/M/F. Los nombres y dorsales mostrados coinciden con ese roster; no se modifican plantillas por criterio manual ni se afirma verificacion independiente del once del club.
+
+formationPlace no es un indice consecutivo por linea. Se contrasta contra uefa.champions/summary?event=401915383: AEK 4-4-2 y Madrid 4-2-3-1 con roles detallados. Las correspondencias exactas se conservan en verifiedSlots y en fixtures minimos con procedencia. Solo se usan con once casillas unicas 1-11 y roles generales/detallados compatibles; no se extrapolan a otros sistemas. Para un 3-4-3 con roles genericos no se ha contrastado la lateralidad: se muestra lista por G/D/M/F y dorsal. Una fuente puede aportar informacion que esta version aun no sabe interpretar; por eso el mensaje no culpa a la fuente.
+
+Los rosters se vinculan exclusivamente por ID de equipo, se exige once nombrado con IDs unicos y se rechaza ambiguedad de roster o atletas titulares compartidos. starter determina el once inicial, no active ni subbedIn/subbedOut. El render no reordena una lista por formationPlace. Regresiones reproducibles sin red: node --test test_match_lineups.cjs; fixtures sin fotos, estadisticas ni datos privados.

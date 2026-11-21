@@ -4,6 +4,7 @@ on:
     paths:
       - 'match-detail.*'
       - 'test_match_*.cjs'
+      - 'test-fixtures/**'
       - 'index.html'
       - '.github/workflows/validate-details.yml'
 permissions:
@@ -17,6 +18,7 @@ jobs:
         with:
           node-version: '24'
       - run: node test_match_detail.cjs
+      - run: node --test test_match_lineups.cjs
       - run: node test_match_lifecycle.cjs
       - run: node --test test_push_client.cjs test_push_receiver.cjs
       - run: node --check match-detail.js && node --check sw.js
