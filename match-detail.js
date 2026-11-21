@@ -4,19 +4,46 @@
   const escape=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const leagues={LaLiga:'esp.1',Champions:'uefa.champions'};
   const stats=[['possessionPct','Posesión','%'],['totalShots','Tiros',''],['shotsOnTarget','Tiros a puerta',''],['wonCorners','Córners',''],['foulsCommitted','Faltas',''],['yellowCards','Tarjetas amarillas',''],['redCards','Tarjetas rojas',''],['offsides','Fueras de juego',''],['saves','Paradas',''],['totalPasses','Pases','']];
+  function positionGroup(role){
+    if(['G','GK'].includes(role))return 'G';
+    if(/^(D|SW|CB|CD(?:-[LR])?|[LR]B)$/.test(role))return 'D';
+    if(/^(M|[LR]WB|[ADC]M(?:-[LR])?|[LR]M)$/.test(role))return 'M';
+    if(/^(F|SS|CF(?:-[LR])?|[LR][WF])$/.test(role))return 'F';
+    return '?';
+  }
+  // Casillas contrastadas con ESPN 401915383 (AEK 4-4-2 y Madrid 4-2-3-1).
+  // formationPlace identifica una casilla del sistema, no un índice izquierda-derecha.
+  const verifiedSlots={
+    '4-4-2':[[[9,'CF-L'],[10,'CF-R']],[[11,'LM'],[8,'CM-L'],[4,'CM-R'],[7,'RM']],[[3,'LB'],[6,'CD-L'],[5,'CD-R'],[2,'RB']],[[1,'G']]],
+    '4-2-3-1':[[[9,'F']],[[11,'AM-L'],[10,'AM'],[7,'AM-R']],[[4,'LM'],[8,'RM']],[[3,'LB'],[6,'CD-L'],[5,'CD-R'],[2,'RB']],[[1,'G']]]
+  };
   function lineups(payload,home,away){
-    return [home,away].map(team=>{
-      const roster=(payload.rosters||[]).find(r=>String(r.team?.id)===String(team.id));
+    const teams=[home,away].map(team=>{
+      const candidates=(payload.rosters||[]).filter(r=>team.id!=null&&(team.team?.id==null||String(team.team.id)===String(team.id))&&String(r.team?.id)===String(team.id));
+      const roster=candidates.length===1?candidates[0]:null;
       const seen=new Set();
-      const players=(roster?.roster||[]).filter(p=>{const key=p.athlete?.id||p.athlete?.displayName;if(!key||seen.has(key))return false;seen.add(key);return true;}).map(p=>({name:p.athlete?.displayName||p.athlete?.fullName||'',shortName:p.athlete?.shortName||p.athlete?.displayName||'',number:p.jersey||'',starter:p.starter,order:Number(p.formationPlace)||99,role:p.position?.abbreviation||'',position:({G:'Portero',GK:'Portero',D:'Defensa',M:'Centrocampista',F:'Delantero'})[p.position?.abbreviation]||''}));
-      const starters=players.filter(p=>p.starter===true).sort((a,b)=>a.order-b.order);
-      return {team:team.team.displayName,confirmed:starters.length===11,formation:roster?.formation||'',starters,bench:players.filter(p=>p.starter===false)};
+      const players=(roster?.roster||[]).filter(p=>{const key=p.athlete?.id;if(key==null||!String(key)||seen.has(String(key))||!(p.athlete?.displayName||p.athlete?.fullName))return false;seen.add(String(key));return true;}).map(p=>({id:String(p.athlete.id),name:p.athlete?.displayName||p.athlete?.fullName||'',shortName:p.athlete?.shortName||p.athlete?.displayName||'',number:p.jersey||'',starter:p.starter,order:Number(p.formationPlace)||99,role:p.position?.abbreviation||'',position:({G:'Portero',GK:'Portero',D:'Defensa',M:'Centrocampista',F:'Delantero'})[p.position?.abbreviation]||''}));
+      const starters=players.filter(p=>p.starter===true);
+      return {team:team.team.displayName,confirmed:starters.length===11&&(roster?.roster||[]).filter(p=>p.starter===true).length===11,formation:roster?.formation||'',starters,bench:players.filter(p=>p.starter===false)};
     });
+    const shared=teams[0].starters.some(p=>teams[1].starters.some(q=>q.id===p.id));
+    if(shared)teams.forEach(t=>{t.confirmed=false;});
+    return teams;
   }
   function pitchRows(team){
-    if(!team.confirmed||!/^\d(?:-\d){1,4}$/.test(team.formation))return null;
+    if(!team.confirmed||team.starters.length!==11||!/^\d(?:-\d){1,4}$/.test(team.formation))return null;
     const formation=team.formation.split('-').map(Number);
     if(formation.some(n=>n<1||n>5)||formation.reduce((sum,n)=>sum+n,0)!==10)return null;
+    const template=verifiedSlots[team.formation];
+    if(template&&team.starters.some(p=>['D','M'].includes(p.role))){
+      const slots=new Map(team.starters.map(p=>[p.order,p]));
+      if(slots.size!==11||team.starters.some(p=>!Number.isInteger(p.order)||p.order<1||p.order>11))return null;
+      const compatible=template.flat().every(([slot,role])=>{
+        const p=slots.get(slot);return p&&(p.role===role||(['G','GK','D','M','F'].includes(p.role)&&positionGroup(p.role)===positionGroup(role)));
+      });
+      if(!compatible)return null;
+      return template.map(row=>row.map(([slot])=>slots.get(slot)));
+    }
     const roles={G:0,GK:0,SW:1,CB:1,CD:1,LB:1,RB:1,LWB:2,RWB:2,DM:2,CM:3,LM:3,RM:3,AM:4,LW:5,RW:5,LF:5,RF:5,SS:5,CF:5,F:5};
     const players=team.starters.map(player=>{
       const role=player.role,base=role?.replace(/-[LR]$/,''),rank=roles[base];
@@ -44,7 +71,12 @@
       if(!t.confirmed)return `<section class="lineup-team"><h3>${escape(t.team)}</h3><p class="detail-empty">Alineación todavía no disponible.</p></section>`;
       const list=players=>'<ul class="lineup-list">'+players.map(p=>`<li><span class="lineup-number">${escape(p.number||'—')}</span><span>${escape(p.name)}${p.position?`<small>${escape(p.position)}</small>`:''}</span></li>`).join('')+'</ul>';
       const pitch=pitchHtml(t);
-      return `<section class="lineup-team"><h3>${escape(t.team)}</h3>${t.formation?`<p class="lineup-formation">Formación: ${escape(t.formation)}</p>`:''}<h4>Titulares</h4>${pitch||'<p class="lineup-fallback">La fuente no ofrece posiciones suficientes para dibujar el campo.</p>'+list(t.starters)}<h4>Suplentes</h4>${t.bench.length?list(t.bench):'<p class="detail-empty">Suplentes no disponibles.</p>'}</section>`;
+      const groups=[['G','Portería'],['D','Defensa'],['M','Centrocampo'],['F','Delantera'],['?','Posición no especificada']];
+      const fallback=()=>'<p class="lineup-fallback">Distribución en el campo no verificada. Titulares agrupados por posición general y dorsal.</p>'+groups.map(([role,label])=>{
+        const players=t.starters.filter(p=>positionGroup(p.role)===role).sort((a,b)=>String(a.number).localeCompare(String(b.number),'es',{numeric:true})||a.name.localeCompare(b.name,'es'));
+        return players.length?`<h5 class="lineup-group">${label}</h5>${list(players)}`:'';
+      }).join('');
+      return `<section class="lineup-team"><h3>${escape(t.team)}</h3>${t.formation?`<p class="lineup-formation">Formación: ${escape(t.formation)}</p>`:''}<h4>Titulares</h4>${pitch||fallback()}<h4>Suplentes</h4>${t.bench.length?list(t.bench):'<p class="detail-empty">Suplentes no disponibles.</p>'}</section>`;
     }).join('')+'</div>';
   }
   function parse(payload,match,same){

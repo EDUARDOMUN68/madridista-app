@@ -47,7 +47,7 @@ const html=lineupHtml([fieldTeam]);assert.match(html,/lineup-pitch/);assert.matc
 assert.equal(pitchRows({...fieldTeam,formation:'4-4-3'}),null);
 assert.equal(pitchRows({...fieldTeam,confirmed:false}),null);
 assert.equal(pitchRows({...fieldTeam,starters:fieldTeam.starters.map((p,i)=>i===2?{...p,role:''}:p)}),null);
-assert.match(lineupHtml([{...fieldTeam,formation:''}]),/posiciones suficientes/);
+assert.match(lineupHtml([{...fieldTeam,formation:''}]),/Distribución en el campo no verificada/);
 assert.doesNotMatch(lineupHtml([{...fieldTeam,formation:''}]),/lineup-pitch/);
 const midfieldAmbiguous=fieldTeam.starters.map(p=>p.role.startsWith('AM')||['LM','RM'].includes(p.role)?{...p,role:'CM'}:p);
 assert.equal(pitchRows({...fieldTeam,starters:midfieldAmbiguous}),null,'No inventa que centrocampistas van en cada linea');

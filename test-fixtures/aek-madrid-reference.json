@@ -1,0 +1,725 @@
+{
+  "_source": {
+    "url": "https://site.api.espn.com/apis/site/v2/sports/soccer/uefa.champions/summary?event=401915383",
+    "capturedAt": "2026-11-21T20:35+01:00",
+    "note": "Campos originales necesarios para regresion de alineaciones; sin fotos, enlaces de atletas ni estadisticas."
+  },
+  "header": {
+    "id": "401915383",
+    "competitions": [
+      {
+        "id": "401915383",
+        "date": "2026-11-04T17:45Z",
+        "status": {
+          "type": {
+            "id": "28",
+            "name": "STATUS_FULL_TIME",
+            "state": "post",
+            "completed": true,
+            "description": "Full Time",
+            "detail": "FT",
+            "shortDetail": "FT"
+          }
+        },
+        "competitors": [
+          {
+            "id": "887",
+            "homeAway": "home",
+            "team": {
+              "id": "887",
+              "displayName": "AEK Athens"
+            }
+          },
+          {
+            "id": "86",
+            "homeAway": "away",
+            "team": {
+              "id": "86",
+              "displayName": "Real Madrid"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "rosters": [
+    {
+      "team": {
+        "id": "887",
+        "displayName": "AEK Athens"
+      },
+      "formation": "4-4-2",
+      "roster": [
+        {
+          "starter": true,
+          "jersey": "91",
+          "formationPlace": "1",
+          "position": {
+            "name": "Goalkeeper",
+            "displayName": "Goalkeeper",
+            "abbreviation": "G"
+          },
+          "athlete": {
+            "id": "175264",
+            "displayName": "Alberto Brignoli",
+            "shortName": "A. Brignoli"
+          }
+        },
+        {
+          "starter": true,
+          "jersey": "44",
+          "formationPlace": "6",
+          "position": {
+            "name": "Center Left Defender",
+            "displayName": "Center Left Defender",
+            "abbreviation": "CD-L"
+          },
+          "athlete": {
+            "id": "324593",
+            "displayName": "Filipe Relvas",
+            "shortName": "Filipe Relvas"
+          }
+        },
+        {
+          "starter": true,
+          "jersey": "2",
+          "formationPlace": "5",
+          "position": {
+            "name": "Center Right Defender",
+            "displayName": "Center Right Defender",
+            "abbreviation": "CD-R"
+          },
+          "athlete": {
+            "id": "218951",
+            "displayName": "Harold Moukoudi",
+            "shortName": "H. Moukoudi"
+          }
+        },
+        {
+          "starter": true,
+          "jersey": "3",
+          "formationPlace": "3",
+          "position": {
+            "name": "Left Back",
+            "displayName": "Left Back",
+            "abbreviation": "LB"
+          },
+          "athlete": {
+            "id": "285427",
+            "displayName": "Stavros Pilios",
+            "shortName": "S. Pilios"
+          }
+        },
+        {
+          "starter": true,
+          "jersey": "12",
+          "formationPlace": "2",
+          "position": {
+            "name": "Right Back",
+            "displayName": "Right Back",
+            "abbreviation": "RB"
+          },
+          "athlete": {
+            "id": "302487",
+            "displayName": "Lazaros Rota",
+            "shortName": "L. Rota"
+          }
+        },
+        {
+          "starter": true,
+          "jersey": "6",
+          "formationPlace": "8",
+          "position": {
+            "name": "Center Left Midfielder",
+            "displayName": "Center Left Midfielder",
+            "abbreviation": "CM-L"
+          },
+          "athlete": {
+            "id": "235669",
+            "displayName": "Kaan Kairinen",
+            "shortName": "K. Kairinen"
+          }
+        },
+        {
+          "starter": true,
+          "jersey": "16",
+          "formationPlace": "4",
+          "position": {
+            "name": "Center Right Midfielder",
+            "displayName": "Center Right Midfielder",
+            "abbreviation": "CM-R"
+          },
+          "athlete": {
+            "id": "260554",
+            "displayName": "Kervin Arriaga",
+            "shortName": "K. Arriaga"
+          }
+        },
+        {
+          "starter": true,
+          "jersey": "14",
+          "formationPlace": "11",
+          "position": {
+            "name": "Left Midfielder",
+            "displayName": "Left Midfielder",
+            "abbreviation": "LM"
+          },
+          "athlete": {
+            "id": "237549",
+            "displayName": "Lovro Majer",
+            "shortName": "L. Majer"
+          }
+        },
+        {
+          "starter": true,
+          "jersey": "11",
+          "formationPlace": "7",
+          "position": {
+            "name": "Right Midfielder",
+            "displayName": "Right Midfielder",
+            "abbreviation": "RM"
+          },
+          "athlete": {
+            "id": "260026",
+            "displayName": "Aboubakary Koita",
+            "shortName": "A. Koita"
+          }
+        },
+        {
+          "starter": true,
+          "jersey": "8",
+          "formationPlace": "9",
+          "position": {
+            "name": "Center Left Forward",
+            "displayName": "Center Left Forward",
+            "abbreviation": "CF-L"
+          },
+          "athlete": {
+            "id": "192943",
+            "displayName": "Mijat Gacinovic",
+            "shortName": "M. Gacinovic"
+          }
+        },
+        {
+          "starter": true,
+          "jersey": "9",
+          "formationPlace": "10",
+          "position": {
+            "name": "Center Right Forward",
+            "displayName": "Center Right Forward",
+            "abbreviation": "CF-R"
+          },
+          "athlete": {
+            "id": "221332",
+            "displayName": "Luka Jovic",
+            "shortName": "L. Jovic"
+          }
+        },
+        {
+          "starter": false,
+          "jersey": "10",
+          "formationPlace": "0",
+          "position": {
+            "name": "Substitute",
+            "displayName": "Substitute",
+            "abbreviation": "SUB"
+          },
+          "athlete": {
+            "id": "228267",
+            "displayName": "Oleksandr Zubkov",
+            "shortName": "O. Zubkov"
+          }
+        },
+        {
+          "starter": false,
+          "jersey": "1",
+          "formationPlace": "0",
+          "position": {
+            "name": "Substitute",
+            "displayName": "Substitute",
+            "abbreviation": "SUB"
+          },
+          "athlete": {
+            "id": "180047",
+            "displayName": "Thomas Strakosha",
+            "shortName": "T. Strakosha"
+          }
+        },
+        {
+          "starter": false,
+          "jersey": "27",
+          "formationPlace": "0",
+          "position": {
+            "name": "Substitute",
+            "displayName": "Substitute",
+            "abbreviation": "SUB"
+          },
+          "athlete": {
+            "id": "364626",
+            "displayName": "Milán Vitális",
+            "shortName": "M. Vitális"
+          }
+        },
+        {
+          "starter": false,
+          "jersey": "18",
+          "formationPlace": "0",
+          "position": {
+            "name": "Substitute",
+            "displayName": "Substitute",
+            "abbreviation": "SUB"
+          },
+          "athlete": {
+            "id": "239738",
+            "displayName": "Razvan Marin",
+            "shortName": "R. Marin"
+          }
+        },
+        {
+          "starter": false,
+          "jersey": "21",
+          "formationPlace": "0",
+          "position": {
+            "name": "Substitute",
+            "displayName": "Substitute",
+            "abbreviation": "SUB"
+          },
+          "athlete": {
+            "id": "148110",
+            "displayName": "Domagoj Vida",
+            "shortName": "D. Vida"
+          }
+        },
+        {
+          "starter": false,
+          "jersey": "41",
+          "formationPlace": "0",
+          "position": {
+            "name": "Substitute",
+            "displayName": "Substitute",
+            "abbreviation": "SUB"
+          },
+          "athlete": {
+            "id": "409595",
+            "displayName": "Marios Balamotis",
+            "shortName": "M. Balamotis"
+          }
+        },
+        {
+          "starter": false,
+          "jersey": "90",
+          "formationPlace": "0",
+          "position": {
+            "name": "Substitute",
+            "displayName": "Substitute",
+            "abbreviation": "SUB"
+          },
+          "athlete": {
+            "id": "297754",
+            "displayName": "Zini",
+            "shortName": "Zini"
+          }
+        },
+        {
+          "starter": false,
+          "jersey": "19",
+          "formationPlace": "0",
+          "position": {
+            "name": "Substitute",
+            "displayName": "Substitute",
+            "abbreviation": "SUB"
+          },
+          "athlete": {
+            "id": "246666",
+            "displayName": "Barnabás Varga",
+            "shortName": "B. Varga"
+          }
+        },
+        {
+          "starter": false,
+          "jersey": "20",
+          "formationPlace": "0",
+          "position": {
+            "name": "Substitute",
+            "displayName": "Substitute",
+            "abbreviation": "SUB"
+          },
+          "athlete": {
+            "id": "213392",
+            "displayName": "Petros Mantalos",
+            "shortName": "P. Mantalos"
+          }
+        },
+        {
+          "starter": false,
+          "jersey": "22",
+          "formationPlace": "0",
+          "position": {
+            "name": "Substitute",
+            "displayName": "Substitute",
+            "abbreviation": "SUB"
+          },
+          "athlete": {
+            "id": "170670",
+            "displayName": "Charalampos Lykogiannis",
+            "shortName": "C. Lykogiannis"
+          }
+        }
+      ]
+    },
+    {
+      "team": {
+        "id": "86",
+        "displayName": "Real Madrid"
+      },
+      "formation": "4-2-3-1",
+      "roster": [
+        {
+          "starter": true,
+          "jersey": "1",
+          "formationPlace": "1",
+          "position": {
+            "name": "Goalkeeper",
+            "displayName": "Goalkeeper",
+            "abbreviation": "G"
+          },
+          "athlete": {
+            "id": "134283",
+            "displayName": "Thibaut Courtois",
+            "shortName": "T. Courtois"
+          }
+        },
+        {
+          "starter": true,
+          "jersey": "22",
+          "formationPlace": "6",
+          "position": {
+            "name": "Center Left Defender",
+            "displayName": "Center Left Defender",
+            "abbreviation": "CD-L"
+          },
+          "athlete": {
+            "id": "169438",
+            "displayName": "Antonio Rüdiger",
+            "shortName": "A. Rüdiger"
+          }
+        },
+        {
+          "starter": true,
+          "jersey": "3",
+          "formationPlace": "5",
+          "position": {
+            "name": "Center Right Defender",
+            "displayName": "Center Right Defender",
+            "abbreviation": "CD-R"
+          },
+          "athlete": {
+            "id": "228402",
+            "displayName": "Éder Militão",
+            "shortName": "É. Militão"
+          }
+        },
+        {
+          "starter": true,
+          "jersey": "17",
+          "formationPlace": "3",
+          "position": {
+            "name": "Left Back",
+            "displayName": "Left Back",
+            "abbreviation": "LB"
+          },
+          "athlete": {
+            "id": "259910",
+            "displayName": "Marc Cucurella",
+            "shortName": "M. Cucurella"
+          }
+        },
+        {
+          "starter": true,
+          "jersey": "24",
+          "formationPlace": "2",
+          "position": {
+            "name": "Right Back",
+            "displayName": "Right Back",
+            "abbreviation": "RB"
+          },
+          "athlete": {
+            "id": "213248",
+            "displayName": "Denzel Dumfries",
+            "shortName": "D. Dumfries"
+          }
+        },
+        {
+          "starter": true,
+          "jersey": "5",
+          "formationPlace": "10",
+          "position": {
+            "name": "Attacking Midfielder",
+            "displayName": "Attacking Midfielder",
+            "abbreviation": "AM"
+          },
+          "athlete": {
+            "id": "291281",
+            "displayName": "Jude Bellingham",
+            "shortName": "J. Bellingham"
+          }
+        },
+        {
+          "starter": true,
+          "jersey": "6",
+          "formationPlace": "4",
+          "position": {
+            "name": "Left Midfielder",
+            "displayName": "Left Midfielder",
+            "abbreviation": "LM"
+          },
+          "athlete": {
+            "id": "285150",
+            "displayName": "Eduardo Camavinga",
+            "shortName": "E. Camavinga"
+          }
+        },
+        {
+          "starter": true,
+          "jersey": "20",
+          "formationPlace": "8",
+          "position": {
+            "name": "Right Midfielder",
+            "displayName": "Right Midfielder",
+            "abbreviation": "RM"
+          },
+          "athlete": {
+            "id": "199833",
+            "displayName": "Bernardo Silva",
+            "shortName": "B. Silva"
+          }
+        },
+        {
+          "starter": true,
+          "jersey": "10",
+          "formationPlace": "9",
+          "position": {
+            "name": "Forward",
+            "displayName": "Forward",
+            "abbreviation": "F"
+          },
+          "athlete": {
+            "id": "231388",
+            "displayName": "Kylian Mbappé",
+            "shortName": "K. Mbappé"
+          }
+        },
+        {
+          "starter": true,
+          "jersey": "7",
+          "formationPlace": "11",
+          "position": {
+            "name": "Attacking Midfielder Left",
+            "displayName": "Attacking Midfielder Left",
+            "abbreviation": "AM-L"
+          },
+          "athlete": {
+            "id": "252107",
+            "displayName": "Vinícius Júnior",
+            "shortName": "Vinícius Júnior"
+          }
+        },
+        {
+          "starter": true,
+          "jersey": "25",
+          "formationPlace": "7",
+          "position": {
+            "name": "Attacking Midfielder Right",
+            "displayName": "Attacking Midfielder Right",
+            "abbreviation": "AM-R"
+          },
+          "athlete": {
+            "id": "402479",
+            "displayName": "Yan Diomande",
+            "shortName": "Y. Diomande"
+          }
+        },
+        {
+          "starter": false,
+          "jersey": "16",
+          "formationPlace": "0",
+          "position": {
+            "name": "Substitute",
+            "displayName": "Substitute",
+            "abbreviation": "SUB"
+          },
+          "athlete": {
+            "id": "251634",
+            "displayName": "Ibrahima Konaté",
+            "shortName": "I. Konaté"
+          }
+        },
+        {
+          "starter": false,
+          "jersey": "27",
+          "formationPlace": "0",
+          "position": {
+            "name": "Substitute",
+            "displayName": "Substitute",
+            "abbreviation": "SUB"
+          },
+          "athlete": {
+            "id": "409019",
+            "displayName": "Thiago Pitarch",
+            "shortName": "T. Pitarch"
+          }
+        },
+        {
+          "starter": false,
+          "jersey": "18",
+          "formationPlace": "0",
+          "position": {
+            "name": "Substitute",
+            "displayName": "Substitute",
+            "abbreviation": "SUB"
+          },
+          "athlete": {
+            "id": "310637",
+            "displayName": "Álvaro Carreras",
+            "shortName": "Á. Carreras"
+          }
+        },
+        {
+          "starter": false,
+          "jersey": "19",
+          "formationPlace": "0",
+          "position": {
+            "name": "Substitute",
+            "displayName": "Substitute",
+            "abbreviation": "SUB"
+          },
+          "athlete": {
+            "id": "380286",
+            "displayName": "Carlos Espí",
+            "shortName": "C. Espí"
+          }
+        },
+        {
+          "starter": false,
+          "jersey": "26",
+          "formationPlace": "0",
+          "position": {
+            "name": "Substitute",
+            "displayName": "Substitute",
+            "abbreviation": "SUB"
+          },
+          "athlete": {
+            "id": "350351",
+            "displayName": "Sergio Mestre",
+            "shortName": "S. Mestre"
+          }
+        },
+        {
+          "starter": false,
+          "jersey": "21",
+          "formationPlace": "0",
+          "position": {
+            "name": "Substitute",
+            "displayName": "Substitute",
+            "abbreviation": "SUB"
+          },
+          "athlete": {
+            "id": "246532",
+            "displayName": "Brahim Díaz",
+            "shortName": "B. Díaz"
+          }
+        },
+        {
+          "starter": false,
+          "jersey": "8",
+          "formationPlace": "0",
+          "position": {
+            "name": "Substitute",
+            "displayName": "Substitute",
+            "abbreviation": "SUB"
+          },
+          "athlete": {
+            "id": "235818",
+            "displayName": "Federico Valverde",
+            "shortName": "F. Valverde"
+          }
+        },
+        {
+          "starter": false,
+          "jersey": "4",
+          "formationPlace": "0",
+          "position": {
+            "name": "Substitute",
+            "displayName": "Substitute",
+            "abbreviation": "SUB"
+          },
+          "athlete": {
+            "id": "356000",
+            "displayName": "Dean Huijsen",
+            "shortName": "D. Huijsen"
+          }
+        },
+        {
+          "starter": false,
+          "jersey": "12",
+          "formationPlace": "0",
+          "position": {
+            "name": "Substitute",
+            "displayName": "Substitute",
+            "abbreviation": "SUB"
+          },
+          "athlete": {
+            "id": "223532",
+            "displayName": "Trent Alexander-Arnold",
+            "shortName": "T. Alexander-Arnold"
+          }
+        },
+        {
+          "starter": false,
+          "jersey": "13",
+          "formationPlace": "0",
+          "position": {
+            "name": "Substitute",
+            "displayName": "Substitute",
+            "abbreviation": "SUB"
+          },
+          "athlete": {
+            "id": "257237",
+            "displayName": "Andriy Lunin",
+            "shortName": "A. Lunin"
+          }
+        },
+        {
+          "starter": false,
+          "jersey": "38",
+          "formationPlace": "0",
+          "position": {
+            "name": "Substitute",
+            "displayName": "Substitute",
+            "abbreviation": "SUB"
+          },
+          "athlete": {
+            "id": "409318",
+            "displayName": "Sergio Martínez",
+            "shortName": "S. Martínez"
+          }
+        },
+        {
+          "starter": false,
+          "jersey": "9",
+          "formationPlace": "0",
+          "position": {
+            "name": "Substitute",
+            "displayName": "Substitute",
+            "abbreviation": "SUB"
+          },
+          "athlete": {
+            "id": "346612",
+            "displayName": "Endrick",
+            "shortName": "Endrick"
+          }
+        }
+      ]
+    }
+  ]
+}

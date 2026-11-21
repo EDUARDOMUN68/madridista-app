@@ -44,3 +44,7 @@
 .lineup-fallback{font-size:12px;line-height:1.5;color:#52647b;padding:0 14px}
 @media(max-width:520px){.pitch-rows{min-height:400px}.pitch-player{font-size:12px}.lineup-teams{padding:10px;gap:18px}}
 @media(prefers-reduced-motion:reduce){.lineup-pitch *{animation:none}}
+
+.lineup-group{margin:14px 18px 4px;font-size:12px;color:#52647b;text-transform:uppercase;letter-spacing:.04em}
+
+.pitch-row[style="--players:4"] .pitch-name,.pitch-row[style="--players:5"] .pitch-name{font-size:11px;padding:3px 2px}
