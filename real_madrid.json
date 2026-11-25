@@ -2,14 +2,14 @@
   "app": {
     "name": "Madridista",
     "season": "2026/27",
-    "lastUpdated": "2026-11-25T15:31+01:00",
+    "lastUpdated": "2026-11-26T00:39+01:00",
     "timezone": "Europe/Madrid",
     "sources": [
       "Real Madrid C.F. — calendario oficial de LaLiga 2026/27",
       "Real Madrid C.F. — calendario Champions 2026/27",
       "LALIGA — horarios, resultados y clasificación"
     ],
-    "lastChecked": "2026-11-25T15:31+01:00"
+    "lastChecked": "2026-11-26T00:39+01:00"
   },
   "nextMatch": {
     "competition": "LaLiga",
@@ -1551,13 +1551,13 @@
     {
       "pos": 2,
       "team": "Paris Saint-Germain",
-      "pts": 12,
-      "pj": 4,
+      "pts": 13,
+      "pj": 5,
       "g": 4,
-      "e": 0,
+      "e": 1,
       "p": 0,
-      "gf": 20,
-      "gc": 5,
+      "gf": 22,
+      "gc": 7,
       "dg": 15
     },
     {
@@ -1574,6 +1574,30 @@
     },
     {
       "pos": 4,
+      "team": "Barcelona",
+      "pts": 12,
+      "pj": 5,
+      "g": 4,
+      "e": 0,
+      "p": 1,
+      "gf": 18,
+      "gc": 7,
+      "dg": 11
+    },
+    {
+      "pos": 5,
+      "team": "Liverpool",
+      "pts": 12,
+      "pj": 5,
+      "g": 4,
+      "e": 0,
+      "p": 1,
+      "gf": 17,
+      "gc": 10,
+      "dg": 7
+    },
+    {
+      "pos": 6,
       "team": "Real Betis",
       "pts": 12,
       "pj": 5,
@@ -1585,7 +1609,7 @@
       "dg": 4
     },
     {
-      "pos": 5,
+      "pos": 7,
       "team": "Arsenal",
       "pts": 11,
       "pj": 5,
@@ -1597,7 +1621,7 @@
       "dg": 5
     },
     {
-      "pos": 6,
+      "pos": 8,
       "team": "Manchester City",
       "pts": 10,
       "pj": 5,
@@ -1609,7 +1633,19 @@
       "dg": 5
     },
     {
-      "pos": 7,
+      "pos": 9,
+      "team": "Sporting CP",
+      "pts": 10,
+      "pj": 5,
+      "g": 3,
+      "e": 1,
+      "p": 1,
+      "gf": 10,
+      "gc": 6,
+      "dg": 4
+    },
+    {
+      "pos": 10,
       "team": "Borussia Dortmund",
       "pts": 10,
       "pj": 5,
@@ -1621,19 +1657,7 @@
       "dg": 2
     },
     {
-      "pos": 8,
-      "team": "Barcelona",
-      "pts": 9,
-      "pj": 4,
-      "g": 3,
-      "e": 0,
-      "p": 1,
-      "gf": 14,
-      "gc": 6,
-      "dg": 8
-    },
-    {
-      "pos": 9,
+      "pos": 11,
       "team": "Aston Villa",
       "pts": 9,
       "pj": 5,
@@ -1645,43 +1669,31 @@
       "dg": 5
     },
     {
-      "pos": 10,
-      "team": "Liverpool",
-      "pts": 9,
-      "pj": 4,
-      "g": 3,
-      "e": 0,
-      "p": 1,
-      "gf": 14,
-      "gc": 10,
-      "dg": 4
-    },
-    {
-      "pos": 11,
-      "team": "Club Brugge",
-      "pts": 9,
-      "pj": 4,
-      "g": 3,
-      "e": 0,
-      "p": 1,
-      "gf": 11,
-      "gc": 7,
-      "dg": 4
-    },
-    {
       "pos": 12,
-      "team": "Sporting CP",
+      "team": "Internazionale",
       "pts": 9,
-      "pj": 4,
+      "pj": 5,
       "g": 3,
       "e": 0,
-      "p": 1,
-      "gf": 8,
-      "gc": 4,
+      "p": 2,
+      "gf": 10,
+      "gc": 6,
       "dg": 4
     },
     {
       "pos": 13,
+      "team": "Club Brugge",
+      "pts": 9,
+      "pj": 5,
+      "g": 3,
+      "e": 0,
+      "p": 2,
+      "gf": 11,
+      "gc": 10,
+      "dg": 1
+    },
+    {
+      "pos": 14,
       "team": "Galatasaray",
       "pts": 9,
       "pj": 5,
@@ -1693,31 +1705,67 @@
       "dg": 0
     },
     {
-      "pos": 14,
+      "pos": 15,
       "team": "Bayern Munich",
       "pts": 8,
-      "pj": 4,
+      "pj": 5,
       "g": 2,
       "e": 2,
-      "p": 0,
-      "gf": 12,
-      "gc": 5,
-      "dg": 7
-    },
-    {
-      "pos": 15,
-      "team": "VfB Stuttgart",
-      "pts": 7,
-      "pj": 4,
-      "g": 2,
-      "e": 1,
       "p": 1,
-      "gf": 7,
-      "gc": 4,
-      "dg": 3
+      "gf": 13,
+      "gc": 7,
+      "dg": 6
     },
     {
       "pos": 16,
+      "team": "Fenerbahce",
+      "pts": 8,
+      "pj": 5,
+      "g": 2,
+      "e": 2,
+      "p": 1,
+      "gf": 7,
+      "gc": 11,
+      "dg": -4
+    },
+    {
+      "pos": 17,
+      "team": "VfB Stuttgart",
+      "pts": 7,
+      "pj": 5,
+      "g": 2,
+      "e": 1,
+      "p": 2,
+      "gf": 7,
+      "gc": 6,
+      "dg": 1
+    },
+    {
+      "pos": 18,
+      "team": "Atlético Madrid",
+      "pts": 7,
+      "pj": 5,
+      "g": 2,
+      "e": 1,
+      "p": 2,
+      "gf": 6,
+      "gc": 5,
+      "dg": 1
+    },
+    {
+      "pos": 19,
+      "team": "Manchester United",
+      "pts": 7,
+      "pj": 5,
+      "g": 2,
+      "e": 1,
+      "p": 2,
+      "gf": 10,
+      "gc": 10,
+      "dg": 0
+    },
+    {
+      "pos": 20,
       "team": "Bodo/Glimt",
       "pts": 7,
       "pj": 5,
@@ -1729,19 +1777,7 @@
       "dg": -4
     },
     {
-      "pos": 17,
-      "team": "Internazionale",
-      "pts": 6,
-      "pj": 4,
-      "g": 2,
-      "e": 0,
-      "p": 2,
-      "gf": 8,
-      "gc": 6,
-      "dg": 2
-    },
-    {
-      "pos": 18,
+      "pos": 21,
       "team": "LASK Linz",
       "pts": 6,
       "pj": 5,
@@ -1753,19 +1789,7 @@
       "dg": 0
     },
     {
-      "pos": 19,
-      "team": "Manchester United",
-      "pts": 6,
-      "pj": 4,
-      "g": 2,
-      "e": 0,
-      "p": 2,
-      "gf": 8,
-      "gc": 8,
-      "dg": 0
-    },
-    {
-      "pos": 20,
+      "pos": 22,
       "team": "FC Porto",
       "pts": 6,
       "pj": 5,
@@ -1777,7 +1801,7 @@
       "dg": 0
     },
     {
-      "pos": 21,
+      "pos": 23,
       "team": "RB Leipzig",
       "pts": 6,
       "pj": 5,
@@ -1789,67 +1813,55 @@
       "dg": -4
     },
     {
-      "pos": 22,
-      "team": "Fenerbahce",
-      "pts": 5,
-      "pj": 4,
-      "g": 1,
-      "e": 2,
-      "p": 1,
-      "gf": 6,
-      "gc": 11,
+      "pos": 24,
+      "team": "Villarreal",
+      "pts": 6,
+      "pj": 5,
+      "g": 2,
+      "e": 0,
+      "p": 3,
+      "gf": 9,
+      "gc": 14,
       "dg": -5
     },
     {
-      "pos": 23,
+      "pos": 25,
       "team": "AS Roma",
-      "pts": 4,
-      "pj": 4,
+      "pts": 5,
+      "pj": 5,
       "g": 1,
-      "e": 1,
+      "e": 2,
       "p": 2,
-      "gf": 10,
-      "gc": 8,
+      "gf": 12,
+      "gc": 10,
       "dg": 2
     },
     {
-      "pos": 24,
+      "pos": 26,
       "team": "Shakhtar Donetsk",
       "pts": 4,
-      "pj": 4,
+      "pj": 5,
       "g": 1,
       "e": 1,
-      "p": 2,
-      "gf": 4,
-      "gc": 4,
-      "dg": 0
-    },
-    {
-      "pos": 25,
-      "team": "Viking FK",
-      "pts": 4,
-      "pj": 4,
-      "g": 1,
-      "e": 1,
-      "p": 2,
-      "gf": 9,
-      "gc": 10,
-      "dg": -1
-    },
-    {
-      "pos": 26,
-      "team": "Atlético Madrid",
-      "pts": 4,
-      "pj": 4,
-      "g": 1,
-      "e": 1,
-      "p": 2,
+      "p": 3,
       "gf": 4,
       "gc": 5,
       "dg": -1
     },
     {
       "pos": 27,
+      "team": "Viking FK",
+      "pts": 4,
+      "pj": 5,
+      "g": 1,
+      "e": 1,
+      "p": 3,
+      "gf": 9,
+      "gc": 12,
+      "dg": -3
+    },
+    {
+      "pos": 28,
       "team": "Napoli",
       "pts": 4,
       "pj": 5,
@@ -1861,7 +1873,19 @@
       "dg": -5
     },
     {
-      "pos": 28,
+      "pos": 29,
+      "team": "Lille",
+      "pts": 4,
+      "pj": 5,
+      "g": 1,
+      "e": 1,
+      "p": 3,
+      "gf": 6,
+      "gc": 11,
+      "dg": -5
+    },
+    {
+      "pos": 30,
       "team": "PSV Eindhoven",
       "pts": 4,
       "pj": 5,
@@ -1871,30 +1895,6 @@
       "gf": 4,
       "gc": 9,
       "dg": -5
-    },
-    {
-      "pos": 29,
-      "team": "Villarreal",
-      "pts": 3,
-      "pj": 4,
-      "g": 1,
-      "e": 0,
-      "p": 3,
-      "gf": 8,
-      "gc": 14,
-      "dg": -6
-    },
-    {
-      "pos": 30,
-      "team": "Sabah FK",
-      "pts": 3,
-      "pj": 4,
-      "g": 1,
-      "e": 0,
-      "p": 3,
-      "gf": 4,
-      "gc": 10,
-      "dg": -6
     },
     {
       "pos": 31,
@@ -1922,6 +1922,18 @@
     },
     {
       "pos": 33,
+      "team": "Sabah FK",
+      "pts": 3,
+      "pj": 5,
+      "g": 1,
+      "e": 0,
+      "p": 4,
+      "gf": 5,
+      "gc": 14,
+      "dg": -9
+    },
+    {
+      "pos": 34,
       "team": "Lens",
       "pts": 3,
       "pj": 5,
@@ -1933,28 +1945,16 @@
       "dg": -14
     },
     {
-      "pos": 34,
+      "pos": 35,
       "team": "Slavia Prague",
       "pts": 1,
-      "pj": 4,
+      "pj": 5,
       "g": 0,
       "e": 1,
-      "p": 3,
+      "p": 4,
       "gf": 5,
-      "gc": 9,
-      "dg": -4
-    },
-    {
-      "pos": 35,
-      "team": "Lille",
-      "pts": 1,
-      "pj": 4,
-      "g": 0,
-      "e": 1,
-      "p": 3,
-      "gf": 4,
       "gc": 10,
-      "dg": -6
+      "dg": -5
     },
     {
       "pos": 36,
@@ -2018,74 +2018,10 @@
       }
     ]
   },
-  "monitorWindows": [
-    {
-      "competition": "Champions",
-      "date": "2026-11-25",
-      "eventId": "401915378",
-      "start": "2026-11-25T18:30+01:00",
-      "end": "2026-11-25T22:15+01:00"
-    },
-    {
-      "competition": "Champions",
-      "date": "2026-11-25",
-      "eventId": "401915293",
-      "start": "2026-11-25T18:30+01:00",
-      "end": "2026-11-25T22:15+01:00"
-    },
-    {
-      "competition": "Champions",
-      "date": "2026-11-25",
-      "eventId": "401915291",
-      "start": "2026-11-25T20:45+01:00",
-      "end": "2026-11-26T00:30+01:00"
-    },
-    {
-      "competition": "Champions",
-      "date": "2026-11-25",
-      "eventId": "401915292",
-      "start": "2026-11-25T20:45+01:00",
-      "end": "2026-11-26T00:30+01:00"
-    },
-    {
-      "competition": "Champions",
-      "date": "2026-11-25",
-      "eventId": "401915376",
-      "start": "2026-11-25T20:45+01:00",
-      "end": "2026-11-26T00:30+01:00"
-    },
-    {
-      "competition": "Champions",
-      "date": "2026-11-25",
-      "eventId": "401915377",
-      "start": "2026-11-25T20:45+01:00",
-      "end": "2026-11-26T00:30+01:00"
-    },
-    {
-      "competition": "Champions",
-      "date": "2026-11-25",
-      "eventId": "401915374",
-      "start": "2026-11-25T20:45+01:00",
-      "end": "2026-11-26T00:30+01:00"
-    },
-    {
-      "competition": "Champions",
-      "date": "2026-11-25",
-      "eventId": "401915375",
-      "start": "2026-11-25T20:45+01:00",
-      "end": "2026-11-26T00:30+01:00"
-    },
-    {
-      "competition": "Champions",
-      "date": "2026-11-25",
-      "eventId": "401915373",
-      "start": "2026-11-25T20:45+01:00",
-      "end": "2026-11-26T00:30+01:00"
-    }
-  ],
+  "monitorWindows": [],
   "live": {
     "hasLiveMatches": false,
-    "updatedAt": "2026-11-25T15:31+01:00",
+    "updatedAt": "2026-11-26T00:39+01:00",
     "matches": []
   },
   "laligaOfficialStandings": [
@@ -2336,7 +2272,7 @@
       "liveGames": 0,
       "pendingOfficialGames": 0,
       "sourceIncludesLive": false,
-      "updatedAt": "2026-11-25T15:31+01:00",
+      "updatedAt": "2026-11-26T00:39+01:00",
       "trackedGames": {}
     },
     "Champions": {
@@ -2344,7 +2280,7 @@
       "liveGames": 0,
       "pendingOfficialGames": 0,
       "sourceIncludesLive": false,
-      "updatedAt": "2026-11-25T15:31+01:00"
+      "updatedAt": "2026-11-26T00:39+01:00"
     }
   },
   "championsOfficialStandings": [
@@ -2363,13 +2299,13 @@
     {
       "pos": 2,
       "team": "Paris Saint-Germain",
-      "pts": 12,
-      "pj": 4,
+      "pts": 13,
+      "pj": 5,
       "g": 4,
-      "e": 0,
+      "e": 1,
       "p": 0,
-      "gf": 20,
-      "gc": 5,
+      "gf": 22,
+      "gc": 7,
       "dg": 15
     },
     {
@@ -2386,6 +2322,30 @@
     },
     {
       "pos": 4,
+      "team": "Barcelona",
+      "pts": 12,
+      "pj": 5,
+      "g": 4,
+      "e": 0,
+      "p": 1,
+      "gf": 18,
+      "gc": 7,
+      "dg": 11
+    },
+    {
+      "pos": 5,
+      "team": "Liverpool",
+      "pts": 12,
+      "pj": 5,
+      "g": 4,
+      "e": 0,
+      "p": 1,
+      "gf": 17,
+      "gc": 10,
+      "dg": 7
+    },
+    {
+      "pos": 6,
       "team": "Real Betis",
       "pts": 12,
       "pj": 5,
@@ -2397,7 +2357,7 @@
       "dg": 4
     },
     {
-      "pos": 5,
+      "pos": 7,
       "team": "Arsenal",
       "pts": 11,
       "pj": 5,
@@ -2409,7 +2369,7 @@
       "dg": 5
     },
     {
-      "pos": 6,
+      "pos": 8,
       "team": "Manchester City",
       "pts": 10,
       "pj": 5,
@@ -2421,7 +2381,19 @@
       "dg": 5
     },
     {
-      "pos": 7,
+      "pos": 9,
+      "team": "Sporting CP",
+      "pts": 10,
+      "pj": 5,
+      "g": 3,
+      "e": 1,
+      "p": 1,
+      "gf": 10,
+      "gc": 6,
+      "dg": 4
+    },
+    {
+      "pos": 10,
       "team": "Borussia Dortmund",
       "pts": 10,
       "pj": 5,
@@ -2433,19 +2405,7 @@
       "dg": 2
     },
     {
-      "pos": 8,
-      "team": "Barcelona",
-      "pts": 9,
-      "pj": 4,
-      "g": 3,
-      "e": 0,
-      "p": 1,
-      "gf": 14,
-      "gc": 6,
-      "dg": 8
-    },
-    {
-      "pos": 9,
+      "pos": 11,
       "team": "Aston Villa",
       "pts": 9,
       "pj": 5,
@@ -2457,43 +2417,31 @@
       "dg": 5
     },
     {
-      "pos": 10,
-      "team": "Liverpool",
-      "pts": 9,
-      "pj": 4,
-      "g": 3,
-      "e": 0,
-      "p": 1,
-      "gf": 14,
-      "gc": 10,
-      "dg": 4
-    },
-    {
-      "pos": 11,
-      "team": "Club Brugge",
-      "pts": 9,
-      "pj": 4,
-      "g": 3,
-      "e": 0,
-      "p": 1,
-      "gf": 11,
-      "gc": 7,
-      "dg": 4
-    },
-    {
       "pos": 12,
-      "team": "Sporting CP",
+      "team": "Internazionale",
       "pts": 9,
-      "pj": 4,
+      "pj": 5,
       "g": 3,
       "e": 0,
-      "p": 1,
-      "gf": 8,
-      "gc": 4,
+      "p": 2,
+      "gf": 10,
+      "gc": 6,
       "dg": 4
     },
     {
       "pos": 13,
+      "team": "Club Brugge",
+      "pts": 9,
+      "pj": 5,
+      "g": 3,
+      "e": 0,
+      "p": 2,
+      "gf": 11,
+      "gc": 10,
+      "dg": 1
+    },
+    {
+      "pos": 14,
       "team": "Galatasaray",
       "pts": 9,
       "pj": 5,
@@ -2505,31 +2453,67 @@
       "dg": 0
     },
     {
-      "pos": 14,
+      "pos": 15,
       "team": "Bayern Munich",
       "pts": 8,
-      "pj": 4,
+      "pj": 5,
       "g": 2,
       "e": 2,
-      "p": 0,
-      "gf": 12,
-      "gc": 5,
-      "dg": 7
-    },
-    {
-      "pos": 15,
-      "team": "VfB Stuttgart",
-      "pts": 7,
-      "pj": 4,
-      "g": 2,
-      "e": 1,
       "p": 1,
-      "gf": 7,
-      "gc": 4,
-      "dg": 3
+      "gf": 13,
+      "gc": 7,
+      "dg": 6
     },
     {
       "pos": 16,
+      "team": "Fenerbahce",
+      "pts": 8,
+      "pj": 5,
+      "g": 2,
+      "e": 2,
+      "p": 1,
+      "gf": 7,
+      "gc": 11,
+      "dg": -4
+    },
+    {
+      "pos": 17,
+      "team": "VfB Stuttgart",
+      "pts": 7,
+      "pj": 5,
+      "g": 2,
+      "e": 1,
+      "p": 2,
+      "gf": 7,
+      "gc": 6,
+      "dg": 1
+    },
+    {
+      "pos": 18,
+      "team": "Atlético Madrid",
+      "pts": 7,
+      "pj": 5,
+      "g": 2,
+      "e": 1,
+      "p": 2,
+      "gf": 6,
+      "gc": 5,
+      "dg": 1
+    },
+    {
+      "pos": 19,
+      "team": "Manchester United",
+      "pts": 7,
+      "pj": 5,
+      "g": 2,
+      "e": 1,
+      "p": 2,
+      "gf": 10,
+      "gc": 10,
+      "dg": 0
+    },
+    {
+      "pos": 20,
       "team": "Bodo/Glimt",
       "pts": 7,
       "pj": 5,
@@ -2541,19 +2525,7 @@
       "dg": -4
     },
     {
-      "pos": 17,
-      "team": "Internazionale",
-      "pts": 6,
-      "pj": 4,
-      "g": 2,
-      "e": 0,
-      "p": 2,
-      "gf": 8,
-      "gc": 6,
-      "dg": 2
-    },
-    {
-      "pos": 18,
+      "pos": 21,
       "team": "LASK Linz",
       "pts": 6,
       "pj": 5,
@@ -2565,19 +2537,7 @@
       "dg": 0
     },
     {
-      "pos": 19,
-      "team": "Manchester United",
-      "pts": 6,
-      "pj": 4,
-      "g": 2,
-      "e": 0,
-      "p": 2,
-      "gf": 8,
-      "gc": 8,
-      "dg": 0
-    },
-    {
-      "pos": 20,
+      "pos": 22,
       "team": "FC Porto",
       "pts": 6,
       "pj": 5,
@@ -2589,7 +2549,7 @@
       "dg": 0
     },
     {
-      "pos": 21,
+      "pos": 23,
       "team": "RB Leipzig",
       "pts": 6,
       "pj": 5,
@@ -2601,67 +2561,55 @@
       "dg": -4
     },
     {
-      "pos": 22,
-      "team": "Fenerbahce",
-      "pts": 5,
-      "pj": 4,
-      "g": 1,
-      "e": 2,
-      "p": 1,
-      "gf": 6,
-      "gc": 11,
+      "pos": 24,
+      "team": "Villarreal",
+      "pts": 6,
+      "pj": 5,
+      "g": 2,
+      "e": 0,
+      "p": 3,
+      "gf": 9,
+      "gc": 14,
       "dg": -5
     },
     {
-      "pos": 23,
+      "pos": 25,
       "team": "AS Roma",
-      "pts": 4,
-      "pj": 4,
+      "pts": 5,
+      "pj": 5,
       "g": 1,
-      "e": 1,
+      "e": 2,
       "p": 2,
-      "gf": 10,
-      "gc": 8,
+      "gf": 12,
+      "gc": 10,
       "dg": 2
     },
     {
-      "pos": 24,
+      "pos": 26,
       "team": "Shakhtar Donetsk",
       "pts": 4,
-      "pj": 4,
+      "pj": 5,
       "g": 1,
       "e": 1,
-      "p": 2,
-      "gf": 4,
-      "gc": 4,
-      "dg": 0
-    },
-    {
-      "pos": 25,
-      "team": "Viking FK",
-      "pts": 4,
-      "pj": 4,
-      "g": 1,
-      "e": 1,
-      "p": 2,
-      "gf": 9,
-      "gc": 10,
-      "dg": -1
-    },
-    {
-      "pos": 26,
-      "team": "Atlético Madrid",
-      "pts": 4,
-      "pj": 4,
-      "g": 1,
-      "e": 1,
-      "p": 2,
+      "p": 3,
       "gf": 4,
       "gc": 5,
       "dg": -1
     },
     {
       "pos": 27,
+      "team": "Viking FK",
+      "pts": 4,
+      "pj": 5,
+      "g": 1,
+      "e": 1,
+      "p": 3,
+      "gf": 9,
+      "gc": 12,
+      "dg": -3
+    },
+    {
+      "pos": 28,
       "team": "Napoli",
       "pts": 4,
       "pj": 5,
@@ -2673,7 +2621,19 @@
       "dg": -5
     },
     {
-      "pos": 28,
+      "pos": 29,
+      "team": "Lille",
+      "pts": 4,
+      "pj": 5,
+      "g": 1,
+      "e": 1,
+      "p": 3,
+      "gf": 6,
+      "gc": 11,
+      "dg": -5
+    },
+    {
+      "pos": 30,
       "team": "PSV Eindhoven",
       "pts": 4,
       "pj": 5,
@@ -2683,30 +2643,6 @@
       "gf": 4,
       "gc": 9,
       "dg": -5
-    },
-    {
-      "pos": 29,
-      "team": "Villarreal",
-      "pts": 3,
-      "pj": 4,
-      "g": 1,
-      "e": 0,
-      "p": 3,
-      "gf": 8,
-      "gc": 14,
-      "dg": -6
-    },
-    {
-      "pos": 30,
-      "team": "Sabah FK",
-      "pts": 3,
-      "pj": 4,
-      "g": 1,
-      "e": 0,
-      "p": 3,
-      "gf": 4,
-      "gc": 10,
-      "dg": -6
     },
     {
       "pos": 31,
@@ -2734,6 +2670,18 @@
     },
     {
       "pos": 33,
+      "team": "Sabah FK",
+      "pts": 3,
+      "pj": 5,
+      "g": 1,
+      "e": 0,
+      "p": 4,
+      "gf": 5,
+      "gc": 14,
+      "dg": -9
+    },
+    {
+      "pos": 34,
       "team": "Lens",
       "pts": 3,
       "pj": 5,
@@ -2745,28 +2693,16 @@
       "dg": -14
     },
     {
-      "pos": 34,
+      "pos": 35,
       "team": "Slavia Prague",
       "pts": 1,
-      "pj": 4,
+      "pj": 5,
       "g": 0,
       "e": 1,
-      "p": 3,
+      "p": 4,
       "gf": 5,
-      "gc": 9,
-      "dg": -4
-    },
-    {
-      "pos": 35,
-      "team": "Lille",
-      "pts": 1,
-      "pj": 4,
-      "g": 0,
-      "e": 1,
-      "p": 3,
-      "gf": 4,
       "gc": 10,
-      "dg": -6
+      "dg": -5
     },
     {
       "pos": 36,
@@ -2792,7 +2728,7 @@
       "total": 10,
       "live": 0,
       "postponed": 0,
-      "updatedAt": "2026-11-25T15:29+01:00",
+      "updatedAt": "2026-11-26T00:37+01:00",
       "matches": [
         {
           "eventId": "",
@@ -2958,466 +2894,6 @@
     },
     "Champions": {
       "competition": "Champions",
-      "jornada": 5,
-      "phase": "active",
-      "windowStart": "2026-11-22",
-      "windowEnd": "2026-11-26",
-      "finished": 9,
-      "total": 18,
-      "live": 0,
-      "postponed": 0,
-      "updatedAt": "2026-11-25T15:29+01:00",
-      "matches": [
-        {
-          "eventId": "401915380",
-          "competition": "Champions",
-          "date": "2026-11-24",
-          "displayDate": "Mar. 24 noviembre",
-          "time": "18:45",
-          "kickoff": "2026-11-24T18:45+01:00",
-          "home": "Bodo/Glimt",
-          "away": "LASK Linz",
-          "homeScore": 1,
-          "awayScore": 0,
-          "score": "1–0",
-          "status": "finished",
-          "liveLabel": null
-        },
-        {
-          "eventId": "401915300",
-          "competition": "Champions",
-          "date": "2026-11-24",
-          "displayDate": "Mar. 24 noviembre",
-          "time": "18:45",
-          "kickoff": "2026-11-24T18:45+01:00",
-          "home": "Galatasaray",
-          "away": "Aston Villa",
-          "homeScore": 1,
-          "awayScore": 0,
-          "score": "1–0",
-          "status": "finished",
-          "liveLabel": null
-        },
-        {
-          "eventId": "401915295",
-          "competition": "Champions",
-          "date": "2026-11-24",
-          "displayDate": "Mar. 24 noviembre",
-          "time": "21:00",
-          "kickoff": "2026-11-24T21:00+01:00",
-          "home": "Arsenal",
-          "away": "Borussia Dortmund",
-          "homeScore": 1,
-          "awayScore": 1,
-          "score": "1–1",
-          "status": "finished",
-          "liveLabel": null
-        },
-        {
-          "eventId": "401915296",
-          "competition": "Champions",
-          "date": "2026-11-24",
-          "displayDate": "Mar. 24 noviembre",
-          "time": "21:00",
-          "kickoff": "2026-11-24T21:00+01:00",
-          "home": "Como",
-          "away": "AEK Athens",
-          "homeScore": 1,
-          "awayScore": 0,
-          "score": "1–0",
-          "status": "finished",
-          "liveLabel": null
-        },
-        {
-          "eventId": "401915294",
-          "competition": "Champions",
-          "date": "2026-11-24",
-          "displayDate": "Mar. 24 noviembre",
-          "time": "21:00",
-          "kickoff": "2026-11-24T21:00+01:00",
-          "home": "Feyenoord Rotterdam",
-          "away": "FC Porto",
-          "homeScore": 0,
-          "awayScore": 1,
-          "score": "0–1",
-          "status": "finished",
-          "liveLabel": null
-        },
-        {
-          "eventId": "401915379",
-          "competition": "Champions",
-          "date": "2026-11-24",
-          "displayDate": "Mar. 24 noviembre",
-          "time": "21:00",
-          "kickoff": "2026-11-24T21:00+01:00",
-          "home": "Manchester City",
-          "away": "Napoli",
-          "homeScore": 2,
-          "awayScore": 2,
-          "score": "2–2",
-          "status": "finished",
-          "liveLabel": null
-        },
-        {
-          "eventId": "401915299",
-          "competition": "Champions",
-          "date": "2026-11-24",
-          "displayDate": "Mar. 24 noviembre",
-          "time": "21:00",
-          "kickoff": "2026-11-24T21:00+01:00",
-          "home": "RB Leipzig",
-          "away": "Lens",
-          "homeScore": 3,
-          "awayScore": 1,
-          "score": "3–1",
-          "status": "finished",
-          "liveLabel": null
-        },
-        {
-          "eventId": "401915298",
-          "competition": "Champions",
-          "date": "2026-11-24",
-          "displayDate": "Mar. 24 noviembre",
-          "time": "21:00",
-          "kickoff": "2026-11-24T21:00+01:00",
-          "home": "Real Madrid",
-          "away": "PSV Eindhoven",
-          "homeScore": 5,
-          "awayScore": 1,
-          "score": "5–1",
-          "status": "finished",
-          "liveLabel": null
-        },
-        {
-          "eventId": "401915297",
-          "competition": "Champions",
-          "date": "2026-11-24",
-          "displayDate": "Mar. 24 noviembre",
-          "time": "21:00",
-          "kickoff": "2026-11-24T21:00+01:00",
-          "home": "Slovan Bratislava",
-          "away": "Real Betis",
-          "homeScore": 0,
-          "awayScore": 2,
-          "score": "0–2",
-          "status": "finished",
-          "liveLabel": null
-        },
-        {
-          "eventId": "401915378",
-          "competition": "Champions",
-          "date": "2026-11-25",
-          "displayDate": "Mié. 25 noviembre",
-          "time": "18:45",
-          "kickoff": "2026-11-25T18:45+01:00",
-          "home": "Sabah FK",
-          "away": "Barcelona",
-          "homeScore": 0,
-          "awayScore": 0,
-          "score": "0–0",
-          "status": "scheduled",
-          "liveLabel": null
-        },
-        {
-          "eventId": "401915293",
-          "competition": "Champions",
-          "date": "2026-11-25",
-          "displayDate": "Mié. 25 noviembre",
-          "time": "18:45",
-          "kickoff": "2026-11-25T18:45+01:00",
-          "home": "Slavia Prague",
-          "away": "Villarreal",
-          "homeScore": 0,
-          "awayScore": 0,
-          "score": "0–0",
-          "status": "scheduled",
-          "liveLabel": null
-        },
-        {
-          "eventId": "401915291",
-          "competition": "Champions",
-          "date": "2026-11-25",
-          "displayDate": "Mié. 25 noviembre",
-          "time": "21:00",
-          "kickoff": "2026-11-25T21:00+01:00",
-          "home": "Atlético Madrid",
-          "away": "Viking FK",
-          "homeScore": 0,
-          "awayScore": 0,
-          "score": "0–0",
-          "status": "scheduled",
-          "liveLabel": null
-        },
-        {
-          "eventId": "401915292",
-          "competition": "Champions",
-          "date": "2026-11-25",
-          "displayDate": "Mié. 25 noviembre",
-          "time": "21:00",
-          "kickoff": "2026-11-25T21:00+01:00",
-          "home": "Club Brugge",
-          "away": "Liverpool",
-          "homeScore": 0,
-          "awayScore": 0,
-          "score": "0–0",
-          "status": "scheduled",
-          "liveLabel": null
-        },
-        {
-          "eventId": "401915376",
-          "competition": "Champions",
-          "date": "2026-11-25",
-          "displayDate": "Mié. 25 noviembre",
-          "time": "21:00",
-          "kickoff": "2026-11-25T21:00+01:00",
-          "home": "Internazionale",
-          "away": "VfB Stuttgart",
-          "homeScore": 0,
-          "awayScore": 0,
-          "score": "0–0",
-          "status": "scheduled",
-          "liveLabel": null
-        },
-        {
-          "eventId": "401915377",
-          "competition": "Champions",
-          "date": "2026-11-25",
-          "displayDate": "Mié. 25 noviembre",
-          "time": "21:00",
-          "kickoff": "2026-11-25T21:00+01:00",
-          "home": "Lille",
-          "away": "Bayern Munich",
-          "homeScore": 0,
-          "awayScore": 0,
-          "score": "0–0",
-          "status": "scheduled",
-          "liveLabel": null
-        },
-        {
-          "eventId": "401915374",
-          "competition": "Champions",
-          "date": "2026-11-25",
-          "displayDate": "Mié. 25 noviembre",
-          "time": "21:00",
-          "kickoff": "2026-11-25T21:00+01:00",
-          "home": "Paris Saint-Germain",
-          "away": "AS Roma",
-          "homeScore": 0,
-          "awayScore": 0,
-          "score": "0–0",
-          "status": "scheduled",
-          "liveLabel": null
-        },
-        {
-          "eventId": "401915375",
-          "competition": "Champions",
-          "date": "2026-11-25",
-          "displayDate": "Mié. 25 noviembre",
-          "time": "21:00",
-          "kickoff": "2026-11-25T21:00+01:00",
-          "home": "Shakhtar Donetsk",
-          "away": "Fenerbahce",
-          "homeScore": 0,
-          "awayScore": 0,
-          "score": "0–0",
-          "status": "scheduled",
-          "liveLabel": null
-        },
-        {
-          "eventId": "401915373",
-          "competition": "Champions",
-          "date": "2026-11-25",
-          "displayDate": "Mié. 25 noviembre",
-          "time": "21:00",
-          "kickoff": "2026-11-25T21:00+01:00",
-          "home": "Sporting CP",
-          "away": "Manchester United",
-          "homeScore": 0,
-          "awayScore": 0,
-          "score": "0–0",
-          "status": "scheduled",
-          "liveLabel": null
-        }
-      ]
-    }
-  },
-  "jornadasNext": {
-    "LaLiga": {
-      "competition": "LaLiga",
-      "jornada": 15,
-      "phase": "upcoming",
-      "windowStart": "2026-12-04",
-      "windowEnd": "2026-12-07",
-      "finished": 0,
-      "total": 10,
-      "live": 0,
-      "postponed": 0,
-      "updatedAt": "2026-11-25T15:29+01:00",
-      "matches": [
-        {
-          "eventId": "",
-          "competition": "LaLiga",
-          "date": "2026-12-04",
-          "displayDate": "Vie. 4 diciembre",
-          "time": "21:00",
-          "kickoff": "2026-12-04T21:00+01:00",
-          "home": "Deportivo Alavés",
-          "away": "RCD Espanyol de Barcelona",
-          "homeScore": null,
-          "awayScore": null,
-          "score": null,
-          "status": "scheduled",
-          "liveLabel": null,
-          "officialSource": "LALIGA"
-        },
-        {
-          "eventId": "",
-          "competition": "LaLiga",
-          "date": "2026-12-05",
-          "displayDate": "Sáb. 5 diciembre",
-          "time": "14:00",
-          "kickoff": "2026-12-05T14:00+01:00",
-          "home": "R. Racing Club",
-          "away": "RC Deportivo",
-          "homeScore": null,
-          "awayScore": null,
-          "score": null,
-          "status": "scheduled",
-          "liveLabel": null,
-          "officialSource": "LALIGA"
-        },
-        {
-          "eventId": "",
-          "competition": "LaLiga",
-          "date": "2026-12-05",
-          "displayDate": "Sáb. 5 diciembre",
-          "time": "16:15",
-          "kickoff": "2026-12-05T16:15+01:00",
-          "home": "Rayo Vallecano",
-          "away": "Levante UD",
-          "homeScore": null,
-          "awayScore": null,
-          "score": null,
-          "status": "scheduled",
-          "liveLabel": null,
-          "officialSource": "LALIGA"
-        },
-        {
-          "eventId": "",
-          "competition": "LaLiga",
-          "date": "2026-12-05",
-          "displayDate": "Sáb. 5 diciembre",
-          "time": "18:30",
-          "kickoff": "2026-12-05T18:30+01:00",
-          "home": "Villarreal CF",
-          "away": "Real Sociedad",
-          "homeScore": null,
-          "awayScore": null,
-          "score": null,
-          "status": "scheduled",
-          "liveLabel": null,
-          "officialSource": "LALIGA"
-        },
-        {
-          "eventId": "",
-          "competition": "LaLiga",
-          "date": "2026-12-05",
-          "displayDate": "Sáb. 5 diciembre",
-          "time": "21:00",
-          "kickoff": "2026-12-05T21:00+01:00",
-          "home": "FC Barcelona",
-          "away": "Celta",
-          "homeScore": null,
-          "awayScore": null,
-          "score": null,
-          "status": "scheduled",
-          "liveLabel": null,
-          "officialSource": "LALIGA"
-        },
-        {
-          "eventId": "",
-          "competition": "LaLiga",
-          "date": "2026-12-06",
-          "displayDate": "Dom. 6 diciembre",
-          "time": "14:00",
-          "kickoff": "2026-12-06T14:00+01:00",
-          "home": "CA Osasuna",
-          "away": "Elche CF",
-          "homeScore": null,
-          "awayScore": null,
-          "score": null,
-          "status": "scheduled",
-          "liveLabel": null,
-          "officialSource": "LALIGA"
-        },
-        {
-          "eventId": "",
-          "competition": "LaLiga",
-          "date": "2026-12-06",
-          "displayDate": "Dom. 6 diciembre",
-          "time": "16:15",
-          "kickoff": "2026-12-06T16:15+01:00",
-          "home": "Athletic Club",
-          "away": "Real Madrid",
-          "homeScore": null,
-          "awayScore": null,
-          "score": null,
-          "status": "scheduled",
-          "liveLabel": null,
-          "officialSource": "LALIGA"
-        },
-        {
-          "eventId": "",
-          "competition": "LaLiga",
-          "date": "2026-12-06",
-          "displayDate": "Dom. 6 diciembre",
-          "time": "18:30",
-          "kickoff": "2026-12-06T18:30+01:00",
-          "home": "Getafe CF",
-          "away": "Valencia CF",
-          "homeScore": null,
-          "awayScore": null,
-          "score": null,
-          "status": "scheduled",
-          "liveLabel": null,
-          "officialSource": "LALIGA"
-        },
-        {
-          "eventId": "",
-          "competition": "LaLiga",
-          "date": "2026-12-06",
-          "displayDate": "Dom. 6 diciembre",
-          "time": "21:00",
-          "kickoff": "2026-12-06T21:00+01:00",
-          "home": "Atlético de Madrid",
-          "away": "Real Betis",
-          "homeScore": null,
-          "awayScore": null,
-          "score": null,
-          "status": "scheduled",
-          "liveLabel": null,
-          "officialSource": "LALIGA"
-        },
-        {
-          "eventId": "",
-          "competition": "LaLiga",
-          "date": "2026-12-07",
-          "displayDate": "Lun. 7 diciembre",
-          "time": "21:00",
-          "kickoff": "2026-12-07T21:00+01:00",
-          "home": "Sevilla FC",
-          "away": "Málaga CF",
-          "homeScore": null,
-          "awayScore": null,
-          "score": null,
-          "status": "scheduled",
-          "liveLabel": null,
-          "officialSource": "LALIGA"
-        }
-      ]
-    },
-    "Champions": {
-      "competition": "Champions",
       "jornada": 6,
       "phase": "upcoming",
       "windowStart": "2026-12-07",
@@ -3426,7 +2902,7 @@
       "total": 18,
       "live": 0,
       "postponed": 0,
-      "updatedAt": "2026-11-25T15:29+01:00",
+      "updatedAt": "2026-11-26T00:37+01:00",
       "matches": [
         {
           "eventId": "401915290",
@@ -3701,6 +3177,466 @@
       ]
     }
   },
+  "jornadasNext": {
+    "LaLiga": {
+      "competition": "LaLiga",
+      "jornada": 15,
+      "phase": "upcoming",
+      "windowStart": "2026-12-04",
+      "windowEnd": "2026-12-07",
+      "finished": 0,
+      "total": 10,
+      "live": 0,
+      "postponed": 0,
+      "updatedAt": "2026-11-26T00:37+01:00",
+      "matches": [
+        {
+          "eventId": "",
+          "competition": "LaLiga",
+          "date": "2026-12-04",
+          "displayDate": "Vie. 4 diciembre",
+          "time": "21:00",
+          "kickoff": "2026-12-04T21:00+01:00",
+          "home": "Deportivo Alavés",
+          "away": "RCD Espanyol de Barcelona",
+          "homeScore": null,
+          "awayScore": null,
+          "score": null,
+          "status": "scheduled",
+          "liveLabel": null,
+          "officialSource": "LALIGA"
+        },
+        {
+          "eventId": "",
+          "competition": "LaLiga",
+          "date": "2026-12-05",
+          "displayDate": "Sáb. 5 diciembre",
+          "time": "14:00",
+          "kickoff": "2026-12-05T14:00+01:00",
+          "home": "R. Racing Club",
+          "away": "RC Deportivo",
+          "homeScore": null,
+          "awayScore": null,
+          "score": null,
+          "status": "scheduled",
+          "liveLabel": null,
+          "officialSource": "LALIGA"
+        },
+        {
+          "eventId": "",
+          "competition": "LaLiga",
+          "date": "2026-12-05",
+          "displayDate": "Sáb. 5 diciembre",
+          "time": "16:15",
+          "kickoff": "2026-12-05T16:15+01:00",
+          "home": "Rayo Vallecano",
+          "away": "Levante UD",
+          "homeScore": null,
+          "awayScore": null,
+          "score": null,
+          "status": "scheduled",
+          "liveLabel": null,
+          "officialSource": "LALIGA"
+        },
+        {
+          "eventId": "",
+          "competition": "LaLiga",
+          "date": "2026-12-05",
+          "displayDate": "Sáb. 5 diciembre",
+          "time": "18:30",
+          "kickoff": "2026-12-05T18:30+01:00",
+          "home": "Villarreal CF",
+          "away": "Real Sociedad",
+          "homeScore": null,
+          "awayScore": null,
+          "score": null,
+          "status": "scheduled",
+          "liveLabel": null,
+          "officialSource": "LALIGA"
+        },
+        {
+          "eventId": "",
+          "competition": "LaLiga",
+          "date": "2026-12-05",
+          "displayDate": "Sáb. 5 diciembre",
+          "time": "21:00",
+          "kickoff": "2026-12-05T21:00+01:00",
+          "home": "FC Barcelona",
+          "away": "Celta",
+          "homeScore": null,
+          "awayScore": null,
+          "score": null,
+          "status": "scheduled",
+          "liveLabel": null,
+          "officialSource": "LALIGA"
+        },
+        {
+          "eventId": "",
+          "competition": "LaLiga",
+          "date": "2026-12-06",
+          "displayDate": "Dom. 6 diciembre",
+          "time": "14:00",
+          "kickoff": "2026-12-06T14:00+01:00",
+          "home": "CA Osasuna",
+          "away": "Elche CF",
+          "homeScore": null,
+          "awayScore": null,
+          "score": null,
+          "status": "scheduled",
+          "liveLabel": null,
+          "officialSource": "LALIGA"
+        },
+        {
+          "eventId": "",
+          "competition": "LaLiga",
+          "date": "2026-12-06",
+          "displayDate": "Dom. 6 diciembre",
+          "time": "16:15",
+          "kickoff": "2026-12-06T16:15+01:00",
+          "home": "Athletic Club",
+          "away": "Real Madrid",
+          "homeScore": null,
+          "awayScore": null,
+          "score": null,
+          "status": "scheduled",
+          "liveLabel": null,
+          "officialSource": "LALIGA"
+        },
+        {
+          "eventId": "",
+          "competition": "LaLiga",
+          "date": "2026-12-06",
+          "displayDate": "Dom. 6 diciembre",
+          "time": "18:30",
+          "kickoff": "2026-12-06T18:30+01:00",
+          "home": "Getafe CF",
+          "away": "Valencia CF",
+          "homeScore": null,
+          "awayScore": null,
+          "score": null,
+          "status": "scheduled",
+          "liveLabel": null,
+          "officialSource": "LALIGA"
+        },
+        {
+          "eventId": "",
+          "competition": "LaLiga",
+          "date": "2026-12-06",
+          "displayDate": "Dom. 6 diciembre",
+          "time": "21:00",
+          "kickoff": "2026-12-06T21:00+01:00",
+          "home": "Atlético de Madrid",
+          "away": "Real Betis",
+          "homeScore": null,
+          "awayScore": null,
+          "score": null,
+          "status": "scheduled",
+          "liveLabel": null,
+          "officialSource": "LALIGA"
+        },
+        {
+          "eventId": "",
+          "competition": "LaLiga",
+          "date": "2026-12-07",
+          "displayDate": "Lun. 7 diciembre",
+          "time": "21:00",
+          "kickoff": "2026-12-07T21:00+01:00",
+          "home": "Sevilla FC",
+          "away": "Málaga CF",
+          "homeScore": null,
+          "awayScore": null,
+          "score": null,
+          "status": "scheduled",
+          "liveLabel": null,
+          "officialSource": "LALIGA"
+        }
+      ]
+    },
+    "Champions": {
+      "competition": "Champions",
+      "jornada": 7,
+      "phase": "upcoming",
+      "windowStart": "2027-01-17",
+      "windowEnd": "2027-01-21",
+      "finished": 0,
+      "total": 18,
+      "live": 0,
+      "postponed": 0,
+      "updatedAt": "2026-11-26T00:37+01:00",
+      "matches": [
+        {
+          "eventId": "401915364",
+          "competition": "Champions",
+          "date": "2027-01-19",
+          "displayDate": "Mar. 19 enero",
+          "time": "18:45",
+          "kickoff": "2027-01-19T18:45+01:00",
+          "home": "Bodo/Glimt",
+          "away": "Atlético Madrid",
+          "homeScore": 0,
+          "awayScore": 0,
+          "score": "0–0",
+          "status": "scheduled",
+          "liveLabel": null
+        },
+        {
+          "eventId": "401915363",
+          "competition": "Champions",
+          "date": "2027-01-19",
+          "displayDate": "Mar. 19 enero",
+          "time": "18:45",
+          "kickoff": "2027-01-19T18:45+01:00",
+          "home": "Galatasaray",
+          "away": "Feyenoord Rotterdam",
+          "homeScore": 0,
+          "awayScore": 0,
+          "score": "0–0",
+          "status": "scheduled",
+          "liveLabel": null
+        },
+        {
+          "eventId": "401915362",
+          "competition": "Champions",
+          "date": "2027-01-19",
+          "displayDate": "Mar. 19 enero",
+          "time": "21:00",
+          "kickoff": "2027-01-19T21:00+01:00",
+          "home": "AEK Athens",
+          "away": "AS Roma",
+          "homeScore": 0,
+          "awayScore": 0,
+          "score": "0–0",
+          "status": "scheduled",
+          "liveLabel": null
+        },
+        {
+          "eventId": "401915279",
+          "competition": "Champions",
+          "date": "2027-01-19",
+          "displayDate": "Mar. 19 enero",
+          "time": "21:00",
+          "kickoff": "2027-01-19T21:00+01:00",
+          "home": "Aston Villa",
+          "away": "Borussia Dortmund",
+          "homeScore": 0,
+          "awayScore": 0,
+          "score": "0–0",
+          "status": "scheduled",
+          "liveLabel": null
+        },
+        {
+          "eventId": "401915278",
+          "competition": "Champions",
+          "date": "2027-01-19",
+          "displayDate": "Mar. 19 enero",
+          "time": "21:00",
+          "kickoff": "2027-01-19T21:00+01:00",
+          "home": "FC Porto",
+          "away": "Slavia Prague",
+          "homeScore": 0,
+          "awayScore": 0,
+          "score": "0–0",
+          "status": "scheduled",
+          "liveLabel": null
+        },
+        {
+          "eventId": "401915360",
+          "competition": "Champions",
+          "date": "2027-01-19",
+          "displayDate": "Mar. 19 enero",
+          "time": "21:00",
+          "kickoff": "2027-01-19T21:00+01:00",
+          "home": "Internazionale",
+          "away": "Liverpool",
+          "homeScore": 0,
+          "awayScore": 0,
+          "score": "0–0",
+          "status": "scheduled",
+          "liveLabel": null
+        },
+        {
+          "eventId": "401915361",
+          "competition": "Champions",
+          "date": "2027-01-19",
+          "displayDate": "Mar. 19 enero",
+          "time": "21:00",
+          "kickoff": "2027-01-19T21:00+01:00",
+          "home": "Lille",
+          "away": "Slovan Bratislava",
+          "homeScore": 0,
+          "awayScore": 0,
+          "score": "0–0",
+          "status": "scheduled",
+          "liveLabel": null
+        },
+        {
+          "eventId": "401915280",
+          "competition": "Champions",
+          "date": "2027-01-19",
+          "displayDate": "Mar. 19 enero",
+          "time": "21:00",
+          "kickoff": "2027-01-19T21:00+01:00",
+          "home": "Real Madrid",
+          "away": "LASK Linz",
+          "homeScore": 0,
+          "awayScore": 0,
+          "score": "0–0",
+          "status": "scheduled",
+          "liveLabel": null
+        },
+        {
+          "eventId": "401915359",
+          "competition": "Champions",
+          "date": "2027-01-19",
+          "displayDate": "Mar. 19 enero",
+          "time": "21:00",
+          "kickoff": "2027-01-19T21:00+01:00",
+          "home": "VfB Stuttgart",
+          "away": "Club Brugge",
+          "homeScore": 0,
+          "awayScore": 0,
+          "score": "0–0",
+          "status": "scheduled",
+          "liveLabel": null
+        },
+        {
+          "eventId": "401915277",
+          "competition": "Champions",
+          "date": "2027-01-20",
+          "displayDate": "Mié. 20 enero",
+          "time": "18:45",
+          "kickoff": "2027-01-20T18:45+01:00",
+          "home": "Fenerbahce",
+          "away": "Villarreal",
+          "homeScore": 0,
+          "awayScore": 0,
+          "score": "0–0",
+          "status": "scheduled",
+          "liveLabel": null
+        },
+        {
+          "eventId": "401915358",
+          "competition": "Champions",
+          "date": "2027-01-20",
+          "displayDate": "Mié. 20 enero",
+          "time": "18:45",
+          "kickoff": "2027-01-20T18:45+01:00",
+          "home": "Sabah FK",
+          "away": "Napoli",
+          "homeScore": 0,
+          "awayScore": 0,
+          "score": "0–0",
+          "status": "scheduled",
+          "liveLabel": null
+        },
+        {
+          "eventId": "401915273",
+          "competition": "Champions",
+          "date": "2027-01-20",
+          "displayDate": "Mié. 20 enero",
+          "time": "21:00",
+          "kickoff": "2027-01-20T21:00+01:00",
+          "home": "Como",
+          "away": "Paris Saint-Germain",
+          "homeScore": 0,
+          "awayScore": 0,
+          "score": "0–0",
+          "status": "scheduled",
+          "liveLabel": null
+        },
+        {
+          "eventId": "401915274",
+          "competition": "Champions",
+          "date": "2027-01-20",
+          "displayDate": "Mié. 20 enero",
+          "time": "21:00",
+          "kickoff": "2027-01-20T21:00+01:00",
+          "home": "Lens",
+          "away": "Manchester City",
+          "homeScore": 0,
+          "awayScore": 0,
+          "score": "0–0",
+          "status": "scheduled",
+          "liveLabel": null
+        },
+        {
+          "eventId": "401915357",
+          "competition": "Champions",
+          "date": "2027-01-20",
+          "displayDate": "Mié. 20 enero",
+          "time": "21:00",
+          "kickoff": "2027-01-20T21:00+01:00",
+          "home": "Manchester United",
+          "away": "Bayern Munich",
+          "homeScore": 0,
+          "awayScore": 0,
+          "score": "0–0",
+          "status": "scheduled",
+          "liveLabel": null
+        },
+        {
+          "eventId": "401915276",
+          "competition": "Champions",
+          "date": "2027-01-20",
+          "displayDate": "Mié. 20 enero",
+          "time": "21:00",
+          "kickoff": "2027-01-20T21:00+01:00",
+          "home": "RB Leipzig",
+          "away": "Shakhtar Donetsk",
+          "homeScore": 0,
+          "awayScore": 0,
+          "score": "0–0",
+          "status": "scheduled",
+          "liveLabel": null
+        },
+        {
+          "eventId": "401915275",
+          "competition": "Champions",
+          "date": "2027-01-20",
+          "displayDate": "Mié. 20 enero",
+          "time": "21:00",
+          "kickoff": "2027-01-20T21:00+01:00",
+          "home": "Real Betis",
+          "away": "Arsenal",
+          "homeScore": 0,
+          "awayScore": 0,
+          "score": "0–0",
+          "status": "scheduled",
+          "liveLabel": null
+        },
+        {
+          "eventId": "401915356",
+          "competition": "Champions",
+          "date": "2027-01-20",
+          "displayDate": "Mié. 20 enero",
+          "time": "21:00",
+          "kickoff": "2027-01-20T21:00+01:00",
+          "home": "Sporting CP",
+          "away": "Barcelona",
+          "homeScore": 0,
+          "awayScore": 0,
+          "score": "0–0",
+          "status": "scheduled",
+          "liveLabel": null
+        },
+        {
+          "eventId": "401915272",
+          "competition": "Champions",
+          "date": "2027-01-20",
+          "displayDate": "Mié. 20 enero",
+          "time": "21:00",
+          "kickoff": "2027-01-20T21:00+01:00",
+          "home": "Viking FK",
+          "away": "PSV Eindhoven",
+          "homeScore": 0,
+          "awayScore": 0,
+          "score": "0–0",
+          "status": "scheduled",
+          "liveLabel": null
+        }
+      ]
+    }
+  },
   "jornadasAll": {
     "LaLiga": {
       "1": {
@@ -3713,7 +3649,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-11-25T15:29+01:00",
+        "updatedAt": "2026-11-26T00:38+01:00",
         "matches": [
           {
             "eventId": "",
@@ -3887,7 +3823,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-11-25T15:29+01:00",
+        "updatedAt": "2026-11-26T00:38+01:00",
         "matches": [
           {
             "eventId": "",
@@ -4061,7 +3997,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-11-25T15:29+01:00",
+        "updatedAt": "2026-11-26T00:38+01:00",
         "matches": [
           {
             "eventId": "",
@@ -4235,7 +4171,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-11-25T15:29+01:00",
+        "updatedAt": "2026-11-26T00:38+01:00",
         "matches": [
           {
             "eventId": "",
@@ -4409,7 +4345,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-11-25T15:29+01:00",
+        "updatedAt": "2026-11-26T00:38+01:00",
         "matches": [
           {
             "eventId": "",
@@ -4583,7 +4519,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-11-25T15:30+01:00",
+        "updatedAt": "2026-11-26T00:38+01:00",
         "matches": [
           {
             "eventId": "",
@@ -4757,7 +4693,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-11-25T15:30+01:00",
+        "updatedAt": "2026-11-26T00:38+01:00",
         "matches": [
           {
             "eventId": "",
@@ -4931,7 +4867,7 @@
         "total": 9,
         "live": 0,
         "postponed": 1,
-        "updatedAt": "2026-11-25T15:30+01:00",
+        "updatedAt": "2026-11-26T00:38+01:00",
         "matches": [
           {
             "eventId": "",
@@ -5106,7 +5042,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-11-25T15:30+01:00",
+        "updatedAt": "2026-11-26T00:38+01:00",
         "matches": [
           {
             "eventId": "",
@@ -5280,7 +5216,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-11-25T15:30+01:00",
+        "updatedAt": "2026-11-26T00:38+01:00",
         "matches": [
           {
             "eventId": "",
@@ -5454,7 +5390,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-11-25T15:30+01:00",
+        "updatedAt": "2026-11-26T00:38+01:00",
         "matches": [
           {
             "eventId": "",
@@ -5628,7 +5564,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-11-25T15:30+01:00",
+        "updatedAt": "2026-11-26T00:38+01:00",
         "matches": [
           {
             "eventId": "",
@@ -5802,7 +5738,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-11-25T15:30+01:00",
+        "updatedAt": "2026-11-26T00:38+01:00",
         "matches": [
           {
             "eventId": "",
@@ -5976,7 +5912,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-11-25T15:30+01:00",
+        "updatedAt": "2026-11-26T00:38+01:00",
         "matches": [
           {
             "eventId": "",
@@ -6150,7 +6086,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-11-25T15:30+01:00",
+        "updatedAt": "2026-11-26T00:38+01:00",
         "matches": [
           {
             "eventId": "",
@@ -6324,7 +6260,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-11-25T15:30+01:00",
+        "updatedAt": "2026-11-26T00:38+01:00",
         "matches": [
           {
             "eventId": "",
@@ -6498,7 +6434,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-11-25T15:30+01:00",
+        "updatedAt": "2026-11-26T00:38+01:00",
         "matches": [
           {
             "eventId": "",
@@ -6672,7 +6608,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-11-25T15:30+01:00",
+        "updatedAt": "2026-11-26T00:38+01:00",
         "matches": [
           {
             "eventId": "",
@@ -6846,7 +6782,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-11-25T15:30+01:00",
+        "updatedAt": "2026-11-26T00:38+01:00",
         "matches": [
           {
             "eventId": "",
@@ -7020,7 +6956,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-11-25T15:30+01:00",
+        "updatedAt": "2026-11-26T00:38+01:00",
         "matches": [
           {
             "eventId": "",
@@ -7194,7 +7130,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-11-25T15:30+01:00",
+        "updatedAt": "2026-11-26T00:38+01:00",
         "matches": [
           {
             "eventId": "",
@@ -7368,7 +7304,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-11-25T15:30+01:00",
+        "updatedAt": "2026-11-26T00:38+01:00",
         "matches": [
           {
             "eventId": "",
@@ -7542,7 +7478,7 @@
         "total": 8,
         "live": 0,
         "postponed": 2,
-        "updatedAt": "2026-11-25T15:30+01:00",
+        "updatedAt": "2026-11-26T00:39+01:00",
         "matches": [
           {
             "eventId": "",
@@ -7718,7 +7654,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-11-25T15:30+01:00",
+        "updatedAt": "2026-11-26T00:39+01:00",
         "matches": [
           {
             "eventId": "",
@@ -7892,7 +7828,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-11-25T15:30+01:00",
+        "updatedAt": "2026-11-26T00:39+01:00",
         "matches": [
           {
             "eventId": "",
@@ -8066,7 +8002,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-11-25T15:30+01:00",
+        "updatedAt": "2026-11-26T00:39+01:00",
         "matches": [
           {
             "eventId": "",
@@ -8240,7 +8176,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-11-25T15:30+01:00",
+        "updatedAt": "2026-11-26T00:39+01:00",
         "matches": [
           {
             "eventId": "",
@@ -8414,7 +8350,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-11-25T15:30+01:00",
+        "updatedAt": "2026-11-26T00:39+01:00",
         "matches": [
           {
             "eventId": "",
@@ -8588,7 +8524,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-11-25T15:30+01:00",
+        "updatedAt": "2026-11-26T00:39+01:00",
         "matches": [
           {
             "eventId": "",
@@ -8762,7 +8698,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-11-25T15:30+01:00",
+        "updatedAt": "2026-11-26T00:39+01:00",
         "matches": [
           {
             "eventId": "",
@@ -8936,7 +8872,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-11-25T15:30+01:00",
+        "updatedAt": "2026-11-26T00:39+01:00",
         "matches": [
           {
             "eventId": "",
@@ -9110,7 +9046,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-11-25T15:31+01:00",
+        "updatedAt": "2026-11-26T00:39+01:00",
         "matches": [
           {
             "eventId": "",
@@ -9284,7 +9220,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-11-25T15:31+01:00",
+        "updatedAt": "2026-11-26T00:39+01:00",
         "matches": [
           {
             "eventId": "",
@@ -9458,7 +9394,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-11-25T15:31+01:00",
+        "updatedAt": "2026-11-26T00:39+01:00",
         "matches": [
           {
             "eventId": "",
@@ -9632,7 +9568,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-11-25T15:31+01:00",
+        "updatedAt": "2026-11-26T00:39+01:00",
         "matches": [
           {
             "eventId": "",
@@ -9806,7 +9742,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-11-25T15:31+01:00",
+        "updatedAt": "2026-11-26T00:39+01:00",
         "matches": [
           {
             "eventId": "",
@@ -9980,7 +9916,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-11-25T15:31+01:00",
+        "updatedAt": "2026-11-26T00:39+01:00",
         "matches": [
           {
             "eventId": "",
@@ -10154,7 +10090,7 @@
         "total": 10,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-11-25T15:31+01:00",
+        "updatedAt": "2026-11-26T00:39+01:00",
         "matches": [
           {
             "eventId": "",
@@ -10330,7 +10266,7 @@
         "total": 18,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-11-25T15:31+01:00",
+        "updatedAt": "2026-11-26T00:39+01:00",
         "matches": [
           {
             "eventId": "401915452",
@@ -10614,7 +10550,7 @@
         "total": 18,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-11-25T15:31+01:00",
+        "updatedAt": "2026-11-26T00:39+01:00",
         "matches": [
           {
             "eventId": "401915418",
@@ -10880,7 +10816,7 @@
         "total": 18,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-11-25T15:31+01:00",
+        "updatedAt": "2026-11-26T00:39+01:00",
         "matches": [
           {
             "eventId": "401915403",
@@ -11146,7 +11082,7 @@
         "total": 18,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-11-25T15:31+01:00",
+        "updatedAt": "2026-11-26T00:39+01:00",
         "matches": [
           {
             "eventId": "401915311",
@@ -11405,14 +11341,14 @@
       "5": {
         "competition": "Champions",
         "jornada": 5,
-        "phase": "active",
+        "phase": "complete",
         "windowStart": "2026-11-22",
         "windowEnd": "2026-11-26",
-        "finished": 9,
+        "finished": 18,
         "total": 18,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-11-25T15:31+01:00",
+        "updatedAt": "2026-11-26T00:39+01:00",
         "matches": [
           {
             "eventId": "401915380",
@@ -11549,11 +11485,10 @@
             "kickoff": "2026-11-25T18:45+01:00",
             "home": "Sabah FK",
             "away": "Barcelona",
-            "homeScore": 0,
-            "awayScore": 0,
-            "score": "0–0",
-            "status": "scheduled",
-            "liveLabel": null
+            "homeScore": 1,
+            "awayScore": 4,
+            "score": "1–4",
+            "status": "finished"
           },
           {
             "eventId": "401915293",
@@ -11565,10 +11500,9 @@
             "home": "Slavia Prague",
             "away": "Villarreal",
             "homeScore": 0,
-            "awayScore": 0,
-            "score": "0–0",
-            "status": "scheduled",
-            "liveLabel": null
+            "awayScore": 1,
+            "score": "0–1",
+            "status": "finished"
           },
           {
             "eventId": "401915291",
@@ -11579,11 +11513,10 @@
             "kickoff": "2026-11-25T21:00+01:00",
             "home": "Atlético Madrid",
             "away": "Viking FK",
-            "homeScore": 0,
+            "homeScore": 2,
             "awayScore": 0,
-            "score": "0–0",
-            "status": "scheduled",
-            "liveLabel": null
+            "score": "2–0",
+            "status": "finished"
           },
           {
             "eventId": "401915292",
@@ -11595,10 +11528,9 @@
             "home": "Club Brugge",
             "away": "Liverpool",
             "homeScore": 0,
-            "awayScore": 0,
-            "score": "0–0",
-            "status": "scheduled",
-            "liveLabel": null
+            "awayScore": 3,
+            "score": "0–3",
+            "status": "finished"
           },
           {
             "eventId": "401915376",
@@ -11609,11 +11541,10 @@
             "kickoff": "2026-11-25T21:00+01:00",
             "home": "Internazionale",
             "away": "VfB Stuttgart",
-            "homeScore": 0,
+            "homeScore": 2,
             "awayScore": 0,
-            "score": "0–0",
-            "status": "scheduled",
-            "liveLabel": null
+            "score": "2–0",
+            "status": "finished"
           },
           {
             "eventId": "401915377",
@@ -11624,11 +11555,10 @@
             "kickoff": "2026-11-25T21:00+01:00",
             "home": "Lille",
             "away": "Bayern Munich",
-            "homeScore": 0,
-            "awayScore": 0,
-            "score": "0–0",
-            "status": "scheduled",
-            "liveLabel": null
+            "homeScore": 2,
+            "awayScore": 1,
+            "score": "2–1",
+            "status": "finished"
           },
           {
             "eventId": "401915374",
@@ -11639,11 +11569,10 @@
             "kickoff": "2026-11-25T21:00+01:00",
             "home": "Paris Saint-Germain",
             "away": "AS Roma",
-            "homeScore": 0,
-            "awayScore": 0,
-            "score": "0–0",
-            "status": "scheduled",
-            "liveLabel": null
+            "homeScore": 2,
+            "awayScore": 2,
+            "score": "2–2",
+            "status": "finished"
           },
           {
             "eventId": "401915375",
@@ -11655,10 +11584,9 @@
             "home": "Shakhtar Donetsk",
             "away": "Fenerbahce",
             "homeScore": 0,
-            "awayScore": 0,
-            "score": "0–0",
-            "status": "scheduled",
-            "liveLabel": null
+            "awayScore": 1,
+            "score": "0–1",
+            "status": "finished"
           },
           {
             "eventId": "401915373",
@@ -11669,11 +11597,10 @@
             "kickoff": "2026-11-25T21:00+01:00",
             "home": "Sporting CP",
             "away": "Manchester United",
-            "homeScore": 0,
-            "awayScore": 0,
-            "score": "0–0",
-            "status": "scheduled",
-            "liveLabel": null
+            "homeScore": 2,
+            "awayScore": 2,
+            "score": "2–2",
+            "status": "finished"
           }
         ]
       },
@@ -11687,7 +11614,7 @@
         "total": 18,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-11-25T15:31+01:00",
+        "updatedAt": "2026-11-26T00:39+01:00",
         "matches": [
           {
             "eventId": "401915290",
@@ -11971,7 +11898,7 @@
         "total": 18,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-11-25T15:31+01:00",
+        "updatedAt": "2026-11-26T00:39+01:00",
         "matches": [
           {
             "eventId": "401915364",
@@ -12255,7 +12182,7 @@
         "total": 18,
         "live": 0,
         "postponed": 0,
-        "updatedAt": "2026-11-25T15:31+01:00",
+        "updatedAt": "2026-11-26T00:39+01:00",
         "matches": [
           {
             "eventId": "401915346",
@@ -12532,7 +12459,7 @@
     }
   },
   "jornadasCatalogMeta": {
-    "updatedAt": "2026-11-25T15:31+01:00",
+    "updatedAt": "2026-11-26T00:39+01:00",
     "laligaLoaded": 38,
     "championsLoaded": 8,
     "rebuiltAt": "2026-09-18T21:52+02:00",
